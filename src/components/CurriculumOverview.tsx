@@ -1,0 +1,146 @@
+import { Link } from "react-router-dom";
+import { weeks } from "@/data/curriculum";
+import { useProgress } from "@/contexts/ProgressContext";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { CheckCircle2, Lock, Play, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export const CurriculumOverview = () => {
+  const { progress } = useProgress();
+
+  const getWeekProgress = (weekDays: number[]) => {
+    const completedInWeek = weekDays.filter(day =>
+      progress.completedDays.includes(day)
+    ).length;
+    return Math.round((completedInWeek / weekDays.length) * 100);
+  };
+
+  const isWeekLocked = (weekNum: number) => {
+    if (weekNum === 1) return false;
+    const previousWeek = weeks.find(w => w.week === weekNum - 1);
+    if (!previousWeek) return false;
+    const prevWeekProgress = getWeekProgress(previousWeek.days);
+    return prevWeekProgress < 50;
+  };
+
+  const getNextDay = () => {
+    for (let i = 1; i <= 60; i++) {
+      if (!progress.completedDays.includes(i)) return i;
+    }
+    return 60;
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Continue Learning Card */}
+      <Card className="bg-gradient-primary text-primary-foreground shadow-glow">
+        <CardContent className="p-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-display font-bold mb-1">
+                Continue Learning
+              </h2>
+              <p className="text-primary-foreground/80">
+                Pick up where you left off
+              </p>
+            </div>
+            <Link to={`/curriculum/day/${getNextDay()}`}>
+              <Button variant="heroOutline" size="lg" className="gap-2">
+                <Play className="w-5 h-5" />
+                Day {getNextDay()}
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Weeks Grid */}
+      <div className="grid gap-6">
+        {weeks.map((week) => {
+          const weekProgress = getWeekProgress(week.days);
+          const locked = isWeekLocked(week.week);
+          const isCompleted = weekProgress === 100;
+
+          return (
+            <Card
+              key={week.week}
+              className={`relative overflow-hidden transition-all duration-300 ${
+                locked
+                  ? "opacity-60 bg-muted"
+                  : "hover:shadow-lg hover:-translate-y-0.5"
+              }`}
+            >
+              {locked && (
+                <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Lock className="w-5 h-5" />
+                    <span>Complete Week {week.week - 1} to unlock</span>
+                  </div>
+                </div>
+              )}
+              <CardHeader className="pb-3">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-display font-bold text-lg ${
+                      isCompleted
+                        ? "bg-success text-success-foreground"
+                        : "bg-gradient-primary text-primary-foreground"
+                    }`}>
+                      {isCompleted ? (
+                        <CheckCircle2 className="w-6 h-6" />
+                      ) : (
+                        week.week
+                      )}
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">
+                        Week {week.week}: {week.title}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground">{week.theme}</p>
+                    </div>
+                  </div>
+                  <Badge variant={isCompleted ? "default" : "secondary"}>
+                    {weekProgress}% Complete
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">{week.description}</p>
+                <Progress value={weekProgress} className="h-2 mb-4" />
+                <div className="flex flex-wrap gap-2">
+                  {week.days.map((day) => {
+                    const isCompleted = progress.completedDays.includes(day);
+                    return (
+                      <Link
+                        key={day}
+                        to={locked ? "#" : `/curriculum/day/${day}`}
+                        className={locked ? "pointer-events-none" : ""}
+                      >
+                        <div
+                          className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
+                            isCompleted
+                              ? "bg-success text-success-foreground"
+                              : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
+                          }`}
+                        >
+                          {isCompleted ? (
+                            <CheckCircle2 className="w-4 h-4" />
+                          ) : (
+                            day
+                          )}
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
