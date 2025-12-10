@@ -10,19 +10,20 @@ import {
   GraduationCap,
   LogOut,
   User,
+  Shield,
 } from "lucide-react";
 import { useState } from "react";
 
 export const Navbar = () => {
   const location = useLocation();
-  const { user, signOut, getOverallProgress } = useProgress();
+  const { user, session, signOut, getOverallProgress } = useProgress();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
-    { label: "Curriculum", href: "/curriculum", icon: BookOpen },
+  const navItems = session ? [
+    { label: "Courses", href: "/curriculum", icon: BookOpen },
     { label: "Dashboard", href: "/dashboard", icon: BarChart3 },
     { label: "Certificate", href: "/certificate", icon: Award },
-  ];
+  ] : [];
 
   const isActive = (href: string) => location.pathname.startsWith(href);
 
@@ -40,8 +41,8 @@ export const Navbar = () => {
             <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow">
               <GraduationCap className="w-6 h-6 text-primary-foreground" />
             </div>
-            <div className="hidden sm:block">
-              <span className="font-display font-bold text-lg text-foreground">Silk Miltra</span>
+            <div>
+              <span className="font-display font-bold text-lg text-foreground">Skill Mitra</span>
               <span className="text-xs text-muted-foreground block -mt-1">By Innovkaro</span>
             </div>
           </Link>
@@ -60,18 +61,24 @@ export const Navbar = () => {
                 </Button>
               </Link>
             ))}
+            <Link to="/verify">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Shield className="w-4 h-4" />
+                Verify
+              </Button>
+            </Link>
           </div>
 
           {/* User Section */}
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
+            {session ? (
               <>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
                     <User className="w-4 h-4 text-primary-foreground" />
                   </div>
                   <div className="text-sm">
-                    <p className="font-medium text-foreground">{user.name}</p>
+                    <p className="font-medium text-foreground">{user?.name || 'User'}</p>
                     <p className="text-xs text-muted-foreground">{getOverallProgress()}% Complete</p>
                   </div>
                 </div>
@@ -80,11 +87,18 @@ export const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <Link to="/auth">
-                <Button variant="default" size="sm">
-                  Sign In
-                </Button>
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="default" size="sm">
+                    Register
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
 
@@ -118,7 +132,13 @@ export const Navbar = () => {
                   </Button>
                 </Link>
               ))}
-              {user ? (
+              <Link to="/verify" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start gap-2">
+                  <Shield className="w-4 h-4" />
+                  Verify Certificate
+                </Button>
+              </Link>
+              {session ? (
                 <Button
                   variant="ghost"
                   className="w-full justify-start gap-2 text-destructive"
@@ -128,11 +148,18 @@ export const Navbar = () => {
                   Sign Out
                 </Button>
               ) : (
-                <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="default" className="w-full">
-                    Sign In
-                  </Button>
-                </Link>
+                <div className="flex flex-col gap-2 pt-2 border-t border-border">
+                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="ghost" className="w-full">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="default" className="w-full">
+                      Register
+                    </Button>
+                  </Link>
+                </div>
               )}
             </div>
           </div>
