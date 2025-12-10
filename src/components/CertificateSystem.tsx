@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import {
   Award,
   Download,
@@ -64,10 +67,21 @@ export const CertificateSystem = () => {
   const completedRequirements = requirements.filter((r) => r.completed).length;
   const canEarnCertificate = isEligibleForCertificate();
 
-  const handleGenerateCertificate = () => {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerateCertificate = async () => {
     if (canEarnCertificate) {
-      const certId = generateCertificate();
-      console.log("Certificate generated:", certId);
+      setIsGenerating(true);
+      try {
+        const certId = await generateCertificate();
+        toast.success("Certificate generated successfully!");
+        console.log("Certificate generated:", certId);
+      } catch (error) {
+        toast.error("Failed to generate certificate. Please try again.");
+        console.error("Error generating certificate:", error);
+      } finally {
+        setIsGenerating(false);
+      }
     }
   };
 
@@ -199,10 +213,12 @@ export const CertificateSystem = () => {
                   <Share2 className="w-4 h-4" />
                   Share on LinkedIn
                 </Button>
-                <Button variant="heroOutline" className="gap-2">
-                  <ExternalLink className="w-4 h-4" />
-                  Verify Certificate
-                </Button>
+                <Link to={`/verify`}>
+                  <Button variant="heroOutline" className="gap-2">
+                    <ExternalLink className="w-4 h-4" />
+                    Verify Certificate
+                  </Button>
+                </Link>
               </div>
             </div>
           </CardContent>
@@ -220,12 +236,14 @@ export const CertificateSystem = () => {
             </p>
             <Button
               onClick={handleGenerateCertificate}
-              disabled={!canEarnCertificate}
+              disabled={!canEarnCertificate || isGenerating}
               size="lg"
               className="gap-2"
             >
               <Award className="w-5 h-5" />
-              {canEarnCertificate
+              {isGenerating
+                ? "Generating..."
+                : canEarnCertificate
                 ? "Generate Certificate"
                 : `${completedRequirements}/${requirements.length} Requirements Met`}
             </Button>
