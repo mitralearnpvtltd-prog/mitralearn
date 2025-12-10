@@ -10,6 +10,7 @@ import Curriculum from "./pages/Curriculum";
 import Day from "./pages/Day";
 import Dashboard from "./pages/Dashboard";
 import Certificate from "./pages/Certificate";
+import Verify from "./pages/Verify";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/curriculum/day/:dayNumber" element={<Day />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/certificate" element={<Certificate />} />
+            <Route path="/verify" element={<Verify />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

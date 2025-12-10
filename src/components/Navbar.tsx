@@ -15,7 +15,7 @@ import { useState } from "react";
 
 export const Navbar = () => {
   const location = useLocation();
-  const { user, setUser, getOverallProgress } = useProgress();
+  const { user, signOut, getOverallProgress } = useProgress();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -26,8 +26,8 @@ export const Navbar = () => {
 
   const isActive = (href: string) => location.pathname.startsWith(href);
 
-  const handleLogout = () => {
-    setUser(null);
+  const handleLogout = async () => {
+    await signOut();
     setMobileMenuOpen(false);
   };
 

@@ -14,7 +14,132 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      certificates: {
+        Row: {
+          capstone_submitted: boolean | null
+          certificate_id: string
+          coding_challenge_score: number | null
+          completion_date: string
+          created_at: string
+          final_mcq_score: number
+          id: string
+          overall_band: string
+          student_name: string
+          user_id: string
+          verified: boolean | null
+        }
+        Insert: {
+          capstone_submitted?: boolean | null
+          certificate_id: string
+          coding_challenge_score?: number | null
+          completion_date?: string
+          created_at?: string
+          final_mcq_score: number
+          id?: string
+          overall_band: string
+          student_name: string
+          user_id: string
+          verified?: boolean | null
+        }
+        Update: {
+          capstone_submitted?: boolean | null
+          certificate_id?: string
+          coding_challenge_score?: number | null
+          completion_date?: string
+          created_at?: string
+          final_mcq_score?: number
+          id?: string
+          overall_band?: string
+          student_name?: string
+          user_id?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          certificate_earned: boolean | null
+          certificate_id: string | null
+          coding_challenges_completed: number[] | null
+          completed_days: number[] | null
+          completed_quizzes: Json | null
+          completed_weekly_assessments: number[] | null
+          created_at: string
+          current_streak: number | null
+          final_assessment_score: number | null
+          final_project_submitted: boolean | null
+          id: string
+          last_active_date: string | null
+          longest_streak: number | null
+          total_time_spent: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          certificate_earned?: boolean | null
+          certificate_id?: string | null
+          coding_challenges_completed?: number[] | null
+          completed_days?: number[] | null
+          completed_quizzes?: Json | null
+          completed_weekly_assessments?: number[] | null
+          created_at?: string
+          current_streak?: number | null
+          final_assessment_score?: number | null
+          final_project_submitted?: boolean | null
+          id?: string
+          last_active_date?: string | null
+          longest_streak?: number | null
+          total_time_spent?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          certificate_earned?: boolean | null
+          certificate_id?: string | null
+          coding_challenges_completed?: number[] | null
+          completed_days?: number[] | null
+          completed_quizzes?: Json | null
+          completed_weekly_assessments?: number[] | null
+          created_at?: string
+          current_streak?: number | null
+          final_assessment_score?: number | null
+          final_project_submitted?: boolean | null
+          id?: string
+          last_active_date?: string | null
+          longest_streak?: number | null
+          total_time_spent?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -10,9 +10,17 @@ import { weeks } from "@/data/curriculum";
 import { CheckCircle2, Play, ArrowRight, Target, Award } from "lucide-react";
 
 const Dashboard = () => {
-  const { user, progress } = useProgress();
+  const { user, progress, session, isLoading } = useProgress();
 
-  if (!user) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!session) {
     return <Navigate to="/auth" replace />;
   }
 

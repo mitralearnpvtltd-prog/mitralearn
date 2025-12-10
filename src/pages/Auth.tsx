@@ -1,37 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useProgress } from "@/contexts/ProgressContext";
 import { toast } from "sonner";
 import { GraduationCap, Mail, Lock, User, ArrowRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { setUser } = useProgress();
   const [isLoading, setIsLoading] = useState(false);
   
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
 
+  useEffect(() => {
+    // Check if user is already logged in
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/dashboard");
+      }
+    };
+    checkSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        navigate("/dashboard");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate login - in production, this would call an auth API
-    setTimeout(() => {
-      if (loginForm.email && loginForm.password) {
-        setUser({ name: loginForm.email.split("@")[0], email: loginForm.email });
-        toast.success("Welcome back!");
-        navigate("/dashboard");
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: loginForm.email,
+      password: loginForm.password,
+    });
+
+    if (error) {
+      if (error.message.includes("Invalid login credentials")) {
+        toast.error("Invalid email or password");
       } else {
-        toast.error("Please fill in all fields");
+        toast.error(error.message);
       }
       setIsLoading(false);
-    }, 1000);
+      return;
+    }
+
+    if (data.session) {
+      toast.success("Welcome back!");
+      navigate("/dashboard");
+    }
+    setIsLoading(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -51,13 +79,36 @@ const Auth = () => {
       return;
     }
 
-    // Simulate registration
-    setTimeout(() => {
-      setUser({ name: registerForm.name, email: registerForm.email });
+    const redirectUrl = `${window.location.origin}/`;
+
+    const { data, error } = await supabase.auth.signUp({
+      email: registerForm.email,
+      password: registerForm.password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: {
+          name: registerForm.name,
+        }
+      }
+    });
+
+    if (error) {
+      if (error.message.includes("User already registered")) {
+        toast.error("An account with this email already exists. Please sign in.");
+      } else {
+        toast.error(error.message);
+      }
+      setIsLoading(false);
+      return;
+    }
+
+    if (data.session) {
       toast.success("Account created successfully!");
       navigate("/dashboard");
-      setIsLoading(false);
-    }, 1000);
+    } else {
+      toast.success("Account created! You can now sign in.");
+    }
+    setIsLoading(false);
   };
 
   return (
