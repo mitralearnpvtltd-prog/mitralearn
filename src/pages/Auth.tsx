@@ -118,9 +118,9 @@ const Auth = () => {
           <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-primary flex items-center justify-center mb-4 shadow-glow">
             <GraduationCap className="w-8 h-8 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl font-display">Welcome to Silk Miltra</CardTitle>
+          <CardTitle className="text-2xl font-display">Welcome to Skill Mitra</CardTitle>
           <p className="text-muted-foreground text-sm">
-            Start your data science journey today
+            Start your tech learning journey today
           </p>
         </CardHeader>
         <CardContent>
@@ -240,7 +240,7 @@ const Auth = () => {
           </Tabs>
 
           <p className="text-xs text-center text-muted-foreground mt-6">
-            By continuing, you agree to Silk Miltra's Terms of Service and Privacy Policy.
+            By continuing, you agree to Skill Mitra's Terms of Service and Privacy Policy.
           </p>
         </CardContent>
       </Card>
