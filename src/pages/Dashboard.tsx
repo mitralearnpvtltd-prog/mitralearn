@@ -24,6 +24,14 @@ const Dashboard = () => {
     return <Navigate to="/auth" replace />;
   }
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   const getNextDay = () => {
     for (let i = 1; i <= 60; i++) {
       if (!progress.completedDays.includes(i)) return i;
