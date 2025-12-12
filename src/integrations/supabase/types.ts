@@ -145,7 +145,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      verify_certificate: {
+        Args: { cert_id: string }
+        Returns: {
+          capstone_submitted: boolean
+          certificate_id: string
+          coding_challenge_score: number
+          completion_date: string
+          final_mcq_score: number
+          overall_band: string
+          student_name: string
+          verified: boolean
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
