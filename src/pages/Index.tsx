@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,6 +33,24 @@ import { Navbar } from "@/components/Navbar";
 const Index = () => {
   const [courseRequest, setCourseRequest] = useState({ name: "", email: "", course: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeCareerIndex, setActiveCareerIndex] = useState(0);
+
+  const careerPaths = [
+    { title: "Data Science", link: "/curriculum" },
+    { title: "AI Engineering", link: "#courses" },
+    { title: "Product Management", link: "#courses" },
+    { title: "Full Stack Dev", link: "#courses" },
+    { title: "Python Developer", link: "#courses" },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCareerIndex((prev) => (prev + 1) % careerPaths.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentCareer = careerPaths[activeCareerIndex];
 
   const courses = [
     {
@@ -198,15 +216,36 @@ const Index = () => {
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
               Launch Your
-              <span className="relative mx-3">
-                <span className="relative z-10 text-primary">Tech Career</span>
+              <span className="relative mx-3 inline-block min-w-[280px] md:min-w-[380px]">
+                <span 
+                  key={activeCareerIndex}
+                  className="relative z-10 text-primary inline-block animate-fade-in"
+                >
+                  {currentCareer.title}
+                </span>
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 8C50 2 150 2 198 8" stroke="hsl(var(--secondary))" strokeWidth="4" strokeLinecap="round"/>
                 </svg>
               </span>
               <br className="hidden md:block" />
-              With Industry-Ready Skills
+              Career Today
             </h1>
+
+            {/* Career path indicators */}
+            <div className="flex items-center justify-center gap-2 mb-6">
+              {careerPaths.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveCareerIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeCareerIndex 
+                      ? "w-8 bg-primary" 
+                      : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  }`}
+                  aria-label={`View ${careerPaths[idx].title} career`}
+                />
+              ))}
+            </div>
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
               Master in-demand tech skills through structured, project-based learning. 
@@ -215,12 +254,12 @@ const Index = () => {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <a href="#courses">
+              <Link to={currentCareer.link}>
                 <Button size="xl" className="gap-2 w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transition-all">
                   <BookOpen className="w-5 h-5" />
-                  Explore Courses
+                  Start {currentCareer.title}
                 </Button>
-              </a>
+              </Link>
               <Link to="/auth">
                 <Button variant="outline" size="xl" className="gap-2 w-full sm:w-auto font-semibold border-2 hover:bg-primary/5">
                   Register Now
