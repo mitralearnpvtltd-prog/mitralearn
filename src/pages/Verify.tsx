@@ -32,16 +32,13 @@ const Verify = () => {
     setCertificate(null);
 
     const { data, error } = await supabase
-      .from('certificates')
-      .select('*')
-      .eq('certificate_id', certificateId.trim().toUpperCase())
-      .maybeSingle();
+      .rpc('verify_certificate', { cert_id: certificateId.trim().toUpperCase() });
 
     if (error) {
       console.error('Error searching certificate:', error);
       setNotFound(true);
-    } else if (data) {
-      setCertificate(data);
+    } else if (data && data.length > 0) {
+      setCertificate(data[0]);
     } else {
       setNotFound(true);
     }
