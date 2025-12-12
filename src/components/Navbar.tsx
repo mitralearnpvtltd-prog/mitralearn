@@ -87,15 +87,15 @@ export const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Link to="/auth">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="font-medium">
                     Login
                   </Button>
                 </Link>
                 <Link to="/auth">
-                  <Button variant="default" size="sm">
-                    Register
+                  <Button variant="default" size="sm" className="font-semibold shadow-md hover:shadow-lg transition-shadow">
+                    Register Now
                   </Button>
                 </Link>
               </div>
@@ -150,13 +150,13 @@ export const Navbar = () => {
               ) : (
                 <div className="flex flex-col gap-2 pt-2 border-t border-border">
                   <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full">
+                    <Button variant="ghost" className="w-full font-medium">
                       Login
                     </Button>
                   </Link>
                   <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="default" className="w-full">
-                      Register
+                    <Button variant="default" className="w-full font-semibold">
+                      Register Now
                     </Button>
                   </Link>
                 </div>

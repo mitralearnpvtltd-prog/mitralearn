@@ -173,74 +173,92 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-hero">
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `url(${heroBg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+      {/* Hero Section - Modern Gen EdTech */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-secondary/20 via-transparent to-transparent" />
         
-        <div className="container mx-auto px-4 relative z-10 text-center py-20">
-          <Badge className="mb-6 bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 backdrop-blur-sm">
-            <Sparkles className="w-3 h-3 mr-1" />
-            Learn Tech Skills • Get Certified • Land Your Dream Job
-          </Badge>
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground mb-6 leading-tight">
-            Master{" "}
-            <span className="text-gradient-secondary">Tech Skills</span>
-            <br />That Get You Hired
-          </h1>
-          
-          <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-            Industry-designed courses in Data Science, Full-Stack Development, AI, and more.
-            Learn from scratch, build real projects, and earn verified certificates.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <a href="#courses">
-              <Button variant="hero" size="xl" className="gap-2 w-full sm:w-auto">
-                <BookOpen className="w-5 h-5" />
-                Explore Courses
-              </Button>
-            </a>
-            <Link to="/auth">
-              <Button variant="heroOutline" size="xl" className="gap-2 w-full sm:w-auto">
-                Get Started Free
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+        
+        <div className="container mx-auto px-4 relative z-10 py-20">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Trust badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              <span className="text-sm font-medium text-foreground">New: AI Engineer Course Coming Soon</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
+              Launch Your
+              <span className="relative mx-3">
+                <span className="relative z-10 text-primary">Tech Career</span>
+                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 8C50 2 150 2 198 8" stroke="hsl(var(--secondary))" strokeWidth="4" strokeLinecap="round"/>
+                </svg>
+              </span>
+              <br className="hidden md:block" />
+              With Industry-Ready Skills
+            </h1>
+            
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+              Master in-demand tech skills through structured, project-based learning. 
+              Get certified and job-ready in weeks, not years.
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+              <a href="#courses">
+                <Button size="xl" className="gap-2 w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transition-all">
+                  <BookOpen className="w-5 h-5" />
+                  Explore Courses
+                </Button>
+              </a>
+              <Link to="/auth">
+                <Button variant="outline" size="xl" className="gap-2 w-full sm:w-auto font-semibold border-2 hover:bg-primary/5">
+                  Register Now
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-primary-foreground/70 text-sm">
-            <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4" />
-              <span>5+ Courses</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              <span>10,000+ Learners</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Award className="w-4 h-4" />
-              <span>Verified Certificates</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4" />
-              <span>Industry Projects</span>
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
+                <p className="text-3xl font-bold text-primary mb-1">5+</p>
+                <p className="text-sm text-muted-foreground">Tech Courses</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
+                <p className="text-3xl font-bold text-primary mb-1">10K+</p>
+                <p className="text-sm text-muted-foreground">Active Learners</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
+                <p className="text-3xl font-bold text-primary mb-1">95%</p>
+                <p className="text-sm text-muted-foreground">Completion Rate</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
+                <p className="text-3xl font-bold text-primary mb-1">500+</p>
+                <p className="text-sm text-muted-foreground">Students Placed</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 rounded-full border-2 border-primary-foreground/30 flex items-start justify-center p-2">
-            <div className="w-1.5 h-3 bg-primary-foreground/50 rounded-full animate-pulse" />
-          </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <a href="#courses" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+            <span className="text-xs font-medium uppercase tracking-wider">Scroll to explore</span>
+            <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-2">
+              <div className="w-1 h-2.5 bg-current rounded-full animate-bounce" />
+            </div>
+          </a>
         </div>
       </section>
 
@@ -447,22 +465,36 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <GraduationCap className="w-16 h-16 mx-auto mb-6 opacity-80" />
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-            Ready to Start Your Tech Career?
-          </h2>
-          <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
-            Join thousands of learners who have transformed their careers with Skill Mitra.
-            Start learning today – it's free to begin.
-          </p>
-          <Link to="/auth">
-            <Button variant="hero" size="xl" className="gap-2">
-              <CheckCircle2 className="w-5 h-5" />
-              Get Started Free
-            </Button>
-          </Link>
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-2xl mx-auto">
+            <div className="w-20 h-20 mx-auto rounded-3xl bg-white/10 backdrop-blur-sm flex items-center justify-center mb-8">
+              <GraduationCap className="w-10 h-10 text-primary-foreground" />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-primary-foreground">
+              Your Future Starts Today
+            </h2>
+            <p className="text-lg text-primary-foreground/80 mb-10 leading-relaxed">
+              Join thousands of learners who transformed their careers with Skill Mitra.
+              No prior experience needed – just bring your curiosity.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to="/auth">
+                <Button variant="hero" size="xl" className="gap-2 font-semibold shadow-lg">
+                  Register Now
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+              <Link to="/auth">
+                <Button variant="heroOutline" size="xl" className="gap-2 font-medium">
+                  Already have an account? Login
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
