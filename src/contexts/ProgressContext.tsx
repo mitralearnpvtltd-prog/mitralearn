@@ -61,6 +61,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [user, setUser] = useState<UserProfile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasLoadedProgress, setHasLoadedProgress] = useState(false);
 
   // Fetch progress from database
   const fetchProgress = async (userId: string) => {
@@ -72,6 +73,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     if (error) {
       console.error('Error fetching progress:', error);
+      setHasLoadedProgress(true);
       return;
     }
 
@@ -91,6 +93,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
         certificateId: data.certificate_id || undefined,
       });
     }
+    setHasLoadedProgress(true);
   };
 
   // Fetch user profile
@@ -111,7 +114,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
-  // Save progress to database
+  // Save progress to database - only called explicitly, not on every state change
   const saveProgress = async (newProgress: UserProgress) => {
     if (!session?.user?.id) return;
 
@@ -155,6 +158,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
         } else {
           setUser(null);
           setProgress(defaultProgress);
+          setHasLoadedProgress(false);
           setIsLoading(false);
         }
       }
@@ -173,12 +177,12 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     return () => subscription.unsubscribe();
   }, []);
 
-  // Save progress when it changes
+  // Save progress when it changes - but only AFTER initial load is complete
   useEffect(() => {
-    if (session?.user?.id && !isLoading) {
+    if (session?.user?.id && !isLoading && hasLoadedProgress) {
       saveProgress(progress);
     }
-  }, [progress, session?.user?.id, isLoading]);
+  }, [progress, session?.user?.id, isLoading, hasLoadedProgress]);
 
   const completeDay = (day: number) => {
     setProgress(prev => ({
