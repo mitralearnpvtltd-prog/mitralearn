@@ -215,24 +215,26 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
-              Launch Your
-              <span className="relative mx-3 inline-flex justify-center" style={{ width: '280px', minWidth: '280px' }}>
+              Launch Your{" "}
+              <span className="relative inline-block h-[1.2em] overflow-hidden align-bottom" style={{ width: '320px' }}>
                 {careerPaths.map((career, idx) => (
                   <span 
                     key={idx}
-                    className={`absolute left-0 right-0 text-center text-primary transition-opacity duration-500 ${
-                      idx === activeCareerIndex ? "opacity-100" : "opacity-0"
+                    className={`absolute left-0 w-full text-primary transition-all duration-500 ease-in-out ${
+                      idx === activeCareerIndex 
+                        ? "translate-y-0 opacity-100" 
+                        : idx < activeCareerIndex || (activeCareerIndex === 0 && idx === careerPaths.length - 1)
+                          ? "-translate-y-full opacity-0"
+                          : "translate-y-full opacity-0"
                     }`}
                   >
                     {career.title}
                   </span>
                 ))}
-                <span className="invisible">{careerPaths[0].title}</span>
-                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 8C50 2 150 2 198 8" stroke="hsl(var(--secondary))" strokeWidth="4" strokeLinecap="round"/>
                 </svg>
-              </span>
-              <br className="hidden md:block" />
+              </span>{" "}
               Career Today
             </h1>
 
@@ -259,10 +261,10 @@ const Index = () => {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Link to={currentCareer.link}>
+              <Link to="/curriculum">
                 <Button size="xl" className="gap-2 w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transition-all">
                   <BookOpen className="w-5 h-5" />
-                  Start {currentCareer.title}
+                  Start Learning
                 </Button>
               </Link>
               <Link to="/auth">

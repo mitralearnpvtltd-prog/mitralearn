@@ -126,8 +126,8 @@ const Auth = () => {
         <CardContent>
           <Tabs defaultValue="login" className="space-y-6">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Sign In</TabsTrigger>
-              <TabsTrigger value="register">Sign Up</TabsTrigger>
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="register">Register</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
@@ -163,7 +163,7 @@ const Auth = () => {
                   </div>
                 </div>
                 <Button type="submit" className="w-full gap-2" size="lg" disabled={isLoading}>
-                  {isLoading ? "Signing in..." : "Sign In"}
+                  {isLoading ? "Logging in..." : "Login"}
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </form>
@@ -232,7 +232,7 @@ const Auth = () => {
                   </div>
                 </div>
                 <Button type="submit" className="w-full gap-2" size="lg" disabled={isLoading}>
-                  {isLoading ? "Creating account..." : "Create Account"}
+                  {isLoading ? "Registering..." : "Register"}
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </form>
