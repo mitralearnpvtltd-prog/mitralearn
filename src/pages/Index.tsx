@@ -216,13 +216,18 @@ const Index = () => {
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
               Launch Your
-              <span className="relative mx-3 inline-block min-w-[280px] md:min-w-[380px]">
-                <span 
-                  key={activeCareerIndex}
-                  className="relative z-10 text-primary inline-block animate-fade-in"
-                >
-                  {currentCareer.title}
-                </span>
+              <span className="relative mx-3 inline-flex justify-center" style={{ width: '280px', minWidth: '280px' }}>
+                {careerPaths.map((career, idx) => (
+                  <span 
+                    key={idx}
+                    className={`absolute left-0 right-0 text-center text-primary transition-opacity duration-500 ${
+                      idx === activeCareerIndex ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    {career.title}
+                  </span>
+                ))}
+                <span className="invisible">{careerPaths[0].title}</span>
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 8C50 2 150 2 198 8" stroke="hsl(var(--secondary))" strokeWidth="4" strokeLinecap="round"/>
                 </svg>
