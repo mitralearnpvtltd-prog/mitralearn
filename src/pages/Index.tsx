@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,11 +12,8 @@ import {
   BookOpen,
   Code,
   Award,
-  Zap,
   Users,
-  TrendingUp,
   Clock,
-  CheckCircle2,
   ArrowRight,
   Lock,
   Star,
@@ -26,30 +23,50 @@ import {
   Coffee,
   Send,
   Sparkles,
+  Rocket,
+  Trophy,
+  Target,
 } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
 import { Navbar } from "@/components/Navbar";
 
 const Index = () => {
   const [courseRequest, setCourseRequest] = useState({ name: "", email: "", course: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeCareerIndex, setActiveCareerIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
+  const [activeCareerIndex, setActiveCareerIndex] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
 
-  const careerPaths = [
-    { title: "Data Science", link: "/curriculum" },
-    { title: "AI Engineering", link: "#courses" },
-    { title: "Product Management", link: "#courses" },
-    { title: "Full Stack Dev", link: "#courses" },
-    { title: "Python Developer", link: "#courses" },
-  ];
+  const careerPaths = ["Expert Training", "Data Science", "AI Engineering", "Full Stack Dev", "Product Management"];
 
-  const currentCareer = careerPaths[activeCareerIndex];
+  // Cursor follow effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
+      }
+    };
+
+    const heroElement = heroRef.current;
+    if (heroElement) {
+      heroElement.addEventListener("mousemove", handleMouseMove);
+    }
+
+    return () => {
+      if (heroElement) {
+        heroElement.removeEventListener("mousemove", handleMouseMove);
+      }
+    };
+  }, []);
 
   // Typing effect
   useEffect(() => {
-    const targetText = currentCareer.title;
+    const targetText = careerPaths[activeCareerIndex];
     let currentIndex = 0;
     setIsTyping(true);
     setDisplayedText("");
@@ -77,98 +94,91 @@ const Index = () => {
 
   const courses = [
     {
-      id: "data-scientist",
-      title: "Data Scientist",
+      id: "data-engineer",
+      category: "DATA ENGINEERING",
+      title: "Data Engineer",
       icon: Database,
-      duration: "60 Days",
-      level: "Beginner to Advanced",
-      description: "Master Python, ML, Deep Learning & get certified for internships.",
-      topics: ["Python", "Pandas", "ML", "Deep Learning", "NLP"],
-      color: "from-primary to-primary/70",
+      iconBg: "bg-primary",
+      duration: "5 Months",
+      level: "Advanced",
+      description: "Build scalable data pipelines and infrastructures for big data processing.",
+      topics: ["ETL Pipelines", "Data Warehousing", "Apache Spark", "SQL & NoSQL", "Cloud Platforms"],
       isLocked: false,
       link: "/curriculum",
     },
     {
-      id: "mern-fullstack",
-      title: "Fullstack Development (MERN)",
-      icon: Code,
-      duration: "90 Days",
-      level: "Beginner to Advanced",
-      description: "Build full-stack web apps with MongoDB, Express, React & Node.js.",
-      topics: ["MongoDB", "Express.js", "React", "Node.js", "REST APIs"],
-      color: "from-blue-600 to-blue-400",
+      id: "ai-engineer",
+      category: "ARTIFICIAL INTELLIGENCE",
+      title: "AI Engineer",
+      icon: Brain,
+      iconBg: "bg-secondary",
+      duration: "6 Months",
+      level: "Advanced",
+      description: "Master NLU, engineering and build intelligent systems with cutting-edge technologies.",
+      topics: ["Machine Learning", "Deep Learning", "Neural Networks", "NLP", "Computer Vision"],
       isLocked: true,
       link: "#",
     },
     {
-      id: "python-ai",
+      id: "fullstack-developer",
+      category: "WEB DEVELOPMENT",
+      title: "Fullstack Developer",
+      icon: Code,
+      iconBg: "bg-[hsl(180_60%_45%)]",
+      duration: "5 Months",
+      level: "Intermediate",
+      description: "Build complete web applications from frontend to backend with modern frameworks.",
+      topics: ["React", "Node.js", "REST APIs", "Databases", "DevOps Basics"],
+      isLocked: true,
+      link: "#",
+    },
+    {
+      id: "python-ai-engineer",
+      category: "AI & PYTHON",
       title: "Python AI Engineer",
       icon: Brain,
-      duration: "75 Days",
-      level: "Intermediate",
-      description: "Build AI applications with Python, LLMs, and cutting-edge AI tools.",
-      topics: ["Python", "OpenAI", "LangChain", "RAG", "Agents"],
-      color: "from-purple-600 to-purple-400",
-      isLocked: true,
-      link: "#",
-    },
-    {
-      id: "product-management",
-      title: "Product Management",
-      icon: Briefcase,
-      duration: "45 Days",
-      level: "Beginner Friendly",
-      description: "Learn to build and manage products from ideation to launch.",
-      topics: ["Strategy", "Roadmaps", "Analytics", "Agile", "User Research"],
-      color: "from-amber-600 to-amber-400",
+      iconBg: "bg-primary",
+      duration: "6 Months",
+      level: "Advanced",
+      description: "Specialize in Python for AI, machine learning, and data science applications.",
+      topics: ["Python Programming", "TensorFlow", "PyTorch", "Data Analysis", "Model Deployment"],
       isLocked: true,
       link: "#",
     },
     {
       id: "java-fullstack",
+      category: "ENTERPRISE DEVELOPMENT",
       title: "Java Fullstack",
       icon: Coffee,
-      duration: "90 Days",
-      level: "Beginner to Advanced",
-      description: "Enterprise-grade development with Java, Spring Boot & React.",
-      topics: ["Java", "Spring Boot", "Hibernate", "React", "Microservices"],
-      color: "from-red-600 to-red-400",
+      iconBg: "bg-secondary",
+      duration: "5 Months",
+      level: "Intermediate",
+      description: "Build enterprise-grade applications with Java and Spring ecosystem.",
+      topics: ["Java", "Spring Boot", "Microservices", "Hibernate", "Angular/React"],
+      isLocked: true,
+      link: "#",
+    },
+    {
+      id: "product-marketing",
+      category: "MARKETING & GROWTH",
+      title: "Product Marketing",
+      icon: Briefcase,
+      iconBg: "bg-[hsl(0_75%_55%)]",
+      duration: "4 Months",
+      level: "Beginner",
+      description: "Drive product adoption, market positioning, and growth strategies.",
+      topics: ["Go-to-Market Strategy", "Customer Research", "Positioning", "Content Marketing", "Analytics"],
       isLocked: true,
       link: "#",
     },
   ];
 
-  const features = [
-    {
-      icon: BookOpen,
-      title: "Structured Curriculum",
-      description: "Day-by-day learning paths designed by industry experts.",
-    },
-    {
-      icon: Code,
-      title: "Hands-On Projects",
-      description: "Real-world projects to build your portfolio and skills.",
-    },
-    {
-      icon: Award,
-      title: "Verified Certificates",
-      description: "Earn certificates recognized by top companies.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Progress Tracking",
-      description: "Track your learning journey with visual dashboards.",
-    },
-    {
-      icon: Users,
-      title: "Community Support",
-      description: "Learn alongside peers and get mentor guidance.",
-    },
-    {
-      icon: Zap,
-      title: "Daily Challenges",
-      description: "Reinforce learning with quizzes and coding challenges.",
-    },
+  const benefits = [
+    { icon: BookOpen, title: "Structured Courses", color: "bg-primary" },
+    { icon: Rocket, title: "Beginner to Expert", color: "bg-secondary" },
+    { icon: Award, title: "Completion Certificate", color: "bg-[hsl(180_60%_45%)]" },
+    { icon: Target, title: "Internship Opportunity", color: "bg-primary" },
+    { icon: Trophy, title: "Expert Mentorship", color: "bg-[hsl(0_75%_55%)]" },
   ];
 
   const testimonials = [
@@ -196,14 +206,12 @@ const Index = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Validate inputs
     if (!courseRequest.name.trim() || !courseRequest.email.trim() || !courseRequest.course.trim()) {
       toast.error("Please fill in all fields");
       setIsSubmitting(false);
       return;
     }
 
-    // Simulate submission
     await new Promise(resolve => setTimeout(resolve, 1000));
     toast.success("Thank you! We'll notify you when your requested course is available.");
     setCourseRequest({ name: "", email: "", course: "" });
@@ -211,113 +219,68 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section - Modern Gen EdTech */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-secondary/10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-secondary/20 via-transparent to-transparent" />
+      {/* Hero Section - Dark Gradient with Cursor Effect */}
+      <section 
+        ref={heroRef}
+        className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-hero"
+      >
+        {/* Cursor follow glow effect */}
+        <div 
+          className="pointer-events-none absolute w-[600px] h-[600px] rounded-full opacity-30 transition-all duration-300 ease-out"
+          style={{
+            background: `radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, hsl(var(--secondary) / 0.2) 40%, transparent 70%)`,
+            left: mousePosition.x - 300,
+            top: mousePosition.y - 300,
+          }}
+        />
         
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+        {/* Static gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/20 blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-secondary/20 blur-[100px]" />
         
-        <div className="container mx-auto px-4 relative z-10 py-20">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Trust badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              <span className="text-sm font-medium text-foreground">New: AI Engineer Course Coming Soon</span>
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
-              Launch Your{" "}
-              <span className="relative inline-block h-[1.2em] align-bottom" style={{ minWidth: '320px' }}>
-                <span className="text-primary">
-                  {displayedText}
-                  <span className={`inline-block w-[3px] h-[0.9em] bg-primary ml-1 align-middle ${isTyping ? "animate-pulse" : "opacity-0"}`} />
-                </span>
-                <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 8C50 2 150 2 198 8" stroke="hsl(var(--secondary))" strokeWidth="4" strokeLinecap="round"/>
-                </svg>
-              </span>{" "}
-              Career Today
-            </h1>
-
-            {/* Career path indicators */}
-            <div className="flex items-center justify-center gap-2 mb-6">
-              {careerPaths.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveCareerIndex(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    idx === activeCareerIndex 
-                      ? "w-8 bg-primary" 
-                      : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  }`}
-                  aria-label={`View ${careerPaths[idx].title} career`}
-                />
-              ))}
-            </div>
-            
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-              Master in-demand tech skills through structured, project-based learning. 
-              Get certified and job-ready in weeks, not years.
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Link to="/curriculum">
-                <Button size="xl" className="gap-2 w-full sm:w-auto font-semibold shadow-lg hover:shadow-xl transition-all">
-                  <BookOpen className="w-5 h-5" />
-                  Start Learning
-                </Button>
-              </Link>
-              <Link to="/auth">
-                <Button variant="outline" size="xl" className="gap-2 w-full sm:w-auto font-semibold border-2 hover:bg-primary/5">
-                  Register Now
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
-                <p className="text-3xl font-bold text-primary mb-1">5+</p>
-                <p className="text-sm text-muted-foreground">Tech Courses</p>
-              </div>
-              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
-                <p className="text-3xl font-bold text-primary mb-1">10K+</p>
-                <p className="text-sm text-muted-foreground">Active Learners</p>
-              </div>
-              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
-                <p className="text-3xl font-bold text-primary mb-1">95%</p>
-                <p className="text-sm text-muted-foreground">Completion Rate</p>
-              </div>
-              <div className="p-4 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
-                <p className="text-3xl font-bold text-primary mb-1">500+</p>
-                <p className="text-sm text-muted-foreground">Students Placed</p>
-              </div>
-            </div>
+        <div className="container mx-auto px-4 relative z-10 py-20 text-center">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-[1.1]">
+            <span className="text-primary-foreground">Transform Your</span>
+            <br />
+            <span className="text-primary-foreground">Future</span>
+          </h1>
+          
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+            <span className="text-gradient-secondary">With </span>
+            <span className="text-gradient-primary">
+              {displayedText}
+              <span className={`inline-block w-[3px] h-[0.8em] bg-primary ml-1 align-middle ${isTyping ? "animate-pulse" : "opacity-0"}`} />
+            </span>
+          </h2>
+          
+          <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Industry-leading courses with hands-on projects, expert mentorship, and guaranteed career support
+          </p>
+          
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <Link to="/curriculum">
+              <Button size="xl" className="gap-2 font-semibold shadow-lg hover:shadow-xl transition-all bg-foreground text-background hover:bg-foreground/90">
+                Explore Courses
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+            <Link to="/auth">
+              <Button variant="outline" size="xl" className="gap-2 font-semibold border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+                Register Now
+                <Users className="w-5 h-5" />
+              </Button>
+            </Link>
           </div>
-        </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <a href="#courses" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <span className="text-xs font-medium uppercase tracking-wider">Scroll to explore</span>
-            <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-2">
-              <div className="w-1 h-2.5 bg-current rounded-full animate-bounce" />
-            </div>
-          </a>
+          {/* Special Offer Banner */}
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-secondary text-secondary-foreground font-medium">
+            <Sparkles className="w-5 h-5" />
+            <span>Special Offer: Get 30 Days Real-Time Project Internship, FREE</span>
+          </div>
         </div>
       </section>
 
@@ -325,12 +288,12 @@ const Index = () => {
       <section id="courses" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="secondary" className="mb-4">Our Courses</Badge>
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Choose Your Learning Path
+              Choose Your Courses
             </h2>
+            <div className="w-40 h-1 bg-gradient-secondary mx-auto rounded-full mb-4" />
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Industry-designed programs to transform you from beginner to job-ready professional.
+              Select from our comprehensive range of industry-focused courses
             </p>
           </div>
 
@@ -338,56 +301,60 @@ const Index = () => {
             {courses.map((course) => (
               <Card 
                 key={course.id} 
-                className={`group relative overflow-hidden hover:shadow-xl transition-all duration-300 ${
-                  course.isLocked ? "opacity-90" : "hover:-translate-y-2"
+                className={`group relative overflow-hidden hover:shadow-xl transition-all duration-300 border-border/50 ${
+                  course.isLocked ? "" : "hover:-translate-y-2"
                 }`}
               >
-                {course.isLocked && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <Badge variant="secondary" className="gap-1">
-                      <Lock className="w-3 h-3" />
-                      Coming Soon
+                <CardContent className="p-6">
+                  {/* Icon and Badge Row */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`w-14 h-14 rounded-2xl ${course.iconBg} flex items-center justify-center shadow-lg`}>
+                      <course.icon className="w-7 h-7 text-primary-foreground" />
+                    </div>
+                    <Badge 
+                      variant={course.level === "Advanced" ? "default" : course.level === "Intermediate" ? "secondary" : "outline"}
+                      className="text-xs"
+                    >
+                      {course.level}
                     </Badge>
                   </div>
-                )}
-                <CardContent className="p-6">
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${course.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                    <course.icon className="w-7 h-7 text-white" />
-                  </div>
+
+                  {/* Category */}
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                    {course.category}
+                  </p>
                   
                   <h3 className="text-xl font-display font-bold mb-2">{course.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-4">{course.description}</p>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{course.description}</p>
                   
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {course.duration}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="w-3.5 h-3.5" />
-                      {course.level}
+                  {/* Key Concepts */}
+                  <div className="mb-4">
+                    <p className="text-xs font-semibold text-foreground mb-2">KEY CONCEPTS:</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {course.topics.slice(0, 4).map((topic, i) => (
+                        <Badge key={i} variant="outline" className="text-xs font-normal">
+                          {topic}
+                        </Badge>
+                      ))}
                     </div>
                   </div>
                   
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {course.topics.map((topic, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">
-                        {topic}
-                      </Badge>
-                    ))}
+                  {/* Duration */}
+                  <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-4">
+                    <Clock className="w-4 h-4" />
+                    <span>{course.duration}</span>
                   </div>
                   
+                  {/* CTA */}
                   {course.isLocked ? (
-                    <Button variant="secondary" className="w-full gap-2" disabled>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Lock className="w-4 h-4" />
-                      Launching Soon
-                    </Button>
+                      <span>Coming Soon</span>
+                    </div>
                   ) : (
-                    <Link to={course.link}>
-                      <Button className="w-full gap-2">
-                        Start Learning
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
+                    <Link to={course.link} className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                      Start Learning Now
+                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   )}
                 </CardContent>
@@ -397,31 +364,24 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-muted/30">
+      {/* Benefits Section */}
+      <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="secondary" className="mb-4">Why Skill Mitra?</Badge>
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Everything You Need to Succeed
+              What You Will Get
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our platform is designed to take you from complete beginner to job-ready
-              professional with structured learning and hands-on practice.
-            </p>
+            <div className="w-32 h-1 bg-gradient-secondary mx-auto rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4 group-hover:shadow-glow transition-shadow">
-                    <feature.icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-lg font-display font-bold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </CardContent>
-              </Card>
+          <div className="flex flex-wrap justify-center gap-8">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex flex-col items-center text-center max-w-[140px]">
+                <div className={`w-16 h-16 rounded-2xl ${benefit.color} flex items-center justify-center mb-3 shadow-lg`}>
+                  <benefit.icon className="w-8 h-8 text-primary-foreground" />
+                </div>
+                <p className="text-sm font-medium">{benefit.title}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -441,7 +401,7 @@ const Index = () => {
               </p>
             </div>
 
-            <Card>
+            <Card className="border-border/50">
               <CardContent className="p-6">
                 <form onSubmit={handleCourseRequest} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
@@ -481,9 +441,9 @@ const Index = () => {
                       rows={3}
                     />
                   </div>
-                  <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
+                  <Button type="submit" className="w-full gap-2 bg-secondary hover:bg-secondary/90" disabled={isSubmitting}>
                     {isSubmitting ? "Submitting..." : "Submit Request"}
-                    <Send className="w-4 h-4" />
+                    <Sparkles className="w-4 h-4" />
                   </Button>
                 </form>
               </CardContent>
@@ -497,14 +457,14 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4">Testimonials</Badge>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Loved by Learners
+            <h2 className="text-3xl md:text-4xl font-display font-bold">
+              <span className="text-secondary">Loved</span> by Learners
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-card">
+              <Card key={index} className="bg-card border-border/50">
                 <CardContent className="p-6">
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
@@ -524,31 +484,32 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
+      <section className="py-24 relative overflow-hidden bg-gradient-hero">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/20 blur-[120px]" />
+        </div>
         
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-2xl mx-auto">
-            <div className="w-20 h-20 mx-auto rounded-3xl bg-white/10 backdrop-blur-sm flex items-center justify-center mb-8">
+            <div className="w-20 h-20 mx-auto rounded-3xl bg-primary/20 backdrop-blur-sm flex items-center justify-center mb-8">
               <GraduationCap className="w-10 h-10 text-primary-foreground" />
             </div>
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-primary-foreground">
               Your Future Starts Today
             </h2>
-            <p className="text-lg text-primary-foreground/80 mb-10 leading-relaxed">
+            <p className="text-lg text-primary-foreground/70 mb-10 leading-relaxed">
               Join thousands of learners who transformed their careers with Skill Mitra.
               No prior experience needed – just bring your curiosity.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/auth">
-                <Button variant="hero" size="xl" className="gap-2 font-semibold shadow-lg">
+                <Button size="xl" className="gap-2 font-semibold shadow-lg bg-secondary hover:bg-secondary/90 text-secondary-foreground">
                   Register Now
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button variant="heroOutline" size="xl" className="gap-2 font-medium">
+                <Button variant="outline" size="xl" className="gap-2 font-medium border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
                   Already have an account? Login
                 </Button>
               </Link>
