@@ -34,6 +34,8 @@ const Index = () => {
   const [courseRequest, setCourseRequest] = useState({ name: "", email: "", course: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeCareerIndex, setActiveCareerIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
 
   const careerPaths = [
     { title: "Data Science", link: "/curriculum" },
@@ -43,14 +45,35 @@ const Index = () => {
     { title: "Python Developer", link: "#courses" },
   ];
 
+  const currentCareer = careerPaths[activeCareerIndex];
+
+  // Typing effect
+  useEffect(() => {
+    const targetText = currentCareer.title;
+    let currentIndex = 0;
+    setIsTyping(true);
+    setDisplayedText("");
+
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= targetText.length) {
+        setDisplayedText(targetText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(typingInterval);
+        setIsTyping(false);
+      }
+    }, 80);
+
+    return () => clearInterval(typingInterval);
+  }, [activeCareerIndex]);
+
+  // Auto-rotate careers
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveCareerIndex((prev) => (prev + 1) % careerPaths.length);
-    }, 2500);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
-
-  const currentCareer = careerPaths[activeCareerIndex];
 
   const courses = [
     {
@@ -216,21 +239,11 @@ const Index = () => {
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
               Launch Your{" "}
-              <span className="relative inline-block h-[1.2em] overflow-hidden align-bottom" style={{ width: '320px' }}>
-                {careerPaths.map((career, idx) => (
-                  <span 
-                    key={idx}
-                    className={`absolute left-0 w-full text-primary transition-all duration-500 ease-in-out ${
-                      idx === activeCareerIndex 
-                        ? "translate-y-0 opacity-100" 
-                        : idx < activeCareerIndex || (activeCareerIndex === 0 && idx === careerPaths.length - 1)
-                          ? "-translate-y-full opacity-0"
-                          : "translate-y-full opacity-0"
-                    }`}
-                  >
-                    {career.title}
-                  </span>
-                ))}
+              <span className="relative inline-block h-[1.2em] align-bottom" style={{ minWidth: '320px' }}>
+                <span className="text-primary">
+                  {displayedText}
+                  <span className={`inline-block w-[3px] h-[0.9em] bg-primary ml-1 align-middle ${isTyping ? "animate-pulse" : "opacity-0"}`} />
+                </span>
                 <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 8C50 2 150 2 198 8" stroke="hsl(var(--secondary))" strokeWidth="4" strokeLinecap="round"/>
                 </svg>
