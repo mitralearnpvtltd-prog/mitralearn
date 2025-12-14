@@ -21,7 +21,6 @@ import {
   Brain,
   Briefcase,
   Coffee,
-  Send,
   Sparkles,
   Rocket,
   Trophy,
@@ -40,7 +39,7 @@ const Index = () => {
 
   const careerPaths = ["Expert Training", "Data Science", "AI Engineering", "Full Stack Dev", "Product Management"];
 
-  // Cursor follow effect
+  // Cursor follow effect - smooth transition
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (heroRef.current) {
@@ -222,30 +221,46 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section - Dark Gradient with Cursor Effect */}
+      {/* Hero Section - Dark Purple Gradient with Cursor Effect */}
       <section 
         ref={heroRef}
-        className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-hero"
+        className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+        style={{
+          background: "linear-gradient(180deg, hsl(270 50% 15%) 0%, hsl(280 45% 20%) 40%, hsl(270 35% 18%) 100%)"
+        }}
       >
-        {/* Cursor follow glow effect */}
+        {/* Cursor follow glow effect - smooth transition */}
         <div 
-          className="pointer-events-none absolute w-[600px] h-[600px] rounded-full opacity-30 transition-all duration-300 ease-out"
+          className="pointer-events-none absolute w-[800px] h-[800px] rounded-full transition-all duration-500 ease-out"
           style={{
-            background: `radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, hsl(var(--secondary) / 0.2) 40%, transparent 70%)`,
-            left: mousePosition.x - 300,
-            top: mousePosition.y - 300,
+            background: `radial-gradient(circle, hsl(270 80% 60% / 0.25) 0%, hsl(300 70% 50% / 0.15) 30%, hsl(35 95% 55% / 0.08) 50%, transparent 70%)`,
+            left: mousePosition.x - 400,
+            top: mousePosition.y - 400,
+            filter: "blur(40px)",
+          }}
+        />
+        
+        {/* Secondary cursor glow */}
+        <div 
+          className="pointer-events-none absolute w-[400px] h-[400px] rounded-full transition-all duration-300 ease-out"
+          style={{
+            background: `radial-gradient(circle, hsl(35 95% 55% / 0.2) 0%, transparent 60%)`,
+            left: mousePosition.x - 200,
+            top: mousePosition.y - 200,
+            filter: "blur(30px)",
           }}
         />
         
         {/* Static gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/20 blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-secondary/20 blur-[100px]" />
+        <div className="absolute top-20 left-1/4 w-72 h-72 rounded-full bg-primary/15 blur-[100px]" />
+        <div className="absolute bottom-20 right-1/4 w-80 h-80 rounded-full bg-secondary/10 blur-[100px]" />
         
         <div className="container mx-auto px-4 relative z-10 py-20 text-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-[1.1]">
-            <span className="text-primary-foreground">Transform Your</span>
+          {/* Hero Typography */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-4 leading-[1.1] italic">
+            <span className="text-[hsl(0_0%_100%)]">Transform Your</span>
             <br />
-            <span className="text-primary-foreground">Future</span>
+            <span className="text-[hsl(0_0%_100%)]">Future</span>
           </h1>
           
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
@@ -256,20 +271,20 @@ const Index = () => {
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg md:text-xl text-[hsl(0_0%_100%_/_0.7)] max-w-2xl mx-auto mb-10 leading-relaxed">
             Industry-leading courses with hands-on projects, expert mentorship, and guaranteed career support
           </p>
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <Link to="/curriculum">
-              <Button size="xl" className="gap-2 font-semibold shadow-lg hover:shadow-xl transition-all bg-foreground text-background hover:bg-foreground/90">
+              <Button size="xl" className="gap-2 font-semibold shadow-lg hover:shadow-xl transition-all bg-[hsl(270_10%_15%)] text-[hsl(0_0%_100%)] hover:bg-[hsl(270_10%_20%)] px-8">
                 Explore Courses
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
             <Link to="/auth">
-              <Button variant="outline" size="xl" className="gap-2 font-semibold border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+              <Button variant="outline" size="xl" className="gap-2 font-semibold border-2 border-[hsl(0_0%_100%_/_0.3)] text-[hsl(0_0%_100%)] hover:bg-[hsl(0_0%_100%_/_0.1)] bg-transparent px-8">
                 Register Now
                 <Users className="w-5 h-5" />
               </Button>
@@ -301,7 +316,7 @@ const Index = () => {
             {courses.map((course) => (
               <Card 
                 key={course.id} 
-                className={`group relative overflow-hidden hover:shadow-xl transition-all duration-300 border-border/50 ${
+                className={`group relative overflow-hidden hover:shadow-xl transition-all duration-300 border-border/50 bg-card ${
                   course.isLocked ? "" : "hover:-translate-y-2"
                 }`}
               >
@@ -309,7 +324,7 @@ const Index = () => {
                   {/* Icon and Badge Row */}
                   <div className="flex items-start justify-between mb-4">
                     <div className={`w-14 h-14 rounded-2xl ${course.iconBg} flex items-center justify-center shadow-lg`}>
-                      <course.icon className="w-7 h-7 text-primary-foreground" />
+                      <course.icon className="w-7 h-7 text-[hsl(0_0%_100%)]" />
                     </div>
                     <Badge 
                       variant={course.level === "Advanced" ? "default" : course.level === "Intermediate" ? "secondary" : "outline"}
@@ -374,11 +389,11 @@ const Index = () => {
             <div className="w-32 h-1 bg-gradient-secondary mx-auto rounded-full" />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             {benefits.map((benefit, index) => (
               <div key={index} className="flex flex-col items-center text-center max-w-[140px]">
                 <div className={`w-16 h-16 rounded-2xl ${benefit.color} flex items-center justify-center mb-3 shadow-lg`}>
-                  <benefit.icon className="w-8 h-8 text-primary-foreground" />
+                  <benefit.icon className="w-8 h-8 text-[hsl(0_0%_100%)]" />
                 </div>
                 <p className="text-sm font-medium">{benefit.title}</p>
               </div>
@@ -484,32 +499,37 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden bg-gradient-hero">
+      <section 
+        className="py-24 relative overflow-hidden"
+        style={{
+          background: "linear-gradient(180deg, hsl(270 50% 15%) 0%, hsl(280 45% 22%) 50%, hsl(270 35% 18%) 100%)"
+        }}
+      >
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/20 blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/15 blur-[120px]" />
         </div>
         
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-2xl mx-auto">
             <div className="w-20 h-20 mx-auto rounded-3xl bg-primary/20 backdrop-blur-sm flex items-center justify-center mb-8">
-              <GraduationCap className="w-10 h-10 text-primary-foreground" />
+              <GraduationCap className="w-10 h-10 text-[hsl(0_0%_100%)]" />
             </div>
-            <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-primary-foreground">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-[hsl(0_0%_100%)]">
               Your Future Starts Today
             </h2>
-            <p className="text-lg text-primary-foreground/70 mb-10 leading-relaxed">
+            <p className="text-lg text-[hsl(0_0%_100%_/_0.7)] mb-10 leading-relaxed">
               Join thousands of learners who transformed their careers with Skill Mitra.
               No prior experience needed – just bring your curiosity.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/auth">
-                <Button size="xl" className="gap-2 font-semibold shadow-lg bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                <Button size="xl" className="gap-2 font-semibold shadow-lg bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8">
                   Register Now
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button variant="outline" size="xl" className="gap-2 font-medium border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+                <Button variant="outline" size="xl" className="gap-2 font-medium border-2 border-[hsl(0_0%_100%_/_0.3)] text-[hsl(0_0%_100%)] hover:bg-[hsl(0_0%_100%_/_0.1)] bg-transparent">
                   Already have an account? Login
                 </Button>
               </Link>
@@ -524,7 +544,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-primary-foreground" />
+                <GraduationCap className="w-6 h-6 text-[hsl(0_0%_100%)]" />
               </div>
               <div>
                 <span className="font-display font-bold text-lg">Skill Mitra</span>
