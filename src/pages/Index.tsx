@@ -253,53 +253,17 @@ const Index = () => {
           background: '#FFFFFF',
         }}
       >
-        {/* Low opacity decorative boxes */}
+        {/* Grid pattern background */}
         <div
-          className="pointer-events-none absolute"
+          className="pointer-events-none absolute inset-0"
           style={{
-            width: '300px',
-            height: '300px',
-            borderRadius: '24px',
-            background: 'rgba(168,85,247,0.06)',
-            left: '5%',
-            top: '15%',
-            transform: 'rotate(-12deg)',
-          }}
-        />
-        <div
-          className="pointer-events-none absolute"
-          style={{
-            width: '200px',
-            height: '200px',
-            borderRadius: '20px',
-            background: 'rgba(99,102,241,0.05)',
-            left: '12%',
-            bottom: '20%',
-            transform: 'rotate(8deg)',
-          }}
-        />
-        <div
-          className="pointer-events-none absolute"
-          style={{
-            width: '250px',
-            height: '250px',
-            borderRadius: '24px',
-            background: 'rgba(6,182,212,0.05)',
-            right: '8%',
-            top: '25%',
-            transform: 'rotate(15deg)',
-          }}
-        />
-        <div
-          className="pointer-events-none absolute"
-          style={{
-            width: '180px',
-            height: '180px',
-            borderRadius: '16px',
-            background: 'rgba(168,85,247,0.04)',
-            right: '15%',
-            bottom: '15%',
-            transform: 'rotate(-8deg)',
+            backgroundImage: `
+              linear-gradient(rgba(168,85,247,0.08) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(168,85,247,0.08) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 70%)',
           }}
         />
         
