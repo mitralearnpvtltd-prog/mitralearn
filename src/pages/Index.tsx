@@ -253,18 +253,53 @@ const Index = () => {
           background: '#FFFFFF',
         }}
       >
-        {/* Purple gradient blob on left */}
+        {/* Low opacity decorative boxes */}
         <div
           className="pointer-events-none absolute"
           style={{
-            width: '800px',
-            height: '800px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(168,85,247,0.1) 40%, transparent 70%)',
-            left: '-200px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            filter: 'blur(60px)',
+            width: '300px',
+            height: '300px',
+            borderRadius: '24px',
+            background: 'rgba(168,85,247,0.06)',
+            left: '5%',
+            top: '15%',
+            transform: 'rotate(-12deg)',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            width: '200px',
+            height: '200px',
+            borderRadius: '20px',
+            background: 'rgba(99,102,241,0.05)',
+            left: '12%',
+            bottom: '20%',
+            transform: 'rotate(8deg)',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            width: '250px',
+            height: '250px',
+            borderRadius: '24px',
+            background: 'rgba(6,182,212,0.05)',
+            right: '8%',
+            top: '25%',
+            transform: 'rotate(15deg)',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            width: '180px',
+            height: '180px',
+            borderRadius: '16px',
+            background: 'rgba(168,85,247,0.04)',
+            right: '15%',
+            bottom: '15%',
+            transform: 'rotate(-8deg)',
           }}
         />
         
@@ -276,26 +311,13 @@ const Index = () => {
               width: '600px',
               height: '600px',
               borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(99,102,241,0.1) 40%, transparent 70%)`,
+              background: `radial-gradient(circle, rgba(168,85,247,0.08) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)`,
               left: mousePosition.x - 300,
               top: mousePosition.y - 300,
               filter: 'blur(40px)',
             }}
           />
         )}
-        
-        {/* Subtle teal gradient on bottom right */}
-        <div
-          className="pointer-events-none absolute"
-          style={{
-            width: '600px',
-            height: '400px',
-            background: 'linear-gradient(135deg, rgba(6,182,212,0.08) 0%, transparent 60%)',
-            right: '0',
-            bottom: '0',
-            filter: 'blur(40px)',
-          }}
-        />
         
         <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
@@ -375,16 +397,29 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 
-              className="text-4xl mb-4"
+              className="text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Choose Your Courses
+              {/* Curved underline */}
+              <svg 
+                className="absolute -bottom-2 left-0 w-full" 
+                height="12" 
+                viewBox="0 0 200 12" 
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path 
+                  d="M2 8 Q 50 2, 100 6 T 198 4" 
+                  stroke="#F97316" 
+                  strokeWidth="3" 
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <polygon points="195,2 202,5 195,8" fill="#F97316" />
+              </svg>
             </h2>
-            <div 
-              className="w-32 h-1 mx-auto rounded-full mb-4"
-              style={{ background: 'linear-gradient(90deg, #7C3AED, #6366F1, #06B6D4)' }}
-            />
-            <p style={{ color: '#64748B', fontSize: '18px' }}>
+            <p className="mt-6" style={{ color: '#64748B', fontSize: '18px' }}>
               Select from our comprehensive range of industry-focused courses
             </p>
           </div>
@@ -497,15 +532,28 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 
-              className="text-4xl mb-4"
+              className="text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               What You Will Get
+              {/* Curved underline */}
+              <svg 
+                className="absolute -bottom-2 left-0 w-full" 
+                height="12" 
+                viewBox="0 0 200 12" 
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path 
+                  d="M2 8 Q 50 2, 100 6 T 198 4" 
+                  stroke="#F97316" 
+                  strokeWidth="3" 
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <polygon points="195,2 202,5 195,8" fill="#F97316" />
+              </svg>
             </h2>
-            <div 
-              className="w-32 h-1 mx-auto rounded-full"
-              style={{ background: 'linear-gradient(90deg, #7C3AED, #6366F1, #06B6D4)' }}
-            />
           </div>
           
           <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
@@ -612,22 +660,39 @@ const Index = () => {
       <section 
         className="py-20"
         style={{
-          background: 'linear-gradient(135deg, #F5F3FF 0%, #ECFEFF 100%)',
+          background: 'linear-gradient(180deg, rgba(236,254,255,0.4) 0%, rgba(245,243,255,0.3) 50%, #FFFFFF 100%)',
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 flex items-center justify-center gap-3">
             <span 
-              className="inline-block text-sm font-medium px-4 py-2 rounded-full mb-4"
-              style={{ backgroundColor: '#FFF7ED', color: '#F97316' }}
+              className="inline-block text-sm font-medium px-4 py-2 rounded-full"
+              style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
             >
               Testimonials
             </span>
             <h2 
-              className="text-4xl"
+              className="text-4xl relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Loved by Learners
+              {/* Curved underline */}
+              <svg 
+                className="absolute -bottom-2 right-0" 
+                width="140"
+                height="12" 
+                viewBox="0 0 140 12" 
+                fill="none"
+              >
+                <path 
+                  d="M2 8 Q 35 2, 70 6 T 135 4" 
+                  stroke="#F97316" 
+                  strokeWidth="3" 
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <polygon points="132,2 140,5 132,8" fill="#F97316" />
+              </svg>
             </h2>
           </div>
           
@@ -635,25 +700,28 @@ const Index = () => {
             {testimonials.map((testimonial, index) => (
               <div 
                 key={index} 
-                className="rounded-2xl p-6"
-                style={{ backgroundColor: testimonial.bgColor }}
+                className="rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+                style={{ 
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #E5E7EB',
+                }}
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-white fill-current" />
+                    <Star key={i} className="h-5 w-5 fill-current" style={{ color: '#F97316' }} />
                   ))}
                 </div>
                 <p 
-                  className="mb-6 leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.9)' }}
+                  className="mb-6 leading-relaxed italic"
+                  style={{ color: '#475569' }}
                 >
                   "{testimonial.content}"
                 </p>
                 <div>
-                  <p className="font-bold text-white">{testimonial.name}</p>
+                  <p className="font-bold" style={{ color: '#0F172A' }}>{testimonial.name}</p>
                   <p 
                     className="text-sm"
-                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                    style={{ color: '#64748B' }}
                   >
                     {testimonial.role}
                   </p>
@@ -670,36 +738,66 @@ const Index = () => {
           <div 
             className="max-w-4xl mx-auto rounded-3xl p-12 text-center"
             style={{
-              background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%)',
+              backgroundColor: '#F1F5F9',
             }}
           >
+            {/* Checkmark icon */}
+            <div 
+              className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-6"
+              style={{ backgroundColor: '#FFFFFF', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 12l2 2 4-4" />
+                <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.97 0 3.79.63 5.27 1.7" />
+              </svg>
+            </div>
+            
             <h2 
-              className="text-4xl mb-4"
-              style={{ color: '#FFFFFF', fontWeight: 700 }}
+              className="text-4xl mb-2 relative inline-block"
+              style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Your Future Starts Today
+              {/* Curved underline */}
+              <svg 
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2" 
+                width="180"
+                height="12" 
+                viewBox="0 0 180 12" 
+                fill="none"
+              >
+                <path 
+                  d="M2 8 Q 45 2, 90 6 T 175 4" 
+                  stroke="#7C3AED" 
+                  strokeWidth="3" 
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <polygon points="172,2 180,5 172,8" fill="#7C3AED" />
+              </svg>
             </h2>
+            
             <p 
-              className="mb-8 max-w-xl mx-auto"
-              style={{ color: 'rgba(255,255,255,0.7)' }}
+              className="mt-6 mb-8 max-w-xl mx-auto"
+              style={{ color: '#64748B' }}
             >
-              Join thousands of learners who transformed their careers with Skill Mitra. No prior experience needed — just bring your curiosity.
+              Join thousands of learners who transformed their careers with Skill Mitra. No prior experience needed – just bring your curiosity.
             </p>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 onClick={() => navigate(user ? '/dashboard' : '/auth')}
-                className="px-8 py-6 rounded-full text-lg font-semibold flex items-center gap-2"
-                style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
+                className="px-8 py-6 rounded-full text-lg font-semibold flex items-center gap-2 hover:opacity-90"
+                style={{ backgroundColor: '#0F172A', color: '#FFFFFF' }}
               >
                 Register Now <ArrowRight className="h-5 w-5" />
               </Button>
               <Button 
                 onClick={() => navigate('/auth')}
-                className="px-8 py-6 rounded-full text-lg font-semibold"
+                className="px-8 py-6 rounded-full text-lg font-semibold hover:bg-gray-50"
                 style={{ 
-                  backgroundColor: 'transparent', 
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(255,255,255,0.3)'
+                  backgroundColor: '#FFFFFF', 
+                  color: '#0F172A',
+                  border: '1px solid #E5E7EB'
                 }}
               >
                 Already have an account? Login
