@@ -258,8 +258,8 @@ const Index = () => {
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(168,85,247,0.08) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(168,85,247,0.08) 1px, transparent 1px)
+              linear-gradient(rgba(168,85,247,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(168,85,247,0.1) 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px',
             maskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 70%)',
@@ -267,18 +267,27 @@ const Index = () => {
           }}
         />
         
-        {/* Cursor following gradient */}
+        {/* Static gradient overlay on grid */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: 'linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(99,102,241,0.06) 30%, rgba(6,182,212,0.05) 70%, transparent 100%)',
+          }}
+        />
+        
+        {/* Cursor following color effect */}
         {!isTouch && (
           <div
             className="pointer-events-none absolute transition-all duration-300 ease-out"
             style={{
-              width: '600px',
-              height: '600px',
+              width: '500px',
+              height: '500px',
               borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(168,85,247,0.08) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)`,
-              left: mousePosition.x - 300,
-              top: mousePosition.y - 300,
-              filter: 'blur(40px)',
+              background: `radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(99,102,241,0.15) 30%, rgba(6,182,212,0.1) 60%, transparent 80%)`,
+              left: mousePosition.x - 250,
+              top: mousePosition.y - 250,
+              filter: 'blur(60px)',
+              mixBlendMode: 'multiply',
             }}
           />
         )}
