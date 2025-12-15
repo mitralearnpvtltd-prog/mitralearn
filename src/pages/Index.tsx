@@ -250,9 +250,24 @@ const Index = () => {
         ref={heroRef}
         className="relative min-h-[650px] pt-16 overflow-hidden flex items-center"
         style={{
-          background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%)',
+          background: '#FFFFFF',
         }}
       >
+        {/* Purple gradient blob on left */}
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            width: '800px',
+            height: '800px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(168,85,247,0.1) 40%, transparent 70%)',
+            left: '-200px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        
         {/* Cursor following gradient */}
         {!isTouch && (
           <div
@@ -261,7 +276,7 @@ const Index = () => {
               width: '600px',
               height: '600px',
               borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(124,58,237,0.15) 0%, rgba(99,102,241,0.12) 30%, rgba(6,182,212,0.10) 50%, transparent 70%)`,
+              background: `radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(99,102,241,0.1) 40%, transparent 70%)`,
               left: mousePosition.x - 300,
               top: mousePosition.y - 300,
               filter: 'blur(40px)',
@@ -269,17 +284,30 @@ const Index = () => {
           />
         )}
         
+        {/* Subtle teal gradient on bottom right */}
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            width: '600px',
+            height: '400px',
+            background: 'linear-gradient(135deg, rgba(6,182,212,0.08) 0%, transparent 60%)',
+            right: '0',
+            bottom: '0',
+            filter: 'blur(40px)',
+          }}
+        />
+        
         <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 
-              className="text-5xl md:text-7xl mb-2 leading-tight italic"
-              style={{ color: '#FFFFFF', fontWeight: 800 }}
+              className="text-5xl md:text-7xl leading-tight"
+              style={{ color: '#0F172A', fontWeight: 800 }}
             >
               Transform Your
             </h1>
             <h1 
-              className="text-5xl md:text-7xl mb-4 leading-tight italic"
-              style={{ color: '#FFFFFF', fontWeight: 800 }}
+              className="text-5xl md:text-7xl mb-4 leading-tight"
+              style={{ color: '#0F172A', fontWeight: 800 }}
             >
               Future
             </h1>
@@ -287,22 +315,19 @@ const Index = () => {
               className="text-4xl md:text-6xl mb-8 leading-tight"
               style={{
                 fontWeight: 800,
-                background: 'linear-gradient(90deg, #7C3AED, #6366F1, #06B6D4)',
+                fontStyle: 'italic',
+                background: 'linear-gradient(90deg, #7C3AED 0%, #4F46E5 50%, #10B981 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }}
             >
-              With {displayedText}
-              <span 
-                className={`inline-block w-[3px] h-[0.8em] ml-1 align-middle ${isTyping ? 'animate-pulse' : 'opacity-0'}`}
-                style={{ backgroundColor: '#7C3AED' }}
-              />
+              With Expert Training
             </h2>
             
             <p 
               className="text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
-              style={{ color: 'rgba(255,255,255,0.7)' }}
+              style={{ color: '#64748B' }}
             >
               Industry-leading courses with hands-on projects, expert mentorship, and guaranteed career support
             </p>
@@ -310,21 +335,26 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button 
                 onClick={() => navigate('/curriculum')}
-                className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2"
+                className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:opacity-90"
                 style={{ backgroundColor: '#0F172A', color: '#FFFFFF' }}
               >
                 Explore Courses <ArrowRight className="h-5 w-5" />
               </Button>
               <Button 
                 onClick={() => navigate(user ? '/dashboard' : '/auth')}
-                className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2"
+                className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:bg-gray-50"
                 style={{ 
                   backgroundColor: '#FFFFFF', 
                   color: '#0F172A',
                   border: '1px solid #E5E7EB'
                 }}
               >
-                {user ? 'Go to Dashboard' : 'Register Now'} <ArrowRight className="h-5 w-5" />
+                {user ? 'Go to Dashboard' : 'Register Now'} 
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="9,12 12,15 15,12" />
+                  <line x1="12" y1="9" x2="12" y2="15" />
+                </svg>
               </Button>
             </div>
             
@@ -333,7 +363,7 @@ const Index = () => {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium"
               style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
             >
-              <span>🎉</span>
+              <span>🎁</span>
               <span>Special Offer: Get 30 Days Real-Time Project Internship, FREE</span>
             </div>
           </div>
