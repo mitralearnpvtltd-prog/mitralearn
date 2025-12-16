@@ -28,7 +28,7 @@ const Index = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [activeCareerIndex, setActiveCareerIndex] = useState(0);
-  const heroRef = useRef<HTMLElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
 
   const careerPaths = ["Expert Training", "Data Science", "AI Engineering", "Full Stack Dev"];
 
@@ -76,28 +76,22 @@ const Index = () => {
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isTouch) return;
-    if (heroRef.current) {
-      const rect = heroRef.current.getBoundingClientRect();
-      requestAnimationFrame(() => {
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
+    requestAnimationFrame(() => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY + window.scrollY,
       });
-    }
+    });
   }, [isTouch]);
 
   useEffect(() => {
-    const heroElement = heroRef.current;
-    if (heroElement) {
-      heroElement.addEventListener("mousemove", handleMouseMove);
+    if (!isTouch) {
+      window.addEventListener("mousemove", handleMouseMove);
     }
     return () => {
-      if (heroElement) {
-        heroElement.removeEventListener("mousemove", handleMouseMove);
-      }
+      window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [handleMouseMove]);
+  }, [handleMouseMove, isTouch]);
 
   const courses = [
     {
@@ -212,7 +206,23 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div ref={pageRef} className="min-h-screen bg-white relative" style={{ fontFamily: 'Inter, sans-serif' }}>
+      {/* Global cursor following effect */}
+      {!isTouch && (
+        <div
+          className="pointer-events-none fixed transition-all duration-300 ease-out z-0"
+          style={{
+            width: '400px',
+            height: '400px',
+            borderRadius: '50%',
+            background: `radial-gradient(circle, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.02) 40%, transparent 70%)`,
+            left: mousePosition.x - 200,
+            top: mousePosition.y - window.scrollY - 200,
+            filter: 'blur(40px)',
+          }}
+        />
+      )}
+      
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b" style={{ borderColor: '#E5E7EB' }}>
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -247,8 +257,7 @@ const Index = () => {
 
       {/* Hero Section */}
       <section 
-        ref={heroRef}
-        className="relative min-h-[650px] pt-16 overflow-hidden flex items-center"
+        className="relative min-h-[600px] pt-16 overflow-hidden flex items-center"
         style={{
           background: '#FFFFFF',
         }}
@@ -267,32 +276,7 @@ const Index = () => {
           }}
         />
         
-        {/* Static gradient overlay on grid */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: 'linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(99,102,241,0.06) 30%, rgba(6,182,212,0.05) 70%, transparent 100%)',
-          }}
-        />
-        
-        {/* Cursor following color effect */}
-        {!isTouch && (
-          <div
-            className="pointer-events-none absolute transition-all duration-300 ease-out"
-            style={{
-              width: '500px',
-              height: '500px',
-              borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(99,102,241,0.15) 30%, rgba(6,182,212,0.1) 60%, transparent 80%)`,
-              left: mousePosition.x - 250,
-              top: mousePosition.y - 250,
-              filter: 'blur(60px)',
-              mixBlendMode: 'multiply',
-            }}
-          />
-        )}
-        
-        <div className="container mx-auto px-4 py-20 relative z-10">
+        <div className="container mx-auto px-4 py-16 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 
               className="text-5xl md:text-7xl leading-tight"
@@ -366,7 +350,7 @@ const Index = () => {
       </section>
 
       {/* Courses Section */}
-      <section className="py-20" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="py-14" style={{ backgroundColor: '#FFFFFF' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 
@@ -497,7 +481,7 @@ const Index = () => {
 
       {/* What You Will Get Section */}
       <section 
-        className="py-20"
+        className="py-14"
         style={{
           background: 'linear-gradient(135deg, #F5F3FF 0%, #ECFEFF 100%)',
         }}
@@ -551,7 +535,7 @@ const Index = () => {
       </section>
 
       {/* Request a Course Section */}
-      <section className="py-20" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="py-14" style={{ backgroundColor: '#FFFFFF' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <span 
@@ -631,7 +615,7 @@ const Index = () => {
 
       {/* Testimonials Section */}
       <section 
-        className="py-20"
+        className="py-14"
         style={{
           background: 'linear-gradient(180deg, rgba(236,254,255,0.4) 0%, rgba(245,243,255,0.3) 50%, #FFFFFF 100%)',
         }}
@@ -706,7 +690,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="py-14" style={{ backgroundColor: '#FFFFFF' }}>
         <div className="container mx-auto px-4">
           <div 
             className="max-w-4xl mx-auto rounded-3xl p-12 text-center"
