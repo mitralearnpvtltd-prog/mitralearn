@@ -42,7 +42,7 @@ export const Navbar = () => {
               <GraduationCap className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <span className="font-display font-bold text-lg text-foreground">Skill Mitra</span>
+              <span className="font-display font-bold text-lg text-foreground">Innov Skills</span>
               <span className="text-xs text-muted-foreground block -mt-1">By Innovkaro</span>
             </div>
           </Link>

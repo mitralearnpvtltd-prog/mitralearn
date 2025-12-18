@@ -220,7 +220,7 @@ const Index = () => {
     {
       name: "Priya S.",
       role: "Data Analyst at TechCorp",
-      content: "Skill Mitra gave me the structured learning path I needed. Got my first data role within 3 months!",
+      content: "Innov Skills gave me the structured learning path I needed. Got my first data role within 3 months!",
       rating: 5,
       bgColor: "#7C3AED",
     },
@@ -305,7 +305,7 @@ const Index = () => {
             >
               <span className="text-white font-bold text-sm">S</span>
             </div>
-            <span className="text-xl font-bold" style={{ color: '#0F172A' }}>Skill Mitra</span>
+            <span className="text-xl font-bold" style={{ color: '#0F172A' }}>Innov Skills</span>
           </Link>
           <div className="flex items-center gap-4">
             <Link 
@@ -828,7 +828,7 @@ const Index = () => {
               className="mt-6 mb-8 max-w-xl mx-auto"
               style={{ color: '#64748B' }}
             >
-              Join thousands of learners who transformed their careers with Skill Mitra. No prior experience needed – just bring your curiosity.
+              Join thousands of learners who transformed their careers with Innov Skills. No prior experience needed – just bring your curiosity.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -873,7 +873,7 @@ const Index = () => {
                 className="text-xl font-bold"
                 style={{ color: '#0F172A' }}
               >
-                Skill Mitra
+                Innov Skills
               </span>
             </div>
             <div className="flex gap-6">
@@ -896,7 +896,7 @@ const Index = () => {
               className="text-sm"
               style={{ color: '#64748B' }}
             >
-              © 2024 Skill Mitra by Innosphere. All rights reserved.
+              © 2024 Innov Skills by Innosphere. All rights reserved.
             </p>
           </div>
         </div>
