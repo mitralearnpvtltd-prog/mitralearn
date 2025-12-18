@@ -247,20 +247,52 @@ const Index = () => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white relative" style={{ fontFamily: 'Inter, sans-serif' }}>
-      {/* Global cursor following effect with color */}
+      {/* Global cursor following effect with animated color bubble */}
       {!isTouch && (
-        <div
-          className="pointer-events-none fixed transition-all duration-300 ease-out z-0"
-          style={{
-            width: '500px',
-            height: '500px',
-            borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(124,58,237,0.08) 0%, rgba(99,102,241,0.05) 30%, rgba(6,182,212,0.03) 60%, transparent 80%)`,
-            left: mousePosition.x - 250,
-            top: mousePosition.y - window.scrollY - 250,
-            filter: 'blur(60px)',
-          }}
-        />
+        <>
+          <div
+            className="pointer-events-none fixed z-0"
+            style={{
+              width: '400px',
+              height: '400px',
+              borderRadius: '50%',
+              background: `radial-gradient(circle, rgba(124,58,237,0.15) 0%, rgba(124,58,237,0.05) 50%, transparent 70%)`,
+              left: mousePosition.x - 200,
+              top: mousePosition.y - window.scrollY - 200,
+              filter: 'blur(40px)',
+              transition: 'left 0.15s ease-out, top 0.15s ease-out',
+              animation: 'pulse-glow 2s ease-in-out infinite',
+            }}
+          />
+          <div
+            className="pointer-events-none fixed z-0"
+            style={{
+              width: '300px',
+              height: '300px',
+              borderRadius: '50%',
+              background: `radial-gradient(circle, rgba(6,182,212,0.12) 0%, rgba(99,102,241,0.06) 50%, transparent 70%)`,
+              left: mousePosition.x - 150,
+              top: mousePosition.y - window.scrollY - 150,
+              filter: 'blur(30px)',
+              transition: 'left 0.25s ease-out, top 0.25s ease-out',
+              animation: 'pulse-glow 2.5s ease-in-out infinite reverse',
+            }}
+          />
+          <div
+            className="pointer-events-none fixed z-0"
+            style={{
+              width: '200px',
+              height: '200px',
+              borderRadius: '50%',
+              background: `radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 60%)`,
+              left: mousePosition.x - 100,
+              top: mousePosition.y - window.scrollY - 100,
+              filter: 'blur(25px)',
+              transition: 'left 0.35s ease-out, top 0.35s ease-out',
+              animation: 'pulse-glow 3s ease-in-out infinite',
+            }}
+          />
+        </>
       )}
       
       {/* Navbar */}
