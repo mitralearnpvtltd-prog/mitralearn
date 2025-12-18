@@ -28,7 +28,9 @@ const Index = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [activeCareerIndex, setActiveCareerIndex] = useState(0);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const pageRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
 
   const careerPaths = ["Expert Training", "Data Science", "AI Engineering", "Full Stack Dev"];
 
@@ -92,6 +94,44 @@ const Index = () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [handleMouseMove, isTouch]);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set([...prev, entry.target.id]));
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    sectionRefs.current.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const setSectionRef = useCallback((id: string) => (el: HTMLElement | null) => {
+    if (el) {
+      sectionRefs.current.set(id, el);
+    }
+  }, []);
+
+  const getSectionClasses = (id: string) => {
+    const isVisible = visibleSections.has(id);
+    return `transition-all duration-700 ease-out ${
+      isVisible 
+        ? 'opacity-100 translate-y-0' 
+        : 'opacity-0 translate-y-8'
+    }`;
+  };
 
   const courses = [
     {
@@ -207,18 +247,18 @@ const Index = () => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white relative" style={{ fontFamily: 'Inter, sans-serif' }}>
-      {/* Global cursor following effect */}
+      {/* Global cursor following effect with color */}
       {!isTouch && (
         <div
           className="pointer-events-none fixed transition-all duration-300 ease-out z-0"
           style={{
-            width: '400px',
-            height: '400px',
+            width: '500px',
+            height: '500px',
             borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.02) 40%, transparent 70%)`,
-            left: mousePosition.x - 200,
-            top: mousePosition.y - window.scrollY - 200,
-            filter: 'blur(40px)',
+            background: `radial-gradient(circle, rgba(124,58,237,0.08) 0%, rgba(99,102,241,0.05) 30%, rgba(6,182,212,0.03) 60%, transparent 80%)`,
+            left: mousePosition.x - 250,
+            top: mousePosition.y - window.scrollY - 250,
+            filter: 'blur(60px)',
           }}
         />
       )}
@@ -350,7 +390,12 @@ const Index = () => {
       </section>
 
       {/* Courses Section */}
-      <section className="py-14" style={{ backgroundColor: '#FFFFFF' }}>
+      <section 
+        id="courses-section"
+        ref={setSectionRef('courses-section')}
+        className={`py-14 ${getSectionClasses('courses-section')}`}
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 
@@ -481,7 +526,9 @@ const Index = () => {
 
       {/* What You Will Get Section */}
       <section 
-        className="py-14"
+        id="features-section"
+        ref={setSectionRef('features-section')}
+        className={`py-14 ${getSectionClasses('features-section')}`}
         style={{
           background: 'linear-gradient(135deg, #F5F3FF 0%, #ECFEFF 100%)',
         }}
@@ -535,7 +582,12 @@ const Index = () => {
       </section>
 
       {/* Request a Course Section */}
-      <section className="py-14" style={{ backgroundColor: '#FFFFFF' }}>
+      <section 
+        id="request-section"
+        ref={setSectionRef('request-section')}
+        className={`py-14 ${getSectionClasses('request-section')}`}
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <span 
@@ -615,7 +667,9 @@ const Index = () => {
 
       {/* Testimonials Section */}
       <section 
-        className="py-14"
+        id="testimonials-section"
+        ref={setSectionRef('testimonials-section')}
+        className={`py-14 ${getSectionClasses('testimonials-section')}`}
         style={{
           background: 'linear-gradient(180deg, rgba(236,254,255,0.4) 0%, rgba(245,243,255,0.3) 50%, #FFFFFF 100%)',
         }}
@@ -690,7 +744,12 @@ const Index = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-14" style={{ backgroundColor: '#FFFFFF' }}>
+      <section 
+        id="cta-section"
+        ref={setSectionRef('cta-section')}
+        className={`py-14 ${getSectionClasses('cta-section')}`}
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
         <div className="container mx-auto px-4">
           <div 
             className="max-w-4xl mx-auto rounded-3xl p-12 text-center"
