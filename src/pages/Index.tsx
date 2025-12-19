@@ -334,37 +334,52 @@ const Index = () => {
           background: '#FFFFFF',
         }}
       >
-        {/* Hero cursor-following blurred color blobs */}
+        {/* Hero cursor-following blurred color blobs - static positions that follow cursor */}
         {!isTouch && (
           <>
-            {/* Primary purple blob */}
+            {/* Primary purple blob - top left area */}
             <div
               className="pointer-events-none absolute z-0"
               style={{
-                width: '600px',
-                height: '600px',
+                width: '500px',
+                height: '500px',
                 borderRadius: '50%',
-                background: `radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(139,92,246,0.2) 30%, rgba(196,181,253,0.1) 50%, transparent 70%)`,
-                left: mousePosition.x - 300,
-                top: mousePosition.y - window.scrollY - 300 - 64,
+                background: `radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(139,92,246,0.2) 30%, rgba(196,181,253,0.1) 50%, transparent 70%)`,
+                left: `calc(10% + ${(mousePosition.x - window.innerWidth / 2) * 0.08}px)`,
+                top: `calc(80px + ${(mousePosition.y - window.scrollY - 300) * 0.06}px)`,
                 filter: 'blur(80px)',
-                transition: 'left 0.3s ease-out, top 0.3s ease-out',
+                transition: 'left 0.4s ease-out, top 0.4s ease-out',
                 animation: 'pulse-glow 3s ease-in-out infinite',
               }}
             />
-            {/* Secondary teal/cyan blob with delay */}
+            {/* Secondary teal/cyan blob - top right area */}
             <div
               className="pointer-events-none absolute z-0"
               style={{
-                width: '450px',
-                height: '450px',
+                width: '400px',
+                height: '400px',
                 borderRadius: '50%',
-                background: `radial-gradient(circle, rgba(6,182,212,0.3) 0%, rgba(34,211,238,0.15) 30%, rgba(103,232,249,0.08) 50%, transparent 70%)`,
-                left: mousePosition.x - 225 + 100,
-                top: mousePosition.y - window.scrollY - 225 - 64 + 50,
+                background: `radial-gradient(circle, rgba(6,182,212,0.35) 0%, rgba(34,211,238,0.18) 30%, rgba(103,232,249,0.08) 50%, transparent 70%)`,
+                right: `calc(5% + ${(window.innerWidth / 2 - mousePosition.x) * 0.06}px)`,
+                top: `calc(120px + ${(mousePosition.y - window.scrollY - 300) * 0.05}px)`,
                 filter: 'blur(70px)',
-                transition: 'left 0.5s ease-out, top 0.5s ease-out',
+                transition: 'right 0.6s ease-out, top 0.6s ease-out',
                 animation: 'pulse-glow 2.5s ease-in-out infinite reverse',
+              }}
+            />
+            {/* Third orange/amber blob - bottom left area */}
+            <div
+              className="pointer-events-none absolute z-0"
+              style={{
+                width: '350px',
+                height: '350px',
+                borderRadius: '50%',
+                background: `radial-gradient(circle, rgba(251,146,60,0.3) 0%, rgba(249,115,22,0.15) 30%, rgba(254,215,170,0.08) 50%, transparent 70%)`,
+                left: `calc(25% + ${(mousePosition.x - window.innerWidth / 2) * 0.04}px)`,
+                bottom: `calc(50px + ${(400 - mousePosition.y + window.scrollY) * 0.04}px)`,
+                filter: 'blur(60px)',
+                transition: 'left 0.8s ease-out, bottom 0.8s ease-out',
+                animation: 'pulse-glow 3.5s ease-in-out infinite',
               }}
             />
           </>
