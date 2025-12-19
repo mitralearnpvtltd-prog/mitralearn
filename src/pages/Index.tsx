@@ -334,6 +334,24 @@ const Index = () => {
           background: '#FFFFFF',
         }}
       >
+        {/* Hero cursor-following blurred color blob */}
+        {!isTouch && (
+          <div
+            className="pointer-events-none absolute z-0"
+            style={{
+              width: '600px',
+              height: '600px',
+              borderRadius: '50%',
+              background: `radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(139,92,246,0.2) 30%, rgba(196,181,253,0.1) 50%, transparent 70%)`,
+              left: mousePosition.x - 300,
+              top: mousePosition.y - window.scrollY - 300 - 64,
+              filter: 'blur(80px)',
+              transition: 'left 0.3s ease-out, top 0.3s ease-out',
+              animation: 'pulse-glow 3s ease-in-out infinite',
+            }}
+          />
+        )}
+        
         {/* Grid pattern background */}
         <div
           className="pointer-events-none absolute inset-0"
