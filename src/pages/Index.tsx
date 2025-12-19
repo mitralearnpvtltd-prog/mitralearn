@@ -334,22 +334,40 @@ const Index = () => {
           background: '#FFFFFF',
         }}
       >
-        {/* Hero cursor-following blurred color blob */}
+        {/* Hero cursor-following blurred color blobs */}
         {!isTouch && (
-          <div
-            className="pointer-events-none absolute z-0"
-            style={{
-              width: '600px',
-              height: '600px',
-              borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(139,92,246,0.2) 30%, rgba(196,181,253,0.1) 50%, transparent 70%)`,
-              left: mousePosition.x - 300,
-              top: mousePosition.y - window.scrollY - 300 - 64,
-              filter: 'blur(80px)',
-              transition: 'left 0.3s ease-out, top 0.3s ease-out',
-              animation: 'pulse-glow 3s ease-in-out infinite',
-            }}
-          />
+          <>
+            {/* Primary purple blob */}
+            <div
+              className="pointer-events-none absolute z-0"
+              style={{
+                width: '600px',
+                height: '600px',
+                borderRadius: '50%',
+                background: `radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(139,92,246,0.2) 30%, rgba(196,181,253,0.1) 50%, transparent 70%)`,
+                left: mousePosition.x - 300,
+                top: mousePosition.y - window.scrollY - 300 - 64,
+                filter: 'blur(80px)',
+                transition: 'left 0.3s ease-out, top 0.3s ease-out',
+                animation: 'pulse-glow 3s ease-in-out infinite',
+              }}
+            />
+            {/* Secondary teal/cyan blob with delay */}
+            <div
+              className="pointer-events-none absolute z-0"
+              style={{
+                width: '450px',
+                height: '450px',
+                borderRadius: '50%',
+                background: `radial-gradient(circle, rgba(6,182,212,0.3) 0%, rgba(34,211,238,0.15) 30%, rgba(103,232,249,0.08) 50%, transparent 70%)`,
+                left: mousePosition.x - 225 + 100,
+                top: mousePosition.y - window.scrollY - 225 - 64 + 50,
+                filter: 'blur(70px)',
+                transition: 'left 0.5s ease-out, top 0.5s ease-out',
+                animation: 'pulse-glow 2.5s ease-in-out infinite reverse',
+              }}
+            />
+          </>
         )}
         
         {/* Grid pattern background */}
