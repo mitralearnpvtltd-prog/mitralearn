@@ -20,10 +20,12 @@ export type Database = {
           certificate_id: string
           coding_challenge_score: number | null
           completion_date: string
+          course_name: string | null
           created_at: string
           final_mcq_score: number
           id: string
           overall_band: string
+          status: string | null
           student_name: string
           user_id: string
           verified: boolean | null
@@ -33,10 +35,12 @@ export type Database = {
           certificate_id: string
           coding_challenge_score?: number | null
           completion_date?: string
+          course_name?: string | null
           created_at?: string
           final_mcq_score: number
           id?: string
           overall_band: string
+          status?: string | null
           student_name: string
           user_id: string
           verified?: boolean | null
@@ -46,10 +50,12 @@ export type Database = {
           certificate_id?: string
           coding_challenge_score?: number | null
           completion_date?: string
+          course_name?: string | null
           created_at?: string
           final_mcq_score?: number
           id?: string
           overall_band?: string
+          status?: string | null
           student_name?: string
           user_id?: string
           verified?: boolean | null
@@ -58,25 +64,34 @@ export type Database = {
       }
       profiles: {
         Row: {
+          course_opted: boolean | null
           created_at: string
           email: string
+          email_verified: boolean | null
           id: string
+          last_login: string | null
           name: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          course_opted?: boolean | null
           created_at?: string
           email: string
+          email_verified?: boolean | null
           id?: string
+          last_login?: string | null
           name: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          course_opted?: boolean | null
           created_at?: string
           email?: string
+          email_verified?: boolean | null
           id?: string
+          last_login?: string | null
           name?: string
           updated_at?: string
           user_id?: string
@@ -142,9 +157,54 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      admin_user_dashboard: {
+        Row: {
+          cert_id: string | null
+          certificate_earned: boolean | null
+          certificate_id: string | null
+          certificate_status: string | null
+          completed_days: number[] | null
+          completed_modules_count: number | null
+          completed_quizzes: Json | null
+          completion_date: string | null
+          course_opted: boolean | null
+          email: string | null
+          email_verified: boolean | null
+          final_assessment_score: number | null
+          final_project_submitted: boolean | null
+          last_login: string | null
+          name: string | null
+          overall_band: string | null
+          registered_at: string | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      get_admin_dashboard_data: {
+        Args: never
+        Returns: {
+          cert_id: string
+          certificate_earned: boolean
+          certificate_id: string
+          certificate_status: string
+          completed_days: number[]
+          completed_modules_count: number
+          completed_quizzes: Json
+          completion_date: string
+          course_opted: boolean
+          email: string
+          email_verified: boolean
+          final_assessment_score: number
+          final_project_submitted: boolean
+          last_login: string
+          name: string
+          overall_band: string
+          registered_at: string
+          user_id: string
+        }[]
+      }
       verify_certificate: {
         Args: { cert_id: string }
         Returns: {
