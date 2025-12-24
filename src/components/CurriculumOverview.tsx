@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { modules, getNextSubmoduleTitle } from "@/data/curriculum";
+import { modules, getNextSubmoduleTitle, getAllSubmodulesOrdered, getFirstUncompletedSubmodule, getSubmoduleContent } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button";
 export const CurriculumOverview = () => {
   const { progress } = useProgress();
 
-  const getModuleProgress = (moduleSubmodules: number[]) => {
-    const completedInModule = moduleSubmodules.filter(submodule =>
-      progress.completedDays.includes(submodule)
+  const getModuleProgress = (moduleSubmodules: string[]) => {
+    const completedInModule = moduleSubmodules.filter(submoduleId =>
+      progress.completedSubmodules.includes(submoduleId)
     ).length;
     return Math.round((completedInModule / moduleSubmodules.length) * 100);
   };
@@ -25,15 +25,9 @@ export const CurriculumOverview = () => {
     return prevModuleProgress < 50;
   };
 
-  const getNextSubmodule = () => {
-    for (let i = 1; i <= 60; i++) {
-      if (!progress.completedDays.includes(i)) return i;
-    }
-    return 60;
-  };
-
-  const nextSubmodule = getNextSubmodule();
-  const nextTitle = getNextSubmoduleTitle(nextSubmodule - 1) || "Get Started";
+  const nextSubmoduleId = getFirstUncompletedSubmodule(progress.completedSubmodules);
+  const nextSubmoduleContent = getSubmoduleContent(nextSubmoduleId);
+  const nextTitle = nextSubmoduleContent?.title || "Get Started";
 
   return (
     <div className="space-y-6">
@@ -49,10 +43,10 @@ export const CurriculumOverview = () => {
                 Pick up where you left off
               </p>
             </div>
-            <Link to={`/curriculum/day/${nextSubmodule}`}>
+            <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
               <Button variant="heroOutline" size="lg" className="gap-2">
                 <Play className="w-5 h-5" />
-                Submodule {nextSubmodule}
+                {nextTitle}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
@@ -102,7 +96,6 @@ export const CurriculumOverview = () => {
                       <CardTitle className="text-lg">
                         Module {mod.module}: {mod.title}
                       </CardTitle>
-                      <p className="text-sm text-muted-foreground">{mod.theme}</p>
                     </div>
                   </div>
                   <Badge variant={isCompleted ? "default" : "secondary"}>
@@ -111,19 +104,20 @@ export const CurriculumOverview = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-4">{mod.description}</p>
                 <Progress value={moduleProgress} className="h-2 mb-4" />
                 <div className="flex flex-wrap gap-2">
-                  {mod.submodules.map((submodule) => {
-                    const isSubmoduleCompleted = progress.completedDays.includes(submodule);
+                  {mod.submodules.map((submoduleId) => {
+                    const isSubmoduleCompleted = progress.completedSubmodules.includes(submoduleId);
+                    const subContent = getSubmoduleContent(submoduleId);
                     return (
                       <Link
-                        key={submodule}
-                        to={locked ? "#" : `/curriculum/day/${submodule}`}
+                        key={submoduleId}
+                        to={locked ? "#" : `/curriculum/submodule/${submoduleId}`}
                         className={locked ? "pointer-events-none" : ""}
+                        title={subContent?.title}
                       >
                         <div
-                          className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
+                          className={`px-3 py-2 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
                             isSubmoduleCompleted
                               ? "bg-success text-success-foreground"
                               : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
@@ -132,7 +126,7 @@ export const CurriculumOverview = () => {
                           {isSubmoduleCompleted ? (
                             <CheckCircle2 className="w-4 h-4" />
                           ) : (
-                            submodule
+                            submoduleId
                           )}
                         </div>
                       </Link>

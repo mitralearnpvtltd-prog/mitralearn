@@ -6,7 +6,7 @@ import { Link, Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { modules, getNextSubmoduleTitle } from "@/data/curriculum";
+import { modules, getFirstUncompletedSubmodule, getSubmoduleContent, getModuleForSubmodule } from "@/data/curriculum";
 import { CheckCircle2, Play, ArrowRight, Target, Award } from "lucide-react";
 
 const Dashboard = () => {
@@ -32,16 +32,9 @@ const Dashboard = () => {
     );
   }
 
-  const getNextSubmodule = () => {
-    for (let i = 1; i <= 60; i++) {
-      if (!progress.completedDays.includes(i)) return i;
-    }
-    return 60;
-  };
-
-  const recentActivity = progress.completedDays.slice(-5).reverse();
-  const nextSubmodule = getNextSubmodule();
-  const nextTitle = getNextSubmoduleTitle(nextSubmodule - 1);
+  const nextSubmoduleId = getFirstUncompletedSubmodule(progress.completedSubmodules);
+  const nextSubmoduleContent = getSubmoduleContent(nextSubmoduleId);
+  const recentActivity = progress.completedSubmodules.slice(-5).reverse();
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,10 +64,10 @@ const Dashboard = () => {
               <p className="text-primary-foreground/80 mb-4">
                 Pick up where you left off
               </p>
-              <Link to={`/curriculum/day/${nextSubmodule}`}>
+              <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
                 <Button variant="heroOutline" className="w-full gap-2">
                   <Play className="w-4 h-4" />
-                  Submodule {nextSubmodule}
+                  {nextSubmoduleContent?.title || "Get Started"}
                 </Button>
               </Link>
             </CardContent>
@@ -125,18 +118,19 @@ const Dashboard = () => {
           <CardContent>
             {recentActivity.length > 0 ? (
               <div className="space-y-3">
-                {recentActivity.map((submodule) => {
-                  const mod = modules.find((m) => m.submodules.includes(submodule));
+                {recentActivity.map((submoduleId) => {
+                  const subContent = getSubmoduleContent(submoduleId);
+                  const mod = getModuleForSubmodule(submoduleId);
                   return (
                     <Link
-                      key={submodule}
-                      to={`/curriculum/day/${submodule}`}
+                      key={submoduleId}
+                      to={`/curriculum/submodule/${submoduleId}`}
                       className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-success" />
                         <div>
-                          <p className="font-medium">Submodule {submodule}</p>
+                          <p className="font-medium">{submoduleId}: {subContent?.title}</p>
                           <p className="text-sm text-muted-foreground">
                             Module {mod?.module}: {mod?.title}
                           </p>
