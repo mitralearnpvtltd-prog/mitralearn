@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { modules, getNextSubmoduleTitle, getAllSubmodulesOrdered, getFirstUncompletedSubmodule, getSubmoduleContent } from "@/data/curriculum";
+import { modules, getFirstUncompletedSubmodule, getSubmoduleContent } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, Lock, Play, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
 
 export const CurriculumOverview = () => {
   const { progress } = useProgress();
@@ -43,13 +44,24 @@ export const CurriculumOverview = () => {
                 Pick up where you left off
               </p>
             </div>
-            <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
-              <Button variant="heroOutline" size="lg" className="gap-2">
-                <Play className="w-5 h-5" />
-                {nextTitle}
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
+            <SignedIn>
+              <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
+                <Button variant="heroOutline" size="lg" className="gap-2">
+                  <Play className="w-5 h-5" />
+                  {nextTitle}
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button variant="heroOutline" size="lg" className="gap-2">
+                  <Play className="w-5 h-5" />
+                  Start Learning
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </SignInButton>
+            </SignedOut>
           </div>
         </CardContent>
       </Card>
@@ -109,27 +121,41 @@ export const CurriculumOverview = () => {
                   {mod.submodules.map((submoduleId) => {
                     const isSubmoduleCompleted = progress.completedSubmodules.includes(submoduleId);
                     const subContent = getSubmoduleContent(submoduleId);
-                    return (
-                      <Link
-                        key={submoduleId}
-                        to={locked ? "#" : `/curriculum/submodule/${submoduleId}`}
-                        className={locked ? "pointer-events-none" : ""}
+                    
+                    const SubmoduleButton = (
+                      <div
+                        className={`px-3 py-2 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${
+                          isSubmoduleCompleted
+                            ? "bg-success text-success-foreground"
+                            : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
+                        }`}
                         title={subContent?.title}
                       >
-                        <div
-                          className={`px-3 py-2 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
-                            isSubmoduleCompleted
-                              ? "bg-success text-success-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
-                          }`}
-                        >
-                          {isSubmoduleCompleted ? (
-                            <CheckCircle2 className="w-4 h-4" />
-                          ) : (
-                            submoduleId
-                          )}
-                        </div>
-                      </Link>
+                        {isSubmoduleCompleted ? (
+                          <CheckCircle2 className="w-4 h-4" />
+                        ) : (
+                          submoduleId
+                        )}
+                      </div>
+                    );
+
+                    if (locked) {
+                      return <div key={submoduleId} className="pointer-events-none">{SubmoduleButton}</div>;
+                    }
+
+                    return (
+                      <div key={submoduleId}>
+                        <SignedIn>
+                          <Link to={`/curriculum/submodule/${submoduleId}`}>
+                            {SubmoduleButton}
+                          </Link>
+                        </SignedIn>
+                        <SignedOut>
+                          <SignInButton mode="modal">
+                            {SubmoduleButton}
+                          </SignInButton>
+                        </SignedOut>
+                      </div>
                     );
                   })}
                 </div>
