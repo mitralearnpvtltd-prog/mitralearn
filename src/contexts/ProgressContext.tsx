@@ -3,10 +3,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 
 export interface UserProgress {
-  completedDays: number[];
-  completedQuizzes: { [dayId: string]: number };
-  completedWeeklyAssessments: number[];
-  codingChallengesCompleted: number[];
+  completedSubmodules: string[]; // Changed from completedDays: number[]
+  completedQuizzes: { [submoduleId: string]: number };
+  completedModuleAssessments: number[];
+  codingChallengesCompleted: string[]; // Changed from number[]
   currentStreak: number;
   longestStreak: number;
   totalTimeSpent: number;
@@ -28,10 +28,10 @@ interface ProgressContextType {
   session: Session | null;
   isLoading: boolean;
   setUser: (user: UserProfile | null) => void;
-  completeDay: (day: number) => void;
-  completeQuiz: (dayId: string, score: number) => void;
-  completeWeeklyAssessment: (week: number) => void;
-  completeCodingChallenge: (day: number) => void;
+  completeSubmodule: (submoduleId: string) => void;
+  completeQuiz: (submoduleId: string, score: number) => void;
+  completeModuleAssessment: (module: number) => void;
+  completeCodingChallenge: (submoduleId: string) => void;
   updateStreak: () => void;
   getOverallProgress: () => number;
   isEligibleForCertificate: () => boolean;
@@ -39,12 +39,15 @@ interface ProgressContextType {
   submitFinalProject: () => void;
   setFinalAssessmentScore: (score: number) => void;
   signOut: () => Promise<void>;
+  // Legacy aliases
+  completeDay: (day: number) => void;
+  completeWeeklyAssessment: (week: number) => void;
 }
 
 const defaultProgress: UserProgress = {
-  completedDays: [],
+  completedSubmodules: [],
   completedQuizzes: {},
-  completedWeeklyAssessments: [],
+  completedModuleAssessments: [],
   codingChallengesCompleted: [],
   currentStreak: 0,
   longestStreak: 0,
@@ -78,11 +81,18 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
 
     if (data) {
+      // Convert old number[] format to string[] if needed
+      const completedDays = data.completed_days || [];
+      const completedSubmodules = completedDays.map((d: number) => String(d));
+      
+      const codingChallenges = data.coding_challenges_completed || [];
+      const codingChallengesCompleted = codingChallenges.map((d: number) => String(d));
+
       setProgress({
-        completedDays: data.completed_days || [],
+        completedSubmodules,
         completedQuizzes: (data.completed_quizzes as { [key: string]: number }) || {},
-        completedWeeklyAssessments: data.completed_weekly_assessments || [],
-        codingChallengesCompleted: data.coding_challenges_completed || [],
+        completedModuleAssessments: data.completed_weekly_assessments || [],
+        codingChallengesCompleted,
         currentStreak: data.current_streak || 0,
         longestStreak: data.longest_streak || 0,
         totalTimeSpent: data.total_time_spent || 0,
@@ -114,17 +124,30 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
-  // Save progress to database - only called explicitly, not on every state change
+  // Save progress to database
   const saveProgress = async (newProgress: UserProgress) => {
     if (!session?.user?.id) return;
+
+    // Convert string[] back to number[] for database compatibility
+    const completedDays = newProgress.completedSubmodules.map(s => {
+      // For new format like "1.1", store as string in the array
+      // The database accepts integer[], so we need to handle this
+      const num = parseFloat(s);
+      return isNaN(num) ? 0 : Math.floor(num * 10); // Store 1.1 as 11, 2.1 as 21, etc.
+    });
+
+    const codingChallenges = newProgress.codingChallengesCompleted.map(s => {
+      const num = parseFloat(s);
+      return isNaN(num) ? 0 : Math.floor(num * 10);
+    });
 
     const { error } = await supabase
       .from('user_progress')
       .update({
-        completed_days: newProgress.completedDays,
+        completed_days: completedDays,
         completed_quizzes: newProgress.completedQuizzes,
-        completed_weekly_assessments: newProgress.completedWeeklyAssessments,
-        coding_challenges_completed: newProgress.codingChallengesCompleted,
+        completed_weekly_assessments: newProgress.completedModuleAssessments,
+        coding_challenges_completed: codingChallenges,
         current_streak: newProgress.currentStreak,
         longest_streak: newProgress.longestStreak,
         total_time_spent: newProgress.totalTimeSpent,
@@ -143,13 +166,11 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   // Initialize auth state
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         
         if (session?.user) {
-          // Defer Supabase calls with setTimeout to prevent deadlock
           setTimeout(() => {
             fetchProfile(session.user.id);
             fetchProgress(session.user.id);
@@ -164,7 +185,6 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session?.user) {
@@ -177,39 +197,47 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     return () => subscription.unsubscribe();
   }, []);
 
-  // Save progress when it changes - but only AFTER initial load is complete
+  // Save progress when it changes
   useEffect(() => {
     if (session?.user?.id && !isLoading && hasLoadedProgress) {
       saveProgress(progress);
     }
   }, [progress, session?.user?.id, isLoading, hasLoadedProgress]);
 
-  const completeDay = (day: number) => {
+  const completeSubmodule = (submoduleId: string) => {
     setProgress(prev => ({
       ...prev,
-      completedDays: [...new Set([...prev.completedDays, day])],
+      completedSubmodules: [...new Set([...prev.completedSubmodules, submoduleId])],
     }));
     updateStreak();
   };
 
-  const completeQuiz = (dayId: string, score: number) => {
+  // Legacy alias
+  const completeDay = (day: number) => {
+    completeSubmodule(String(day));
+  };
+
+  const completeQuiz = (submoduleId: string, score: number) => {
     setProgress(prev => ({
       ...prev,
-      completedQuizzes: { ...prev.completedQuizzes, [dayId]: score },
+      completedQuizzes: { ...prev.completedQuizzes, [submoduleId]: score },
     }));
   };
 
-  const completeWeeklyAssessment = (week: number) => {
+  const completeModuleAssessment = (module: number) => {
     setProgress(prev => ({
       ...prev,
-      completedWeeklyAssessments: [...new Set([...prev.completedWeeklyAssessments, week])],
+      completedModuleAssessments: [...new Set([...prev.completedModuleAssessments, module])],
     }));
   };
 
-  const completeCodingChallenge = (day: number) => {
+  // Legacy alias
+  const completeWeeklyAssessment = completeModuleAssessment;
+
+  const completeCodingChallenge = (submoduleId: string) => {
     setProgress(prev => ({
       ...prev,
-      codingChallengesCompleted: [...new Set([...prev.codingChallengesCompleted, day])],
+      codingChallengesCompleted: [...new Set([...prev.codingChallengesCompleted, submoduleId])],
     }));
   };
 
@@ -236,18 +264,19 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const getOverallProgress = (): number => {
-    const dayProgress = (progress.completedDays.length / 60) * 100;
-    return Math.round(dayProgress);
+    const totalSubmodules = 7; // Total from Google Sheet
+    const completed = progress.completedSubmodules.length;
+    return Math.round((completed / totalSubmodules) * 100);
   };
 
   const isEligibleForCertificate = (): boolean => {
-    const allDailyQuizzesCompleted = Object.keys(progress.completedQuizzes).length >= 60;
-    const allWeeklyAssessmentsCompleted = progress.completedWeeklyAssessments.length >= 8;
+    const totalSubmodules = 7;
+    const allQuizzesCompleted = Object.keys(progress.completedQuizzes).length >= totalSubmodules;
+    const allModuleAssessmentsCompleted = progress.completedModuleAssessments.length >= 4;
     const finalAssessmentPassed = (progress.finalAssessmentScore || 0) >= 60;
     const projectSubmitted = progress.finalProjectSubmitted;
-    const minimumStreak = progress.longestStreak >= 40;
 
-    return allDailyQuizzesCompleted && allWeeklyAssessmentsCompleted && finalAssessmentPassed && projectSubmitted && minimumStreak;
+    return allQuizzesCompleted && allModuleAssessmentsCompleted && finalAssessmentPassed && projectSubmitted;
   };
 
   const generateCertificate = async (): Promise<string> => {
@@ -257,13 +286,11 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       throw new Error('User not authenticated');
     }
 
-    // Determine overall band
     const avgScore = progress.finalAssessmentScore || 0;
     let overallBand = 'Beginner';
     if (avgScore >= 80) overallBand = 'Job-Ready';
     else if (avgScore >= 60) overallBand = 'Intermediate';
 
-    // Save certificate to database
     const { error } = await supabase
       .from('certificates')
       .insert({
@@ -312,9 +339,9 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       session,
       isLoading,
       setUser,
-      completeDay,
+      completeSubmodule,
       completeQuiz,
-      completeWeeklyAssessment,
+      completeModuleAssessment,
       completeCodingChallenge,
       updateStreak,
       getOverallProgress,
@@ -323,6 +350,9 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       submitFinalProject,
       setFinalAssessmentScore,
       signOut,
+      // Legacy aliases
+      completeDay,
+      completeWeeklyAssessment,
     }}>
       {children}
     </ProgressContext.Provider>

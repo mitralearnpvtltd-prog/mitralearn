@@ -2,13 +2,12 @@ import { useParams, Navigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { DayLesson } from "@/components/DayLesson";
-import { getDayContent } from "@/data/curriculum";
+import { getSubmoduleContent, getAllSubmodulesOrdered } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 
 const Day = () => {
-  const { dayNumber } = useParams<{ dayNumber: string }>();
+  const { submoduleId } = useParams<{ submoduleId: string }>();
   const { session, isLoading } = useProgress();
-  const day = parseInt(dayNumber || "1", 10);
 
   if (isLoading) {
     return (
@@ -21,12 +20,14 @@ const Day = () => {
   if (!session) {
     return <Navigate to="/auth" replace />;
   }
+
+  const allSubmodules = getAllSubmodulesOrdered();
   
-  if (isNaN(day) || day < 1 || day > 60) {
+  if (!submoduleId || !allSubmodules.includes(submoduleId)) {
     return <Navigate to="/curriculum" replace />;
   }
 
-  const content = getDayContent(day);
+  const content = getSubmoduleContent(submoduleId);
   
   if (!content) {
     return <Navigate to="/curriculum" replace />;

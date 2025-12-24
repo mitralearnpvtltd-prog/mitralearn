@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle } from "@/data/curriculum";
+import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle, getNextSubmoduleId, getModuleForSubmodule } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
 import {
   BookOpen,
   Code,
@@ -15,6 +14,9 @@ import {
   ArrowRight,
   RefreshCcw,
   Target,
+  Video,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -24,14 +26,14 @@ interface DayLessonProps {
 }
 
 export const DayLesson = ({ content }: DayLessonProps) => {
-  const { progress, completeDay, completeQuiz, completeCodingChallenge } = useProgress();
+  const { progress, completeSubmodule, completeQuiz, completeCodingChallenge } = useProgress();
   const [activeTab, setActiveTab] = useState("learn");
   const [quizAnswers, setQuizAnswers] = useState<{ [key: string]: number | null }>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [showHint, setShowHint] = useState(false);
 
-  const isSubmoduleCompleted = progress.completedDays.includes(content.submodule);
-  const quizScore = progress.completedQuizzes[`day${content.submodule}`];
+  const isSubmoduleCompleted = progress.completedSubmodules.includes(content.submodule);
+  const quizScore = progress.completedQuizzes[content.submodule];
+  const module = getModuleForSubmodule(content.submodule);
 
   const handleQuizAnswer = (questionId: string, answerIndex: number) => {
     if (quizSubmitted) return;
@@ -44,13 +46,13 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     ).length;
     const score = Math.round((correctAnswers / content.quizQuestions.length) * 100);
     
-    completeQuiz(`day${content.submodule}`, score);
+    completeQuiz(content.submodule, score);
     setQuizSubmitted(true);
     
     if (score >= 70) {
       toast.success(`Great job! You scored ${score}%`);
       if (!isSubmoduleCompleted) {
-        completeDay(content.submodule);
+        completeSubmodule(content.submodule);
       }
     } else {
       toast.error(`You scored ${score}%. Try again to pass!`);
@@ -67,7 +69,8 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     toast.success("Practice challenge completed!");
   };
 
-  const nextSubmoduleTitle = getNextSubmoduleTitle(content.submodule);
+  const nextSubmoduleId = getNextSubmoduleId(content.submodule);
+  const nextSubmoduleTitle = nextSubmoduleId ? getNextSubmoduleTitle(content.submodule) : undefined;
 
   return (
     <div className="space-y-6">
@@ -76,7 +79,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Badge variant={isSubmoduleCompleted ? "default" : "secondary"}>
-              Module {content.module}
+              Module {module?.module}: {module?.title}
             </Badge>
             {isSubmoduleCompleted && (
               <Badge variant="outline" className="gap-1 text-success border-success">
@@ -86,12 +89,11 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             )}
           </div>
           <h1 className="text-3xl font-display font-bold text-foreground">
-            Submodule {content.submodule}: {content.title}
+            {content.submodule}: {content.title}
           </h1>
-          <p className="text-muted-foreground mt-2">{content.description}</p>
         </div>
-        {content.submodule < 60 && (
-          <Link to={`/curriculum/day/${content.submodule + 1}`}>
+        {nextSubmoduleId && (
+          <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
             <Button variant="outline" className="gap-2">
               Next {nextSubmoduleTitle ? `(${nextSubmoduleTitle})` : ""}
               <ArrowRight className="w-4 h-4" />
@@ -107,6 +109,10 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             <BookOpen className="w-4 h-4" />
             Learn
           </TabsTrigger>
+          <TabsTrigger value="practice" className="gap-2">
+            <Code className="w-4 h-4" />
+            Practice
+          </TabsTrigger>
           <TabsTrigger value="quiz" className="gap-2">
             <Target className="w-4 h-4" />
             Quiz
@@ -116,74 +122,85 @@ export const DayLesson = ({ content }: DayLessonProps) => {
               </Badge>
             )}
           </TabsTrigger>
-          {content.codingChallenge && (
-            <TabsTrigger value="practice" className="gap-2">
-              <Code className="w-4 h-4" />
-              Practice
-            </TabsTrigger>
-          )}
         </TabsList>
 
         {/* Learn Tab */}
         <TabsContent value="learn" className="space-y-6">
-          {/* Topics */}
+          {/* Resources */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                Topics Covered
+                Learning Resources
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {content.topics.map((topic, index) => (
-                  <Badge key={index} variant="secondary">
-                    {topic}
-                  </Badge>
+              <div className="space-y-4">
+                {content.resources.map((resource, index) => (
+                  <a
+                    key={index}
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors group"
+                  >
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      resource.type === 'Video' 
+                        ? 'bg-destructive/10 text-destructive' 
+                        : 'bg-primary/10 text-primary'
+                    }`}>
+                      {resource.type === 'Video' ? (
+                        <Video className="w-5 h-5" />
+                      ) : (
+                        <FileText className="w-5 h-5" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium group-hover:text-primary transition-colors">
+                        {resource.title}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {resource.type}
+                      </p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </a>
                 ))}
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
 
-          {/* Learning Objectives */}
+        {/* Practice Tab */}
+        <TabsContent value="practice" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-secondary" />
-                Learning Objectives
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                {content.objectives.map((objective, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-success mt-0.5 shrink-0" />
-                    <span>{objective}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Practice Exercises */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Code className="w-5 h-5 text-accent-foreground" />
+                <Code className="w-5 h-5 text-primary" />
                 Practice Exercises
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-3">
-                {content.practiceExercises.map((exercise, index) => (
-                  <li key={index} className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
-                    <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium shrink-0">
-                      {index + 1}
-                    </span>
-                    <span>{exercise}</span>
-                  </li>
-                ))}
-              </ul>
+              {content.practiceExercises.length > 0 ? (
+                <ul className="space-y-3">
+                  {content.practiceExercises.map((exercise, index) => (
+                    <li key={index} className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
+                      <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium shrink-0">
+                        {index + 1}
+                      </span>
+                      <span>{exercise}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Code className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Practice exercises coming soon!</p>
+                  <p className="text-sm mt-2">
+                    Complete the Learn section and Quiz to mark this submodule complete.
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -289,75 +306,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             </CardContent>
           </Card>
         </TabsContent>
-
-        {/* Practice Tab (formerly Code) */}
-        {content.codingChallenge && (
-          <TabsContent value="practice" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Code className="w-5 h-5 text-primary" />
-                  {content.codingChallenge.title}
-                </CardTitle>
-                <p className="text-muted-foreground">
-                  {content.codingChallenge.description}
-                </p>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="rounded-lg bg-foreground/5 p-4 overflow-x-auto">
-                  <pre className="text-sm font-mono">
-                    <code>{content.codingChallenge.starterCode}</code>
-                  </pre>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowHint(!showHint)}
-                    className="gap-2"
-                  >
-                    <Lightbulb className="w-4 h-4" />
-                    {showHint ? "Hide Hints" : "Show Hints"}
-                  </Button>
-                  <Button
-                    variant="success"
-                    onClick={handleCompleteChallenge}
-                    className="gap-2"
-                    disabled={progress.codingChallengesCompleted.includes(content.submodule)}
-                  >
-                    <CheckCircle2 className="w-4 h-4" />
-                    {progress.codingChallengesCompleted.includes(content.submodule)
-                      ? "Completed"
-                      : "Mark as Complete"}
-                  </Button>
-                </div>
-
-                {showHint && (
-                  <div className="p-4 rounded-lg bg-accent/50 border border-accent-foreground/20">
-                    <h4 className="font-medium flex items-center gap-2 mb-2">
-                      <Lightbulb className="w-4 h-4 text-accent-foreground" />
-                      Hints
-                    </h4>
-                    <ul className="space-y-2">
-                      {content.codingChallenge.hints.map((hint, index) => (
-                        <li key={index} className="text-sm text-muted-foreground">
-                          • {hint}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div className="p-4 rounded-lg bg-muted">
-                  <h4 className="font-medium mb-2">Expected Output</h4>
-                  <pre className="text-sm font-mono text-muted-foreground">
-                    {content.codingChallenge.expectedOutput}
-                  </pre>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        )}
       </Tabs>
     </div>
   );
