@@ -6,7 +6,7 @@ import { Link, Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { weeks } from "@/data/curriculum";
+import { modules, getNextSubmoduleTitle } from "@/data/curriculum";
 import { CheckCircle2, Play, ArrowRight, Target, Award } from "lucide-react";
 
 const Dashboard = () => {
@@ -32,7 +32,7 @@ const Dashboard = () => {
     );
   }
 
-  const getNextDay = () => {
+  const getNextSubmodule = () => {
     for (let i = 1; i <= 60; i++) {
       if (!progress.completedDays.includes(i)) return i;
     }
@@ -40,6 +40,8 @@ const Dashboard = () => {
   };
 
   const recentActivity = progress.completedDays.slice(-5).reverse();
+  const nextSubmodule = getNextSubmodule();
+  const nextTitle = getNextSubmoduleTitle(nextSubmodule - 1);
 
   return (
     <div className="min-h-screen bg-background">
@@ -69,24 +71,24 @@ const Dashboard = () => {
               <p className="text-primary-foreground/80 mb-4">
                 Pick up where you left off
               </p>
-              <Link to={`/curriculum/day/${getNextDay()}`}>
+              <Link to={`/curriculum/day/${nextSubmodule}`}>
                 <Button variant="heroOutline" className="w-full gap-2">
                   <Play className="w-4 h-4" />
-                  Day {getNextDay()}
+                  Submodule {nextSubmodule}
                 </Button>
               </Link>
             </CardContent>
           </Card>
 
-          {/* Weekly Assessment */}
+          {/* Module Assessment */}
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-2">
                 <Target className="w-5 h-5 text-primary" />
-                <h3 className="font-display font-bold text-lg">Weekly Assessment</h3>
+                <h3 className="font-display font-bold text-lg">Module Assessment</h3>
               </div>
               <p className="text-muted-foreground mb-4">
-                Test your knowledge from this week
+                Test your knowledge from this module
               </p>
               <Button variant="outline" className="w-full gap-2">
                 Take Assessment
@@ -123,20 +125,20 @@ const Dashboard = () => {
           <CardContent>
             {recentActivity.length > 0 ? (
               <div className="space-y-3">
-                {recentActivity.map((day) => {
-                  const week = weeks.find((w) => w.days.includes(day));
+                {recentActivity.map((submodule) => {
+                  const mod = modules.find((m) => m.submodules.includes(submodule));
                   return (
                     <Link
-                      key={day}
-                      to={`/curriculum/day/${day}`}
+                      key={submodule}
+                      to={`/curriculum/day/${submodule}`}
                       className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-success" />
                         <div>
-                          <p className="font-medium">Day {day}</p>
+                          <p className="font-medium">Submodule {submodule}</p>
                           <p className="text-sm text-muted-foreground">
-                            Week {week?.week}: {week?.title}
+                            Module {mod?.module}: {mod?.title}
                           </p>
                         </div>
                       </div>

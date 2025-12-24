@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DayContent, QuizQuestion } from "@/data/curriculum";
+import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
 interface DayLessonProps {
-  content: DayContent;
+  content: SubmoduleContent;
 }
 
 export const DayLesson = ({ content }: DayLessonProps) => {
@@ -30,8 +30,8 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
-  const isDayCompleted = progress.completedDays.includes(content.day);
-  const quizScore = progress.completedQuizzes[`day${content.day}`];
+  const isSubmoduleCompleted = progress.completedDays.includes(content.submodule);
+  const quizScore = progress.completedQuizzes[`day${content.submodule}`];
 
   const handleQuizAnswer = (questionId: string, answerIndex: number) => {
     if (quizSubmitted) return;
@@ -44,13 +44,13 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     ).length;
     const score = Math.round((correctAnswers / content.quizQuestions.length) * 100);
     
-    completeQuiz(`day${content.day}`, score);
+    completeQuiz(`day${content.submodule}`, score);
     setQuizSubmitted(true);
     
     if (score >= 70) {
       toast.success(`Great job! You scored ${score}%`);
-      if (!isDayCompleted) {
-        completeDay(content.day);
+      if (!isSubmoduleCompleted) {
+        completeDay(content.submodule);
       }
     } else {
       toast.error(`You scored ${score}%. Try again to pass!`);
@@ -63,20 +63,22 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   };
 
   const handleCompleteChallenge = () => {
-    completeCodingChallenge(content.day);
-    toast.success("Coding challenge completed!");
+    completeCodingChallenge(content.submodule);
+    toast.success("Practice challenge completed!");
   };
+
+  const nextSubmoduleTitle = getNextSubmoduleTitle(content.submodule);
 
   return (
     <div className="space-y-6">
-      {/* Day Header */}
+      {/* Submodule Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <Badge variant={isDayCompleted ? "default" : "secondary"}>
-              Week {content.week}
+            <Badge variant={isSubmoduleCompleted ? "default" : "secondary"}>
+              Module {content.module}
             </Badge>
-            {isDayCompleted && (
+            {isSubmoduleCompleted && (
               <Badge variant="outline" className="gap-1 text-success border-success">
                 <CheckCircle2 className="w-3 h-3" />
                 Completed
@@ -84,14 +86,14 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             )}
           </div>
           <h1 className="text-3xl font-display font-bold text-foreground">
-            Day {content.day}: {content.title}
+            Submodule {content.submodule}: {content.title}
           </h1>
           <p className="text-muted-foreground mt-2">{content.description}</p>
         </div>
-        {content.day < 60 && (
-          <Link to={`/curriculum/day/${content.day + 1}`}>
+        {content.submodule < 60 && (
+          <Link to={`/curriculum/day/${content.submodule + 1}`}>
             <Button variant="outline" className="gap-2">
-              Next Day
+              Next {nextSubmoduleTitle ? `(${nextSubmoduleTitle})` : ""}
               <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
@@ -115,9 +117,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             )}
           </TabsTrigger>
           {content.codingChallenge && (
-            <TabsTrigger value="code" className="gap-2">
+            <TabsTrigger value="practice" className="gap-2">
               <Code className="w-4 h-4" />
-              Code
+              Practice
             </TabsTrigger>
           )}
         </TabsList>
@@ -191,7 +193,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Daily Quiz</CardTitle>
+                <CardTitle>Quiz</CardTitle>
                 {quizSubmitted && (
                   <Button variant="outline" size="sm" onClick={resetQuiz} className="gap-2">
                     <RefreshCcw className="w-4 h-4" />
@@ -201,7 +203,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
               </div>
               {!quizSubmitted && (
                 <p className="text-sm text-muted-foreground">
-                  Answer all questions to complete the daily quiz. You need 70% to pass.
+                  Answer all questions to complete the quiz. You need 70% to pass.
                 </p>
               )}
             </CardHeader>
@@ -288,9 +290,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           </Card>
         </TabsContent>
 
-        {/* Code Tab */}
+        {/* Practice Tab (formerly Code) */}
         {content.codingChallenge && (
-          <TabsContent value="code" className="space-y-6">
+          <TabsContent value="practice" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -321,10 +323,10 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                     variant="success"
                     onClick={handleCompleteChallenge}
                     className="gap-2"
-                    disabled={progress.codingChallengesCompleted.includes(content.day)}
+                    disabled={progress.codingChallengesCompleted.includes(content.submodule)}
                   >
                     <CheckCircle2 className="w-4 h-4" />
-                    {progress.codingChallengesCompleted.includes(content.day)
+                    {progress.codingChallengesCompleted.includes(content.submodule)
                       ? "Completed"
                       : "Mark as Complete"}
                   </Button>

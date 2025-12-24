@@ -26,10 +26,10 @@ const Curriculum = () => {
         <Breadcrumb />
         <div className="mb-8">
           <h1 className="text-3xl font-display font-bold mb-2">
-            60-Day Curriculum
+            Modules
           </h1>
           <p className="text-muted-foreground">
-            Your complete roadmap to becoming a data scientist. Complete each week to unlock the next.
+            Your complete roadmap to becoming a data engineer. Complete each module to unlock the next.
           </p>
         </div>
         <CurriculumOverview />
