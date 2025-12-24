@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useUser, useAuth } from '@clerk/clerk-react';
 import { supabase } from '@/integrations/supabase/client';
-import { User, Session } from '@supabase/supabase-js';
 
 export interface UserProgress {
-  completedSubmodules: string[]; // Changed from completedDays: number[]
+  completedSubmodules: string[];
   completedQuizzes: { [submoduleId: string]: number };
   completedModuleAssessments: number[];
-  codingChallengesCompleted: string[]; // Changed from number[]
+  codingChallengesCompleted: string[];
   currentStreak: number;
   longestStreak: number;
   totalTimeSpent: number;
@@ -25,7 +25,7 @@ interface UserProfile {
 interface ProgressContextType {
   progress: UserProgress;
   user: UserProfile | null;
-  session: Session | null;
+  session: { user: { id: string } } | null;
   isLoading: boolean;
   setUser: (user: UserProfile | null) => void;
   completeSubmodule: (submoduleId: string) => void;
@@ -39,7 +39,6 @@ interface ProgressContextType {
   submitFinalProject: () => void;
   setFinalAssessmentScore: (score: number) => void;
   signOut: () => Promise<void>;
-  // Legacy aliases
   completeDay: (day: number) => void;
   completeWeeklyAssessment: (week: number) => void;
 }
@@ -60,11 +59,15 @@ const defaultProgress: UserProgress = {
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
 export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { user: clerkUser, isLoaded: clerkLoaded } = useUser();
+  const { signOut: clerkSignOut } = useAuth();
   const [progress, setProgress] = useState<UserProgress>(defaultProgress);
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasLoadedProgress, setHasLoadedProgress] = useState(false);
+
+  // Create a session-like object for compatibility
+  const session = clerkUser ? { user: { id: clerkUser.id } } : null;
 
   // Fetch progress from database
   const fetchProgress = async (userId: string) => {
@@ -81,7 +84,6 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
 
     if (data) {
-      // Convert old number[] format to string[] if needed
       const completedDays = data.completed_days || [];
       const completedSubmodules = completedDays.map((d: number) => String(d));
       
@@ -106,34 +108,48 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     setHasLoadedProgress(true);
   };
 
-  // Fetch user profile
-  const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
+  // Create or update user profile in database
+  const ensureUserProfile = async (userId: string, name: string, email: string) => {
+    // Check if profile exists
+    const { data: existingProfile } = await supabase
       .from('profiles')
-      .select('name, email')
+      .select('*')
       .eq('user_id', userId)
       .maybeSingle();
 
-    if (error) {
-      console.error('Error fetching profile:', error);
-      return;
+    if (!existingProfile) {
+      // Create new profile
+      await supabase.from('profiles').insert({
+        user_id: userId,
+        name,
+        email,
+      });
     }
 
-    if (data) {
-      setUser({ name: data.name, email: data.email });
+    // Check if progress exists
+    const { data: existingProgress } = await supabase
+      .from('user_progress')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (!existingProgress) {
+      // Create new progress record
+      await supabase.from('user_progress').insert({
+        user_id: userId,
+      });
     }
+
+    setUserProfile({ name, email });
   };
 
   // Save progress to database
   const saveProgress = async (newProgress: UserProgress) => {
     if (!session?.user?.id) return;
 
-    // Convert string[] back to number[] for database compatibility
     const completedDays = (newProgress.completedSubmodules || []).map(s => {
-      // For new format like "1.1", store as string in the array
-      // The database accepts integer[], so we need to handle this
       const num = parseFloat(s);
-      return isNaN(num) ? 0 : Math.floor(num * 10); // Store 1.1 as 11, 2.1 as 21, etc.
+      return isNaN(num) ? 0 : Math.floor(num * 10);
     });
 
     const codingChallenges = (newProgress.codingChallengesCompleted || []).map(s => {
@@ -164,38 +180,23 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
-  // Initialize auth state
+  // Initialize with Clerk user
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
+    if (clerkLoaded) {
+      if (clerkUser) {
+        const name = clerkUser.fullName || clerkUser.firstName || 'User';
+        const email = clerkUser.primaryEmailAddress?.emailAddress || '';
         
-        if (session?.user) {
-          setTimeout(() => {
-            fetchProfile(session.user.id);
-            fetchProgress(session.user.id);
-            setIsLoading(false);
-          }, 0);
-        } else {
-          setUser(null);
-          setProgress(defaultProgress);
-          setHasLoadedProgress(false);
-          setIsLoading(false);
-        }
-      }
-    );
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session?.user) {
-        fetchProfile(session.user.id);
-        fetchProgress(session.user.id);
+        ensureUserProfile(clerkUser.id, name, email);
+        fetchProgress(clerkUser.id);
+      } else {
+        setUserProfile(null);
+        setProgress(defaultProgress);
+        setHasLoadedProgress(false);
       }
       setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+    }
+  }, [clerkUser, clerkLoaded]);
 
   // Save progress when it changes
   useEffect(() => {
@@ -212,7 +213,6 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     updateStreak();
   };
 
-  // Legacy alias
   const completeDay = (day: number) => {
     completeSubmodule(String(day));
   };
@@ -231,7 +231,6 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     }));
   };
 
-  // Legacy alias
   const completeWeeklyAssessment = completeModuleAssessment;
 
   const completeCodingChallenge = (submoduleId: string) => {
@@ -264,7 +263,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const getOverallProgress = (): number => {
-    const totalSubmodules = 7; // Total from Google Sheet
+    const totalSubmodules = 7;
     const completed = progress.completedSubmodules.length;
     return Math.round((completed / totalSubmodules) * 100);
   };
@@ -282,7 +281,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   const generateCertificate = async (): Promise<string> => {
     const certId = `SM-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
     
-    if (!session?.user?.id || !user) {
+    if (!session?.user?.id || !userProfile) {
       throw new Error('User not authenticated');
     }
 
@@ -296,7 +295,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       .insert({
         certificate_id: certId,
         user_id: session.user.id,
-        student_name: user.name,
+        student_name: userProfile.name,
         final_mcq_score: progress.finalAssessmentScore || 0,
         coding_challenge_score: progress.codingChallengesCompleted.length,
         capstone_submitted: progress.finalProjectSubmitted,
@@ -326,19 +325,18 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setSession(null);
+    await clerkSignOut();
+    setUserProfile(null);
     setProgress(defaultProgress);
   };
 
   return (
     <ProgressContext.Provider value={{
       progress,
-      user,
+      user: userProfile,
       session,
       isLoading,
-      setUser,
+      setUser: setUserProfile,
       completeSubmodule,
       completeQuiz,
       completeModuleAssessment,
@@ -350,7 +348,6 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       submitFinalProject,
       setFinalAssessmentScore,
       signOut,
-      // Legacy aliases
       completeDay,
       completeWeeklyAssessment,
     }}>
