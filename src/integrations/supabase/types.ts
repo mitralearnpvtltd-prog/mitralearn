@@ -157,29 +157,7 @@ export type Database = {
       }
     }
     Views: {
-      admin_user_dashboard: {
-        Row: {
-          cert_id: string | null
-          certificate_earned: boolean | null
-          certificate_id: string | null
-          certificate_status: string | null
-          completed_days: number[] | null
-          completed_modules_count: number | null
-          completed_quizzes: Json | null
-          completion_date: string | null
-          course_opted: boolean | null
-          email: string | null
-          email_verified: boolean | null
-          final_assessment_score: number | null
-          final_project_submitted: boolean | null
-          last_login: string | null
-          name: string | null
-          overall_band: string | null
-          registered_at: string | null
-          user_id: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       get_admin_dashboard_data: {
