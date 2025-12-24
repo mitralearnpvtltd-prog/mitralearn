@@ -1,6 +1,6 @@
-export interface DayContent {
-  day: number;
-  week: number;
+export interface SubmoduleContent {
+  submodule: number;
+  module: number;
   title: string;
   description: string;
   topics: string[];
@@ -9,6 +9,9 @@ export interface DayContent {
   quizQuestions: QuizQuestion[];
   codingChallenge?: CodingChallenge;
 }
+
+// Legacy alias for backward compatibility
+export type DayContent = SubmoduleContent;
 
 export interface QuizQuestion {
   id: string;
@@ -26,36 +29,45 @@ export interface CodingChallenge {
   hints: string[];
 }
 
-export interface WeekContent {
-  week: number;
+export interface ModuleContent {
+  module: number;
   title: string;
   theme: string;
   description: string;
-  days: number[];
-  project: WeeklyProject;
-  assessment: WeeklyAssessment;
+  submodules: number[];
+  project: ModuleProject;
+  assessment: ModuleAssessment;
 }
 
-export interface WeeklyProject {
+// Legacy alias for backward compatibility
+export type WeekContent = ModuleContent;
+
+export interface ModuleProject {
   title: string;
   description: string;
   requirements: string[];
   deliverables: string[];
 }
 
-export interface WeeklyAssessment {
+// Legacy alias
+export type WeeklyProject = ModuleProject;
+
+export interface ModuleAssessment {
   title: string;
   type: 'quiz' | 'project' | 'mixed';
   passingScore: number;
 }
 
-export const weeks: WeekContent[] = [
+// Legacy alias
+export type WeeklyAssessment = ModuleAssessment;
+
+export const modules: ModuleContent[] = [
   {
-    week: 1,
+    module: 1,
     title: "Python Foundations",
     theme: "Building Your Programming Base",
     description: "Master Python fundamentals including data types, control structures, functions, and OOP concepts essential for data science.",
-    days: [1, 2, 3, 4, 5, 6, 7],
+    submodules: [1, 2, 3, 4, 5, 6, 7],
     project: {
       title: "Personal Expense Tracker",
       description: "Build a console-based expense tracker using Python OOP",
@@ -69,11 +81,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 2,
+    module: 2,
     title: "Data Manipulation with NumPy & Pandas",
     theme: "Mastering Data Structures",
     description: "Learn to efficiently manipulate and analyze data using NumPy arrays and Pandas DataFrames.",
-    days: [8, 9, 10, 11, 12, 13, 14],
+    submodules: [8, 9, 10, 11, 12, 13, 14],
     project: {
       title: "Sales Data Analyzer",
       description: "Analyze a real-world sales dataset using Pandas",
@@ -87,11 +99,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 3,
+    module: 3,
     title: "Data Visualization",
     theme: "Telling Stories with Data",
     description: "Create compelling visualizations using Matplotlib, Seaborn, and Plotly to communicate insights effectively.",
-    days: [15, 16, 17, 18, 19, 20, 21],
+    submodules: [15, 16, 17, 18, 19, 20, 21],
     project: {
       title: "COVID-19 Dashboard",
       description: "Build an interactive visualization dashboard",
@@ -105,11 +117,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 4,
+    module: 4,
     title: "Statistics & Probability",
     theme: "The Mathematical Foundation",
     description: "Build strong statistical foundations including descriptive statistics, probability, distributions, and hypothesis testing.",
-    days: [22, 23, 24, 25, 26, 27, 28],
+    submodules: [22, 23, 24, 25, 26, 27, 28],
     project: {
       title: "A/B Test Analysis",
       description: "Conduct a complete A/B test analysis on conversion data",
@@ -123,11 +135,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 5,
+    module: 5,
     title: "Machine Learning Fundamentals",
     theme: "Introduction to ML",
     description: "Understand core ML concepts including supervised vs unsupervised learning, model evaluation, and common algorithms.",
-    days: [29, 30, 31, 32, 33, 34, 35],
+    submodules: [29, 30, 31, 32, 33, 34, 35],
     project: {
       title: "House Price Predictor",
       description: "Build a regression model to predict house prices",
@@ -141,11 +153,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 6,
+    module: 6,
     title: "Advanced Machine Learning",
     theme: "Deep Dive into Algorithms",
     description: "Explore ensemble methods, tree-based models, SVMs, and clustering algorithms for complex problems.",
-    days: [36, 37, 38, 39, 40, 41, 42],
+    submodules: [36, 37, 38, 39, 40, 41, 42],
     project: {
       title: "Customer Segmentation Engine",
       description: "Segment customers using clustering techniques",
@@ -159,11 +171,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 7,
+    module: 7,
     title: "Deep Learning & NLP",
     theme: "Neural Networks and Text",
     description: "Introduction to neural networks, TensorFlow/Keras basics, and natural language processing fundamentals.",
-    days: [43, 44, 45, 46, 47, 48, 49],
+    submodules: [43, 44, 45, 46, 47, 48, 49],
     project: {
       title: "Sentiment Analysis API",
       description: "Build a sentiment classifier for product reviews",
@@ -177,11 +189,11 @@ export const weeks: WeekContent[] = [
     }
   },
   {
-    week: 8,
+    module: 8,
     title: "Capstone & Career Prep",
     theme: "Putting It All Together",
     description: "Complete your capstone project, prepare your portfolio, and get ready for data science interviews.",
-    days: [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+    submodules: [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
     project: {
       title: "End-to-End ML Capstone",
       description: "Complete data science project from problem definition to deployment",
@@ -196,10 +208,13 @@ export const weeks: WeekContent[] = [
   }
 ];
 
-export const days: DayContent[] = [
+// Legacy export for backward compatibility
+export const weeks = modules;
+
+export const submodules: SubmoduleContent[] = [
   {
-    day: 1,
-    week: 1,
+    submodule: 1,
+    module: 1,
     title: "Python Basics & Environment Setup",
     description: "Set up your data science environment and learn Python basics including variables, data types, and basic operations.",
     topics: ["Installing Python & Anaconda", "Jupyter Notebooks", "Variables & Data Types", "Basic Operators", "String Operations"],
@@ -247,8 +262,8 @@ print(fahrenheit_to_celsius(98.6))  # Should print 37.0`,
     }
   },
   {
-    day: 2,
-    week: 1,
+    submodule: 2,
+    module: 1,
     title: "Control Flow & Conditionals",
     description: "Master conditional statements and control flow to make your programs respond to different situations.",
     topics: ["If/Elif/Else Statements", "Comparison Operators", "Logical Operators", "Nested Conditions", "Ternary Operator"],
@@ -272,8 +287,8 @@ print(fahrenheit_to_celsius(98.6))  # Should print 37.0`,
     ]
   },
   {
-    day: 3,
-    week: 1,
+    submodule: 3,
+    module: 1,
     title: "Loops & Iterations",
     description: "Learn to automate repetitive tasks using for loops, while loops, and iteration techniques.",
     topics: ["For Loops", "While Loops", "Range Function", "Break & Continue", "List Comprehensions"],
@@ -301,8 +316,8 @@ fizzbuzz()`,
     }
   },
   {
-    day: 4,
-    week: 1,
+    submodule: 4,
+    module: 1,
     title: "Functions & Modules",
     description: "Create reusable code with functions, understand scope, and work with Python modules.",
     topics: ["Defining Functions", "Parameters & Arguments", "Return Values", "Scope & Namespace", "Importing Modules"],
@@ -319,8 +334,8 @@ fizzbuzz()`,
     ]
   },
   {
-    day: 5,
-    week: 1,
+    submodule: 5,
+    module: 1,
     title: "Data Structures: Lists & Tuples",
     description: "Master Python's sequence types for organizing and manipulating collections of data.",
     topics: ["List Operations", "Slicing", "List Methods", "Tuples", "Unpacking"],
@@ -337,8 +352,8 @@ fizzbuzz()`,
     ]
   },
   {
-    day: 6,
-    week: 1,
+    submodule: 6,
+    module: 1,
     title: "Data Structures: Dictionaries & Sets",
     description: "Learn to work with key-value pairs and unique collections for efficient data organization.",
     topics: ["Dictionary Basics", "Dictionary Methods", "Sets", "Set Operations", "When to Use Each"],
@@ -355,8 +370,8 @@ fizzbuzz()`,
     ]
   },
   {
-    day: 7,
-    week: 1,
+    submodule: 7,
+    module: 1,
     title: "Object-Oriented Programming",
     description: "Understand OOP concepts to write organized, maintainable code for complex applications.",
     topics: ["Classes & Objects", "Attributes & Methods", "Inheritance", "Encapsulation", "Magic Methods"],
@@ -374,24 +389,24 @@ fizzbuzz()`,
   }
 ];
 
-// Generate remaining days with simplified content
+// Generate remaining submodules with simplified content
 for (let i = 8; i <= 60; i++) {
-  const weekNum = Math.ceil(i / 7);
-  const week = weeks.find(w => w.days.includes(i));
+  const moduleNum = Math.ceil(i / 7);
+  const mod = modules.find(m => m.submodules.includes(i));
   
-  if (!days.find(d => d.day === i)) {
-    days.push({
-      day: i,
-      week: weekNum,
-      title: `Day ${i}: ${week?.title || 'Advanced Topics'}`,
-      description: `Continue building skills in ${week?.theme || 'data science'}. Deep practice and hands-on exercises.`,
+  if (!submodules.find(s => s.submodule === i)) {
+    submodules.push({
+      submodule: i,
+      module: moduleNum,
+      title: `${mod?.title || 'Advanced Topics'}`,
+      description: `Continue building skills in ${mod?.theme || 'data science'}. Deep practice and hands-on exercises.`,
       topics: ["Topic 1", "Topic 2", "Topic 3"],
       objectives: ["Master key concepts", "Apply in practice", "Build projects"],
       practiceExercises: ["Exercise 1", "Exercise 2", "Exercise 3"],
       quizQuestions: [
         {
           id: `d${i}q1`,
-          question: `Sample question for Day ${i}`,
+          question: `Sample question for Submodule ${i}`,
           options: ["Option A", "Option B", "Option C", "Option D"],
           correctAnswer: 0,
           explanation: "This is a sample explanation."
@@ -401,14 +416,33 @@ for (let i = 8; i <= 60; i++) {
   }
 }
 
-export const getDayContent = (dayNumber: number): DayContent | undefined => {
-  return days.find(d => d.day === dayNumber);
+// Legacy export for backward compatibility
+export const days = submodules;
+
+export const getSubmoduleContent = (submoduleNumber: number): SubmoduleContent | undefined => {
+  return submodules.find(s => s.submodule === submoduleNumber);
 };
 
-export const getWeekContent = (weekNumber: number): WeekContent | undefined => {
-  return weeks.find(w => w.week === weekNumber);
+// Legacy function alias
+export const getDayContent = getSubmoduleContent;
+
+export const getModuleContent = (moduleNumber: number): ModuleContent | undefined => {
+  return modules.find(m => m.module === moduleNumber);
 };
 
-export const getWeekForDay = (dayNumber: number): WeekContent | undefined => {
-  return weeks.find(w => w.days.includes(dayNumber));
+// Legacy function alias
+export const getWeekContent = getModuleContent;
+
+export const getModuleForSubmodule = (submoduleNumber: number): ModuleContent | undefined => {
+  return modules.find(m => m.submodules.includes(submoduleNumber));
+};
+
+// Legacy function alias
+export const getWeekForDay = getModuleForSubmodule;
+
+// Helper to get next submodule title
+export const getNextSubmoduleTitle = (currentSubmodule: number): string | undefined => {
+  if (currentSubmodule >= 60) return undefined;
+  const nextSubmodule = submodules.find(s => s.submodule === currentSubmodule + 1);
+  return nextSubmodule?.title;
 };

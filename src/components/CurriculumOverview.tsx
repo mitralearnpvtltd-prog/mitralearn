@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { weeks } from "@/data/curriculum";
+import { modules, getNextSubmoduleTitle } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,27 +10,30 @@ import { Button } from "@/components/ui/button";
 export const CurriculumOverview = () => {
   const { progress } = useProgress();
 
-  const getWeekProgress = (weekDays: number[]) => {
-    const completedInWeek = weekDays.filter(day =>
-      progress.completedDays.includes(day)
+  const getModuleProgress = (moduleSubmodules: number[]) => {
+    const completedInModule = moduleSubmodules.filter(submodule =>
+      progress.completedDays.includes(submodule)
     ).length;
-    return Math.round((completedInWeek / weekDays.length) * 100);
+    return Math.round((completedInModule / moduleSubmodules.length) * 100);
   };
 
-  const isWeekLocked = (weekNum: number) => {
-    if (weekNum === 1) return false;
-    const previousWeek = weeks.find(w => w.week === weekNum - 1);
-    if (!previousWeek) return false;
-    const prevWeekProgress = getWeekProgress(previousWeek.days);
-    return prevWeekProgress < 50;
+  const isModuleLocked = (moduleNum: number) => {
+    if (moduleNum === 1) return false;
+    const previousModule = modules.find(m => m.module === moduleNum - 1);
+    if (!previousModule) return false;
+    const prevModuleProgress = getModuleProgress(previousModule.submodules);
+    return prevModuleProgress < 50;
   };
 
-  const getNextDay = () => {
+  const getNextSubmodule = () => {
     for (let i = 1; i <= 60; i++) {
       if (!progress.completedDays.includes(i)) return i;
     }
     return 60;
   };
+
+  const nextSubmodule = getNextSubmodule();
+  const nextTitle = getNextSubmoduleTitle(nextSubmodule - 1) || "Get Started";
 
   return (
     <div className="space-y-6">
@@ -46,10 +49,10 @@ export const CurriculumOverview = () => {
                 Pick up where you left off
               </p>
             </div>
-            <Link to={`/curriculum/day/${getNextDay()}`}>
+            <Link to={`/curriculum/day/${nextSubmodule}`}>
               <Button variant="heroOutline" size="lg" className="gap-2">
                 <Play className="w-5 h-5" />
-                Day {getNextDay()}
+                Submodule {nextSubmodule}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
@@ -57,16 +60,16 @@ export const CurriculumOverview = () => {
         </CardContent>
       </Card>
 
-      {/* Weeks Grid */}
+      {/* Modules Grid */}
       <div className="grid gap-6">
-        {weeks.map((week) => {
-          const weekProgress = getWeekProgress(week.days);
-          const locked = isWeekLocked(week.week);
-          const isCompleted = weekProgress === 100;
+        {modules.map((mod) => {
+          const moduleProgress = getModuleProgress(mod.submodules);
+          const locked = isModuleLocked(mod.module);
+          const isCompleted = moduleProgress === 100;
 
           return (
             <Card
-              key={week.week}
+              key={mod.module}
               className={`relative overflow-hidden transition-all duration-300 ${
                 locked
                   ? "opacity-60 bg-muted"
@@ -77,7 +80,7 @@ export const CurriculumOverview = () => {
                 <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Lock className="w-5 h-5" />
-                    <span>Complete Week {week.week - 1} to unlock</span>
+                    <span>Complete Module {mod.module - 1} to unlock</span>
                   </div>
                 </div>
               )}
@@ -92,44 +95,44 @@ export const CurriculumOverview = () => {
                       {isCompleted ? (
                         <CheckCircle2 className="w-6 h-6" />
                       ) : (
-                        week.week
+                        mod.module
                       )}
                     </div>
                     <div>
                       <CardTitle className="text-lg">
-                        Week {week.week}: {week.title}
+                        Module {mod.module}: {mod.title}
                       </CardTitle>
-                      <p className="text-sm text-muted-foreground">{week.theme}</p>
+                      <p className="text-sm text-muted-foreground">{mod.theme}</p>
                     </div>
                   </div>
                   <Badge variant={isCompleted ? "default" : "secondary"}>
-                    {weekProgress}% Complete
+                    {moduleProgress}% Complete
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-4">{week.description}</p>
-                <Progress value={weekProgress} className="h-2 mb-4" />
+                <p className="text-muted-foreground mb-4">{mod.description}</p>
+                <Progress value={moduleProgress} className="h-2 mb-4" />
                 <div className="flex flex-wrap gap-2">
-                  {week.days.map((day) => {
-                    const isCompleted = progress.completedDays.includes(day);
+                  {mod.submodules.map((submodule) => {
+                    const isSubmoduleCompleted = progress.completedDays.includes(submodule);
                     return (
                       <Link
-                        key={day}
-                        to={locked ? "#" : `/curriculum/day/${day}`}
+                        key={submodule}
+                        to={locked ? "#" : `/curriculum/day/${submodule}`}
                         className={locked ? "pointer-events-none" : ""}
                       >
                         <div
                           className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
-                            isCompleted
+                            isSubmoduleCompleted
                               ? "bg-success text-success-foreground"
                               : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
                           }`}
                         >
-                          {isCompleted ? (
+                          {isSubmoduleCompleted ? (
                             <CheckCircle2 className="w-4 h-4" />
                           ) : (
-                            day
+                            submodule
                           )}
                         </div>
                       </Link>
