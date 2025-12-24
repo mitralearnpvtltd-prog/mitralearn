@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+  useUser,
+} from "@clerk/clerk-react";
 import {
   BookOpen,
   Code,
@@ -22,7 +29,7 @@ import {
 
 const Index = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const { user, isSignedIn } = useUser();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isTouch, setIsTouch] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
@@ -36,16 +43,6 @@ const Index = () => {
 
   useEffect(() => {
     setIsTouch('ontouchstart' in window);
-    
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   // Typing effect
@@ -308,21 +305,35 @@ const Index = () => {
             <span className="text-xl font-bold" style={{ color: '#0F172A' }}>Innov Skills</span>
           </Link>
           <div className="flex items-center gap-4">
-            <Link 
-              to="/auth" 
-              className="flex items-center gap-2 text-sm font-medium transition-colors"
-              style={{ color: '#475569' }}
-            >
-              <Users className="w-4 h-4" />
-              Login
-            </Link>
-            <Button 
-              onClick={() => navigate('/auth')}
-              className="text-white px-6 py-2 rounded-lg text-sm font-semibold"
-              style={{ backgroundColor: '#7C3AED' }}
-            >
-              Register Now
-            </Button>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button 
+                  className="flex items-center gap-2 text-sm font-medium transition-colors"
+                  style={{ color: '#475569' }}
+                >
+                  <Users className="w-4 h-4" />
+                  Login
+                </button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button 
+                  className="text-white px-6 py-2 rounded-lg text-sm font-semibold"
+                  style={{ backgroundColor: '#7C3AED' }}
+                >
+                  Register Now
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <Link 
+                to="/dashboard" 
+                className="text-sm font-medium transition-colors"
+                style={{ color: '#475569' }}
+              >
+                Dashboard
+              </Link>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
         </div>
       </nav>
@@ -442,22 +453,35 @@ const Index = () => {
               >
                 Explore Courses <ArrowRight className="h-5 w-5" />
               </Button>
-              <Button 
-                onClick={() => navigate(user ? '/dashboard' : '/auth')}
-                className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:bg-gray-50"
-                style={{ 
-                  backgroundColor: '#FFFFFF', 
-                  color: '#0F172A',
-                  border: '1px solid #E5E7EB'
-                }}
-              >
-                {user ? 'Go to Dashboard' : 'Register Now'} 
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="9,12 12,15 15,12" />
-                  <line x1="12" y1="9" x2="12" y2="15" />
-                </svg>
-              </Button>
+              <SignedIn>
+                <Button 
+                  onClick={() => navigate('/dashboard')}
+                  className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:bg-gray-50"
+                  style={{ 
+                    backgroundColor: '#FFFFFF', 
+                    color: '#0F172A',
+                    border: '1px solid #E5E7EB'
+                  }}
+                >
+                  Go to Dashboard
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              </SignedIn>
+              <SignedOut>
+                <SignUpButton mode="modal">
+                  <Button 
+                    className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:bg-gray-50"
+                    style={{ 
+                      backgroundColor: '#FFFFFF', 
+                      color: '#0F172A',
+                      border: '1px solid #E5E7EB'
+                    }}
+                  >
+                    Register Now
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </SignUpButton>
+              </SignedOut>
             </div>
             
             {/* Special Offer Badge */}

@@ -2,29 +2,18 @@ import { Navbar } from "@/components/Navbar";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ProgressDashboard } from "@/components/ProgressDashboard";
 import { useProgress } from "@/contexts/ProgressContext";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { modules, getFirstUncompletedSubmodule, getSubmoduleContent, getModuleForSubmodule } from "@/data/curriculum";
 import { CheckCircle2, Play, ArrowRight, Target, Award } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 const Dashboard = () => {
-  const { user, progress, session, isLoading } = useProgress();
+  const { user, progress, isLoading } = useProgress();
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
-  if (!session) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -42,114 +31,144 @@ const Dashboard = () => {
       <main className="container mx-auto px-4 py-8">
         <Breadcrumb />
         
-        {/* Welcome Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-display font-bold mb-2">
-            Welcome back, {user.name}!
-          </h1>
-          <p className="text-muted-foreground">
-            Keep up the great work. Your consistency is building real skills.
-          </p>
-        </div>
-
-        {/* Progress Dashboard */}
-        <ProgressDashboard />
-
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {/* Continue Learning */}
-          <Card className="bg-gradient-primary text-primary-foreground shadow-glow">
-            <CardContent className="p-6">
-              <h3 className="font-display font-bold text-lg mb-2">Continue Learning</h3>
-              <p className="text-primary-foreground/80 mb-4">
-                Pick up where you left off
-              </p>
-              <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
-                <Button variant="heroOutline" className="w-full gap-2">
-                  <Play className="w-4 h-4" />
-                  {nextSubmoduleContent?.title || "Get Started"}
+        {/* Auth Required Message for Signed Out Users */}
+        <SignedOut>
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center mb-6 shadow-glow">
+              <Award className="w-10 h-10 text-primary-foreground" />
+            </div>
+            <h1 className="text-3xl font-display font-bold mb-4">
+              Track Your Learning Progress
+            </h1>
+            <p className="text-muted-foreground mb-8 max-w-md">
+              Sign in to access your personalized dashboard, track your progress, and continue your learning journey.
+            </p>
+            <div className="flex gap-4">
+              <SignInButton mode="modal">
+                <Button variant="outline" size="lg">
+                  Login
                 </Button>
-              </Link>
-            </CardContent>
-          </Card>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button size="lg">
+                  Register Now
+                </Button>
+              </SignUpButton>
+            </div>
+          </div>
+        </SignedOut>
 
-          {/* Module Assessment */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Target className="w-5 h-5 text-primary" />
-                <h3 className="font-display font-bold text-lg">Module Assessment</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Test your knowledge from this module
-              </p>
-              <Button variant="outline" className="w-full gap-2">
-                Take Assessment
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </CardContent>
-          </Card>
+        {/* Dashboard Content for Signed In Users */}
+        <SignedIn>
+          {/* Welcome Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-display font-bold mb-2">
+              Welcome back{user?.name ? `, ${user.name}` : ''}!
+            </h1>
+            <p className="text-muted-foreground">
+              Keep up the great work. Your consistency is building real skills.
+            </p>
+          </div>
 
-          {/* Certificate Progress */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Award className="w-5 h-5 text-secondary" />
-                <h3 className="font-display font-bold text-lg">Certification</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Track your path to certification
-              </p>
-              <Link to="/certificate">
-                <Button variant="secondary" className="w-full gap-2">
-                  View Progress
+          {/* Progress Dashboard */}
+          <ProgressDashboard />
+
+          {/* Quick Actions */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {/* Continue Learning */}
+            <Card className="bg-gradient-primary text-primary-foreground shadow-glow">
+              <CardContent className="p-6">
+                <h3 className="font-display font-bold text-lg mb-2">Continue Learning</h3>
+                <p className="text-primary-foreground/80 mb-4">
+                  Pick up where you left off
+                </p>
+                <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
+                  <Button variant="heroOutline" className="w-full gap-2">
+                    <Play className="w-4 h-4" />
+                    {nextSubmoduleContent?.title || "Get Started"}
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Module Assessment */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Target className="w-5 h-5 text-primary" />
+                  <h3 className="font-display font-bold text-lg">Module Assessment</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">
+                  Test your knowledge from this module
+                </p>
+                <Button variant="outline" className="w-full gap-2">
+                  Take Assessment
                   <ArrowRight className="w-4 h-4" />
                 </Button>
-              </Link>
+              </CardContent>
+            </Card>
+
+            {/* Certificate Progress */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Award className="w-5 h-5 text-secondary" />
+                  <h3 className="font-display font-bold text-lg">Certification</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">
+                  Track your path to certification
+                </p>
+                <Link to="/certificate">
+                  <Button variant="secondary" className="w-full gap-2">
+                    View Progress
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Recent Activity */}
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {recentActivity.length > 0 ? (
+                <div className="space-y-3">
+                  {recentActivity.map((submoduleId) => {
+                    const subContent = getSubmoduleContent(submoduleId);
+                    const mod = getModuleForSubmodule(submoduleId);
+                    return (
+                      <Link
+                        key={submoduleId}
+                        to={`/curriculum/submodule/${submoduleId}`}
+                        className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <CheckCircle2 className="w-5 h-5 text-success" />
+                          <div>
+                            <p className="font-medium">{submoduleId}: {subContent?.title}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Module {mod?.module}: {mod?.title}
+                            </p>
+                          </div>
+                        </div>
+                        <Badge variant="outline" className="text-success border-success">
+                          Completed
+                        </Badge>
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-center py-8">
+                  No completed lessons yet. Start your journey today!
+                </p>
+              )}
             </CardContent>
           </Card>
-        </div>
-
-        {/* Recent Activity */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {recentActivity.length > 0 ? (
-              <div className="space-y-3">
-                {recentActivity.map((submoduleId) => {
-                  const subContent = getSubmoduleContent(submoduleId);
-                  const mod = getModuleForSubmodule(submoduleId);
-                  return (
-                    <Link
-                      key={submoduleId}
-                      to={`/curriculum/submodule/${submoduleId}`}
-                      className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-success" />
-                        <div>
-                          <p className="font-medium">{submoduleId}: {subContent?.title}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Module {mod?.module}: {mod?.title}
-                          </p>
-                        </div>
-                      </div>
-                      <Badge variant="outline" className="text-success border-success">
-                        Completed
-                      </Badge>
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : (
-              <p className="text-muted-foreground text-center py-8">
-                No completed lessons yet. Start your journey today!
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        </SignedIn>
       </main>
     </div>
   );
