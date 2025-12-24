@@ -24,24 +24,27 @@ export const CertificateSystem = () => {
     generateCertificate,
   } = useProgress();
 
+  const totalSubmodules = 7; // From curriculum data
+  const totalModules = 4;
+
   const requirements = [
     {
-      label: "Complete all 60 daily lessons",
-      completed: progress.completedDays.length >= 60,
-      current: progress.completedDays.length,
-      total: 60,
+      label: "Complete all submodules",
+      completed: progress.completedSubmodules.length >= totalSubmodules,
+      current: progress.completedSubmodules.length,
+      total: totalSubmodules,
     },
     {
-      label: "Pass all daily quizzes",
-      completed: Object.keys(progress.completedQuizzes).length >= 60,
+      label: "Pass all quizzes",
+      completed: Object.keys(progress.completedQuizzes).length >= totalSubmodules,
       current: Object.keys(progress.completedQuizzes).length,
-      total: 60,
+      total: totalSubmodules,
     },
     {
-      label: "Complete all weekly assessments",
-      completed: progress.completedWeeklyAssessments.length >= 8,
-      current: progress.completedWeeklyAssessments.length,
-      total: 8,
+      label: "Complete all module assessments",
+      completed: progress.completedModuleAssessments.length >= totalModules,
+      current: progress.completedModuleAssessments.length,
+      total: totalModules,
     },
     {
       label: "Pass final assessment (≥60%)",

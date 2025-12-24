@@ -13,32 +13,35 @@ import {
 export const ProgressDashboard = () => {
   const { progress, getOverallProgress } = useProgress();
 
+  const totalSubmodules = 7; // From curriculum data
+  const totalModules = 4;
+
   const stats = [
     {
-      label: "Days Completed",
-      value: progress.completedDays.length,
-      total: 60,
+      label: "Submodules Completed",
+      value: progress.completedSubmodules.length,
+      total: totalSubmodules,
       icon: Calendar,
       color: "text-primary",
     },
     {
       label: "Quizzes Passed",
       value: Object.keys(progress.completedQuizzes).length,
-      total: 60,
+      total: totalSubmodules,
       icon: BookOpen,
       color: "text-secondary",
     },
     {
-      label: "Coding Challenges",
+      label: "Practice Challenges",
       value: progress.codingChallengesCompleted.length,
-      total: 30,
+      total: totalSubmodules,
       icon: Code,
       color: "text-success",
     },
     {
-      label: "Weekly Assessments",
-      value: progress.completedWeeklyAssessments.length,
-      total: 8,
+      label: "Module Assessments",
+      value: progress.completedModuleAssessments.length,
+      total: totalModules,
       icon: Target,
       color: "text-accent-foreground",
     },
@@ -56,7 +59,7 @@ export const ProgressDashboard = () => {
                 Your Learning Journey
               </h2>
               <p className="text-primary-foreground/80">
-                {getOverallProgress()}% complete • {60 - progress.completedDays.length} days remaining
+                {getOverallProgress()}% complete • {totalSubmodules - progress.completedSubmodules.length} submodules remaining
               </p>
             </div>
             <div className="flex items-center gap-4">
