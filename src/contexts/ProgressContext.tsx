@@ -129,14 +129,14 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     if (!session?.user?.id) return;
 
     // Convert string[] back to number[] for database compatibility
-    const completedDays = newProgress.completedSubmodules.map(s => {
+    const completedDays = (newProgress.completedSubmodules || []).map(s => {
       // For new format like "1.1", store as string in the array
       // The database accepts integer[], so we need to handle this
       const num = parseFloat(s);
       return isNaN(num) ? 0 : Math.floor(num * 10); // Store 1.1 as 11, 2.1 as 21, etc.
     });
 
-    const codingChallenges = newProgress.codingChallengesCompleted.map(s => {
+    const codingChallenges = (newProgress.codingChallengesCompleted || []).map(s => {
       const num = parseFloat(s);
       return isNaN(num) ? 0 : Math.floor(num * 10);
     });
