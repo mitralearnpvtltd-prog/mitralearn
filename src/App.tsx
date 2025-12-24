@@ -10,7 +10,8 @@ import Curriculum from "./pages/Curriculum";
 import Day from "./pages/Day";
 import Dashboard from "./pages/Dashboard";
 import Certificate from "./pages/Certificate";
-import Verify from "./pages/Verify";
+import VerifyCertificate from "./pages/VerifyCertificate";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,7 +31,9 @@ const App = () => (
             <Route path="/curriculum/submodule/:submoduleId" element={<Day />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/certificate" element={<Certificate />} />
-            <Route path="/verify" element={<Verify />} />
+            <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />
+            <Route path="/verify-certificate" element={<VerifyCertificate />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

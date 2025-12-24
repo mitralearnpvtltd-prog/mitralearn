@@ -109,7 +109,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   // Create or update user profile in database
-  const ensureUserProfile = async (userId: string, name: string, email: string) => {
+  const ensureUserProfile = async (userId: string, name: string, email: string, emailVerified: boolean) => {
     // Check if profile exists
     const { data: existingProfile } = await supabase
       .from('profiles')
@@ -117,13 +117,29 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       .eq('user_id', userId)
       .maybeSingle();
 
+    const now = new Date().toISOString();
+
     if (!existingProfile) {
       // Create new profile
       await supabase.from('profiles').insert({
         user_id: userId,
         name,
         email,
+        email_verified: emailVerified,
+        last_login: now,
+        course_opted: true,
       });
+    } else {
+      // Update profile with latest Clerk data
+      await supabase
+        .from('profiles')
+        .update({
+          name,
+          email,
+          email_verified: emailVerified,
+          last_login: now,
+        })
+        .eq('user_id', userId);
     }
 
     // Check if progress exists
@@ -186,8 +202,9 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       if (clerkUser) {
         const name = clerkUser.fullName || clerkUser.firstName || 'User';
         const email = clerkUser.primaryEmailAddress?.emailAddress || '';
+        const emailVerified = clerkUser.primaryEmailAddress?.verification?.status === 'verified';
         
-        ensureUserProfile(clerkUser.id, name, email);
+        ensureUserProfile(clerkUser.id, name, email, emailVerified);
         fetchProgress(clerkUser.id);
       } else {
         setUserProfile(null);
