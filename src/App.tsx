@@ -11,8 +11,15 @@ import Day from "./pages/Day";
 import Dashboard from "./pages/Dashboard";
 import Certificate from "./pages/Certificate";
 import VerifyCertificate from "./pages/VerifyCertificate";
-import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+
+// Admin imports
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminUsers from "./components/admin/AdminUsers";
+import AdminCourses from "./components/admin/AdminCourses";
+import AdminCertificates from "./components/admin/AdminCertificates";
+import AdminReports from "./components/admin/AdminReports";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +40,16 @@ const App = () => (
             <Route path="/certificate" element={<Certificate />} />
             <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />
             <Route path="/verify-certificate" element={<VerifyCertificate />} />
-            <Route path="/admin" element={<Admin />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="courses" element={<AdminCourses />} />
+              <Route path="certificates" element={<AdminCertificates />} />
+              <Route path="reports" element={<AdminReports />} />
+            </Route>
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
