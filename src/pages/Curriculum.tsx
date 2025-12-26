@@ -501,22 +501,25 @@ const Curriculum = () => {
                   <img 
                     src={dataEngineeringArticleImg} 
                     alt="Data Engineering Overview" 
-                    className="w-full h-32 object-cover"
+                    className="w-full h-48 object-cover"
                   />
                 </a>
-                <CardContent className="p-4">
-                  <h3 className="font-display font-semibold text-foreground text-sm mb-2">An Overview of Data Engineering and Its Importance</h3>
-                  <p className="text-xs text-muted-foreground mb-3 leading-relaxed line-clamp-2">
-                    Data engineering is foundational to modern analytics and AI. Learn about its role in building scalable data infrastructure.
+                <CardContent className="p-5">
+                  <Badge variant="secondary" className="mb-3 text-xs">Featured Article</Badge>
+                  <h3 className="font-display font-semibold text-foreground mb-3">An Overview of Data Engineering and Its Importance</h3>
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    Data engineering is foundational to modern analytics and AI. As organizations scale their data infrastructure, 
+                    skilled professionals who can build reliable pipelines are in high demand. This article explores the core concepts, 
+                    methodologies, and career opportunities in this rapidly growing field.
                   </p>
                   <a 
                     href="https://www.longdom.org/open-access/an-overview-of-data-engineering-and-its-importance-100383.html" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-xs text-primary font-medium hover:underline flex items-center gap-1"
+                    className="text-sm text-primary font-medium hover:underline flex items-center gap-1"
                   >
-                    Read Article
-                    <ChevronRight className="w-3 h-3" />
+                    Read Full Article
+                    <ChevronRight className="w-4 h-4" />
                   </a>
                 </CardContent>
               </Card>
