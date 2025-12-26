@@ -153,12 +153,12 @@ const Curriculum = () => {
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
                   </div>
-                  <span className="font-semibold text-foreground">4.8</span>
-                  <span className="text-muted-foreground">(217,728 reviews)</span>
+                  <span className="font-semibold text-foreground">4.7</span>
+                  <span className="text-muted-foreground">(342 reviews)</span>
                 </div>
                 <div className="flex items-center gap-1 text-muted-foreground">
                   <Users className="w-4 h-4" />
-                  <span><strong className="text-foreground">1,888,132</strong> enrolled</span>
+                  <span><strong className="text-foreground">1,847</strong> enrolled</span>
                 </div>
               </div>
 
