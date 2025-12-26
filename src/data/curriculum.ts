@@ -8,6 +8,7 @@ export interface SubmoduleContent {
   submodule: string; // e.g., "1.1", "1.2", "2.1"
   moduleNumber: number;
   title: string;
+  description: string; // One-line summary of the lesson
   resources: Resource[];
   quizQuestions: QuizQuestion[];
   practiceExercises: string[];
@@ -164,6 +165,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "1.1",
     moduleNumber: 1,
     title: "What is Data Engineering",
+    description: "Explore the role, responsibilities, and ecosystem of modern data engineering.",
     resources: [
       {
         type: "Video",
@@ -258,6 +260,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "1.2",
     moduleNumber: 1,
     title: "Data Engineering Lifecycle",
+    description: "Understand the stages of data flow from generation to serving.",
     resources: [
       {
         type: "Video",
@@ -346,6 +349,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "2.1",
     moduleNumber: 2,
     title: "What is a Data Pipeline",
+    description: "Learn how automated workflows move and transform data between systems.",
     resources: [
       {
         type: "Video",
@@ -443,6 +447,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "2.2",
     moduleNumber: 2,
     title: "ETL vs ELT",
+    description: "Compare traditional and modern data integration approaches.",
     resources: [
       {
         type: "Video",
@@ -539,6 +544,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "3.1",
     moduleNumber: 3,
     title: "Relational Databases Basics",
+    description: "Master SQL and relational database fundamentals for data storage.",
     resources: [
       {
         type: "Video",
@@ -627,6 +633,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "3.2",
     moduleNumber: 3,
     title: "Data Modeling Concepts",
+    description: "Design effective schemas using dimensional and conceptual modeling.",
     resources: [
       {
         type: "Video",
@@ -723,6 +730,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "4.1",
     moduleNumber: 4,
     title: "Big Data Fundamentals",
+    description: "Understand volume, variety, velocity and distributed computing principles.",
     resources: [
       {
         type: "Video",
@@ -812,6 +820,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "4.2",
     moduleNumber: 4,
     title: "Apache Spark Basics",
+    description: "Process large-scale data with in-memory distributed computing.",
     resources: [
       {
         type: "Video",
@@ -910,6 +919,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "5.1",
     moduleNumber: 5,
     title: "What is Workflow Orchestration",
+    description: "Coordinate and schedule complex data tasks with DAGs.",
     resources: [
       {
         type: "Video",
@@ -997,6 +1007,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "5.2",
     moduleNumber: 5,
     title: "Apache Airflow Basics",
+    description: "Build and manage data pipelines with the industry-standard orchestrator.",
     resources: [
       {
         type: "Video",
@@ -1094,6 +1105,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "6.1",
     moduleNumber: 6,
     title: "What is a Data Warehouse",
+    description: "Store and analyze historical data for business intelligence.",
     resources: [
       {
         type: "Video",
@@ -1182,6 +1194,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "6.2",
     moduleNumber: 6,
     title: "OLAP vs OLTP",
+    description: "Differentiate transactional and analytical database systems.",
     resources: [
       {
         type: "Video",
@@ -1279,6 +1292,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "7.1",
     moduleNumber: 7,
     title: "Streaming Data Concepts",
+    description: "Process continuous data flows for real-time analytics.",
     resources: [
       {
         type: "Video",
@@ -1379,6 +1393,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "7.2",
     moduleNumber: 7,
     title: "Apache Kafka Basics",
+    description: "Build event-driven architectures with distributed streaming.",
     resources: [
       {
         type: "Video",
@@ -1472,6 +1487,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "8.1",
     moduleNumber: 8,
     title: "Data Quality Concepts",
+    description: "Ensure accuracy, completeness, and reliability of your data.",
     resources: [
       {
         type: "Video",
@@ -1561,6 +1577,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "8.2",
     moduleNumber: 8,
     title: "Data Governance Basics",
+    description: "Implement policies for data management, security, and compliance.",
     resources: [
       {
         type: "Video",
@@ -1651,6 +1668,7 @@ export const submodules: SubmoduleContent[] = [
     submodule: "9.1",
     moduleNumber: 9,
     title: "End-to-End Data Engineering Project",
+    description: "Build a complete data pipeline from ingestion to analytics.",
     resources: [
       {
         type: "Video",
