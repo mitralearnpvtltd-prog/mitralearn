@@ -31,7 +31,8 @@ import {
   Target,
   GraduationCap,
   ChevronRight,
-  Sparkles
+  ExternalLink,
+  Quote
 } from "lucide-react";
 
 const Curriculum = () => {
@@ -79,6 +80,26 @@ const Curriculum = () => {
     { icon: Target, title: "Portfolio Projects", description: "Build 8+ real-world projects to showcase to employers" },
   ];
 
+  // Learner reviews
+  const reviews = [
+    { text: "This course gave me the confidence and skills to transition into a data engineering role.", rating: 5 },
+    { text: "Excellent curriculum with real-world projects. Highly recommended for beginners.", rating: 5 },
+    { text: "The mentorship sessions were invaluable. I landed my first DE job within 3 months.", rating: 5 },
+  ];
+
+  // Module descriptions for helper text
+  const moduleDescriptions: Record<number, string> = {
+    1: "Understand the fundamentals of data engineering, including core responsibilities and the data lifecycle.",
+    2: "Learn how data pipelines are designed, built, and monitored at scale.",
+    3: "Master database design principles and data modeling techniques for efficient storage.",
+    4: "Process large-scale datasets using distributed computing frameworks.",
+    5: "Automate and schedule complex data workflows using orchestration tools.",
+    6: "Design and implement enterprise data warehouses for analytics.",
+    7: "Handle real-time data streams and event-driven architectures.",
+    8: "Implement data quality frameworks, governance policies, and security best practices.",
+    9: "Apply everything you've learned in a comprehensive capstone project.",
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -91,8 +112,8 @@ const Curriculum = () => {
             <div className="lg:col-span-2 space-y-6">
               {/* Popular Badge */}
               <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0">
-                <Sparkles className="w-3 h-3 mr-1" />
-                Most popular course in 2024
+                <Star className="w-3 h-3 mr-1 fill-current" />
+                Most Enrolled Program
               </Badge>
 
               <h1 className="text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-foreground leading-tight">
@@ -254,10 +275,10 @@ const Curriculum = () => {
                 onValueChange={setOpenAccordion}
                 className="space-y-3"
               >
-                {modules.map((mod) => {
+              {modules.map((mod) => {
                   const moduleSubmodules = submodules.filter(s => s.moduleNumber === mod.module);
                   const lessonCount = moduleSubmodules.length;
-                  const projectCount = mod.assessment?.type === 'project' ? 1 : Math.ceil(lessonCount / 2);
+                  const hasProject = mod.assessment?.type === 'project';
 
                   return (
                     <AccordionItem 
@@ -275,7 +296,10 @@ const Curriculum = () => {
                               {mod.title}
                             </h3>
                             <p className="text-xs text-muted-foreground mt-0.5">
-                              {lessonCount} lessons • {projectCount} project{projectCount > 1 ? 's' : ''}
+                              {lessonCount} lesson{lessonCount > 1 ? 's' : ''}{hasProject ? ' • Capstone Project' : ''}
+                            </p>
+                            <p className="text-xs text-muted-foreground/80 mt-1 line-clamp-1">
+                              {moduleDescriptions[mod.module]}
                             </p>
                           </div>
                         </div>
@@ -504,6 +528,69 @@ const Curriculum = () => {
                 <p className="text-sm text-muted-foreground">Learn at your own pace, forever</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section className="bg-background py-12 border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <div className="flex text-secondary">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-current" />
+                ))}
+              </div>
+              <span className="font-semibold text-foreground">4.8</span>
+              <span className="text-muted-foreground text-sm">(217,728 reviews)</span>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              {reviews.map((review, index) => (
+                <div key={index} className="bg-card border border-border rounded-lg p-4">
+                  <Quote className="w-4 h-4 text-muted-foreground/50 mb-2" />
+                  <p className="text-sm text-muted-foreground italic">{review.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* In-Demand Article Section */}
+      <section className="bg-muted/30 py-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-xl lg:text-2xl font-display font-bold text-foreground mb-6 text-center">
+              Why Data Engineering Is One of the Most In-Demand Roles
+            </h2>
+            
+            <Card className="overflow-hidden">
+              <div className="aspect-[3/1] bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/10 flex items-center justify-center">
+                <div className="text-center p-6">
+                  <TrendingUp className="w-12 h-12 text-primary mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Data Engineering Career Growth</p>
+                </div>
+              </div>
+              <CardContent className="p-6">
+                <p className="text-muted-foreground mb-4">
+                  According to the U.S. Bureau of Labor Statistics and industry reports, data engineering roles are projected to grow significantly faster than average occupations. As organizations increasingly rely on data-driven decision making, the demand for professionals who can build and maintain data infrastructure continues to rise.
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Open-source technologies like Apache Spark, Apache Kafka, and Apache Airflow have become industry standards, making skills in these tools highly valuable across sectors including finance, healthcare, technology, and e-commerce.
+                </p>
+                <a 
+                  href="https://www.bls.gov/ooh/computer-and-information-technology/home.htm" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                >
+                  Read more from the Bureau of Labor Statistics
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
