@@ -612,6 +612,64 @@ const Curriculum = () => {
         </div>
       </section>
 
+      {/* High Demand & Career Scope Section */}
+      <section className="bg-muted/30 py-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <Card className="border-border">
+              <CardContent className="p-6 space-y-5">
+                <h3 className="font-display font-semibold text-foreground">High Demand & Career Scope</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-2xl font-display font-bold text-primary">{careerStats.growth}</div>
+                    <div className="text-sm text-muted-foreground">projected growth by 2030</div>
+                  </div>
+                  <div>
+                    <div className="text-xl font-display font-bold text-success">{careerStats.salary}</div>
+                    <div className="text-sm text-muted-foreground">average salary</div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-2">Job Roles</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {careerStats.roles.map((role, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs">
+                          {role}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-2">Industry Adoption</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {careerStats.industries.map((industry, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {industry}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-2">Perfect For</h4>
+                    <ul className="space-y-1">
+                      {careerStats.perfectFor.map((item, index) => (
+                        <li key={index} className="text-sm text-muted-foreground flex items-center gap-2">
+                          <span className="text-primary">•</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="bg-gradient-primary py-16">
         <div className="container mx-auto px-4 text-center">
