@@ -30,9 +30,7 @@ import {
   Zap,
   Target,
   GraduationCap,
-  ChevronRight,
-  ExternalLink,
-  Quote
+  ChevronRight
 } from "lucide-react";
 
 const Curriculum = () => {
@@ -80,11 +78,33 @@ const Curriculum = () => {
     { icon: Target, title: "Portfolio Projects", description: "Build 8+ real-world projects to showcase to employers" },
   ];
 
-  // Learner reviews
+  // Learner reviews with avatars
   const reviews = [
-    { text: "This course gave me the confidence and skills to transition into a data engineering role.", rating: 5 },
-    { text: "Excellent curriculum with real-world projects. Highly recommended for beginners.", rating: 5 },
-    { text: "The mentorship sessions were invaluable. I landed my first DE job within 3 months.", rating: 5 },
+    { 
+      name: "Arjun Mehta", 
+      role: "Data Analyst", 
+      text: "The curriculum is structured like real industry workflows. The data pipelines and cloud concepts were especially valuable.",
+      rating: 4.8 
+    },
+    { 
+      name: "Neha Kapoor", 
+      role: "Backend Engineer", 
+      text: "Clear explanations and hands-on projects helped me transition into data engineering within months.",
+      rating: 5 
+    },
+    { 
+      name: "Rahul Verma", 
+      role: "Career Switcher", 
+      text: "The mentorship and real-world projects gave me the confidence to apply for DE roles successfully.",
+      rating: 4.9 
+    },
+  ];
+
+  // Trust signals
+  const trustSignals = [
+    "Curriculum aligned with industry practices",
+    "Designed by experienced data professionals",
+    "Used by career switchers and working engineers",
   ];
 
   // Module descriptions for helper text
@@ -535,9 +555,9 @@ const Curriculum = () => {
       {/* Reviews Section */}
       <section className="bg-background py-12 border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <div className="flex text-secondary">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-center gap-2 mb-8">
+              <div className="flex text-primary/80">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-current" />
                 ))}
@@ -546,51 +566,48 @@ const Curriculum = () => {
               <span className="text-muted-foreground text-sm">(217,728 reviews)</span>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-6">
               {reviews.map((review, index) => (
-                <div key={index} className="bg-card border border-border rounded-lg p-4">
-                  <Quote className="w-4 h-4 text-muted-foreground/50 mb-2" />
-                  <p className="text-sm text-muted-foreground italic">{review.text}</p>
+                <div key={index} className="bg-card border border-border rounded-lg p-5">
+                  {/* Avatar, Name, Role, Rating Row */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      {/* Avatar - neutral professional illustration style */}
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
+                        <span className="text-sm font-semibold text-primary">
+                          {review.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{review.name}</p>
+                        <p className="text-xs text-muted-foreground">{review.role}</p>
+                      </div>
+                    </div>
+                    {/* Star Rating */}
+                    <div className="flex items-center gap-1">
+                      <div className="flex text-primary/70">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 fill-current" />
+                        ))}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{review.rating}</span>
+                    </div>
+                  </div>
+                  {/* Review Text */}
+                  <p className="text-sm text-muted-foreground leading-relaxed">"{review.text}"</p>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* In-Demand Article Section */}
-      <section className="bg-muted/30 py-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-xl lg:text-2xl font-display font-bold text-foreground mb-6 text-center">
-              Why Data Engineering Is One of the Most In-Demand Roles
-            </h2>
-            
-            <Card className="overflow-hidden">
-              <div className="aspect-[3/1] bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/10 flex items-center justify-center">
-                <div className="text-center p-6">
-                  <TrendingUp className="w-12 h-12 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Data Engineering Career Growth</p>
+            {/* Trust Signals */}
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-8 text-sm text-muted-foreground">
+              {trustSignals.map((signal, index) => (
+                <div key={index} className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-primary" />
+                  <span>{signal}</span>
                 </div>
-              </div>
-              <CardContent className="p-6">
-                <p className="text-muted-foreground mb-4">
-                  According to the U.S. Bureau of Labor Statistics and industry reports, data engineering roles are projected to grow significantly faster than average occupations. As organizations increasingly rely on data-driven decision making, the demand for professionals who can build and maintain data infrastructure continues to rise.
-                </p>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Open-source technologies like Apache Spark, Apache Kafka, and Apache Airflow have become industry standards, making skills in these tools highly valuable across sectors including finance, healthcare, technology, and e-commerce.
-                </p>
-                <a 
-                  href="https://www.bls.gov/ooh/computer-and-information-technology/home.htm" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-                >
-                  Read more from the Bureau of Labor Statistics
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </CardContent>
-            </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
