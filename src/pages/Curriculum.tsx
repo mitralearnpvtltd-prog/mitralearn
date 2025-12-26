@@ -32,6 +32,7 @@ import {
   GraduationCap,
   ChevronRight
 } from "lucide-react";
+import dataEngineeringArticleImg from "@/assets/data-engineering-article.jpg";
 
 const Curriculum = () => {
   const { progress } = useProgress();
@@ -490,21 +491,32 @@ const Curriculum = () => {
               </Card>
 
               {/* Article Card */}
-              <Card className="border-border">
-                <CardContent className="p-6">
-                  <h3 className="font-display font-semibold text-foreground mb-3">Why Data Engineering?</h3>
-                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                    Data engineering is foundational to modern analytics and AI. As organizations scale their data infrastructure, 
-                    skilled professionals who can build reliable pipelines are in high demand.
+              <Card className="border-border overflow-hidden">
+                <a 
+                  href="https://www.longdom.org/open-access/an-overview-of-data-engineering-and-its-importance-100383.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block hover:opacity-90 transition-opacity"
+                >
+                  <img 
+                    src={dataEngineeringArticleImg} 
+                    alt="Data Engineering Overview" 
+                    className="w-full h-32 object-cover"
+                  />
+                </a>
+                <CardContent className="p-4">
+                  <h3 className="font-display font-semibold text-foreground text-sm mb-2">An Overview of Data Engineering and Its Importance</h3>
+                  <p className="text-xs text-muted-foreground mb-3 leading-relaxed line-clamp-2">
+                    Data engineering is foundational to modern analytics and AI. Learn about its role in building scalable data infrastructure.
                   </p>
                   <a 
-                    href="https://www.bls.gov/ooh/computer-and-information-technology/home.htm" 
+                    href="https://www.longdom.org/open-access/an-overview-of-data-engineering-and-its-importance-100383.html" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-sm text-primary font-medium hover:underline flex items-center gap-1"
+                    className="text-xs text-primary font-medium hover:underline flex items-center gap-1"
                   >
-                    Read more from U.S. Bureau of Labor Statistics
-                    <ChevronRight className="w-4 h-4" />
+                    Read Article
+                    <ChevronRight className="w-3 h-3" />
                   </a>
                 </CardContent>
               </Card>
