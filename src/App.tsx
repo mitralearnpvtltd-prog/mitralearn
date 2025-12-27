@@ -2,8 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { ProgressProvider } from "@/contexts/ProgressContext";
+import { getSlugFromSubmoduleId } from "@/data/curriculum";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Curriculum from "./pages/Curriculum";
@@ -21,6 +22,17 @@ import AdminCourses from "./components/admin/AdminCourses";
 import AdminCertificates from "./components/admin/AdminCertificates";
 import AdminReports from "./components/admin/AdminReports";
 
+// Legacy redirect component for old URLs
+const LegacyRedirect = () => {
+  const { submoduleId } = useParams<{ submoduleId: string }>();
+  const slug = submoduleId ? getSlugFromSubmoduleId(submoduleId) : undefined;
+  
+  if (slug) {
+    return <Navigate to={`/curriculum/lesson/${slug}`} replace />;
+  }
+  return <Navigate to="/curriculum" replace />;
+};
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -35,6 +47,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/curriculum" element={<Curriculum />} />
             <Route path="/curriculum/lesson/:slug" element={<Day />} />
+            <Route path="/curriculum/submodule/:submoduleId" element={<LegacyRedirect />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/certificate" element={<Certificate />} />
             <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />
