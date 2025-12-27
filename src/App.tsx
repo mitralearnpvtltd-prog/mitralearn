@@ -34,8 +34,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/curriculum" element={<Curriculum />} />
-            <Route path="/curriculum/day/:dayNumber" element={<Day />} />
-            <Route path="/curriculum/submodule/:submoduleId" element={<Day />} />
+            <Route path="/curriculum/lesson/:slug" element={<Day />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/certificate" element={<Certificate />} />
             <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />

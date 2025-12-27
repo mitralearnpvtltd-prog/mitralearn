@@ -3,13 +3,13 @@ import { Navbar } from "@/components/Navbar";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { DayLesson } from "@/components/DayLesson";
 import { Button } from "@/components/ui/button";
-import { getSubmoduleContent, getAllSubmodulesOrdered } from "@/data/curriculum";
+import { getSubmoduleContent, getSubmoduleIdFromSlug } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { BookOpen } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 const Day = () => {
-  const { submoduleId } = useParams<{ submoduleId: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const { isLoading } = useProgress();
 
   if (isLoading) {
@@ -20,9 +20,9 @@ const Day = () => {
     );
   }
 
-  const allSubmodules = getAllSubmodulesOrdered();
+  const submoduleId = slug ? getSubmoduleIdFromSlug(slug) : undefined;
   
-  if (!submoduleId || !allSubmodules.includes(submoduleId)) {
+  if (!submoduleId) {
     return <Navigate to="/curriculum" replace />;
   }
 

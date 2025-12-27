@@ -46,14 +46,6 @@ const isEmbeddableVideo = (url: string): boolean => {
   return url.includes('youtube.com') || url.includes('youtu.be');
 };
 
-// Course badge logic
-const getCourseBadge = (title: string): string => {
-  const lowerTitle = title.toLowerCase();
-  if (lowerTitle.includes('java')) {
-    return 'Advanced';
-  }
-  return 'Project + Internship';
-};
 
 // Practice coding challenges for Data Engineering topics
 const getPracticeChallenge = (submoduleId: string): { question: string; language: string; expectedPatterns: string[]; solution: string; hint: string } => {
@@ -910,7 +902,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
   const nextSubmoduleId = getNextSubmoduleId(content.submodule);
   const nextSubmoduleTitle = nextSubmoduleId ? getNextSubmoduleTitle(content.submodule) : undefined;
-  const courseBadge = getCourseBadge(module?.title || content.title);
 
   return (
     <div className="space-y-6">
@@ -920,9 +911,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           <div className="flex items-center gap-3 mb-2">
             <Badge variant={isSubmoduleCompleted ? "default" : "secondary"}>
               Module {module?.module}: {module?.title}
-            </Badge>
-            <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
-              {courseBadge}
             </Badge>
             {isSubmoduleCompleted && (
               <Badge variant="outline" className="gap-1 text-success border-success">

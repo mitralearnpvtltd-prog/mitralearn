@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { modules, getFirstUncompletedSubmodule, getSubmoduleContent } from "@/data/curriculum";
+import { modules, getFirstUncompletedSubmodule, getSubmoduleContent, getSlugFromSubmoduleId } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,7 @@ export const CurriculumOverview = () => {
   const nextSubmoduleId = getFirstUncompletedSubmodule(progress.completedSubmodules);
   const nextSubmoduleContent = getSubmoduleContent(nextSubmoduleId);
   const nextTitle = nextSubmoduleContent?.title || "Get Started";
+  const nextSlug = getSlugFromSubmoduleId(nextSubmoduleId);
 
   return (
     <div className="space-y-6">
@@ -45,7 +46,7 @@ export const CurriculumOverview = () => {
               </p>
             </div>
             <SignedIn>
-              <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
+              <Link to={`/curriculum/lesson/${nextSlug}`}>
                 <Button variant="heroOutline" size="lg" className="gap-2">
                   <Play className="w-5 h-5" />
                   {nextTitle}
@@ -118,24 +119,25 @@ export const CurriculumOverview = () => {
               <CardContent>
                 <Progress value={moduleProgress} className="h-2 mb-4" />
                 <div className="flex flex-wrap gap-2">
-                  {mod.submodules.map((submoduleId) => {
+                {mod.submodules.map((submoduleId) => {
                     const isSubmoduleCompleted = progress.completedSubmodules.includes(submoduleId);
                     const subContent = getSubmoduleContent(submoduleId);
+                    const lessonSlug = getSlugFromSubmoduleId(submoduleId);
+                    const lessonTitle = subContent?.title || submoduleId;
                     
                     const SubmoduleButton = (
                       <div
-                        className={`px-3 py-2 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${
+                        className={`px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-all cursor-pointer ${
                           isSubmoduleCompleted
                             ? "bg-success text-success-foreground"
                             : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
                         }`}
-                        title={subContent?.title}
+                        title={lessonTitle}
                       >
-                        {isSubmoduleCompleted ? (
-                          <CheckCircle2 className="w-4 h-4" />
-                        ) : (
-                          submoduleId
+                        {isSubmoduleCompleted && (
+                          <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                         )}
+                        <span className="truncate">{lessonTitle}</span>
                       </div>
                     );
 
@@ -146,7 +148,7 @@ export const CurriculumOverview = () => {
                     return (
                       <div key={submoduleId}>
                         <SignedIn>
-                          <Link to={`/curriculum/submodule/${submoduleId}`}>
+                          <Link to={`/curriculum/lesson/${lessonSlug}`}>
                             {SubmoduleButton}
                           </Link>
                         </SignedIn>

@@ -1828,3 +1828,25 @@ export const getFirstUncompletedSubmodule = (completedSubmodules: string[]): str
   }
   return allSubmodules[allSubmodules.length - 1]; // Return last if all completed
 };
+
+// Convert title to URL-friendly slug
+export const titleToSlug = (title: string): string => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+};
+
+// Get submodule ID from slug
+export const getSubmoduleIdFromSlug = (slug: string): string | undefined => {
+  const submodule = submodules.find(s => titleToSlug(s.title) === slug);
+  return submodule?.submodule;
+};
+
+// Get slug from submodule ID
+export const getSlugFromSubmoduleId = (submoduleId: string): string | undefined => {
+  const submodule = submodules.find(s => s.submodule === submoduleId);
+  return submodule ? titleToSlug(submodule.title) : undefined;
+};
