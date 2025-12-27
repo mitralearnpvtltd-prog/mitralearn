@@ -163,8 +163,8 @@ const Curriculum = () => {
               </div>
 
               {/* Feature Badges */}
-              <div className="flex flex-wrap gap-4 pt-2">
-                <div className="flex items-center gap-2 text-muted-foreground">
+              <div className="flex flex-wrap gap-6 lg:gap-8 pt-2">
+                <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                     <Clock className="w-5 h-5 text-primary" />
                   </div>
@@ -173,7 +173,7 @@ const Curriculum = () => {
                     <div className="text-xs">Duration</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                     <Briefcase className="w-5 h-5 text-primary" />
                   </div>
@@ -182,7 +182,7 @@ const Curriculum = () => {
                     <div className="text-xs">Hands-on</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                     <TrendingUp className="w-5 h-5 text-primary" />
                   </div>
@@ -191,7 +191,7 @@ const Curriculum = () => {
                     <div className="text-xs">Level</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                     <Award className="w-5 h-5 text-primary" />
                   </div>
@@ -263,9 +263,11 @@ const Curriculum = () => {
                     </SignInButton>
                   </SignedOut>
                   
-                  <Button variant="outline" className="w-full">
-                    Try Free Preview
-                  </Button>
+                  <Link to="#curriculum" className="block">
+                    <Button variant="outline" className="w-full">
+                      View Curriculum
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </div>
