@@ -51,8 +51,18 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
+            <Link to="/curriculum">
+              <Button
+                variant={isActive("/curriculum") ? "default" : "ghost"}
+                size="sm"
+                className="gap-2"
+              >
+                <BookOpen className="w-4 h-4" />
+                Courses
+              </Button>
+            </Link>
             <SignedIn>
-              {navItems.map((item) => (
+              {navItems.filter(item => item.href !== "/curriculum").map((item) => (
                 <Link key={item.href} to={item.href}>
                   <Button
                     variant={isActive(item.href) ? "default" : "ghost"}
@@ -65,7 +75,7 @@ export const Navbar = () => {
                 </Link>
               ))}
             </SignedIn>
-            <Link to="/verify">
+            <Link to="/verify-certificate">
               <Button variant="ghost" size="sm" className="gap-2">
                 <Shield className="w-4 h-4" />
                 Verify
@@ -115,8 +125,20 @@ export const Navbar = () => {
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border animate-slide-up">
             <div className="flex flex-col gap-2">
+              <Link
+                to="/curriculum"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Button
+                  variant={isActive("/curriculum") ? "default" : "ghost"}
+                  className="w-full justify-start gap-2"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  Courses
+                </Button>
+              </Link>
               <SignedIn>
-                {navItems.map((item) => (
+                {navItems.filter(item => item.href !== "/curriculum").map((item) => (
                   <Link
                     key={item.href}
                     to={item.href}
@@ -132,7 +154,7 @@ export const Navbar = () => {
                   </Link>
                 ))}
               </SignedIn>
-              <Link to="/verify" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/verify-certificate" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start gap-2">
                   <Shield className="w-4 h-4" />
                   Verify Certificate
