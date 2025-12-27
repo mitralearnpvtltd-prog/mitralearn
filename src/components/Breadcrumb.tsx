@@ -26,7 +26,7 @@ export const Breadcrumb = () => {
     } else if (segment === "week" && pathnames[index + 1]) return;
     else if (!isNaN(Number(segment)) && pathnames[index - 1] === "week") {
       label = `Week ${segment}`;
-    }
+    } else if (segment === "lesson") return; // Skip "lesson" from breadcrumb
     
     breadcrumbItems.push({
       label,
