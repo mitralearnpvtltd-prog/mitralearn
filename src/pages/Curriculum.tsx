@@ -163,41 +163,41 @@ const Curriculum = () => {
               </div>
 
               {/* Feature Badges */}
-              <div className="flex flex-wrap gap-6 lg:gap-8 pt-2">
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
                     <Clock className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="font-semibold text-foreground">12 Hours</div>
-                    <div className="text-xs">Duration</div>
+                    <div className="text-xs text-muted-foreground">Duration</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
                     <Briefcase className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="font-semibold text-foreground">Projects + Internship</div>
-                    <div className="text-xs">Hands-on</div>
+                    <div className="text-xs text-muted-foreground">Hands-on</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
                     <TrendingUp className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="font-semibold text-foreground">Beginner to Advanced</div>
-                    <div className="text-xs">Level</div>
+                    <div className="text-xs text-muted-foreground">Level</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
                     <Award className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="font-semibold text-foreground">Certificate</div>
-                    <div className="text-xs">Included</div>
+                    <div className="text-xs text-muted-foreground">Included</div>
                   </div>
                 </div>
               </div>
