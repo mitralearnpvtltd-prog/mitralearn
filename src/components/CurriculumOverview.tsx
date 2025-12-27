@@ -46,7 +46,7 @@ export const CurriculumOverview = () => {
               </p>
             </div>
             <SignedIn>
-              <Link to="/curriculum">
+              <Link to={`/curriculum/lesson/${nextSlug}`}>
                 <Button variant="heroOutline" size="lg" className="gap-2">
                   <Play className="w-5 h-5" />
                   {nextTitle}
@@ -148,7 +148,7 @@ export const CurriculumOverview = () => {
                     return (
                       <div key={submoduleId}>
                         <SignedIn>
-                          <Link to="/curriculum">
+                          <Link to={`/curriculum/lesson/${lessonSlug}`}>
                             {SubmoduleButton}
                           </Link>
                         </SignedIn>
