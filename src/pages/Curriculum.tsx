@@ -263,11 +263,13 @@ const Curriculum = () => {
                     </SignInButton>
                   </SignedOut>
                   
-                  <Link to="#curriculum" className="block">
-                    <Button variant="outline" className="w-full">
-                      View Curriculum
-                    </Button>
-                  </Link>
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    View Curriculum
+                  </Button>
                 </CardContent>
               </Card>
             </div>
@@ -276,7 +278,7 @@ const Curriculum = () => {
       </section>
 
       {/* Main Content - Curriculum + Sidebar */}
-      <section className="bg-background py-12">
+      <section id="curriculum" className="bg-background py-12 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Curriculum Section */}
