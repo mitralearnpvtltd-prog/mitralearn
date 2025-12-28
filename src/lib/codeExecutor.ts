@@ -1,86 +1,97 @@
 import initSqlJs, { Database } from 'sql.js';
 
 let sqlDb: Database | null = null;
-let sqlJsInitialized = false;
+let initPromise: Promise<Database> | null = null;
 
 // Initialize SQL.js with sample data
 export const initializeSqlJs = async (): Promise<Database> => {
-  if (sqlDb && sqlJsInitialized) {
+  // Return existing database if already initialized
+  if (sqlDb) {
     return sqlDb;
   }
-
-  const SQL = await initSqlJs({
-    locateFile: (file) => `https://sql.js.org/dist/${file}`
-  });
-
-  sqlDb = new SQL.Database();
   
-  // Create sample tables with data
-  sqlDb.run(`
-    CREATE TABLE users (
-      id INTEGER PRIMARY KEY,
-      name TEXT NOT NULL,
-      email TEXT,
-      age INTEGER,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP
-    );
-    
-    INSERT INTO users (id, name, email, age) VALUES
-    (1, 'Alice Johnson', 'alice@example.com', 28),
-    (2, 'Bob Smith', 'bob@example.com', 35),
-    (3, 'Carol White', 'carol@example.com', 22),
-    (4, 'David Brown', 'david@example.com', 45),
-    (5, 'Eve Davis', 'eve@example.com', 31);
-    
-    CREATE TABLE employees (
-      id INTEGER PRIMARY KEY,
-      name TEXT NOT NULL,
-      department TEXT,
-      salary INTEGER,
-      hire_date TEXT
-    );
-    
-    INSERT INTO employees (id, name, department, salary, hire_date) VALUES
-    (1, 'Alice', 'Engineering', 75000, '2020-01-15'),
-    (2, 'Bob', 'Marketing', 45000, '2019-06-01'),
-    (3, 'Charlie', 'Engineering', 62000, '2021-03-10'),
-    (4, 'Diana', 'Sales', 55000, '2018-11-20'),
-    (5, 'Eve', 'Engineering', 80000, '2017-08-05');
-    
-    CREATE TABLE products (
-      id INTEGER PRIMARY KEY,
-      name TEXT NOT NULL,
-      category TEXT,
-      price REAL,
-      stock INTEGER
-    );
-    
-    INSERT INTO products (id, name, category, price, stock) VALUES
-    (1, 'Laptop', 'Electronics', 999.99, 50),
-    (2, 'Mouse', 'Electronics', 29.99, 200),
-    (3, 'Keyboard', 'Electronics', 79.99, 150),
-    (4, 'Monitor', 'Electronics', 299.99, 75),
-    (5, 'Headphones', 'Electronics', 149.99, 100);
-    
-    CREATE TABLE orders (
-      id INTEGER PRIMARY KEY,
-      customer_id INTEGER,
-      product_id INTEGER,
-      quantity INTEGER,
-      order_date TEXT,
-      total REAL
-    );
-    
-    INSERT INTO orders (id, customer_id, product_id, quantity, order_date, total) VALUES
-    (1, 1, 1, 1, '2024-01-15', 999.99),
-    (2, 2, 2, 2, '2024-01-16', 59.98),
-    (3, 1, 3, 1, '2024-01-17', 79.99),
-    (4, 3, 4, 1, '2024-01-18', 299.99),
-    (5, 4, 5, 2, '2024-01-19', 299.98);
-  `);
+  // Return existing promise if already initializing (prevents race conditions)
+  if (initPromise) {
+    return initPromise;
+  }
+
+  initPromise = (async () => {
+    const SQL = await initSqlJs({
+      // Use the official CDN for WASM file
+      locateFile: (file: string) => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}`
+    });
+
+    const db = new SQL.Database();
   
-  sqlJsInitialized = true;
-  return sqlDb;
+    // Create sample tables with data
+    db.run(`
+      CREATE TABLE users (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT,
+        age INTEGER,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+      
+      INSERT INTO users (id, name, email, age) VALUES
+      (1, 'Alice Johnson', 'alice@example.com', 28),
+      (2, 'Bob Smith', 'bob@example.com', 35),
+      (3, 'Carol White', 'carol@example.com', 22),
+      (4, 'David Brown', 'david@example.com', 45),
+      (5, 'Eve Davis', 'eve@example.com', 31);
+      
+      CREATE TABLE employees (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        department TEXT,
+        salary INTEGER,
+        hire_date TEXT
+      );
+      
+      INSERT INTO employees (id, name, department, salary, hire_date) VALUES
+      (1, 'Alice', 'Engineering', 75000, '2020-01-15'),
+      (2, 'Bob', 'Marketing', 45000, '2019-06-01'),
+      (3, 'Charlie', 'Engineering', 62000, '2021-03-10'),
+      (4, 'Diana', 'Sales', 55000, '2018-11-20'),
+      (5, 'Eve', 'Engineering', 80000, '2017-08-05');
+      
+      CREATE TABLE products (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        category TEXT,
+        price REAL,
+        stock INTEGER
+      );
+      
+      INSERT INTO products (id, name, category, price, stock) VALUES
+      (1, 'Laptop', 'Electronics', 999.99, 50),
+      (2, 'Mouse', 'Electronics', 29.99, 200),
+      (3, 'Keyboard', 'Electronics', 79.99, 150),
+      (4, 'Monitor', 'Electronics', 299.99, 75),
+      (5, 'Headphones', 'Electronics', 149.99, 100);
+      
+      CREATE TABLE orders (
+        id INTEGER PRIMARY KEY,
+        customer_id INTEGER,
+        product_id INTEGER,
+        quantity INTEGER,
+        order_date TEXT,
+        total REAL
+      );
+      
+      INSERT INTO orders (id, customer_id, product_id, quantity, order_date, total) VALUES
+      (1, 1, 1, 1, '2024-01-15', 999.99),
+      (2, 2, 2, 2, '2024-01-16', 59.98),
+      (3, 1, 3, 1, '2024-01-17', 79.99),
+      (4, 3, 4, 1, '2024-01-18', 299.99),
+      (5, 4, 5, 2, '2024-01-19', 299.98);
+    `);
+    
+    sqlDb = db;
+    return db;
+  })();
+
+  return initPromise;
 };
 
 // Format SQL results as a table
@@ -161,7 +172,6 @@ export const executePython = async (code: string): Promise<{ output: string; suc
 
     // Simple Python output simulation based on print statements
     const printMatches = cleanCode.match(/print\s*\(\s*["'`]([^"'`]*)["'`]\s*\)/g);
-    const fStringMatches = cleanCode.match(/print\s*\(\s*f["']([^"']*)["']\s*\)/g);
     
     let outputs: string[] = [];
     
@@ -201,7 +211,7 @@ High value sales: 3`,
       };
     }
     
-    if (cleanCode.includes('append') && cleanCode.includes('topic') || cleanCode.includes('queue')) {
+    if (cleanCode.includes('append') && (cleanCode.includes('topic') || cleanCode.includes('queue'))) {
       return { 
         output: `[PRODUCER] Sent: {'order_id': 1, 'item': 'Laptop', 'price': 999}
 [PRODUCER] Sent: {'order_id': 2, 'item': 'Mouse', 'price': 29}
