@@ -15,10 +15,10 @@ import {
   BarChart3,
   Menu,
   X,
-  GraduationCap,
   Shield,
 } from "lucide-react";
 import { useState } from "react";
+import innovskillsLogo from "@/assets/innovskills-logo.png";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -39,14 +39,12 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow">
-              <GraduationCap className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <div>
-              <span className="font-display font-bold text-lg text-foreground">Innov Skills</span>
-              <span className="text-xs text-muted-foreground block -mt-1">By Innovkaro</span>
-            </div>
+          <Link to="/" className="flex items-center">
+            <img 
+              src={innovskillsLogo} 
+              alt="InnovSkills" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
