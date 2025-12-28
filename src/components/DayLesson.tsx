@@ -26,9 +26,11 @@ import {
   Sparkles,
   HelpCircle,
   ExternalLink,
+  Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { executeCode } from "@/lib/codeExecutor";
 
 interface DayLessonProps {
   content: SubmoduleContent;
@@ -227,6 +229,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   const [compilerOutput, setCompilerOutput] = useState("");
   const [compilerHint, setCompilerHint] = useState("");
   const [showSolution, setShowSolution] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
 
   const isSubmoduleCompleted = progress.completedSubmodules.includes(content.submodule);
   const quizScore = progress.completedQuizzes[content.submodule];
@@ -314,33 +317,48 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     setQuizSubmitted(false);
   };
 
-  // Compiler auto-grading logic with topic-specific validation
-  const handleRunCode = () => {
+  // Compiler execution with real code runner
+  const handleRunCode = async () => {
     if (!practiceChallenge) return;
     
-    const trimmedCode = compilerCode.trim().toLowerCase();
+    const trimmedCode = compilerCode.trim();
     
-    if (trimmedCode.length < 10) {
-      setCompilerOutput("Error: Please write more code to complete the exercise.");
+    if (trimmedCode.length < 5) {
+      setCompilerOutput("Error: Please write some code to execute.");
       setCompilerHint(practiceChallenge.hint);
       return;
     }
 
-    // Check for expected patterns based on the challenge
-    const matchedPatterns = practiceChallenge.expectedPatterns.filter(pattern => 
-      trimmedCode.includes(pattern.toLowerCase())
-    );
+    setIsRunning(true);
+    setCompilerOutput("Executing...");
+    setCompilerHint("");
 
-    const isCorrect = matchedPatterns.length >= Math.ceil(practiceChallenge.expectedPatterns.length / 2);
-
-    if (isCorrect) {
-      setCompilerOutput("✓ Success! Your code demonstrates the required concepts correctly.");
-      setCompilerHint("");
-      completeCodingChallenge(content.submodule);
-      toast.success("Practice challenge completed! You can now access the Quiz.");
-    } else {
-      setCompilerOutput("✗ Incorrect. Your code doesn't match the expected patterns. Try again!");
+    try {
+      // Execute the code using the real executor
+      const result = await executeCode(trimmedCode, practiceChallenge.language);
+      
+      setCompilerOutput(result.output);
+      
+      if (result.success) {
+        // Check if the code contains expected patterns to mark as completed
+        const lowerCode = trimmedCode.toLowerCase();
+        const matchedPatterns = practiceChallenge.expectedPatterns.filter(pattern => 
+          lowerCode.includes(pattern.toLowerCase())
+        );
+        const hasRequiredPatterns = matchedPatterns.length >= Math.ceil(practiceChallenge.expectedPatterns.length / 2);
+        
+        if (hasRequiredPatterns && !isPracticeCompleted) {
+          completeCodingChallenge(content.submodule);
+          toast.success("Practice challenge completed! You can now access the Quiz.");
+        }
+      } else {
+        setCompilerHint(practiceChallenge.hint);
+      }
+    } catch (error) {
+      setCompilerOutput(`Error: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
       setCompilerHint(practiceChallenge.hint);
+    } finally {
+      setIsRunning(false);
     }
   };
 
@@ -814,20 +832,21 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
                     {/* Output Panel */}
                     <div className="border rounded-lg overflow-hidden flex flex-col">
-                      <div className="bg-muted px-4 py-2 border-b">
+                      <div className="bg-muted px-4 py-2 border-b flex items-center justify-between">
                         <span className="text-sm font-medium">Output</span>
+                        {isRunning && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
                       </div>
-                      <div className="flex-1 p-4 bg-card min-h-[288px]">
+                      <div className="flex-1 bg-card min-h-[288px] overflow-auto">
                         {compilerOutput ? (
-                          <div className={`p-3 rounded-lg h-full ${
-                            compilerOutput.includes('Success') 
-                              ? 'bg-success/10 text-success' 
-                              : 'bg-destructive/10 text-destructive'
+                          <pre className={`p-4 h-full text-sm font-mono whitespace-pre-wrap ${
+                            compilerOutput.includes('Error') || compilerOutput.includes('error')
+                              ? 'text-destructive' 
+                              : 'text-foreground'
                           }`}>
-                            <p className="font-mono text-sm whitespace-pre-wrap">{compilerOutput}</p>
-                          </div>
+                            {compilerOutput}
+                          </pre>
                         ) : (
-                          <div className="text-muted-foreground text-sm font-mono h-full flex items-center justify-center">
+                          <div className="text-muted-foreground text-sm font-mono h-full flex items-center justify-center p-4">
                             <p className="text-center">Click "Run Code" to see output here</p>
                           </div>
                         )}
@@ -847,9 +866,18 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
                   {/* Buttons */}
                   <div className="flex gap-3">
-                    <Button onClick={handleRunCode} className="flex-1 gap-2">
-                      <Play className="w-4 h-4" />
-                      Run Code
+                    <Button onClick={handleRunCode} disabled={isRunning} className="flex-1 gap-2">
+                      {isRunning ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Running...
+                        </>
+                      ) : (
+                        <>
+                          <Play className="w-4 h-4" />
+                          Run Code
+                        </>
+                      )}
                     </Button>
                     <Button 
                       variant="outline" 
