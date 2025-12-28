@@ -230,6 +230,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   const [compilerHint, setCompilerHint] = useState("");
   const [showSolution, setShowSolution] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const [codePassedValidation, setCodePassedValidation] = useState(false);
 
   const isSubmoduleCompleted = progress.completedSubmodules.includes(content.submodule);
   const quizScore = progress.completedQuizzes[content.submodule];
@@ -263,6 +264,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     setCompilerOutput("");
     setCompilerHint("");
     setShowSolution(false);
+    setCodePassedValidation(false);
   }, [content.submodule]);
 
   const handleTabChange = (value: string) => {
@@ -347,11 +349,18 @@ export const DayLesson = ({ content }: DayLessonProps) => {
         );
         const hasRequiredPatterns = matchedPatterns.length >= Math.ceil(practiceChallenge.expectedPatterns.length / 2);
         
-        if (hasRequiredPatterns && !isPracticeCompleted) {
-          completeCodingChallenge(content.submodule);
-          toast.success("Practice challenge completed! You can now access the Quiz.");
+        if (hasRequiredPatterns) {
+          setCodePassedValidation(true);
+          if (!isPracticeCompleted) {
+            completeCodingChallenge(content.submodule);
+            toast.success("Practice challenge completed! You can now access the Quiz.");
+          }
+        } else {
+          setCodePassedValidation(false);
+          setCompilerHint(practiceChallenge.hint);
         }
       } else {
+        setCodePassedValidation(false);
         setCompilerHint(practiceChallenge.hint);
       }
     } catch (error) {
@@ -903,7 +912,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                     </div>
                   )}
 
-                  {isPracticeCompleted && (
+                  {(isPracticeCompleted || codePassedValidation) && (
                     <Button onClick={handleCompletePractice} className="w-full gap-2">
                       Continue to Quiz
                       <ArrowRight className="w-4 h-4" />
