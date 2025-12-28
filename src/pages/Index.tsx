@@ -26,6 +26,7 @@ import {
   Rocket,
   TrendingUp,
 } from "lucide-react";
+import innovskillsLogo from "@/assets/innovskills-logo.png";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -295,14 +296,12 @@ const Index = () => {
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b" style={{ borderColor: '#E5E7EB' }}>
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div 
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #7C3AED, #6366F1)' }}
-            >
-              <span className="text-white font-bold text-sm">S</span>
-            </div>
-            <span className="text-xl font-bold" style={{ color: '#0F172A' }}>Innov Skills</span>
+          <Link to="/" className="flex items-center">
+            <img 
+              src={innovskillsLogo} 
+              alt="InnovSkills" 
+              className="h-8 w-auto"
+            />
           </Link>
           <div className="flex items-center gap-4">
             <SignedOut>
