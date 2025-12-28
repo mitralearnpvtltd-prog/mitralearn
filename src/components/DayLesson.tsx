@@ -471,281 +471,214 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             </Card>
           )}
 
-          {/* Video Section */}
+          {/* Video Section - Compact */}
           {content.resources.filter(r => r.type === 'Video').length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Video className="w-5 h-5 text-destructive" />
-                  Video Tutorial
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {content.resources.filter(r => r.type === 'Video').map((resource, index) => {
-                    const videoId = getYouTubeVideoId(resource.url);
-                    
-                    if (videoId && isEmbeddableVideo(resource.url)) {
-                      return (
-                        <div key={index} className="space-y-2">
-                          <p className="font-medium text-foreground">{resource.title}</p>
-                          <div className="aspect-video rounded-lg overflow-hidden bg-muted">
-                            <iframe
-                              src={`https://www.youtube.com/embed/${videoId}`}
-                              title={resource.title}
-                              className="w-full h-full"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
+            <div className="space-y-3">
+              {content.resources.filter(r => r.type === 'Video').map((resource, index) => {
+                const videoId = getYouTubeVideoId(resource.url);
+                
+                if (videoId && isEmbeddableVideo(resource.url)) {
+                  return (
+                    <div key={index} className="flex items-start gap-4">
+                      <div className="w-64 shrink-0 rounded-lg overflow-hidden bg-muted aspect-video">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title={resource.title}
+                          className="w-full h-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                      <div className="pt-1">
+                        <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+                          <Video className="w-4 h-4 text-destructive" />
+                          Video Tutorial
                         </div>
-                      );
-                    }
-                    
-                    return (
-                      <a
-                        key={index}
-                        href={resource.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors group"
-                      >
-                        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-destructive/10 text-destructive">
-                          <Play className="w-5 h-5" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-medium group-hover:text-primary transition-colors">
-                            {resource.title}
-                          </p>
-                        </div>
-                      </a>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+                        <p className="font-medium text-foreground">{resource.title}</p>
+                      </div>
+                    </div>
+                  );
+                }
+                
+                return (
+                  <a
+                    key={index}
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border/50 hover:border-border hover:bg-muted/30 transition-colors group"
+                  >
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-destructive/10 text-destructive">
+                      <Play className="w-4 h-4" />
+                    </div>
+                    <p className="font-medium group-hover:text-primary transition-colors">
+                      {resource.title}
+                    </p>
+                  </a>
+                );
+              })}
+            </div>
           )}
 
           {/* Introduction */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-primary" />
-                Introduction
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground leading-relaxed">
-                {content.content.introduction}
-              </p>
-            </CardContent>
-          </Card>
+          <div className="space-y-2">
+            <p className="text-muted-foreground leading-relaxed">
+              {content.content.introduction}
+            </p>
+          </div>
 
-          {/* Key Concepts */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="w-5 h-5 text-primary" />
+          {/* Two Column Grid for Key Info */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Key Concepts */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Brain className="w-4 h-4 text-primary" />
                 Key Concepts
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
+              </h3>
+              <ul className="space-y-2">
                 {content.content.keyConcepts.map((concept, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-medium shrink-0 mt-0.5">
+                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-medium shrink-0 mt-0.5">
                       {index + 1}
                     </span>
-                    <span className="text-muted-foreground">{concept}</span>
+                    <span>{concept}</span>
                   </li>
                 ))}
               </ul>
-            </CardContent>
-          </Card>
+            </div>
 
-          {/* Core Responsibilities */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-primary" />
+            {/* Core Responsibilities */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Target className="w-4 h-4 text-primary" />
                 Core Responsibilities
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+              </h3>
               <ul className="space-y-2">
                 {content.content.coreResponsibilities.map((responsibility, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-1" />
-                    <span className="text-muted-foreground">{responsibility}</span>
+                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-0.5" />
+                    <span>{responsibility}</span>
                   </li>
                 ))}
               </ul>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          {/* Tools / Ecosystem */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Wrench className="w-5 h-5 text-primary" />
-                Tools / Ecosystem
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-2">
-                {content.content.toolsEcosystem.map((tool, index) => (
-                  <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
-                    <Code className="w-4 h-4 text-primary shrink-0" />
-                    <span className="text-muted-foreground">{tool}</span>
-                  </div>
+          {/* Tools - Compact Pills */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Wrench className="w-4 h-4 text-primary" />
+              Tools & Ecosystem
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {content.content.toolsEcosystem.map((tool, index) => (
+                <Badge key={index} variant="secondary" className="font-normal">
+                  {tool}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Comparison - Only show if exists */}
+          {content.content.comparison && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <GitCompare className="w-4 h-4 text-primary" />
+                {content.content.comparison.title}
+              </h3>
+              <ul className="space-y-1.5">
+                {content.content.comparison.items.map((item, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-1">•</span>
+                    {item}
+                  </li>
                 ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Comparison (if applicable) */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <GitCompare className="w-5 h-5 text-primary" />
-                Comparison
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {content.content.comparison ? (
-                <div className="space-y-3">
-                  <p className="font-medium text-foreground">{content.content.comparison.title}</p>
-                  <ul className="space-y-2">
-                    {content.content.comparison.items.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2 text-muted-foreground">
-                        <span className="text-primary">•</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <p className="text-muted-foreground italic">
-                  No direct comparison applicable for this topic. The concepts covered are foundational and standalone.
-                </p>
-              )}
-            </CardContent>
-          </Card>
+              </ul>
+            </div>
+          )}
 
           {/* Real-World Applications */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Globe className="w-5 h-5 text-primary" />
-                Real-World Applications
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3">
-                {content.content.realWorldApplications.map((application, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-muted/50 border border-border/50">
-                    <p className="text-muted-foreground">{application}</p>
-                  </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Globe className="w-4 h-4 text-primary" />
+              Real-World Applications
+            </h3>
+            <div className="grid gap-2">
+              {content.content.realWorldApplications.map((application, index) => (
+                <p key={index} className="text-sm text-muted-foreground pl-6 border-l-2 border-border">
+                  {application}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* Tips - Compact */}
+          <div className="p-4 rounded-lg bg-warning/5 border border-warning/20 space-y-2">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Lightbulb className="w-4 h-4 text-warning" />
+              Tips & Insights
+            </h3>
+            <ul className="space-y-1.5">
+              {content.content.tipsInsights.map((tip, index) => (
+                <li key={index} className="text-sm text-muted-foreground pl-6">
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Thinking Questions - Collapsible feel */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <HelpCircle className="w-4 h-4 text-primary" />
+              Thinking Questions
+            </h3>
+            <div className="space-y-2">
+              {content.content.thinkingQuestions.map((question, index) => (
+                <p key={index} className="text-sm text-muted-foreground italic pl-4 border-l-2 border-secondary">
+                  {question}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* Further Reading - Minimal */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <ExternalLink className="w-4 h-4 text-primary" />
+              Further Reading
+            </h3>
+            <ul className="space-y-1">
+              {content.content.furtherReading.map((reading, index) => (
+                <li key={index} className="text-sm text-muted-foreground">
+                  {reading}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Articles/Reading Resources - Minimal */}
+          {content.resources.filter(r => r.type === 'Article').length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <FileText className="w-4 h-4 text-primary" />
+                Additional Resources
+              </h3>
+              <div className="space-y-2">
+                {content.resources.filter(r => r.type === 'Article').map((resource, index) => (
+                  <a
+                    key={index}
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3 shrink-0" />
+                    {resource.title}
+                  </a>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Tips & Insights */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
-                Tips & Insights
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                {content.content.tipsInsights.map((tip, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Lightbulb className="w-5 h-5 text-warning shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">{tip}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Thinking Questions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-primary" />
-                Thinking Questions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                {content.content.thinkingQuestions.map((question, index) => (
-                  <li key={index} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/10">
-                    <span className="w-6 h-6 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-sm font-medium shrink-0">
-                      ?
-                    </span>
-                    <span className="text-muted-foreground italic">{question}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Further Reading */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ExternalLink className="w-5 h-5 text-primary" />
-                Further Reading
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {content.content.furtherReading.map((reading, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <FileText className="w-4 h-4 text-muted-foreground shrink-0 mt-1" />
-                    <span className="text-muted-foreground">{reading}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Articles/Reading Resources */}
-          {content.resources.filter(r => r.type === 'Article').length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-primary" />
-                  Additional Resources
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {content.resources.filter(r => r.type === 'Article').map((resource, index) => (
-                    <a
-                      key={index}
-                      href={resource.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors group"
-                    >
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-primary/10 text-primary">
-                        <FileText className="w-5 h-5" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium group-hover:text-primary transition-colors">
-                          {resource.title}
-                        </p>
-                        <p className="text-sm text-muted-foreground">Article</p>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            </div>
           )}
 
           {/* Continue Button */}
