@@ -790,8 +790,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                     </div>
                   </div>
 
-                  {/* Code Compiler */}
-                  <div className="space-y-4">
+                  {/* Code Editor and Output Side by Side */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {/* Code Editor */}
                     <div className="border rounded-lg overflow-hidden">
                       <div className="bg-muted px-4 py-2 border-b flex items-center justify-between">
                         <span className="text-sm font-medium">Code Editor ({practiceChallenge.language.toUpperCase()})</span>
@@ -806,69 +807,80 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                         value={compilerCode}
                         onChange={(e) => setCompilerCode(e.target.value)}
                         placeholder={`Write your ${practiceChallenge.language.toUpperCase()} code here...`}
-                        className="w-full h-64 p-4 font-mono text-sm bg-card resize-none focus:outline-none"
+                        className="w-full h-72 p-4 font-mono text-sm bg-card resize-none focus:outline-none"
                         spellCheck={false}
                       />
                     </div>
 
-                    {/* Output */}
-                    {compilerOutput && (
-                      <div className={`p-4 rounded-lg ${
-                        compilerOutput.includes('Success') 
-                          ? 'bg-success/10 text-success' 
-                          : 'bg-destructive/10 text-destructive'
-                      }`}>
-                        <p className="font-medium">{compilerOutput}</p>
+                    {/* Output Panel */}
+                    <div className="border rounded-lg overflow-hidden flex flex-col">
+                      <div className="bg-muted px-4 py-2 border-b">
+                        <span className="text-sm font-medium">Output</span>
                       </div>
-                    )}
-
-                    {/* Hint */}
-                    {compilerHint && (
-                      <div className="p-4 rounded-lg bg-secondary/10 text-secondary-foreground">
-                        <p className="flex items-start gap-2">
-                          <Lightbulb className="w-4 h-4 mt-0.5 text-warning shrink-0" />
-                          {compilerHint}
-                        </p>
+                      <div className="flex-1 p-4 bg-card min-h-[288px]">
+                        {compilerOutput ? (
+                          <div className={`p-3 rounded-lg h-full ${
+                            compilerOutput.includes('Success') 
+                              ? 'bg-success/10 text-success' 
+                              : 'bg-destructive/10 text-destructive'
+                          }`}>
+                            <p className="font-mono text-sm whitespace-pre-wrap">{compilerOutput}</p>
+                          </div>
+                        ) : (
+                          <div className="text-muted-foreground text-sm font-mono h-full flex items-center justify-center">
+                            <p className="text-center">Click "Run Code" to see output here</p>
+                          </div>
+                        )}
                       </div>
-                    )}
-
-                    {/* Buttons */}
-                    <div className="flex gap-3">
-                      <Button onClick={handleRunCode} className="flex-1 gap-2">
-                        <Play className="w-4 h-4" />
-                        Run Code
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => setShowSolution(!showSolution)}
-                        className="gap-2"
-                      >
-                        {showSolution ? "Hide" : "Show"} Solution
-                      </Button>
                     </div>
-
-                    {/* Solution (hidden by default) */}
-                    {showSolution && (
-                      <div className="border rounded-lg overflow-hidden">
-                        <div className="bg-success/10 px-4 py-2 border-b flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-success" />
-                          <span className="text-sm font-medium text-success">Example Solution</span>
-                        </div>
-                        <pre className="p-4 bg-muted/50 overflow-x-auto">
-                          <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
-                            {practiceChallenge.solution}
-                          </code>
-                        </pre>
-                      </div>
-                    )}
-
-                    {isPracticeCompleted && (
-                      <Button onClick={handleCompletePractice} className="w-full gap-2">
-                        Continue to Quiz
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
-                    )}
                   </div>
+
+                  {/* Hint */}
+                  {compilerHint && (
+                    <div className="p-4 rounded-lg bg-secondary/10 text-secondary-foreground">
+                      <p className="flex items-start gap-2">
+                        <Lightbulb className="w-4 h-4 mt-0.5 text-warning shrink-0" />
+                        {compilerHint}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Buttons */}
+                  <div className="flex gap-3">
+                    <Button onClick={handleRunCode} className="flex-1 gap-2">
+                      <Play className="w-4 h-4" />
+                      Run Code
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setShowSolution(!showSolution)}
+                      className="gap-2"
+                    >
+                      {showSolution ? "Hide" : "Show"} Solution
+                    </Button>
+                  </div>
+
+                  {/* Solution (hidden by default) */}
+                  {showSolution && (
+                    <div className="border rounded-lg overflow-hidden">
+                      <div className="bg-success/10 px-4 py-2 border-b flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-success" />
+                        <span className="text-sm font-medium text-success">Example Solution</span>
+                      </div>
+                      <pre className="p-4 bg-muted/50 overflow-x-auto">
+                        <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                          {practiceChallenge.solution}
+                        </code>
+                      </pre>
+                    </div>
+                  )}
+
+                  {isPracticeCompleted && (
+                    <Button onClick={handleCompletePractice} className="w-full gap-2">
+                      Continue to Quiz
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
