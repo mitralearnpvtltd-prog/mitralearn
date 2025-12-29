@@ -83,7 +83,7 @@ const Dashboard = () => {
                 <p className="text-primary-foreground/80 mb-4">
                   Pick up where you left off
                 </p>
-                <Link to={`/curriculum/${nextSubmoduleSlug}`}>
+                <Link to={`/curriculum/lesson/${nextSubmoduleSlug}`}>
                   <Button variant="heroOutline" className="w-full gap-2">
                     <Play className="w-4 h-4" />
                     {nextSubmoduleContent?.title || "Get Started"}
@@ -144,7 +144,7 @@ const Dashboard = () => {
                     return (
                       <Link
                         key={submoduleId}
-                        to={`/curriculum/${slug}`}
+                        to={`/curriculum/lesson/${slug}`}
                         className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                       >
                         <div className="flex items-center gap-3">
