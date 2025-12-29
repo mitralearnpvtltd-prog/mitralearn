@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { supabase } from '@/integrations/supabase/client';
-import { getTotalSubmodules, getTotalModules } from '@/data/curriculum';
+import { getTotalSubmodules, getTotalModules, getAllSubmodulesOrdered } from '@/data/curriculum';
 
 export interface UserProgress {
   completedSubmodules: string[];
@@ -87,24 +87,52 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     if (data) {
       const completedDays = data.completed_days || [];
       // Convert stored integers back to submodule IDs (e.g., 11 -> "1.1", 21 -> "2.1")
+      // Handle legacy data formats: small ints (11, 21), large ints (4100000), etc.
       const completedSubmodules = completedDays.map((d: number) => {
-        const moduleNum = Math.floor(d / 10);
-        const subNum = d % 10;
-        return `${moduleNum}.${subNum}`;
+        // Handle large numbers from legacy buggy conversions
+        if (d >= 1000000) {
+          // Values like 4100000 -> "4.1", 11000000 -> "1.1"
+          const str = d.toString();
+          const firstDigit = str[0];
+          const secondDigit = str[1];
+          return `${firstDigit}.${secondDigit}`;
+        } else if (d >= 10 && d < 100) {
+          // Normal format: 11 -> "1.1", 42 -> "4.2"
+          const moduleNum = Math.floor(d / 10);
+          const subNum = d % 10;
+          return `${moduleNum}.${subNum}`;
+        } else {
+          // Very old legacy format: 1, 2, 3... treat as day numbers
+          return `1.${d}`;
+        }
       });
       
       const codingChallenges = data.coding_challenges_completed || [];
       const codingChallengesCompleted = codingChallenges.map((d: number) => {
-        const moduleNum = Math.floor(d / 10);
-        const subNum = d % 10;
-        return `${moduleNum}.${subNum}`;
+        if (d >= 1000000) {
+          const str = d.toString();
+          const firstDigit = str[0];
+          const secondDigit = str[1];
+          return `${firstDigit}.${secondDigit}`;
+        } else if (d >= 10 && d < 100) {
+          const moduleNum = Math.floor(d / 10);
+          const subNum = d % 10;
+          return `${moduleNum}.${subNum}`;
+        } else {
+          return `1.${d}`;
+        }
       });
 
+      // Filter to only valid submodules that exist in the curriculum
+      const validSubmodules = getAllSubmodulesOrdered();
+      const filteredSubmodules = completedSubmodules.filter(s => validSubmodules.includes(s));
+      const filteredCodingChallenges = codingChallengesCompleted.filter(s => validSubmodules.includes(s));
+
       setProgress({
-        completedSubmodules,
+        completedSubmodules: filteredSubmodules,
         completedQuizzes: (data.completed_quizzes as { [key: string]: number }) || {},
         completedModuleAssessments: data.completed_weekly_assessments || [],
-        codingChallengesCompleted,
+        codingChallengesCompleted: filteredCodingChallenges,
         currentStreak: data.current_streak || 0,
         longestStreak: data.longest_streak || 0,
         totalTimeSpent: data.total_time_spent || 0,
