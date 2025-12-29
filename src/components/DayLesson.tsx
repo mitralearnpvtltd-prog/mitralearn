@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle, getNextSubmoduleId, getModuleForSubmodule, getPreviousSubmoduleId, getSubmoduleContent } from "@/data/curriculum";
+import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle, getNextSubmoduleId, getModuleForSubmodule, getPreviousSubmoduleId, getSubmoduleContent, getSlugFromSubmoduleId } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -303,8 +303,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
       
       // Navigate to next submodule's Learn section after a delay
       if (nextSubmoduleId) {
+        const nextSlug = getSlugFromSubmoduleId(nextSubmoduleId);
         setTimeout(() => {
-          navigate(`/curriculum/submodule/${nextSubmoduleId}`);
+          navigate(`/curriculum/lesson/${nextSlug}`);
           toast.info(`Moving to next lesson: ${getNextSubmoduleTitle(content.submodule)}`);
         }, 2000);
       }
@@ -388,6 +389,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
   const nextSubmoduleId = getNextSubmoduleId(content.submodule);
   const nextSubmoduleTitle = nextSubmoduleId ? getNextSubmoduleTitle(content.submodule) : undefined;
+  const nextSubmoduleSlug = nextSubmoduleId ? getSlugFromSubmoduleId(nextSubmoduleId) : undefined;
 
   return (
     <div className="space-y-6">
@@ -409,11 +411,11 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             {content.submodule}: {content.title}
           </h1>
         </div>
-        {nextSubmoduleId && isSubmoduleCompleted && (
+        {nextSubmoduleSlug && isSubmoduleCompleted && (
           <Button 
             variant="outline" 
             className="gap-2"
-            onClick={() => navigate(`/curriculum/submodule/${nextSubmoduleId}`)}
+            onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
           >
             Next: {nextSubmoduleTitle}
             <ArrowRight className="w-4 h-4" />

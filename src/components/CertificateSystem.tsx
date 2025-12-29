@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { getTotalSubmodules, getTotalModules } from "@/data/curriculum";
 import {
   Award,
   Download,
@@ -24,8 +25,8 @@ export const CertificateSystem = () => {
     generateCertificate,
   } = useProgress();
 
-  const totalSubmodules = 7; // From curriculum data
-  const totalModules = 4;
+  const totalSubmodules = getTotalSubmodules();
+  const totalModules = getTotalModules();
 
   const requirements = [
     {
@@ -54,16 +55,10 @@ export const CertificateSystem = () => {
       suffix: "%",
     },
     {
-      label: "Submit final ML project",
+      label: "Submit final project",
       completed: progress.finalProjectSubmitted,
       current: progress.finalProjectSubmitted ? 1 : 0,
       total: 1,
-    },
-    {
-      label: "Maintain 40+ day streak",
-      completed: progress.longestStreak >= 40,
-      current: progress.longestStreak,
-      total: 40,
     },
   ];
 
