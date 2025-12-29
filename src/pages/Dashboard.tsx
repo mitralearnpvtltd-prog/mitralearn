@@ -102,10 +102,12 @@ const Dashboard = () => {
                 <p className="text-muted-foreground mb-4">
                   Test your knowledge from this module
                 </p>
-                <Button variant="outline" className="w-full gap-2">
-                  Take Assessment
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
+                <Link to={`/curriculum/lesson/${nextSubmoduleSlug}?tab=quiz`}>
+                  <Button variant="outline" className="w-full gap-2">
+                    Take Assessment
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 
