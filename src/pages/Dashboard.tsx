@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { modules, getFirstUncompletedSubmodule, getSubmoduleContent, getModuleForSubmodule } from "@/data/curriculum";
+import { modules, getFirstUncompletedSubmodule, getSubmoduleContent, getModuleForSubmodule, getSlugFromSubmoduleId } from "@/data/curriculum";
 import { CheckCircle2, Play, ArrowRight, Target, Award } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
@@ -23,6 +23,7 @@ const Dashboard = () => {
 
   const nextSubmoduleId = getFirstUncompletedSubmodule(progress.completedSubmodules);
   const nextSubmoduleContent = getSubmoduleContent(nextSubmoduleId);
+  const nextSubmoduleSlug = getSlugFromSubmoduleId(nextSubmoduleId);
   const recentActivity = progress.completedSubmodules.slice(-5).reverse();
 
   return (
@@ -82,7 +83,7 @@ const Dashboard = () => {
                 <p className="text-primary-foreground/80 mb-4">
                   Pick up where you left off
                 </p>
-                <Link to={`/curriculum/submodule/${nextSubmoduleId}`}>
+                <Link to={`/curriculum/${nextSubmoduleSlug}`}>
                   <Button variant="heroOutline" className="w-full gap-2">
                     <Play className="w-4 h-4" />
                     {nextSubmoduleContent?.title || "Get Started"}
@@ -139,16 +140,17 @@ const Dashboard = () => {
                   {recentActivity.map((submoduleId) => {
                     const subContent = getSubmoduleContent(submoduleId);
                     const mod = getModuleForSubmodule(submoduleId);
+                    const slug = getSlugFromSubmoduleId(submoduleId);
                     return (
                       <Link
                         key={submoduleId}
-                        to={`/curriculum/submodule/${submoduleId}`}
+                        to={`/curriculum/${slug}`}
                         className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                       >
                         <div className="flex items-center gap-3">
                           <CheckCircle2 className="w-5 h-5 text-success" />
                           <div>
-                            <p className="font-medium">{submoduleId}: {subContent?.title}</p>
+                            <p className="font-medium">{subContent?.title || submoduleId}</p>
                             <p className="text-sm text-muted-foreground">
                               Module {mod?.module}: {mod?.title}
                             </p>

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { supabase } from '@/integrations/supabase/client';
+import { getTotalSubmodules, getTotalModules } from '@/data/curriculum';
 
 export interface UserProgress {
   completedSubmodules: string[];
@@ -85,10 +86,19 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     if (data) {
       const completedDays = data.completed_days || [];
-      const completedSubmodules = completedDays.map((d: number) => String(d));
+      // Convert stored integers back to submodule IDs (e.g., 11 -> "1.1", 21 -> "2.1")
+      const completedSubmodules = completedDays.map((d: number) => {
+        const moduleNum = Math.floor(d / 10);
+        const subNum = d % 10;
+        return `${moduleNum}.${subNum}`;
+      });
       
       const codingChallenges = data.coding_challenges_completed || [];
-      const codingChallengesCompleted = codingChallenges.map((d: number) => String(d));
+      const codingChallengesCompleted = codingChallenges.map((d: number) => {
+        const moduleNum = Math.floor(d / 10);
+        const subNum = d % 10;
+        return `${moduleNum}.${subNum}`;
+      });
 
       setProgress({
         completedSubmodules,
@@ -163,14 +173,25 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   const saveProgress = async (newProgress: UserProgress) => {
     if (!session?.user?.id) return;
 
+    // Convert submodule IDs to integers for storage (e.g., "1.1" -> 11, "2.1" -> 21)
     const completedDays = (newProgress.completedSubmodules || []).map(s => {
-      const num = parseFloat(s);
-      return isNaN(num) ? 0 : Math.floor(num * 10);
+      const parts = s.split('.');
+      if (parts.length === 2) {
+        const moduleNum = parseInt(parts[0], 10);
+        const subNum = parseInt(parts[1], 10);
+        return moduleNum * 10 + subNum;
+      }
+      return 0;
     });
 
     const codingChallenges = (newProgress.codingChallengesCompleted || []).map(s => {
-      const num = parseFloat(s);
-      return isNaN(num) ? 0 : Math.floor(num * 10);
+      const parts = s.split('.');
+      if (parts.length === 2) {
+        const moduleNum = parseInt(parts[0], 10);
+        const subNum = parseInt(parts[1], 10);
+        return moduleNum * 10 + subNum;
+      }
+      return 0;
     });
 
     const { error } = await supabase
@@ -280,15 +301,16 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const getOverallProgress = (): number => {
-    const totalSubmodules = 7;
+    const totalSubmodules = getTotalSubmodules();
     const completed = progress.completedSubmodules.length;
     return Math.round((completed / totalSubmodules) * 100);
   };
 
   const isEligibleForCertificate = (): boolean => {
-    const totalSubmodules = 7;
+    const totalSubmodules = getTotalSubmodules();
+    const totalModules = getTotalModules();
     const allQuizzesCompleted = Object.keys(progress.completedQuizzes).length >= totalSubmodules;
-    const allModuleAssessmentsCompleted = progress.completedModuleAssessments.length >= 4;
+    const allModuleAssessmentsCompleted = progress.completedModuleAssessments.length >= totalModules;
     const finalAssessmentPassed = (progress.finalAssessmentScore || 0) >= 60;
     const projectSubmitted = progress.finalProjectSubmitted;
 
