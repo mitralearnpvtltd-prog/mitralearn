@@ -1,6 +1,7 @@
 import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getTotalSubmodules, getTotalModules } from "@/data/curriculum";
 import {
   Flame,
   Trophy,
@@ -13,8 +14,8 @@ import {
 export const ProgressDashboard = () => {
   const { progress, getOverallProgress } = useProgress();
 
-  const totalSubmodules = 7; // From curriculum data
-  const totalModules = 4;
+  const totalSubmodules = getTotalSubmodules();
+  const totalModules = getTotalModules();
 
   const stats = [
     {
