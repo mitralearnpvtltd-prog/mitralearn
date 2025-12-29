@@ -87,11 +87,11 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     if (data) {
       const completedDays = data.completed_days || [];
       // Convert stored integers back to submodule IDs (e.g., 11 -> "1.1", 21 -> "2.1")
-      // Handle legacy data formats: small ints (11, 21), large ints (4100000), etc.
+      // Handle multiple legacy data formats from buggy conversions
       const completedSubmodules = completedDays.map((d: number) => {
-        // Handle large numbers from legacy buggy conversions
-        if (d >= 1000000) {
-          // Values like 4100000 -> "4.1", 11000000 -> "1.1"
+        // Handle large numbers from legacy buggy conversions (420000, 4100000, etc.)
+        if (d >= 10000) {
+          // Extract first two meaningful digits: 420000 -> "4.2", 4100000 -> "4.1"
           const str = d.toString();
           const firstDigit = str[0];
           const secondDigit = str[1];
@@ -102,14 +102,14 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
           const subNum = d % 10;
           return `${moduleNum}.${subNum}`;
         } else {
-          // Very old legacy format: 1, 2, 3... treat as day numbers
+          // Very old legacy format: 1, 2, 3... treat as "1.1", "1.2", etc.
           return `1.${d}`;
         }
       });
       
       const codingChallenges = data.coding_challenges_completed || [];
       const codingChallengesCompleted = codingChallenges.map((d: number) => {
-        if (d >= 1000000) {
+        if (d >= 10000) {
           const str = d.toString();
           const firstDigit = str[0];
           const secondDigit = str[1];
