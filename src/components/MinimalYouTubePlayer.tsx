@@ -17,6 +17,7 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [hasEnded, setHasEnded] = useState(false);
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const playerContainerId = useRef(`yt-player-${videoId}-${Math.random().toString(36).substr(2, 9)}`);
@@ -55,11 +56,16 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
               setIsReady(true);
             },
             onStateChange: (event: any) => {
-              setIsPlaying(event.data === window.YT.PlayerState.PLAYING);
-              // When video ends, seek back to start to prevent related videos screen
-              if (event.data === window.YT.PlayerState.ENDED) {
+              const state = event.data;
+              setIsPlaying(state === window.YT.PlayerState.PLAYING);
+              
+              // When video ends, show overlay to hide related videos
+              if (state === window.YT.PlayerState.ENDED) {
+                setHasEnded(true);
                 event.target.seekTo(0, true);
                 event.target.pauseVideo();
+              } else if (state === window.YT.PlayerState.PLAYING) {
+                setHasEnded(false);
               }
             },
           },
@@ -146,6 +152,13 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
 
         {/* Overlay to block YouTube interactions */}
         <div className="absolute inset-0 z-10" />
+
+        {/* End screen overlay to hide related videos */}
+        {hasEnded && (
+          <div className="absolute inset-0 z-15 bg-muted flex items-center justify-center">
+            <p className="text-muted-foreground text-sm">Video ended - Click to replay</p>
+          </div>
+        )}
 
         {/* Custom Controls */}
         <div
