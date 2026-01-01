@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, RotateCcw, RotateCw } from "lucide-react";
 
 interface MinimalYouTubePlayerProps {
   videoId: string;
@@ -83,6 +83,21 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
     }
   }, [isPlaying, isReady]);
 
+  const skipBackward = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!playerRef.current || !isReady) return;
+    const currentTime = playerRef.current.getCurrentTime();
+    playerRef.current.seekTo(Math.max(0, currentTime - 10), true);
+  }, [isReady]);
+
+  const skipForward = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!playerRef.current || !isReady) return;
+    const currentTime = playerRef.current.getCurrentTime();
+    const duration = playerRef.current.getDuration();
+    playerRef.current.seekTo(Math.min(duration, currentTime + 10), true);
+  }, [isReady]);
+
   const handleMouseMove = () => {
     setShowControls(true);
     if (hideControlsTimeout.current) {
@@ -108,65 +123,88 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
   }, [isPlaying]);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full rounded-xl overflow-hidden bg-muted cursor-pointer group aspect-video"
-      onClick={togglePlay}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* YouTube Player Container */}
+    <div className="flex justify-center w-full">
       <div
-        id={playerContainerId.current}
-        className="absolute inset-0 w-full h-full pointer-events-none"
-      />
-
-      {/* Overlay to block YouTube interactions */}
-      <div className="absolute inset-0 z-10" />
-
-      {/* Custom Play/Pause Button */}
-      <div
-        className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 ${
-          showControls || !isPlaying ? "opacity-100" : "opacity-0"
-        }`}
+        ref={containerRef}
+        className="relative w-full max-w-3xl rounded-xl overflow-hidden bg-muted cursor-pointer group aspect-video"
+        onClick={togglePlay}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
-        <button
-          className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-200 ${
-            isPlaying
-              ? "bg-background/80 hover:bg-background/90"
-              : "bg-primary hover:bg-primary/90"
-          } shadow-lg backdrop-blur-sm`}
-          onClick={(e) => {
-            e.stopPropagation();
-            togglePlay();
-          }}
-          aria-label={isPlaying ? "Pause video" : "Play video"}
-        >
-          {isPlaying ? (
-            <Pause className="w-8 h-8 text-foreground" />
-          ) : (
-            <Play className="w-8 h-8 text-primary-foreground ml-1" />
-          )}
-        </button>
-      </div>
-
-      {/* Loading State */}
-      {!isReady && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center bg-muted">
-          <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
-        </div>
-      )}
-
-      {/* Title Overlay */}
-      {title && (
+        {/* YouTube Player Container */}
         <div
-          className={`absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-background/80 to-transparent transition-opacity duration-300 ${
+          id={playerContainerId.current}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        />
+
+        {/* Overlay to block YouTube interactions */}
+        <div className="absolute inset-0 z-10" />
+
+        {/* Custom Controls */}
+        <div
+          className={`absolute inset-0 z-20 flex items-center justify-center gap-6 transition-opacity duration-300 ${
             showControls || !isPlaying ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-sm font-medium text-foreground truncate">{title}</p>
+          {/* Skip Backward 10s */}
+          <button
+            className="w-12 h-12 rounded-full flex items-center justify-center bg-background/70 hover:bg-background/90 shadow-lg backdrop-blur-sm transition-all duration-200"
+            onClick={skipBackward}
+            aria-label="Skip backward 10 seconds"
+          >
+            <RotateCcw className="w-5 h-5 text-foreground" />
+            <span className="absolute -bottom-5 text-xs text-foreground/80 font-medium">10</span>
+          </button>
+
+          {/* Play/Pause */}
+          <button
+            className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
+              isPlaying
+                ? "bg-background/80 hover:bg-background/90"
+                : "bg-primary hover:bg-primary/90"
+            } shadow-lg backdrop-blur-sm`}
+            onClick={(e) => {
+              e.stopPropagation();
+              togglePlay();
+            }}
+            aria-label={isPlaying ? "Pause video" : "Play video"}
+          >
+            {isPlaying ? (
+              <Pause className="w-6 h-6 text-foreground" />
+            ) : (
+              <Play className="w-6 h-6 text-primary-foreground ml-1" />
+            )}
+          </button>
+
+          {/* Skip Forward 10s */}
+          <button
+            className="w-12 h-12 rounded-full flex items-center justify-center bg-background/70 hover:bg-background/90 shadow-lg backdrop-blur-sm transition-all duration-200"
+            onClick={skipForward}
+            aria-label="Skip forward 10 seconds"
+          >
+            <RotateCw className="w-5 h-5 text-foreground" />
+            <span className="absolute -bottom-5 text-xs text-foreground/80 font-medium">10</span>
+          </button>
         </div>
-      )}
+
+        {/* Loading State */}
+        {!isReady && (
+          <div className="absolute inset-0 z-30 flex items-center justify-center bg-muted">
+            <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+          </div>
+        )}
+
+        {/* Title Overlay */}
+        {title && (
+          <div
+            className={`absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-background/80 to-transparent transition-opacity duration-300 ${
+              showControls || !isPlaying ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <p className="text-sm font-medium text-foreground truncate">{title}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
