@@ -144,14 +144,26 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* YouTube Player Container */}
-        <div
-          id={playerContainerId.current}
-          className="absolute inset-0 w-full h-full pointer-events-none"
-        />
+        {/* YouTube Player Container - scaled up and cropped to hide YouTube UI */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            id={playerContainerId.current}
+            className="absolute pointer-events-none"
+            style={{
+              top: '-60px',
+              left: '-2px',
+              right: '-2px',
+              bottom: '-80px',
+              width: 'calc(100% + 4px)',
+              height: 'calc(100% + 140px)',
+            }}
+          />
+        </div>
 
-        {/* Overlay to block YouTube interactions */}
-        <div className="absolute inset-0 z-10" />
+        {/* Solid overlay when paused to hide any YouTube UI */}
+        {!isPlaying && isReady && (
+          <div className="absolute inset-0 z-10 bg-transparent" />
+        )}
 
         {/* End screen overlay to hide related videos */}
         {hasEnded && (
