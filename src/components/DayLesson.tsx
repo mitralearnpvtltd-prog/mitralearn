@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MinimalYouTubePlayer } from "@/components/MinimalYouTubePlayer";
 import {
   BookOpen,
   Code,
@@ -473,31 +474,19 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             </Card>
           )}
 
-          {/* Video Section - Compact */}
+          {/* Video Section - Minimal Player */}
           {content.resources.filter(r => r.type === 'Video').length > 0 && (
-            <div className="space-y-3">
+            <div className="space-y-6">
               {content.resources.filter(r => r.type === 'Video').map((resource, index) => {
                 const videoId = getYouTubeVideoId(resource.url);
                 
                 if (videoId && isEmbeddableVideo(resource.url)) {
                   return (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="w-64 shrink-0 rounded-lg overflow-hidden bg-muted aspect-video">
-                        <iframe
-                          src={`https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&controls=1&fs=0&cc_load_policy=0`}
-                          title={resource.title}
-                          className="w-full h-full"
-                          allow="accelerometer; encrypted-media; gyroscope"
-                          allowFullScreen={false}
-                        />
-                      </div>
-                      <div className="pt-1">
-                        <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
-                          <Video className="w-4 h-4 text-destructive" />
-                          Video Tutorial
-                        </div>
-                        <p className="font-medium text-foreground">{resource.title}</p>
-                      </div>
+                    <div key={index}>
+                      <MinimalYouTubePlayer 
+                        videoId={videoId} 
+                        title={resource.title}
+                      />
                     </div>
                   );
                 }
