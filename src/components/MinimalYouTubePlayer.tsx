@@ -46,6 +46,8 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
             cc_load_policy: 0,
             playsinline: 1,
             origin: window.location.origin,
+            autoplay: 0,
+            enablejsapi: 1,
           },
           events: {
             onReady: (event: any) => {
@@ -54,6 +56,11 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
             },
             onStateChange: (event: any) => {
               setIsPlaying(event.data === window.YT.PlayerState.PLAYING);
+              // When video ends, seek back to start to prevent related videos screen
+              if (event.data === window.YT.PlayerState.ENDED) {
+                event.target.seekTo(0, true);
+                event.target.pauseVideo();
+              }
             },
           },
         });
