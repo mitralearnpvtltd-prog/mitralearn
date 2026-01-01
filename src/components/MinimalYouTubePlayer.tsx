@@ -110,8 +110,7 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
   return (
     <div
       ref={containerRef}
-      className="relative w-full rounded-xl overflow-hidden bg-muted cursor-pointer group"
-      style={{ height: "480px" }}
+      className="relative w-full rounded-xl overflow-hidden bg-muted cursor-pointer group aspect-video"
       onClick={togglePlay}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
