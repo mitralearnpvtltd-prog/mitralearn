@@ -12,6 +12,7 @@ import Day from "./pages/Day";
 import Dashboard from "./pages/Dashboard";
 import Certificate from "./pages/Certificate";
 import VerifyCertificate from "./pages/VerifyCertificate";
+import AdminSetup from "./pages/AdminSetup";
 import NotFound from "./pages/NotFound";
 
 // Admin imports
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/certificate" element={<Certificate />} />
             <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />
             <Route path="/verify-certificate" element={<VerifyCertificate />} />
+            <Route path="/admin-setup" element={<AdminSetup />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>

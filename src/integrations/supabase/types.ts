@@ -205,6 +205,15 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_admin_stats: {
+        Args: never
+        Returns: {
+          active_users: number
+          completion_rate: number
+          total_certificates: number
+          total_users: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -212,6 +221,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      setup_first_admin: { Args: { _user_id: string }; Returns: boolean }
       verify_certificate: {
         Args: { cert_id: string }
         Returns: {
