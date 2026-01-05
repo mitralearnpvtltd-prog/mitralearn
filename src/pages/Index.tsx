@@ -500,11 +500,11 @@ const Index = () => {
       <section 
         id="courses-section"
         ref={setSectionRef('courses-section')}
-        className={`py-14 ${getSectionClasses('courses-section')}`}
+        className={`py-12 sm:py-14 ${getSectionClasses('courses-section')}`}
         style={{ backgroundColor: '#FFFFFF' }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <h2 
               className="text-2xl sm:text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
@@ -533,13 +533,13 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto px-1 sm:px-0">
             {courses.map((course, index) => (
               <div 
                 key={index}
-                className="group bg-white p-4 sm:p-6 relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1"
+                className="group bg-white p-5 sm:p-6 relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1"
                 style={{ 
-                  borderRadius: '16px',
+                  borderRadius: '20px',
                   border: '1px solid #E5E7EB',
                 }}
               >
@@ -635,13 +635,13 @@ const Index = () => {
       <section 
         id="features-section"
         ref={setSectionRef('features-section')}
-        className={`py-14 ${getSectionClasses('features-section')}`}
+        className={`py-10 sm:py-14 ${getSectionClasses('features-section')}`}
         style={{
           background: 'linear-gradient(135deg, #F5F3FF 0%, #ECFEFF 100%)',
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <h2 
               className="text-2xl sm:text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
@@ -667,17 +667,17 @@ const Index = () => {
             </h2>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:grid-cols-5 md:gap-8 max-w-4xl mx-auto">
             {features.map((feature, index) => (
-              <div key={index} className="flex flex-col items-center text-center group">
+              <div key={index} className={`flex flex-col items-center text-center group ${index === 4 ? 'col-span-2 sm:col-span-1' : ''}`}>
                 <div 
-                  className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-200 group-hover:scale-110"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-200 group-hover:scale-110"
                   style={{ backgroundColor: feature.bgColor }}
                 >
-                  <feature.icon className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: feature.iconColor }} />
+                  <feature.icon className="h-7 w-7 sm:h-8 sm:w-8" style={{ color: feature.iconColor }} />
                 </div>
                 <p 
-                  className="text-xs sm:text-sm font-semibold"
+                  className="text-sm sm:text-sm font-semibold leading-tight"
                   style={{ color: '#0F172A' }}
                 >
                   {feature.title}
@@ -692,10 +692,10 @@ const Index = () => {
       <section 
         id="request-section"
         ref={setSectionRef('request-section')}
-        className={`py-14 ${getSectionClasses('request-section')}`}
+        className={`py-10 sm:py-14 ${getSectionClasses('request-section')}`}
         style={{ backgroundColor: '#FFFFFF' }}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 sm:px-4">
           <div className="text-center mb-8">
             <span 
               className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full mb-4"
@@ -776,7 +776,7 @@ const Index = () => {
       <section 
         id="testimonials-section"
         ref={setSectionRef('testimonials-section')}
-        className={`py-14 ${getSectionClasses('testimonials-section')}`}
+        className={`py-10 sm:py-14 ${getSectionClasses('testimonials-section')}`}
         style={{
           background: 'linear-gradient(180deg, rgba(236,254,255,0.4) 0%, rgba(245,243,255,0.3) 50%, #FFFFFF 100%)',
         }}
@@ -814,11 +814,11 @@ const Index = () => {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-6 max-w-5xl mx-auto px-1 sm:px-0">
             {testimonials.map((testimonial, index) => (
               <div 
                 key={index} 
-                className="rounded-2xl p-4 sm:p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+                className="rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
                 style={{ 
                   backgroundColor: '#FFFFFF',
                   border: '1px solid #E5E7EB',

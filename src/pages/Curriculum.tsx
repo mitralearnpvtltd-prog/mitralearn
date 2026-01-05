@@ -127,8 +127,8 @@ const Curriculum = () => {
       
       {/* Hero Section */}
       <section className="bg-background border-b border-border">
-        <div className="container mx-auto px-4 py-8 lg:py-12">
-          <div className="grid lg:grid-cols-3 gap-8">
+        <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-12">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Content */}
             <div className="lg:col-span-2 space-y-6">
               {/* Popular Badge */}
@@ -163,40 +163,40 @@ const Curriculum = () => {
               </div>
 
               {/* Feature Badges */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-2">
-                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <div className="flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-5 h-5 text-primary" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">12 Hours</div>
+                    <div className="font-semibold text-foreground text-sm sm:text-base">12 Hours</div>
                     <div className="text-xs text-muted-foreground">Duration</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                <div className="flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Briefcase className="w-5 h-5 text-primary" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Projects + Internship</div>
+                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Projects</div>
                     <div className="text-xs text-muted-foreground">Hands-on</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                <div className="flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="w-5 h-5 text-primary" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Beginner to Advanced</div>
-                    <div className="text-xs text-muted-foreground">Level</div>
+                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">All Levels</div>
+                    <div className="text-xs text-muted-foreground">Beginner+</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <Award className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                <div className="flex items-center gap-3 p-3 sm:p-4 rounded-xl border border-border bg-card">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Award className="w-5 h-5 text-primary" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Certificate</div>
+                    <div className="font-semibold text-foreground text-sm sm:text-base">Certificate</div>
                     <div className="text-xs text-muted-foreground">Included</div>
                   </div>
                 </div>
@@ -278,9 +278,9 @@ const Curriculum = () => {
       </section>
 
       {/* Main Content - Curriculum + Sidebar */}
-      <section id="curriculum" className="bg-background py-12 scroll-mt-20">
+      <section id="curriculum" className="bg-background py-8 sm:py-12 scroll-mt-20">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Curriculum Section */}
             <div className="lg:col-span-2">
               <div className="mb-8">
@@ -392,34 +392,34 @@ const Curriculum = () => {
               </Accordion>
 
               {/* Stats Bar */}
-              <div className="mt-8 grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-card rounded-lg border border-border">
-                  <div className="text-2xl font-display font-bold text-primary">{modules.length}</div>
-                  <div className="text-sm text-muted-foreground">Modules</div>
+              <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-3 sm:gap-4">
+                <div className="text-center p-3 sm:p-4 bg-card rounded-xl border border-border">
+                  <div className="text-xl sm:text-2xl font-display font-bold text-primary">{modules.length}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Modules</div>
                 </div>
-                <div className="text-center p-4 bg-card rounded-lg border border-border">
-                  <div className="text-2xl font-display font-bold text-primary">{totalLessons}+</div>
-                  <div className="text-sm text-muted-foreground">Lessons</div>
+                <div className="text-center p-3 sm:p-4 bg-card rounded-xl border border-border">
+                  <div className="text-xl sm:text-2xl font-display font-bold text-primary">{totalLessons}+</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Lessons</div>
                 </div>
-                <div className="text-center p-4 bg-card rounded-lg border border-border">
-                  <div className="text-2xl font-display font-bold text-primary">{totalProjects}</div>
-                  <div className="text-sm text-muted-foreground">Projects</div>
+                <div className="text-center p-3 sm:p-4 bg-card rounded-xl border border-border">
+                  <div className="text-xl sm:text-2xl font-display font-bold text-primary">{totalProjects}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Projects</div>
                 </div>
               </div>
 
               {/* Certificate Promo */}
-              <Card className="mt-6 bg-primary/5 border-primary/20">
-                <CardContent className="p-6 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-secondary/20 flex items-center justify-center">
-                      <GraduationCap className="w-6 h-6 text-secondary" />
+              <Card className="mt-5 sm:mt-6 bg-primary/5 border-primary/20">
+                <CardContent className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                      <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-secondary" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground">Earn a Career Certificate</h4>
-                      <p className="text-sm text-muted-foreground">Add this credential to your LinkedIn profile, resume, or CV.</p>
+                      <h4 className="font-semibold text-foreground text-sm sm:text-base">Earn a Career Certificate</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Add this credential to your LinkedIn profile, resume, or CV.</p>
                     </div>
                   </div>
-                  <Link to="/certificate" className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
+                  <Link to="/certificate" className="text-sm text-primary font-medium hover:underline flex items-center gap-1 whitespace-nowrap">
                     See an example
                     <ChevronRight className="w-4 h-4" />
                   </Link>
@@ -539,58 +539,58 @@ const Curriculum = () => {
       </section>
 
       {/* Why Take This Course */}
-      <section className="bg-muted/30 py-16">
+      <section className="bg-muted/30 py-10 sm:py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-3">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-foreground mb-2 sm:mb-3">
               Why You Should Take This Course
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
               Gain the skills and experience you need to launch or advance your career in data engineering and industry-ready knowledge.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {whyTakeCourse.map((item, index) => (
               <Card key={index} className="text-center">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <item.icon className="w-6 h-6 text-primary" />
+                <CardContent className="p-4 sm:p-6">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
+                  <h3 className="font-semibold text-foreground mb-1 sm:mb-2 text-sm sm:text-base">{item.title}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
 
           {/* Additional Features */}
-          <div className="mt-12 flex flex-wrap justify-center gap-8">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center">
-                <Zap className="w-6 h-6 text-secondary" />
+          <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border sm:p-0 sm:bg-transparent sm:border-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-secondary" />
               </div>
               <div>
-                <h4 className="font-semibold text-foreground">Affordable Learning</h4>
-                <p className="text-sm text-muted-foreground">Build production-ready data pipelines</p>
+                <h4 className="font-semibold text-foreground text-sm sm:text-base">Affordable Learning</h4>
+                <p className="text-xs sm:text-sm text-muted-foreground">Build production-ready data pipelines</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-primary" />
+            <div className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border sm:p-0 sm:bg-transparent sm:border-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               </div>
               <div>
-                <h4 className="font-semibold text-foreground">Comprehensive Curriculum</h4>
-                <p className="text-sm text-muted-foreground">Get personalized guidance from experts</p>
+                <h4 className="font-semibold text-foreground text-sm sm:text-base">Comprehensive Curriculum</h4>
+                <p className="text-xs sm:text-sm text-muted-foreground">Get personalized guidance from experts</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-success/20 flex items-center justify-center">
-                <Globe className="w-6 h-6 text-success" />
+            <div className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border sm:p-0 sm:bg-transparent sm:border-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-success/20 flex items-center justify-center flex-shrink-0">
+                <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-success" />
               </div>
               <div>
-                <h4 className="font-semibold text-foreground">Lifetime Access</h4>
-                <p className="text-sm text-muted-foreground">Learn at your own pace, forever</p>
+                <h4 className="font-semibold text-foreground text-sm sm:text-base">Lifetime Access</h4>
+                <p className="text-xs sm:text-sm text-muted-foreground">Learn at your own pace, forever</p>
               </div>
             </div>
           </div>
@@ -598,22 +598,22 @@ const Curriculum = () => {
       </section>
 
       {/* Reviews Section */}
-      <section className="bg-background py-12 border-t border-border">
+      <section className="bg-background py-10 sm:py-12 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-8">
+            <div className="flex items-center justify-center gap-2 mb-6 sm:mb-8">
               <div className="flex text-primary/80">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-current" />
+                  <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                 ))}
               </div>
               <span className="font-semibold text-foreground">4.8</span>
-              <span className="text-muted-foreground text-sm">(217,728 reviews)</span>
+              <span className="text-muted-foreground text-xs sm:text-sm">(217,728 reviews)</span>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 sm:gap-6">
               {reviews.map((review, index) => (
-                <div key={index} className="bg-card border border-border rounded-lg p-5">
+                <div key={index} className="bg-card border border-border rounded-xl p-4 sm:p-5">
                   {/* Avatar, Name, Role, Rating Row */}
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
@@ -645,10 +645,10 @@ const Curriculum = () => {
             </div>
 
             {/* Trust Signals */}
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-8 text-sm text-muted-foreground">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-x-6 sm:gap-y-2 mt-6 sm:mt-8 text-xs sm:text-sm text-muted-foreground">
               {trustSignals.map((signal, index) => (
-                <div key={index} className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-primary" />
+                <div key={index} className="flex items-center gap-1.5 justify-center">
+                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                   <span>{signal}</span>
                 </div>
               ))}
@@ -658,12 +658,12 @@ const Curriculum = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-gradient-primary py-16">
+      <section className="bg-gradient-primary py-10 sm:py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl lg:text-3xl font-display font-bold text-primary-foreground mb-4">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-primary-foreground mb-3 sm:mb-4">
             What Are You Waiting For?
           </h2>
-          <p className="text-primary-foreground/80 mb-8 max-w-xl mx-auto">
+          <p className="text-primary-foreground/80 mb-6 sm:mb-8 max-w-xl mx-auto text-sm sm:text-base">
             Join 3,500+ students already building their data engineering careers. Start your journey today!
           </p>
           <SignedIn>

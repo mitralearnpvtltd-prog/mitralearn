@@ -87,23 +87,23 @@ export const ProgressDashboard = () => {
       </Card>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {stats.map((stat) => (
           <Card key={stat.label} className="bg-card hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-1 sm:pb-2 p-3 sm:p-6">
+            <CardHeader className="pb-2 p-4 sm:p-6">
               <div className="flex items-center justify-between">
-                <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${stat.color}`} />
+                <stat.icon className={`w-5 h-5 ${stat.color}`} />
                 <span className="text-xs text-muted-foreground">
                   {stat.value}/{stat.total}
                 </span>
               </div>
             </CardHeader>
-            <CardContent className="p-3 sm:p-6 pt-0">
-              <p className="text-xl sm:text-2xl font-display font-bold">{stat.value}</p>
-              <p className="text-xs text-muted-foreground line-clamp-1">{stat.label}</p>
+            <CardContent className="p-4 sm:p-6 pt-0">
+              <p className="text-2xl font-display font-bold">{stat.value}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{stat.label}</p>
               <Progress
                 value={(stat.value / stat.total) * 100}
-                className="h-1 sm:h-1.5 mt-2"
+                className="h-1.5 mt-3"
               />
             </CardContent>
           </Card>

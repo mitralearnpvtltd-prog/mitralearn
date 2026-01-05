@@ -75,12 +75,12 @@ const Dashboard = () => {
           <ProgressDashboard />
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 mt-6 sm:mt-8">
             {/* Continue Learning */}
             <Card className="bg-gradient-primary text-primary-foreground shadow-glow">
-              <CardContent className="p-4 sm:p-6">
-                <h3 className="font-display font-bold text-base sm:text-lg mb-1 sm:mb-2">Continue Learning</h3>
-                <p className="text-primary-foreground/80 mb-3 sm:mb-4 text-sm">
+              <CardContent className="p-5 sm:p-6">
+                <h3 className="font-display font-bold text-base sm:text-lg mb-2">Continue Learning</h3>
+                <p className="text-primary-foreground/80 mb-4 text-sm">
                   Pick up where you left off
                 </p>
                 <Link to={`/curriculum/lesson/${nextSubmoduleSlug}`}>
@@ -94,12 +94,12 @@ const Dashboard = () => {
 
             {/* Module Assessment */}
             <Card>
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                  <Target className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Target className="w-5 h-5 text-primary" />
                   <h3 className="font-display font-bold text-base sm:text-lg">Module Assessment</h3>
                 </div>
-                <p className="text-muted-foreground mb-3 sm:mb-4 text-sm">
+                <p className="text-muted-foreground mb-4 text-sm">
                   Test your knowledge from this module
                 </p>
                 <Link to={`/curriculum/lesson/${nextSubmoduleSlug}?tab=quiz`}>
@@ -112,13 +112,13 @@ const Dashboard = () => {
             </Card>
 
             {/* Certificate Progress */}
-            <Card>
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                  <Award className="w-4 h-4 sm:w-5 sm:h-5 text-secondary" />
+            <Card className="sm:col-span-2 lg:col-span-1">
+              <CardContent className="p-5 sm:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Award className="w-5 h-5 text-secondary" />
                   <h3 className="font-display font-bold text-base sm:text-lg">Certification</h3>
                 </div>
-                <p className="text-muted-foreground mb-3 sm:mb-4 text-sm">
+                <p className="text-muted-foreground mb-4 text-sm">
                   Track your path to certification
                 </p>
                 <Link to="/certificate">
@@ -132,13 +132,13 @@ const Dashboard = () => {
           </div>
 
           {/* Recent Activity */}
-          <Card className="mt-6 sm:mt-8">
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
+          <Card className="mt-5 sm:mt-8">
+            <CardHeader className="pb-2 sm:pb-4">
+              <CardTitle className="text-base sm:text-lg">Recent Activity</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               {recentActivity.length > 0 ? (
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3">
                   {recentActivity.map((submoduleId) => {
                     const subContent = getSubmoduleContent(submoduleId);
                     const mod = getModuleForSubmodule(submoduleId);
@@ -147,10 +147,10 @@ const Dashboard = () => {
                       <Link
                         key={submoduleId}
                         to={`/curriculum/lesson/${slug}`}
-                        className="flex items-center justify-between p-2 sm:p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors gap-2"
+                        className="flex items-center justify-between p-3 sm:p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors gap-3"
                       >
-                        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                          <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0" />
                           <div className="min-w-0 flex-1">
                             <p className="font-medium text-sm sm:text-base truncate">{subContent?.title || submoduleId}</p>
                             <p className="text-xs sm:text-sm text-muted-foreground truncate">
@@ -166,7 +166,7 @@ const Dashboard = () => {
                   })}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-center py-8">
+                <p className="text-muted-foreground text-center py-8 text-sm sm:text-base">
                   No completed lessons yet. Start your journey today!
                 </p>
               )}
