@@ -395,66 +395,68 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   return (
     <div className="space-y-6">
       {/* Submodule Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
         <div>
-          <div className="flex items-center gap-3 mb-2">
-            <Badge variant={isSubmoduleCompleted ? "default" : "secondary"}>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+            <Badge variant={isSubmoduleCompleted ? "default" : "secondary"} className="text-xs sm:text-sm">
               Module {module?.module}: {module?.title}
             </Badge>
             {isSubmoduleCompleted && (
-              <Badge variant="outline" className="gap-1 text-success border-success">
+              <Badge variant="outline" className="gap-1 text-success border-success text-xs">
                 <CheckCircle2 className="w-3 h-3" />
-                Completed
+                <span className="hidden sm:inline">Completed</span>
               </Badge>
             )}
           </div>
-          <h1 className="text-3xl font-display font-bold text-foreground">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-foreground">
             {content.submodule}: {content.title}
           </h1>
         </div>
         {nextSubmoduleSlug && isSubmoduleCompleted && (
           <Button 
             variant="outline" 
-            className="gap-2"
+            className="gap-2 text-sm w-full sm:w-auto"
             onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
           >
-            Next: {nextSubmoduleTitle}
-            <ArrowRight className="w-4 h-4" />
+            <span className="truncate">Next: {nextSubmoduleTitle}</span>
+            <ArrowRight className="w-4 h-4 flex-shrink-0" />
           </Button>
         )}
       </div>
 
       {/* Main Content Tabs */}
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
-        <TabsList className={`grid w-full ${hasPractice ? 'grid-cols-3' : 'grid-cols-2'} lg:w-auto lg:inline-flex`}>
-          <TabsTrigger value="learn" className="gap-2">
-            <BookOpen className="w-4 h-4" />
-            Learn
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4 sm:space-y-6">
+        <TabsList className={`grid w-full ${hasPractice ? 'grid-cols-3' : 'grid-cols-2'} lg:w-auto lg:inline-flex h-auto`}>
+          <TabsTrigger value="learn" className="gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-2.5">
+            <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden xs:inline">Learn</span>
+            <span className="xs:hidden">Learn</span>
           </TabsTrigger>
           {hasPractice && (
             <TabsTrigger 
               value="practice" 
-              className="gap-2"
+              className="gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-2.5"
               disabled={!canAccessPractice}
             >
-              {!canAccessPractice && <Lock className="w-3 h-3" />}
-              <Code className="w-4 h-4" />
-              Practice
+              {!canAccessPractice && <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
+              <Code className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Practice</span>
+              <span className="sm:hidden">Code</span>
               {isPracticeCompleted && (
-                <CheckCircle2 className="w-3 h-3 text-success" />
+                <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-success" />
               )}
             </TabsTrigger>
           )}
           <TabsTrigger 
             value="quiz" 
-            className="gap-2"
+            className="gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-2.5"
             disabled={!canAccessQuiz}
           >
-            {!canAccessQuiz && <Lock className="w-3 h-3" />}
-            <Target className="w-4 h-4" />
+            {!canAccessQuiz && <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
+            <Target className="w-3 h-3 sm:w-4 sm:h-4" />
             Quiz
             {quizScore !== undefined && (
-              <Badge variant="secondary" className="ml-1">
+              <Badge variant="secondary" className="ml-0.5 sm:ml-1 text-xs px-1 sm:px-1.5">
                 {quizScore}%
               </Badge>
             )}
@@ -519,7 +521,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           </div>
 
           {/* Two Column Grid for Key Info */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Key Concepts */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
@@ -699,25 +701,25 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                       <Lightbulb className="w-5 h-5 text-warning" />
                       Example
                     </h3>
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Example Input */}
                       <div className="border rounded-lg overflow-hidden">
-                        <div className="bg-muted px-4 py-2 border-b">
-                          <span className="text-sm font-medium">Example Input</span>
+                        <div className="bg-muted px-3 sm:px-4 py-2 border-b">
+                          <span className="text-xs sm:text-sm font-medium">Example Input</span>
                         </div>
-                        <pre className="p-4 bg-card overflow-x-auto">
-                          <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                        <pre className="p-3 sm:p-4 bg-card overflow-x-auto">
+                          <code className="text-xs sm:text-sm font-mono text-muted-foreground whitespace-pre-wrap">
                             {practiceChallenge.exampleInput}
                           </code>
                         </pre>
                       </div>
                       {/* Example Output */}
                       <div className="border rounded-lg overflow-hidden">
-                        <div className="bg-success/10 px-4 py-2 border-b">
-                          <span className="text-sm font-medium text-success">Expected Output</span>
+                        <div className="bg-success/10 px-3 sm:px-4 py-2 border-b">
+                          <span className="text-xs sm:text-sm font-medium text-success">Expected Output</span>
                         </div>
-                        <pre className="p-4 bg-card overflow-x-auto">
-                          <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                        <pre className="p-3 sm:p-4 bg-card overflow-x-auto">
+                          <code className="text-xs sm:text-sm font-mono text-muted-foreground whitespace-pre-wrap">
                             {practiceChallenge.exampleOutput}
                           </code>
                         </pre>
@@ -726,15 +728,15 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                   </div>
 
                   {/* Challenge Question */}
-                  <div className="p-4 rounded-lg bg-muted/50 border border-border">
-                    <div className="flex items-start gap-3">
-                      <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium shrink-0">
+                  <div className="p-3 sm:p-4 rounded-lg bg-muted/50 border border-border">
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium shrink-0 text-sm sm:text-base">
                         Q
                       </span>
-                      <div>
-                        <p className="font-medium text-foreground mb-1">Your Challenge</p>
-                        <p className="text-muted-foreground">{practiceChallenge.question}</p>
-                        <Badge variant="outline" className="mt-2">
+                      <div className="min-w-0">
+                        <p className="font-medium text-foreground mb-1 text-sm sm:text-base">Your Challenge</p>
+                        <p className="text-muted-foreground text-sm">{practiceChallenge.question}</p>
+                        <Badge variant="outline" className="mt-2 text-xs">
                           Language: {practiceChallenge.language.toUpperCase()}
                         </Badge>
                       </div>
@@ -742,15 +744,15 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                   </div>
 
                   {/* Code Editor and Output Side by Side */}
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {/* Code Editor */}
                     <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-muted px-4 py-2 border-b flex items-center justify-between">
-                        <span className="text-sm font-medium">Code Editor ({practiceChallenge.language.toUpperCase()})</span>
+                      <div className="bg-muted px-3 sm:px-4 py-2 border-b flex items-center justify-between gap-2">
+                        <span className="text-xs sm:text-sm font-medium truncate">Code Editor ({practiceChallenge.language.toUpperCase()})</span>
                         {isPracticeCompleted && (
-                          <Badge variant="outline" className="gap-1 text-success border-success">
+                          <Badge variant="outline" className="gap-1 text-success border-success text-xs flex-shrink-0">
                             <CheckCircle2 className="w-3 h-3" />
-                            Completed
+                            <span className="hidden sm:inline">Completed</span>
                           </Badge>
                         )}
                       </div>
@@ -758,20 +760,20 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                         value={compilerCode}
                         onChange={(e) => setCompilerCode(e.target.value)}
                         placeholder={`Write your ${practiceChallenge.language.toUpperCase()} code here...`}
-                        className="w-full h-72 p-4 font-mono text-sm bg-card resize-none focus:outline-none"
+                        className="w-full h-48 sm:h-72 p-3 sm:p-4 font-mono text-xs sm:text-sm bg-card resize-none focus:outline-none"
                         spellCheck={false}
                       />
                     </div>
 
                     {/* Output Panel */}
                     <div className="border rounded-lg overflow-hidden flex flex-col">
-                      <div className="bg-muted px-4 py-2 border-b flex items-center justify-between">
-                        <span className="text-sm font-medium">Output</span>
+                      <div className="bg-muted px-3 sm:px-4 py-2 border-b flex items-center justify-between">
+                        <span className="text-xs sm:text-sm font-medium">Output</span>
                         {isRunning && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
                       </div>
-                      <div className="flex-1 bg-card min-h-[288px] overflow-auto">
+                      <div className="flex-1 bg-card min-h-[180px] sm:min-h-[288px] overflow-auto">
                         {compilerOutput ? (
-                          <pre className={`p-4 h-full text-sm font-mono whitespace-pre-wrap ${
+                          <pre className={`p-3 sm:p-4 h-full text-xs sm:text-sm font-mono whitespace-pre-wrap ${
                             compilerOutput.includes('Error') || compilerOutput.includes('error')
                               ? 'text-destructive' 
                               : 'text-foreground'
@@ -779,7 +781,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                             {compilerOutput}
                           </pre>
                         ) : (
-                          <div className="text-muted-foreground text-sm font-mono h-full flex items-center justify-center p-4">
+                          <div className="text-muted-foreground text-xs sm:text-sm font-mono h-full flex items-center justify-center p-3 sm:p-4">
                             <p className="text-center">Click "Run Code" to see output here</p>
                           </div>
                         )}
@@ -798,8 +800,8 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                   )}
 
                   {/* Buttons */}
-                  <div className="flex gap-3">
-                    <Button onClick={handleRunCode} disabled={isRunning} className="flex-1 gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                    <Button onClick={handleRunCode} disabled={isRunning} className="flex-1 gap-2 text-sm sm:text-base">
                       {isRunning ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -815,7 +817,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                     <Button 
                       variant="outline" 
                       onClick={() => setShowSolution(!showSolution)}
-                      className="gap-2"
+                      className="gap-2 text-sm sm:text-base"
                     >
                       {showSolution ? "Hide" : "Show"} Solution
                     </Button>
@@ -824,12 +826,12 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                   {/* Solution (hidden by default) */}
                   {showSolution && (
                     <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-success/10 px-4 py-2 border-b flex items-center gap-2">
+                      <div className="bg-success/10 px-3 sm:px-4 py-2 border-b flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-success" />
-                        <span className="text-sm font-medium text-success">Example Solution</span>
+                        <span className="text-xs sm:text-sm font-medium text-success">Example Solution</span>
                       </div>
-                      <pre className="p-4 bg-muted/50 overflow-x-auto">
-                        <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                      <pre className="p-3 sm:p-4 bg-muted/50 overflow-x-auto">
+                        <code className="text-xs sm:text-sm font-mono text-muted-foreground whitespace-pre-wrap">
                           {practiceChallenge.solution}
                         </code>
                       </pre>
@@ -874,14 +876,14 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             </CardHeader>
             <CardContent className="space-y-6">
               {content.quizQuestions.map((question, qIndex) => (
-                <div key={question.id} className="space-y-3">
-                  <h4 className="font-medium flex items-start gap-2">
-                    <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm shrink-0">
+                <div key={question.id} className="space-y-2 sm:space-y-3">
+                  <h4 className="font-medium flex items-start gap-2 text-sm sm:text-base">
+                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs sm:text-sm shrink-0">
                       {qIndex + 1}
                     </span>
                     {question.question}
                   </h4>
-                  <div className="grid gap-2 pl-8">
+                  <div className="grid gap-2 pl-6 sm:pl-8">
                     {question.options.map((option, oIndex) => {
                       const isSelected = quizAnswers[question.id] === oIndex;
                       const isCorrect = oIndex === question.correctAnswer;
@@ -892,7 +894,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                           key={oIndex}
                           onClick={() => handleQuizAnswer(question.id, oIndex)}
                           disabled={quizSubmitted}
-                          className={`p-3 rounded-lg text-left transition-all border-2 ${
+                          className={`p-2.5 sm:p-3 rounded-lg text-left transition-all border-2 text-sm sm:text-base ${
                             showResult
                               ? isCorrect
                                 ? "border-success bg-success/10 text-success"
@@ -904,12 +906,12 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                               : "border-border hover:border-primary/50 bg-card"
                           }`}
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 sm:gap-3">
                             {showResult && isCorrect && (
-                              <CheckCircle2 className="w-5 h-5 text-success" />
+                              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
                             )}
                             {showResult && isSelected && !isCorrect && (
-                              <XCircle className="w-5 h-5 text-destructive" />
+                              <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-destructive flex-shrink-0" />
                             )}
                             <span>{option}</span>
                           </div>
@@ -918,7 +920,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                     })}
                   </div>
                   {quizSubmitted && (
-                    <div className="pl-8 p-3 rounded-lg bg-muted/50 text-sm">
+                    <div className="pl-6 sm:pl-8 p-2.5 sm:p-3 rounded-lg bg-muted/50 text-xs sm:text-sm">
                       <p className="flex items-start gap-2">
                         <Lightbulb className="w-4 h-4 text-warning mt-0.5 shrink-0" />
                         <span>{question.explanation}</span>

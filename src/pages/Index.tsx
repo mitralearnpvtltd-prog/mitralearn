@@ -300,33 +300,33 @@ const Index = () => {
             <img 
               src={innovskillsLogo} 
               alt="InnovSkills" 
-              className="h-8 w-auto"
+              className="h-7 sm:h-8 w-auto"
             />
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <SignedOut>
               <SignInButton mode="modal">
                 <button 
-                  className="flex items-center gap-2 text-sm font-medium transition-colors"
+                  className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium transition-colors"
                   style={{ color: '#475569' }}
                 >
-                  <Users className="w-4 h-4" />
+                  <Users className="w-4 h-4 hidden sm:block" />
                   Login
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
                 <Button 
-                  className="text-white px-6 py-2 rounded-lg text-sm font-semibold"
+                  className="text-white px-3 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold"
                   style={{ backgroundColor: '#7C3AED' }}
                 >
-                  Register Now
+                  Register
                 </Button>
               </SignUpButton>
             </SignedOut>
             <SignedIn>
               <Link 
                 to="/dashboard" 
-                className="text-sm font-medium transition-colors"
+                className="text-xs sm:text-sm font-medium transition-colors"
                 style={{ color: '#475569' }}
               >
                 Dashboard
@@ -412,19 +412,19 @@ const Index = () => {
         <div className="container mx-auto px-4 py-16 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 
-              className="text-5xl md:text-7xl leading-tight"
+              className="text-3xl sm:text-5xl md:text-7xl leading-tight"
               style={{ color: '#0F172A', fontWeight: 800 }}
             >
               Transform Your
             </h1>
             <h1 
-              className="text-5xl md:text-7xl mb-4 leading-tight"
+              className="text-3xl sm:text-5xl md:text-7xl mb-4 leading-tight"
               style={{ color: '#0F172A', fontWeight: 800 }}
             >
               Future
             </h1>
             <h2 
-              className="text-4xl md:text-6xl mb-8 leading-tight"
+              className="text-2xl sm:text-4xl md:text-6xl mb-6 sm:mb-8 leading-tight"
               style={{
                 fontWeight: 800,
                 fontStyle: 'italic',
@@ -438,16 +438,16 @@ const Index = () => {
             </h2>
             
             <p 
-              className="text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-2"
               style={{ color: '#64748B' }}
             >
               Industry-leading courses with hands-on projects, expert mentorship, and guaranteed career support
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 sm:mb-8 px-4 sm:px-0">
               <Button 
                 onClick={() => navigate('/curriculum')}
-                className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:opacity-90"
+                className="px-6 sm:px-8 py-5 sm:py-6 rounded-full text-base sm:text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 hover:opacity-90 w-full sm:w-auto"
                 style={{ backgroundColor: '#0F172A', color: '#FFFFFF' }}
               >
                 Explore Courses <ArrowRight className="h-5 w-5" />
@@ -455,7 +455,7 @@ const Index = () => {
               <SignedIn>
                 <Button 
                   onClick={() => navigate('/dashboard')}
-                  className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:bg-gray-50"
+                  className="px-6 sm:px-8 py-5 sm:py-6 rounded-full text-base sm:text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 hover:bg-gray-50 w-full sm:w-auto"
                   style={{ 
                     backgroundColor: '#FFFFFF', 
                     color: '#0F172A',
@@ -469,7 +469,7 @@ const Index = () => {
               <SignedOut>
                 <SignUpButton mode="modal">
                   <Button 
-                    className="px-8 py-6 rounded-full text-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:bg-gray-50"
+                    className="px-6 sm:px-8 py-5 sm:py-6 rounded-full text-base sm:text-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 hover:bg-gray-50 w-full sm:w-auto"
                     style={{ 
                       backgroundColor: '#FFFFFF', 
                       color: '#0F172A',
@@ -485,11 +485,12 @@ const Index = () => {
             
             {/* Special Offer Badge */}
             <div 
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium mx-4 sm:mx-0 text-center"
               style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
             >
               <span>🎁</span>
-              <span>Special Offer: Get 30 Days Real-Time Project Internship, FREE</span>
+              <span className="hidden sm:inline">Special Offer: Get 30 Days Real-Time Project Internship, FREE</span>
+              <span className="sm:hidden">30 Days Free Internship!</span>
             </div>
           </div>
         </div>
@@ -503,9 +504,9 @@ const Index = () => {
         style={{ backgroundColor: '#FFFFFF' }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <h2 
-              className="text-4xl mb-2 relative inline-block"
+              className="text-2xl sm:text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Choose Your Courses
@@ -527,16 +528,16 @@ const Index = () => {
                 <polygon points="195,2 202,5 195,8" fill="#F97316" />
               </svg>
             </h2>
-            <p className="mt-6" style={{ color: '#64748B', fontSize: '18px' }}>
+            <p className="mt-6 text-sm sm:text-lg px-4 sm:px-0" style={{ color: '#64748B' }}>
               Select from our comprehensive range of industry-focused courses
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {courses.map((course, index) => (
               <div 
                 key={index}
-                className="group bg-white p-6 relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1"
+                className="group bg-white p-4 sm:p-6 relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1"
                 style={{ 
                   borderRadius: '16px',
                   border: '1px solid #E5E7EB',
@@ -640,9 +641,9 @@ const Index = () => {
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <h2 
-              className="text-4xl mb-2 relative inline-block"
+              className="text-2xl sm:text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               What You Will Get
@@ -666,17 +667,17 @@ const Index = () => {
             </h2>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-8 max-w-4xl mx-auto">
             {features.map((feature, index) => (
               <div key={index} className="flex flex-col items-center text-center group">
                 <div 
-                  className="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-200 group-hover:scale-110"
+                  className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-200 group-hover:scale-110"
                   style={{ backgroundColor: feature.bgColor }}
                 >
-                  <feature.icon className="h-8 w-8" style={{ color: feature.iconColor }} />
+                  <feature.icon className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: feature.iconColor }} />
                 </div>
                 <p 
-                  className="text-sm font-semibold"
+                  className="text-xs sm:text-sm font-semibold"
                   style={{ color: '#0F172A' }}
                 >
                   {feature.title}
@@ -697,28 +698,28 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <span 
-              className="inline-block text-sm font-medium px-4 py-2 rounded-full mb-4"
+              className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full mb-4"
               style={{ backgroundColor: '#F5F3FF', color: '#7C3AED' }}
             >
               Request a Course
             </span>
             <h2 
-              className="text-3xl mb-4"
+              className="text-2xl sm:text-3xl mb-4"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Can't Find What You're Looking For?
             </h2>
-            <p style={{ color: '#64748B' }}>
+            <p className="text-sm sm:text-base px-4 sm:px-0" style={{ color: '#64748B' }}>
               Tell us what course you'd like to see and we'll notify you when it's available.
             </p>
           </div>
           
           <form 
             onSubmit={handleSubmitRequest} 
-            className="max-w-2xl mx-auto p-8 rounded-2xl"
+            className="max-w-2xl mx-auto p-4 sm:p-8 rounded-2xl"
             style={{ backgroundColor: '#F8FAFC' }}
           >
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <label 
                   className="block text-sm font-medium mb-2"
@@ -781,15 +782,15 @@ const Index = () => {
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16 flex items-center justify-center gap-3">
+          <div className="text-center mb-10 sm:mb-16 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
             <span 
-              className="inline-block text-sm font-medium px-4 py-2 rounded-full"
+              className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full"
               style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
             >
               Testimonials
             </span>
             <h2 
-              className="text-4xl relative inline-block"
+              className="text-2xl sm:text-4xl relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Loved by Learners
@@ -813,23 +814,23 @@ const Index = () => {
             </h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {testimonials.map((testimonial, index) => (
               <div 
                 key={index} 
-                className="rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+                className="rounded-2xl p-4 sm:p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
                 style={{ 
                   backgroundColor: '#FFFFFF',
                   border: '1px solid #E5E7EB',
                 }}
               >
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-0.5 sm:gap-1 mb-3 sm:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-current" style={{ color: '#F97316' }} />
+                    <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 fill-current" style={{ color: '#F97316' }} />
                   ))}
                 </div>
                 <p 
-                  className="mb-6 leading-relaxed italic"
+                  className="mb-4 sm:mb-6 leading-relaxed italic text-sm sm:text-base"
                   style={{ color: '#475569' }}
                 >
                   "{testimonial.content}"
@@ -858,7 +859,7 @@ const Index = () => {
       >
         <div className="container mx-auto px-4">
           <div 
-            className="max-w-4xl mx-auto rounded-3xl p-12 text-center"
+            className="max-w-4xl mx-auto rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-center"
             style={{
               backgroundColor: '#F1F5F9',
             }}
@@ -875,7 +876,7 @@ const Index = () => {
             </div>
             
             <h2 
-              className="text-4xl mb-2 relative inline-block"
+              className="text-2xl sm:text-4xl mb-2 relative inline-block"
               style={{ color: '#0F172A', fontWeight: 700 }}
             >
               Your Future Starts Today
@@ -899,30 +900,31 @@ const Index = () => {
             </h2>
             
             <p 
-              className="mt-6 mb-8 max-w-xl mx-auto"
+              className="mt-4 sm:mt-6 mb-6 sm:mb-8 max-w-xl mx-auto text-sm sm:text-base px-4 sm:px-0"
               style={{ color: '#64748B' }}
             >
               Join thousands of learners who transformed their careers with Innov Skills. No prior experience needed – just bring your curiosity.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
               <Button 
                 onClick={() => navigate(user ? '/dashboard' : '/auth')}
-                className="px-8 py-6 rounded-full text-lg font-semibold flex items-center gap-2 hover:opacity-90"
+                className="px-6 sm:px-8 py-5 sm:py-6 rounded-full text-base sm:text-lg font-semibold flex items-center justify-center gap-2 hover:opacity-90 w-full sm:w-auto"
                 style={{ backgroundColor: '#0F172A', color: '#FFFFFF' }}
               >
                 Register Now <ArrowRight className="h-5 w-5" />
               </Button>
               <Button 
                 onClick={() => navigate('/auth')}
-                className="px-8 py-6 rounded-full text-lg font-semibold hover:bg-gray-50"
+                className="px-6 sm:px-8 py-5 sm:py-6 rounded-full text-base sm:text-lg font-semibold hover:bg-gray-50 w-full sm:w-auto"
                 style={{ 
                   backgroundColor: '#FFFFFF', 
                   color: '#0F172A',
                   border: '1px solid #E5E7EB'
                 }}
               >
-                Already have an account? Login
+                <span className="hidden sm:inline">Already have an account? Login</span>
+                <span className="sm:hidden">Login</span>
               </Button>
             </div>
           </div>
@@ -935,7 +937,7 @@ const Index = () => {
         style={{ backgroundColor: '#F8FAFC', borderTop: '1px solid #E5E7EB' }}
       >
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <div className="flex items-center gap-2">
               <div 
                 className="w-8 h-8 rounded-lg flex items-center justify-center"

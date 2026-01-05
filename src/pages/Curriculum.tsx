@@ -137,11 +137,11 @@ const Curriculum = () => {
                 Most Enrolled Program
               </Badge>
 
-              <h1 className="text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-foreground leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-foreground leading-tight">
                 Data Engineering Program
               </h1>
               
-              <p className="text-lg text-muted-foreground max-w-2xl">
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
                 Learn to build and manage data pipelines. Develop programs to gather, clean, analyze, and visualize data.
               </p>
 
@@ -163,48 +163,48 @@ const Curriculum = () => {
               </div>
 
               {/* Feature Badges */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-primary" />
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-2">
+                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-foreground">12 Hours</div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">12 Hours</div>
                     <div className="text-xs text-muted-foreground">Duration</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <Briefcase className="w-5 h-5 text-primary" />
+                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Projects + Internship</div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Projects + Internship</div>
                     <div className="text-xs text-muted-foreground">Hands-on</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <TrendingUp className="w-5 h-5 text-primary" />
+                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Beginner to Advanced</div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Beginner to Advanced</div>
                     <div className="text-xs text-muted-foreground">Level</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                    <Award className="w-5 h-5 text-primary" />
+                <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-border bg-card">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                    <Award className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Certificate</div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-foreground text-sm sm:text-base truncate">Certificate</div>
                     <div className="text-xs text-muted-foreground">Included</div>
                   </div>
                 </div>
               </div>
 
               {/* Course Includes */}
-              <Card className="mt-6">
-                <CardContent className="p-6">
+              <Card className="mt-4 sm:mt-6">
+                <CardContent className="p-4 sm:p-6">
                   <h3 className="font-display font-semibold text-foreground mb-4">This Course Includes:</h3>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {courseIncludes.map((item, index) => (
