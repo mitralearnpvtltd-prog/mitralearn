@@ -174,23 +174,23 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
 
         {/* Custom Controls */}
         <div
-          className={`absolute inset-0 z-20 flex items-center justify-center gap-6 transition-opacity duration-300 ${
+          className={`absolute inset-0 z-20 flex items-center justify-center gap-3 sm:gap-6 transition-opacity duration-300 ${
             showControls || !isPlaying ? "opacity-100" : "opacity-0"
           }`}
         >
           {/* Skip Backward 10s */}
           <button
-            className="w-12 h-12 rounded-full flex items-center justify-center bg-background/70 hover:bg-background/90 shadow-lg backdrop-blur-sm transition-all duration-200"
+            className="w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-background/70 hover:bg-background/90 shadow-lg backdrop-blur-sm transition-all duration-200 relative"
             onClick={skipBackward}
             aria-label="Skip backward 10 seconds"
           >
-            <RotateCcw className="w-5 h-5 text-foreground" />
-            <span className="absolute -bottom-5 text-xs text-foreground/80 font-medium">10</span>
+            <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
+            <span className="absolute -bottom-4 sm:-bottom-5 text-[10px] sm:text-xs text-foreground/80 font-medium">10</span>
           </button>
 
           {/* Play/Pause */}
           <button
-            className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
+            className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
               isPlaying
                 ? "bg-background/80 hover:bg-background/90"
                 : "bg-primary hover:bg-primary/90"
@@ -202,20 +202,20 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
             aria-label={isPlaying ? "Pause video" : "Play video"}
           >
             {isPlaying ? (
-              <Pause className="w-6 h-6 text-foreground" />
+              <Pause className="w-5 h-5 sm:w-6 sm:h-6 text-foreground" />
             ) : (
-              <Play className="w-6 h-6 text-primary-foreground ml-1" />
+              <Play className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground ml-0.5 sm:ml-1" />
             )}
           </button>
 
           {/* Skip Forward 10s */}
           <button
-            className="w-12 h-12 rounded-full flex items-center justify-center bg-background/70 hover:bg-background/90 shadow-lg backdrop-blur-sm transition-all duration-200"
+            className="w-9 h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-background/70 hover:bg-background/90 shadow-lg backdrop-blur-sm transition-all duration-200 relative"
             onClick={skipForward}
             aria-label="Skip forward 10 seconds"
           >
-            <RotateCw className="w-5 h-5 text-foreground" />
-            <span className="absolute -bottom-5 text-xs text-foreground/80 font-medium">10</span>
+            <RotateCw className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
+            <span className="absolute -bottom-4 sm:-bottom-5 text-[10px] sm:text-xs text-foreground/80 font-medium">10</span>
           </button>
         </div>
 
@@ -229,11 +229,11 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
         {/* Title Overlay */}
         {title && (
           <div
-            className={`absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-background/80 to-transparent transition-opacity duration-300 ${
+            className={`absolute bottom-0 left-0 right-0 z-20 p-3 sm:p-4 bg-gradient-to-t from-background/80 to-transparent transition-opacity duration-300 ${
               showControls || !isPlaying ? "opacity-100" : "opacity-0"
             }`}
           >
-            <p className="text-sm font-medium text-foreground truncate">{title}</p>
+            <p className="text-xs sm:text-sm font-medium text-foreground truncate">{title}</p>
           </div>
         )}
       </div>
