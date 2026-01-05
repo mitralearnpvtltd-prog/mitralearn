@@ -1,5 +1,6 @@
 import { Link, useLocation, Outlet, Navigate } from "react-router-dom";
 import { SignedIn, SignedOut, useClerk, useUser } from "@clerk/clerk-react";
+import { useAdminRole } from "@/hooks/useAdminRole";
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -16,7 +17,9 @@ import {
   CheckCircle,
   AlertCircle,
   Clock,
-  InfoIcon
+  InfoIcon,
+  Loader2,
+  ShieldX
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -40,6 +43,7 @@ export default function AdminLayout() {
   const { notifications, markNotificationAsRead, clearNotifications, getUnreadNotificationCount } = useStore();
   const { signOut } = useClerk();
   const { user } = useUser();
+  const { isAdmin, isLoading: isAdminLoading } = useAdminRole();
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -129,6 +133,38 @@ export default function AdminLayout() {
       </div>
     </div>
   );
+
+  // Loading state while checking admin role
+  if (isAdminLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Checking access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Access denied if not admin
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-center px-4">
+          <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center">
+            <ShieldX className="h-8 w-8 text-destructive" />
+          </div>
+          <h1 className="text-2xl font-bold">Access Denied</h1>
+          <p className="text-muted-foreground max-w-md">
+            You don't have permission to access the admin panel. Please contact an administrator if you believe this is an error.
+          </p>
+          <Link to="/">
+            <Button>Return to Home</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
