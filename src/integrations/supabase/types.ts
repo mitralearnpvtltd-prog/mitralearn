@@ -113,6 +113,8 @@ export type Database = {
           id: string
           last_active_date: string | null
           longest_streak: number | null
+          project_github_link: string | null
+          project_video_link: string | null
           total_time_spent: number | null
           updated_at: string
           user_id: string
@@ -131,6 +133,8 @@ export type Database = {
           id?: string
           last_active_date?: string | null
           longest_streak?: number | null
+          project_github_link?: string | null
+          project_video_link?: string | null
           total_time_spent?: number | null
           updated_at?: string
           user_id: string
@@ -149,6 +153,8 @@ export type Database = {
           id?: string
           last_active_date?: string | null
           longest_streak?: number | null
+          project_github_link?: string | null
+          project_video_link?: string | null
           total_time_spent?: number | null
           updated_at?: string
           user_id?: string
