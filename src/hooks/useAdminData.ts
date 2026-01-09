@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface AdminStats {
@@ -49,34 +49,52 @@ export const useAdminStats = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const { data, error } = await supabase.rpc('get_admin_stats');
-        
-        if (error) throw error;
-        
-        if (data && data.length > 0) {
-          const statsData = data[0];
-          setStats({
-            totalUsers: Number(statsData.total_users) || 0,
-            activeUsers: Number(statsData.active_users) || 0,
-            totalCertificates: Number(statsData.total_certificates) || 0,
-            completionRate: Math.round(Number(statsData.completion_rate) || 0),
-          });
-        }
-      } catch (err) {
-        console.error('Error fetching admin stats:', err);
-        setError('Failed to load stats');
-      } finally {
-        setIsLoading(false);
+  const fetchStats = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.rpc('get_admin_stats');
+      
+      if (error) throw error;
+      
+      if (data && data.length > 0) {
+        const statsData = data[0];
+        setStats({
+          totalUsers: Number(statsData.total_users) || 0,
+          activeUsers: Number(statsData.active_users) || 0,
+          totalCertificates: Number(statsData.total_certificates) || 0,
+          completionRate: Math.round(Number(statsData.completion_rate) || 0),
+        });
       }
-    };
-
-    fetchStats();
+    } catch (err) {
+      console.error('Error fetching admin stats:', err);
+      setError('Failed to load stats');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  return { stats, isLoading, error };
+  useEffect(() => {
+    fetchStats();
+
+    // Set up real-time subscription for stats updates
+    const channel = supabase
+      .channel('admin-stats')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
+        fetchStats();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'certificates' }, () => {
+        fetchStats();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'user_progress' }, () => {
+        fetchStats();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchStats]);
+
+  return { stats, isLoading, error, refetch: fetchStats };
 };
 
 export const useAdminUsers = () => {
@@ -84,39 +102,41 @@ export const useAdminUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data, error } = await supabase.rpc('get_admin_dashboard_data');
-        
-        if (error) throw error;
-        
-        setUsers((data as UserData[]) || []);
-      } catch (err) {
-        console.error('Error fetching users:', err);
-        setError('Failed to load users');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  const refetch = async () => {
-    setIsLoading(true);
+  const fetchUsers = useCallback(async () => {
     try {
       const { data, error } = await supabase.rpc('get_admin_dashboard_data');
+      
       if (error) throw error;
+      
       setUsers((data as UserData[]) || []);
     } catch (err) {
-      console.error('Error refetching users:', err);
+      console.error('Error fetching users:', err);
+      setError('Failed to load users');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  return { users, isLoading, error, refetch };
+  useEffect(() => {
+    fetchUsers();
+
+    // Set up real-time subscription for user updates
+    const channel = supabase
+      .channel('admin-users')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
+        fetchUsers();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'user_progress' }, () => {
+        fetchUsers();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchUsers]);
+
+  return { users, isLoading, error, refetch: fetchUsers };
 };
 
 export const useAdminCertificates = () => {
@@ -124,27 +144,39 @@ export const useAdminCertificates = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCertificates = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('certificates')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        if (error) throw error;
-        
-        setCertificates(data || []);
-      } catch (err) {
-        console.error('Error fetching certificates:', err);
-        setError('Failed to load certificates');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCertificates();
+  const fetchCertificates = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('certificates')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      
+      setCertificates(data || []);
+    } catch (err) {
+      console.error('Error fetching certificates:', err);
+      setError('Failed to load certificates');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  return { certificates, isLoading, error };
+  useEffect(() => {
+    fetchCertificates();
+
+    // Set up real-time subscription for certificate updates
+    const channel = supabase
+      .channel('admin-certificates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'certificates' }, () => {
+        fetchCertificates();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchCertificates]);
+
+  return { certificates, isLoading, error, refetch: fetchCertificates };
 };
