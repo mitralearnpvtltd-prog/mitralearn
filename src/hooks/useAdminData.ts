@@ -29,8 +29,6 @@ interface UserData {
   completed_modules_count: number;
 }
 
-export type { UserData };
-
 interface CertificateData {
   id: string;
   certificate_id: string;
