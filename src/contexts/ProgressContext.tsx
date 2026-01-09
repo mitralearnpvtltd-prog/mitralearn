@@ -14,6 +14,8 @@ export interface UserProgress {
   lastActiveDate: string;
   finalAssessmentScore?: number;
   finalProjectSubmitted: boolean;
+  projectGithubLink?: string;
+  projectVideoLink?: string;
   certificateEarned: boolean;
   certificateId?: string;
 }
@@ -37,7 +39,7 @@ interface ProgressContextType {
   getOverallProgress: () => number;
   isEligibleForCertificate: () => boolean;
   generateCertificate: () => Promise<string>;
-  submitFinalProject: () => void;
+  submitFinalProject: (githubLink: string, videoLink: string) => void;
   setFinalAssessmentScore: (score: number) => void;
   signOut: () => Promise<void>;
   completeDay: (day: number) => void;
@@ -139,6 +141,8 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
         lastActiveDate: data.last_active_date || '',
         finalAssessmentScore: data.final_assessment_score || undefined,
         finalProjectSubmitted: data.final_project_submitted || false,
+        projectGithubLink: (data as any).project_github_link || undefined,
+        projectVideoLink: (data as any).project_video_link || undefined,
         certificateEarned: data.certificate_earned || false,
         certificateId: data.certificate_id || undefined,
       });
@@ -235,6 +239,8 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
         last_active_date: newProgress.lastActiveDate || null,
         final_assessment_score: newProgress.finalAssessmentScore || null,
         final_project_submitted: newProgress.finalProjectSubmitted,
+        project_github_link: newProgress.projectGithubLink || null,
+        project_video_link: newProgress.projectVideoLink || null,
         certificate_earned: newProgress.certificateEarned,
         certificate_id: newProgress.certificateId || null,
       })
@@ -383,8 +389,13 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
     return certId;
   };
 
-  const submitFinalProject = () => {
-    setProgress(prev => ({ ...prev, finalProjectSubmitted: true }));
+  const submitFinalProject = (githubLink: string, videoLink: string) => {
+    setProgress(prev => ({ 
+      ...prev, 
+      finalProjectSubmitted: true,
+      projectGithubLink: githubLink,
+      projectVideoLink: videoLink,
+    }));
   };
 
   const setFinalAssessmentScore = (score: number) => {

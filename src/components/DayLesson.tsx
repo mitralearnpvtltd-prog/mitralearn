@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MinimalYouTubePlayer } from "@/components/MinimalYouTubePlayer";
+import { ProjectSubmission } from "@/components/ProjectSubmission";
 import {
   BookOpen,
   Code,
@@ -28,10 +29,16 @@ import {
   HelpCircle,
   ExternalLink,
   Loader2,
+  Rocket,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { executeCode } from "@/lib/codeExecutor";
+
+// Check if this is the capstone project lesson
+const isCapstoneProject = (submoduleId: string): boolean => {
+  return submoduleId === "9.1";
+};
 
 interface DayLessonProps {
   content: SubmoduleContent;
@@ -239,6 +246,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   const module = getModuleForSubmodule(content.submodule);
   const practiceChallenge = getPracticeChallenge(content.submodule);
   const hasPractice = hasCompiler(content.submodule); // Only specific lessons have practice
+  const isCapstone = isCapstoneProject(content.submodule); // Check if this is the capstone project
 
   // Check if previous submodule is completed for gated flow
   const previousSubmoduleId = getPreviousSubmoduleId(content.submodule);
@@ -453,12 +461,19 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             disabled={!canAccessQuiz}
           >
             {!canAccessQuiz && <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
-            <Target className="w-3 h-3 sm:w-4 sm:h-4" />
-            Quiz
-            {quizScore !== undefined && (
+            {isCapstone ? (
+              <Rocket className="w-3 h-3 sm:w-4 sm:h-4" />
+            ) : (
+              <Target className="w-3 h-3 sm:w-4 sm:h-4" />
+            )}
+            {isCapstone ? "Project" : "Quiz"}
+            {!isCapstone && quizScore !== undefined && (
               <Badge variant="secondary" className="ml-0.5 sm:ml-1 text-xs px-1 sm:px-1.5">
                 {quizScore}%
               </Badge>
+            )}
+            {isCapstone && progress.finalProjectSubmitted && (
+              <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-success" />
             )}
           </TabsTrigger>
         </TabsList>
@@ -850,120 +865,129 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           </TabsContent>
         )}
 
-        {/* Quiz Tab */}
+        {/* Quiz Tab (or Project Tab for capstone) */}
         <TabsContent value="quiz" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Quiz</CardTitle>
-                {quizSubmitted && (
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={resetQuiz} 
-                    className="gap-2"
-                  >
-                    <RefreshCcw className="w-4 h-4" />
-                    Retry
-                  </Button>
-                )}
-              </div>
-              {!quizSubmitted && (
-                <p className="text-sm text-muted-foreground">
-                  Answer all questions to complete the quiz. You need 70% to pass.
-                </p>
-              )}
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {content.quizQuestions.map((question, qIndex) => (
-                <div key={question.id} className="space-y-2 sm:space-y-3">
-                  <h4 className="font-medium flex items-start gap-2 text-sm sm:text-base">
-                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs sm:text-sm shrink-0">
-                      {qIndex + 1}
-                    </span>
-                    {question.question}
-                  </h4>
-                  <div className="grid gap-2 pl-6 sm:pl-8">
-                    {question.options.map((option, oIndex) => {
-                      const isSelected = quizAnswers[question.id] === oIndex;
-                      const isCorrect = oIndex === question.correctAnswer;
-                      const showResult = quizSubmitted;
-
-                      return (
-                        <button
-                          key={oIndex}
-                          onClick={() => handleQuizAnswer(question.id, oIndex)}
-                          disabled={quizSubmitted}
-                          className={`p-2.5 sm:p-3 rounded-lg text-left transition-all border-2 text-sm sm:text-base ${
-                            showResult
-                              ? isCorrect
-                                ? "border-success bg-success/10 text-success"
-                                : isSelected
-                                ? "border-destructive bg-destructive/10 text-destructive"
-                                : "border-border bg-card"
-                              : isSelected
-                              ? "border-primary bg-primary/10"
-                              : "border-border hover:border-primary/50 bg-card"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2 sm:gap-3">
-                            {showResult && isCorrect && (
-                              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
-                            )}
-                            {showResult && isSelected && !isCorrect && (
-                              <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-destructive flex-shrink-0" />
-                            )}
-                            <span>{option}</span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+          {isCapstone ? (
+            <ProjectSubmission 
+              submoduleId={content.submodule} 
+              onComplete={() => {
+                toast.success("Congratulations on completing the course! 🎉");
+              }}
+            />
+          ) : (
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Quiz</CardTitle>
                   {quizSubmitted && (
-                    <div className="pl-6 sm:pl-8 p-2.5 sm:p-3 rounded-lg bg-muted/50 text-xs sm:text-sm">
-                      <p className="flex items-start gap-2">
-                        <Lightbulb className="w-4 h-4 text-warning mt-0.5 shrink-0" />
-                        <span>{question.explanation}</span>
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              {!quizSubmitted && (
-                <Button
-                  onClick={handleQuizSubmit}
-                  disabled={Object.keys(quizAnswers).length !== content.quizQuestions.length}
-                  className="w-full"
-                  size="lg"
-                >
-                  Submit Quiz
-                </Button>
-              )}
-
-              {quizSubmitted && (
-                <div className="p-4 rounded-lg bg-muted text-center">
-                  <p className="text-2xl font-display font-bold">
-                    Your Score: {quizScore}%
-                  </p>
-                  <p className="text-muted-foreground mt-1">
-                    {quizScore! >= 70
-                      ? "Great job! You passed!"
-                      : "Keep practicing and try again!"}
-                  </p>
-                  {quizScore! >= 70 && nextSubmoduleId && (
                     <Button 
-                      onClick={() => navigate(`/curriculum/submodule/${nextSubmoduleId}`)}
-                      className="mt-4 gap-2"
+                      variant="outline" 
+                      size="sm" 
+                      onClick={resetQuiz} 
+                      className="gap-2"
                     >
-                      Continue to Next Lesson
-                      <ArrowRight className="w-4 h-4" />
+                      <RefreshCcw className="w-4 h-4" />
+                      Retry
                     </Button>
                   )}
                 </div>
-              )}
-            </CardContent>
-          </Card>
+                {!quizSubmitted && (
+                  <p className="text-sm text-muted-foreground">
+                    Answer all questions to complete the quiz. You need 70% to pass.
+                  </p>
+                )}
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {content.quizQuestions.map((question, qIndex) => (
+                  <div key={question.id} className="space-y-2 sm:space-y-3">
+                    <h4 className="font-medium flex items-start gap-2 text-sm sm:text-base">
+                      <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs sm:text-sm shrink-0">
+                        {qIndex + 1}
+                      </span>
+                      {question.question}
+                    </h4>
+                    <div className="grid gap-2 pl-6 sm:pl-8">
+                      {question.options.map((option, oIndex) => {
+                        const isSelected = quizAnswers[question.id] === oIndex;
+                        const isCorrect = oIndex === question.correctAnswer;
+                        const showResult = quizSubmitted;
+
+                        return (
+                          <button
+                            key={oIndex}
+                            onClick={() => handleQuizAnswer(question.id, oIndex)}
+                            disabled={quizSubmitted}
+                            className={`p-2.5 sm:p-3 rounded-lg text-left transition-all border-2 text-sm sm:text-base ${
+                              showResult
+                                ? isCorrect
+                                  ? "border-success bg-success/10 text-success"
+                                  : isSelected
+                                  ? "border-destructive bg-destructive/10 text-destructive"
+                                  : "border-border bg-card"
+                                : isSelected
+                                ? "border-primary bg-primary/10"
+                                : "border-border hover:border-primary/50 bg-card"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              {showResult && isCorrect && (
+                                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
+                              )}
+                              {showResult && isSelected && !isCorrect && (
+                                <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-destructive flex-shrink-0" />
+                              )}
+                              <span>{option}</span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {quizSubmitted && (
+                      <div className="pl-6 sm:pl-8 p-2.5 sm:p-3 rounded-lg bg-muted/50 text-xs sm:text-sm">
+                        <p className="flex items-start gap-2">
+                          <Lightbulb className="w-4 h-4 text-warning mt-0.5 shrink-0" />
+                          <span>{question.explanation}</span>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {!quizSubmitted && (
+                  <Button
+                    onClick={handleQuizSubmit}
+                    disabled={Object.keys(quizAnswers).length !== content.quizQuestions.length}
+                    className="w-full"
+                    size="lg"
+                  >
+                    Submit Quiz
+                  </Button>
+                )}
+
+                {quizSubmitted && (
+                  <div className="p-4 rounded-lg bg-muted text-center">
+                    <p className="text-2xl font-display font-bold">
+                      Your Score: {quizScore}%
+                    </p>
+                    <p className="text-muted-foreground mt-1">
+                      {quizScore! >= 70
+                        ? "Great job! You passed!"
+                        : "Keep practicing and try again!"}
+                    </p>
+                    {quizScore! >= 70 && nextSubmoduleId && (
+                      <Button 
+                        onClick={() => navigate(`/curriculum/submodule/${nextSubmoduleId}`)}
+                        className="mt-4 gap-2"
+                      >
+                        Continue to Next Lesson
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>
