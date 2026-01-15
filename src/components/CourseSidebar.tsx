@@ -159,18 +159,6 @@ export const CourseSidebar = ({ currentSubmoduleId }: CourseSidebarProps) => {
                     );
                   })}
 
-                  {/* Module Quiz/Assessment */}
-                  {module.assessment && (
-                    <div className="pl-12 pr-4 py-2.5 flex items-center gap-3 text-muted-foreground">
-                      <FileText className="w-4 h-4 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm truncate">{module.assessment.title}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {module.assessment.type === 'quiz' ? `${module.assessment.passingScore}% to pass` : 'Project'}
-                        </p>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
             </div>

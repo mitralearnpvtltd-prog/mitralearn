@@ -470,15 +470,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           <TabsContent value="overview" className="mt-0 space-y-8">
             {/* Module Badge and Title */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Badge variant="default" className="bg-primary/10 text-primary border-0 font-medium">
-                  Module {module?.module}: {module?.title}
-                </Badge>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Clock className="w-4 h-4" />
-                  <span>8:42</span>
-                </div>
-              </div>
+              <Badge variant="default" className="bg-primary/10 text-primary border-0 font-medium">
+                Module {module?.module}: {module?.title}
+              </Badge>
               
               <h1 className="text-3xl font-display font-bold text-foreground">
                 {content.title}
