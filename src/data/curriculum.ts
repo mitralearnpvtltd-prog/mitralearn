@@ -164,8 +164,8 @@ export const submodules: SubmoduleContent[] = [
   {
     submodule: "1.1",
     moduleNumber: 1,
-    title: "What is Data Engineering",
-    description: "Explore the role, responsibilities, and ecosystem of modern data engineering.",
+    title: "What is Data Engineering?",
+    description: "A comprehensive overview of the data engineering role, core functions, responsibilities, and relevance within the broader data ecosystem.",
     resources: [
       {
         type: "Video",
@@ -206,12 +206,11 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "A comprehensive overview of the data engineering role, core functions, responsibilities, and relevance within the broader data ecosystem, particularly in relation to data analytics and data science. Data Engineering is primarily concerned with the movement and transformation of data from various source systems to target systems like data warehouses. The role is closely linked to but distinct from data analytics and data science. The fundamental process in data engineering is ETL (Extract, Transform, Load).",
+      introduction: "A comprehensive overview of the data engineering role, core functions, responsibilities, and relevance within the broader data ecosystem, particularly in relation to data analytics and data science. It addresses common questions and clarifies what being a data engineer entails, making it easier for viewers to understand if this career path suits them.",
       keyConcepts: [
-        "ETL (Extract, Transform, Load): Extract - Querying and retrieving data from source systems (databases, flat files, APIs). Transform - Cleaning, converting, and reshaping data to standardize it for analysis. Load - Storing the transformed data into a data warehouse for querying and analysis.",
-        "Data Pipelines: Automated workflows that extract data from multiple sources and aggregate into centralized data warehouses for company-wide analysis.",
-        "Data Warehousing: Centralizing data from multiple regional databases enables analysis such as regional sales comparisons, seasonal trends, and cross-selling opportunities.",
-        "Orchestration: Automating, running, and monitoring the ETL pipelines using tools like Apache Airflow or Prefect."
+        "Data Engineering is primarily concerned with the movement and transformation of data from various source systems to target systems like data warehouses.",
+        "The role is closely linked to but distinct from data analytics and data science.",
+        "The fundamental process in data engineering is ETL (Extract, Transform, Load): Extract - Querying and retrieving data from source systems (databases, flat files, APIs). Transform - Cleaning, converting, and reshaping data to standardize it for analysis. Load - Storing the transformed data into a data warehouse or another storage solution for querying and analysis."
       ],
       coreResponsibilities: [
         "Extracting data from diverse sources such as databases, flat files, and APIs",
@@ -219,7 +218,7 @@ export const submodules: SubmoduleContent[] = [
         "Loading data into a structured data warehouse with a defined schema",
         "Data testing and quality assurance to ensure data validity and compliance with production standards",
         "Orchestration and monitoring of data pipelines using tools such as Apache Airflow, Prefect, or others",
-        "Cloud integration requiring familiarity with platforms like AWS, Azure, or Google Cloud for pipeline orchestration"
+        "Cloud integration is increasingly essential, requiring familiarity with platforms like AWS, Azure, or Google Cloud for pipeline orchestration"
       ],
       toolsEcosystem: [
         "SQL: Querying data from relational databases",
@@ -228,14 +227,14 @@ export const submodules: SubmoduleContent[] = [
         "Data Modeling: Designing data structures during transformation",
         "Data Warehouse Design: Creating schemas (SQL Server, Postgres, Snowflake, Redshift)",
         "Orchestration Software: Running and monitoring pipelines (Airflow, Prefect)",
-        "Cloud Platforms: AWS, Azure, Google Cloud"
+        "Cloud Platforms: Managing pipelines on AWS, Azure, Google Cloud"
       ],
       realWorldApplications: [
         "AdventureWorks Example: A fictional retailer with multiple transactional databases across different regions (North America, Asia, Africa, Europe)",
-        "Regional Sales Comparisons: Aggregating data from multiple geographic databases for company-wide analysis",
-        "Seasonal Sales Trends: Analyzing temporal patterns in sales data across regions",
-        "Product Bundling: Identifying cross-selling opportunities through centralized data analysis",
-        "Currency Standardization: Converting sales amounts from different currencies to USD using exchange rate APIs"
+        "Simple queries on a single database suffice for small-scale analysis (e.g., counting mountain bike sales last month)",
+        "As the company grows and data sources multiply geographically, running queries on production databases becomes inefficient",
+        "Data engineers build data pipelines to extract data from multiple sources and aggregate into a centralized data warehouse",
+        "This enables company-wide analysis: Regional sales comparisons, Seasonal sales trends, Product bundling and cross-selling opportunities"
       ],
       tipsInsights: [
         "Business/domain knowledge is important for effective data engineering but typically comes from business analysts",
@@ -244,10 +243,11 @@ export const submodules: SubmoduleContent[] = [
         "Data engineers operate behind the scenes but are critical for enabling data scientists and analysts to perform their work effectively"
       ],
       thinkingQuestions: [
-        "How do ETL pipelines support company-wide decision making?",
-        "What are the technical trade-offs between different orchestration tools?",
-        "Why is data quality assurance critical before data reaches the warehouse?",
-        "How would you design a data pipeline for a retailer with multiple regional databases?"
+        "Data engineering is essential for managing and preparing data at scale, enabling complex analytics and data science",
+        "The role involves building and maintaining ETL pipelines to move and transform data efficiently",
+        "A data engineer needs strong technical skills in SQL, Python, data modeling, and orchestration tools, as well as familiarity with cloud environments",
+        "Understanding business requirements and data quality is crucial, even though domain expertise usually comes from other roles",
+        "Data engineering supports company-wide decision making by consolidating and preparing data from multiple sources"
       ],
       furtherReading: [
         "Fundamentals of Data Engineering by Joe Reis and Matt Housley",
