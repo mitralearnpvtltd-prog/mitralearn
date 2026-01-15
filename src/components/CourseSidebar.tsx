@@ -52,7 +52,7 @@ export const CourseSidebar = ({ currentSubmoduleId }: CourseSidebarProps) => {
   };
 
   return (
-    <aside className="w-80 border-r border-border bg-card flex-shrink-0 h-[calc(100vh-64px)] overflow-y-auto hidden lg:block">
+    <aside className="w-80 border-r border-border bg-card flex-shrink-0 h-[calc(100vh-64px)] overflow-y-auto hidden lg:block sticky top-0">
       {/* Back to Course */}
       <div className="p-4 border-b border-border">
         <button 

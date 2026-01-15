@@ -372,7 +372,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
   return (
     <div className="min-h-full">
-      {/* Video Section - Full Width Dark Background */}
+      {/* Video Section - Full Width Dark Background with 16:9 Aspect Ratio */}
       <div className="bg-[#1a1a2e] w-full">
         {content.resources.filter(r => r.type === 'Video').length > 0 ? (
           content.resources.filter(r => r.type === 'Video').map((resource, index) => {
@@ -380,11 +380,16 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             
             if (videoId && isEmbeddableVideo(resource.url)) {
               return (
-                <div key={index} className="max-w-5xl mx-auto">
-                  <MinimalYouTubePlayer 
-                    videoId={videoId} 
-                    title={resource.title}
-                  />
+                <div key={index} className="w-full">
+                  <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+                      title={resource.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               );
             }
@@ -395,21 +400,22 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                 href={resource.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 p-12 text-white/80 hover:text-white transition-colors"
+                className="flex items-center justify-center gap-3 py-24 text-white/80 hover:text-white transition-colors"
               >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
-                  <Play className="w-8 h-8" />
+                <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
+                  <Play className="w-10 h-10" />
                 </div>
-                <span className="text-lg">Watch Video</span>
               </a>
             );
           })
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-white/60">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10 mb-4">
-              <Play className="w-10 h-10" />
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white/60">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10 mb-4">
+                <Play className="w-10 h-10" />
+              </div>
+              <span>Video Player</span>
             </div>
-            <span>Video Player</span>
           </div>
         )}
       </div>

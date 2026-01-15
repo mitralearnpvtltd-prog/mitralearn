@@ -67,12 +67,12 @@ const Day = () => {
 
       {/* Lesson Content for Signed In Users */}
       <SignedIn>
-        <div className="flex flex-1">
-          {/* Left Sidebar */}
+        <div className="flex flex-1 overflow-hidden">
+          {/* Left Sidebar - Fixed */}
           <CourseSidebar currentSubmoduleId={submoduleId} />
           
-          {/* Main Content */}
-          <main className="flex-1 overflow-y-auto">
+          {/* Main Content - Scrollable */}
+          <main className="flex-1 overflow-y-auto h-[calc(100vh-64px)]">
             <DayLesson content={content} />
           </main>
         </div>
