@@ -1,7 +1,7 @@
 import { useParams, Navigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { Breadcrumb } from "@/components/Breadcrumb";
 import { DayLesson } from "@/components/DayLesson";
+import { CourseSidebar } from "@/components/CourseSidebar";
 import { Button } from "@/components/ui/button";
 import { getSubmoduleContent, getSubmoduleIdFromSlug } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
@@ -33,13 +33,12 @@ const Day = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <main className="container mx-auto px-4 py-8">
-        <Breadcrumb />
-        
-        {/* Auth Required Message for Signed Out Users */}
-        <SignedOut>
+      
+      {/* Auth Required Message for Signed Out Users */}
+      <SignedOut>
+        <main className="flex-1 flex items-center justify-center px-4">
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <div className="w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center mb-6 shadow-glow">
               <BookOpen className="w-10 h-10 text-primary-foreground" />
@@ -63,13 +62,21 @@ const Day = () => {
               </SignUpButton>
             </div>
           </div>
-        </SignedOut>
+        </main>
+      </SignedOut>
 
-        {/* Lesson Content for Signed In Users */}
-        <SignedIn>
-          <DayLesson content={content} />
-        </SignedIn>
-      </main>
+      {/* Lesson Content for Signed In Users */}
+      <SignedIn>
+        <div className="flex flex-1">
+          {/* Left Sidebar */}
+          <CourseSidebar currentSubmoduleId={submoduleId} />
+          
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto">
+            <DayLesson content={content} />
+          </main>
+        </div>
+      </SignedIn>
     </div>
   );
 };

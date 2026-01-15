@@ -30,6 +30,8 @@ import {
   ExternalLink,
   Loader2,
   Rocket,
+  Clock,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -228,7 +230,7 @@ print("\\n[DONE] All messages consumed!")`,
 export const DayLesson = ({ content }: DayLessonProps) => {
   const { progress, completeSubmodule, completeQuiz, completeCodingChallenge } = useProgress();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("learn");
+  const [activeTab, setActiveTab] = useState("overview");
   const [quizAnswers, setQuizAnswers] = useState<{ [key: string]: number | null }>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   
@@ -245,17 +247,16 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   const isPracticeCompleted = progress.codingChallengesCompleted.includes(content.submodule);
   const module = getModuleForSubmodule(content.submodule);
   const practiceChallenge = getPracticeChallenge(content.submodule);
-  const hasPractice = hasCompiler(content.submodule); // Only specific lessons have practice
-  const isCapstone = isCapstoneProject(content.submodule); // Check if this is the capstone project
+  const hasPractice = hasCompiler(content.submodule);
+  const isCapstone = isCapstoneProject(content.submodule);
 
   // Check if previous submodule is completed for gated flow
   const previousSubmoduleId = getPreviousSubmoduleId(content.submodule);
   const isPreviousCompleted = !previousSubmoduleId || progress.completedSubmodules.includes(previousSubmoduleId);
 
-  // Determine section completion status
-  const isLearnCompleted = true;
-  const canAccessPractice = isLearnCompleted && hasPractice;
-  const canAccessQuiz = hasPractice ? isPracticeCompleted : true; // Skip practice requirement if no practice
+  // Count resources and questions
+  const resourceCount = content.resources.length;
+  const quizCount = content.quizQuestions.length;
 
   // Load saved quiz answers if already submitted
   useEffect(() => {
@@ -266,7 +267,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
   // Reset state when content changes
   useEffect(() => {
-    setActiveTab("learn");
+    setActiveTab("overview");
     setQuizAnswers({});
     setQuizSubmitted(quizScore !== undefined);
     setCompilerCode("");
@@ -275,18 +276,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     setShowSolution(false);
     setCodePassedValidation(false);
   }, [content.submodule]);
-
-  const handleTabChange = (value: string) => {
-    if (value === "practice" && !canAccessPractice) {
-      toast.error("Complete the Learn section first!");
-      return;
-    }
-    if (value === "quiz" && !canAccessQuiz) {
-      toast.error("Complete the Practice section first!");
-      return;
-    }
-    setActiveTab(value);
-  };
 
   const handleQuizAnswer = (questionId: string, answerIndex: number) => {
     if (quizSubmitted) return;
@@ -310,7 +299,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
         completeSubmodule(content.submodule);
       }
       
-      // Navigate to next submodule's Learn section after a delay
       if (nextSubmoduleId) {
         const nextSlug = getSlugFromSubmoduleId(nextSubmoduleId);
         setTimeout(() => {
@@ -323,13 +311,12 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     }
   };
 
-  // Quiz retry is ALWAYS allowed
   const resetQuiz = () => {
     setQuizAnswers({});
     setQuizSubmitted(false);
   };
 
-  // Compiler execution with real code runner
+  // Compiler execution
   const handleRunCode = async () => {
     if (!practiceChallenge) return;
     
@@ -346,13 +333,11 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     setCompilerHint("");
 
     try {
-      // Execute the code using the real executor
       const result = await executeCode(trimmedCode, practiceChallenge.language);
       
       setCompilerOutput(result.output);
       
       if (result.success) {
-        // Check if the code contains expected patterns to mark as completed
         const lowerCode = trimmedCode.toLowerCase();
         const matchedPatterns = practiceChallenge.expectedPatterns.filter(pattern => 
           lowerCode.includes(pattern.toLowerCase())
@@ -381,615 +366,581 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     }
   };
 
-  const handleCompleteLearn = () => {
-    if (hasPractice) {
-      setActiveTab("practice");
-      toast.success("Learn section completed! Moving to Practice.");
-    } else {
-      setActiveTab("quiz");
-      toast.success("Learn section completed! Moving to Quiz.");
-    }
-  };
-
-  const handleCompletePractice = () => {
-    setActiveTab("quiz");
-    toast.success("Practice completed! Moving to Quiz.");
-  };
-
   const nextSubmoduleId = getNextSubmoduleId(content.submodule);
   const nextSubmoduleTitle = nextSubmoduleId ? getNextSubmoduleTitle(content.submodule) : undefined;
   const nextSubmoduleSlug = nextSubmoduleId ? getSlugFromSubmoduleId(nextSubmoduleId) : undefined;
 
   return (
-    <div className="space-y-6">
-      {/* Submodule Header */}
-      <div className="flex flex-col gap-3 sm:gap-4">
-        <div>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
-            <Badge variant={isSubmoduleCompleted ? "default" : "secondary"} className="text-xs sm:text-sm">
-              Module {module?.module}: {module?.title}
-            </Badge>
-            {isSubmoduleCompleted && (
-              <Badge variant="outline" className="gap-1 text-success border-success text-xs">
-                <CheckCircle2 className="w-3 h-3" />
-                <span className="hidden sm:inline">Completed</span>
-              </Badge>
-            )}
+    <div className="min-h-full">
+      {/* Video Section - Full Width Dark Background */}
+      <div className="bg-[#1a1a2e] w-full">
+        {content.resources.filter(r => r.type === 'Video').length > 0 ? (
+          content.resources.filter(r => r.type === 'Video').map((resource, index) => {
+            const videoId = getYouTubeVideoId(resource.url);
+            
+            if (videoId && isEmbeddableVideo(resource.url)) {
+              return (
+                <div key={index} className="max-w-5xl mx-auto">
+                  <MinimalYouTubePlayer 
+                    videoId={videoId} 
+                    title={resource.title}
+                  />
+                </div>
+              );
+            }
+            
+            return (
+              <a
+                key={index}
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 p-12 text-white/80 hover:text-white transition-colors"
+              >
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
+                  <Play className="w-8 h-8" />
+                </div>
+                <span className="text-lg">Watch Video</span>
+              </a>
+            );
+          })
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16 text-white/60">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10 mb-4">
+              <Play className="w-10 h-10" />
+            </div>
+            <span>Video Player</span>
           </div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-foreground">
-            {content.submodule}: {content.title}
-          </h1>
-        </div>
-        {nextSubmoduleSlug && isSubmoduleCompleted && (
-          <Button 
-            variant="outline" 
-            className="gap-2 text-sm w-full sm:w-auto"
-            onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
-          >
-            <span className="truncate">Next: {nextSubmoduleTitle}</span>
-            <ArrowRight className="w-4 h-4 flex-shrink-0" />
-          </Button>
         )}
       </div>
 
-      {/* Main Content Tabs */}
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4 sm:space-y-6">
-        <TabsList className={`grid w-full ${hasPractice ? 'grid-cols-3' : 'grid-cols-2'} lg:w-auto lg:inline-flex h-auto`}>
-          <TabsTrigger value="learn" className="gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-2.5">
-            <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="hidden xs:inline">Learn</span>
-            <span className="xs:hidden">Learn</span>
-          </TabsTrigger>
-          {hasPractice && (
-            <TabsTrigger 
-              value="practice" 
-              className="gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-2.5"
-              disabled={!canAccessPractice}
-            >
-              {!canAccessPractice && <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
-              <Code className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Practice</span>
-              <span className="sm:hidden">Code</span>
-              {isPracticeCompleted && (
-                <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-success" />
+      {/* Tabs Section */}
+      <div className="border-b border-border bg-card">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="h-12 bg-transparent border-0 p-0 gap-6">
+              <TabsTrigger 
+                value="overview" 
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0"
+              >
+                Overview
+              </TabsTrigger>
+              <TabsTrigger 
+                value="resources" 
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+              >
+                Resources
+                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
+                  {resourceCount}
+                </Badge>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="quiz" 
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+              >
+                {isCapstone ? "Project" : "Q&A"}
+                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
+                  {isCapstone ? "1" : quizCount}
+                </Badge>
+              </TabsTrigger>
+              {hasPractice && (
+                <TabsTrigger 
+                  value="practice" 
+                  className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+                >
+                  Practice
+                  <Code className="w-4 h-4" />
+                </TabsTrigger>
               )}
-            </TabsTrigger>
-          )}
-          <TabsTrigger 
-            value="quiz" 
-            className="gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-2.5"
-            disabled={!canAccessQuiz}
-          >
-            {!canAccessQuiz && <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
-            {isCapstone ? (
-              <Rocket className="w-3 h-3 sm:w-4 sm:h-4" />
-            ) : (
-              <Target className="w-3 h-3 sm:w-4 sm:h-4" />
-            )}
-            {isCapstone ? "Project" : "Quiz"}
-            {!isCapstone && quizScore !== undefined && (
-              <Badge variant="secondary" className="ml-0.5 sm:ml-1 text-xs px-1 sm:px-1.5">
-                {quizScore}%
-              </Badge>
-            )}
-            {isCapstone && progress.finalProjectSubmitted && (
-              <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-success" />
-            )}
-          </TabsTrigger>
-        </TabsList>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
 
-        {/* Learn Tab */}
-        <TabsContent value="learn" className="space-y-6">
-          {isSubmoduleCompleted && (
-            <Card className="bg-success/10 border-success/20">
-              <CardContent className="py-4">
-                <p className="flex items-center gap-2 text-success font-medium">
+      {/* Content Section */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          {/* Overview Tab */}
+          <TabsContent value="overview" className="mt-0 space-y-8">
+            {/* Module Badge and Title */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Badge variant="default" className="bg-primary/10 text-primary border-0 font-medium">
+                  Module {module?.module}: {module?.title}
+                </Badge>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                  <Clock className="w-4 h-4" />
+                  <span>8:42</span>
+                </div>
+              </div>
+              
+              <h1 className="text-3xl font-display font-bold text-foreground">
+                {content.title}
+              </h1>
+              
+              {isSubmoduleCompleted && (
+                <div className="flex items-center gap-2 text-success">
                   <CheckCircle2 className="w-5 h-5" />
-                  You've completed this lesson!
-                </p>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Video Section - Minimal Player */}
-          {content.resources.filter(r => r.type === 'Video').length > 0 && (
-            <div className="space-y-6">
-              {content.resources.filter(r => r.type === 'Video').map((resource, index) => {
-                const videoId = getYouTubeVideoId(resource.url);
-                
-                if (videoId && isEmbeddableVideo(resource.url)) {
-                  return (
-                    <div key={index}>
-                      <MinimalYouTubePlayer 
-                        videoId={videoId} 
-                        title={resource.title}
-                      />
-                    </div>
-                  );
-                }
-                
-                return (
-                  <a
-                    key={index}
-                    href={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg border border-border/50 hover:border-border hover:bg-muted/30 transition-colors group"
-                  >
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-destructive/10 text-destructive">
-                      <Play className="w-4 h-4" />
-                    </div>
-                    <p className="font-medium group-hover:text-primary transition-colors">
-                      {resource.title}
-                    </p>
-                  </a>
-                );
-              })}
+                  <span className="font-medium">Completed</span>
+                </div>
+              )}
             </div>
-          )}
 
-          {/* Introduction */}
-          <div className="space-y-2">
-            <p className="text-muted-foreground leading-relaxed">
-              {content.content.introduction}
-            </p>
-          </div>
+            {/* Introduction */}
+            <div className="prose prose-lg max-w-none dark:prose-invert">
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                {content.content.introduction}
+              </p>
+            </div>
 
-          {/* Two Column Grid for Key Info */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Key Concepts */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <Brain className="w-4 h-4 text-primary" />
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <Brain className="w-5 h-5 text-primary" />
                 Key Concepts
-              </h3>
-              <ul className="space-y-2">
+              </h2>
+              <div className="grid gap-3">
                 {content.content.keyConcepts.map((concept, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-medium shrink-0 mt-0.5">
+                  <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
+                    <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium flex-shrink-0">
                       {index + 1}
                     </span>
-                    <span>{concept}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Core Responsibilities */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <Target className="w-4 h-4 text-primary" />
-                Core Responsibilities
-              </h3>
-              <ul className="space-y-2">
-                {content.content.coreResponsibilities.map((responsibility, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-0.5" />
-                    <span>{responsibility}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Tools - Compact Pills */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Wrench className="w-4 h-4 text-primary" />
-              Tools & Ecosystem
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {content.content.toolsEcosystem.map((tool, index) => (
-                <Badge key={index} variant="secondary" className="font-normal">
-                  {tool}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Comparison - Only show if exists */}
-          {content.content.comparison && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <GitCompare className="w-4 h-4 text-primary" />
-                {content.content.comparison.title}
-              </h3>
-              <ul className="space-y-1.5">
-                {content.content.comparison.items.map((item, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="text-primary mt-1">•</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Real-World Applications */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Globe className="w-4 h-4 text-primary" />
-              Real-World Applications
-            </h3>
-            <div className="grid gap-2">
-              {content.content.realWorldApplications.map((application, index) => (
-                <p key={index} className="text-sm text-muted-foreground pl-6 border-l-2 border-border">
-                  {application}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          {/* Tips - Compact */}
-          <div className="p-4 rounded-lg bg-warning/5 border border-warning/20 space-y-2">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-warning" />
-              Tips & Insights
-            </h3>
-            <ul className="space-y-1.5">
-              {content.content.tipsInsights.map((tip, index) => (
-                <li key={index} className="text-sm text-muted-foreground pl-6">
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Thinking Questions - Collapsible feel */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-primary" />
-              Thinking Questions
-            </h3>
-            <div className="space-y-2">
-              {content.content.thinkingQuestions.map((question, index) => (
-                <p key={index} className="text-sm text-muted-foreground italic pl-4 border-l-2 border-secondary">
-                  {question}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          {/* Further Reading - Minimal */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <ExternalLink className="w-4 h-4 text-primary" />
-              Further Reading
-            </h3>
-            <ul className="space-y-1">
-              {content.content.furtherReading.map((reading, index) => (
-                <li key={index} className="text-sm text-muted-foreground">
-                  {reading}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Articles/Reading Resources - Minimal */}
-          {content.resources.filter(r => r.type === 'Article').length > 0 && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <FileText className="w-4 h-4 text-primary" />
-                Additional Resources
-              </h3>
-              <div className="space-y-2">
-                {content.resources.filter(r => r.type === 'Article').map((resource, index) => (
-                  <a
-                    key={index}
-                    href={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <ExternalLink className="w-3 h-3 shrink-0" />
-                    {resource.title}
-                  </a>
+                    <p className="text-muted-foreground">{concept}</p>
+                  </div>
                 ))}
               </div>
             </div>
-          )}
 
-          {/* Continue Button */}
-          <div className="flex justify-end">
-            <Button onClick={handleCompleteLearn} className="gap-2">
-              {hasPractice ? 'Continue to Practice' : 'Continue to Quiz'}
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </div>
-        </TabsContent>
-
-        {/* Practice Tab - Only shown for lessons with compilers */}
-        {hasPractice && practiceChallenge && (
-          <TabsContent value="practice" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Code className="w-5 h-5 text-primary" />
-                  Coding Practice
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {/* Example Section - Input Code and Output */}
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-foreground flex items-center gap-2">
-                      <Lightbulb className="w-5 h-5 text-warning" />
-                      Example
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Example Input */}
-                      <div className="border rounded-lg overflow-hidden">
-                        <div className="bg-muted px-3 sm:px-4 py-2 border-b">
-                          <span className="text-xs sm:text-sm font-medium">Example Input</span>
-                        </div>
-                        <pre className="p-3 sm:p-4 bg-card overflow-x-auto">
-                          <code className="text-xs sm:text-sm font-mono text-muted-foreground whitespace-pre-wrap">
-                            {practiceChallenge.exampleInput}
-                          </code>
-                        </pre>
-                      </div>
-                      {/* Example Output */}
-                      <div className="border rounded-lg overflow-hidden">
-                        <div className="bg-success/10 px-3 sm:px-4 py-2 border-b">
-                          <span className="text-xs sm:text-sm font-medium text-success">Expected Output</span>
-                        </div>
-                        <pre className="p-3 sm:p-4 bg-card overflow-x-auto">
-                          <code className="text-xs sm:text-sm font-mono text-muted-foreground whitespace-pre-wrap">
-                            {practiceChallenge.exampleOutput}
-                          </code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Challenge Question */}
-                  <div className="p-3 sm:p-4 rounded-lg bg-muted/50 border border-border">
-                    <div className="flex items-start gap-2 sm:gap-3">
-                      <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium shrink-0 text-sm sm:text-base">
-                        Q
-                      </span>
-                      <div className="min-w-0">
-                        <p className="font-medium text-foreground mb-1 text-sm sm:text-base">Your Challenge</p>
-                        <p className="text-muted-foreground text-sm">{practiceChallenge.question}</p>
-                        <Badge variant="outline" className="mt-2 text-xs">
-                          Language: {practiceChallenge.language.toUpperCase()}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Code Editor and Output Side by Side */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {/* Code Editor */}
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-muted px-3 sm:px-4 py-2 border-b flex items-center justify-between gap-2">
-                        <span className="text-xs sm:text-sm font-medium truncate">Code Editor ({practiceChallenge.language.toUpperCase()})</span>
-                        {isPracticeCompleted && (
-                          <Badge variant="outline" className="gap-1 text-success border-success text-xs flex-shrink-0">
-                            <CheckCircle2 className="w-3 h-3" />
-                            <span className="hidden sm:inline">Completed</span>
-                          </Badge>
-                        )}
-                      </div>
-                      <textarea
-                        value={compilerCode}
-                        onChange={(e) => setCompilerCode(e.target.value)}
-                        placeholder={`Write your ${practiceChallenge.language.toUpperCase()} code here...`}
-                        className="w-full h-48 sm:h-72 p-3 sm:p-4 font-mono text-xs sm:text-sm bg-card resize-none focus:outline-none"
-                        spellCheck={false}
-                      />
-                    </div>
-
-                    {/* Output Panel */}
-                    <div className="border rounded-lg overflow-hidden flex flex-col">
-                      <div className="bg-muted px-3 sm:px-4 py-2 border-b flex items-center justify-between">
-                        <span className="text-xs sm:text-sm font-medium">Output</span>
-                        {isRunning && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
-                      </div>
-                      <div className="flex-1 bg-card min-h-[180px] sm:min-h-[288px] overflow-auto">
-                        {compilerOutput ? (
-                          <pre className={`p-3 sm:p-4 h-full text-xs sm:text-sm font-mono whitespace-pre-wrap ${
-                            compilerOutput.includes('Error') || compilerOutput.includes('error')
-                              ? 'text-destructive' 
-                              : 'text-foreground'
-                          }`}>
-                            {compilerOutput}
-                          </pre>
-                        ) : (
-                          <div className="text-muted-foreground text-xs sm:text-sm font-mono h-full flex items-center justify-center p-3 sm:p-4">
-                            <p className="text-center">Click "Run Code" to see output here</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Hint */}
-                  {compilerHint && (
-                    <div className="p-4 rounded-lg bg-secondary/10 text-secondary-foreground">
-                      <p className="flex items-start gap-2">
-                        <Lightbulb className="w-4 h-4 mt-0.5 text-warning shrink-0" />
-                        {compilerHint}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                    <Button onClick={handleRunCode} disabled={isRunning} className="flex-1 gap-2 text-sm sm:text-base">
-                      {isRunning ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          Running...
-                        </>
-                      ) : (
-                        <>
-                          <Play className="w-4 h-4" />
-                          Run Code
-                        </>
-                      )}
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setShowSolution(!showSolution)}
-                      className="gap-2 text-sm sm:text-base"
-                    >
-                      {showSolution ? "Hide" : "Show"} Solution
-                    </Button>
-                  </div>
-
-                  {/* Solution (hidden by default) */}
-                  {showSolution && (
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-success/10 px-3 sm:px-4 py-2 border-b flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-success" />
-                        <span className="text-xs sm:text-sm font-medium text-success">Example Solution</span>
-                      </div>
-                      <pre className="p-3 sm:p-4 bg-muted/50 overflow-x-auto">
-                        <code className="text-xs sm:text-sm font-mono text-muted-foreground whitespace-pre-wrap">
-                          {practiceChallenge.solution}
-                        </code>
-                      </pre>
-                    </div>
-                  )}
-
-                  {(isPracticeCompleted || codePassedValidation) && (
-                    <Button onClick={handleCompletePractice} className="w-full gap-2">
-                      Continue to Quiz
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        )}
-
-        {/* Quiz Tab (or Project Tab for capstone) */}
-        <TabsContent value="quiz" className="space-y-6">
-          {isCapstone ? (
-            <ProjectSubmission 
-              submoduleId={content.submodule} 
-              onComplete={() => {
-                toast.success("Congratulations on completing the course! 🎉");
-              }}
-            />
-          ) : (
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>Quiz</CardTitle>
-                  {quizSubmitted && (
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={resetQuiz} 
-                      className="gap-2"
-                    >
-                      <RefreshCcw className="w-4 h-4" />
-                      Retry
-                    </Button>
-                  )}
-                </div>
-                {!quizSubmitted && (
-                  <p className="text-sm text-muted-foreground">
-                    Answer all questions to complete the quiz. You need 70% to pass.
-                  </p>
-                )}
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {content.quizQuestions.map((question, qIndex) => (
-                  <div key={question.id} className="space-y-2 sm:space-y-3">
-                    <h4 className="font-medium flex items-start gap-2 text-sm sm:text-base">
-                      <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs sm:text-sm shrink-0">
-                        {qIndex + 1}
-                      </span>
-                      {question.question}
-                    </h4>
-                    <div className="grid gap-2 pl-6 sm:pl-8">
-                      {question.options.map((option, oIndex) => {
-                        const isSelected = quizAnswers[question.id] === oIndex;
-                        const isCorrect = oIndex === question.correctAnswer;
-                        const showResult = quizSubmitted;
-
-                        return (
-                          <button
-                            key={oIndex}
-                            onClick={() => handleQuizAnswer(question.id, oIndex)}
-                            disabled={quizSubmitted}
-                            className={`p-2.5 sm:p-3 rounded-lg text-left transition-all border-2 text-sm sm:text-base ${
-                              showResult
-                                ? isCorrect
-                                  ? "border-success bg-success/10 text-success"
-                                  : isSelected
-                                  ? "border-destructive bg-destructive/10 text-destructive"
-                                  : "border-border bg-card"
-                                : isSelected
-                                ? "border-primary bg-primary/10"
-                                : "border-border hover:border-primary/50 bg-card"
-                            }`}
-                          >
-                            <div className="flex items-center gap-2 sm:gap-3">
-                              {showResult && isCorrect && (
-                                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
-                              )}
-                              {showResult && isSelected && !isCorrect && (
-                                <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-destructive flex-shrink-0" />
-                              )}
-                              <span>{option}</span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {quizSubmitted && (
-                      <div className="pl-6 sm:pl-8 p-2.5 sm:p-3 rounded-lg bg-muted/50 text-xs sm:text-sm">
-                        <p className="flex items-start gap-2">
-                          <Lightbulb className="w-4 h-4 text-warning mt-0.5 shrink-0" />
-                          <span>{question.explanation}</span>
-                        </p>
-                      </div>
-                    )}
+            {/* Core Responsibilities */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <Target className="w-5 h-5 text-primary" />
+                Core Responsibilities
+              </h2>
+              <div className="grid gap-2">
+                {content.content.coreResponsibilities.map((responsibility, index) => (
+                  <div key={index} className="flex items-start gap-3 py-2">
+                    <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                    <p className="text-muted-foreground">{responsibility}</p>
                   </div>
                 ))}
+              </div>
+            </div>
 
-                {!quizSubmitted && (
-                  <Button
-                    onClick={handleQuizSubmit}
-                    disabled={Object.keys(quizAnswers).length !== content.quizQuestions.length}
-                    className="w-full"
-                    size="lg"
-                  >
-                    Submit Quiz
-                  </Button>
-                )}
+            {/* Tools & Ecosystem */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <Wrench className="w-5 h-5 text-primary" />
+                Tools & Ecosystem
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {content.content.toolsEcosystem.map((tool, index) => (
+                  <Badge key={index} variant="secondary" className="px-3 py-1.5 text-sm font-normal">
+                    {tool}
+                  </Badge>
+                ))}
+              </div>
+            </div>
 
-                {quizSubmitted && (
-                  <div className="p-4 rounded-lg bg-muted text-center">
-                    <p className="text-2xl font-display font-bold">
-                      Your Score: {quizScore}%
+            {/* Comparison */}
+            {content.content.comparison && (
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                  <GitCompare className="w-5 h-5 text-primary" />
+                  {content.content.comparison.title}
+                </h2>
+                <ul className="space-y-2">
+                  {content.content.comparison.items.map((item, index) => (
+                    <li key={index} className="flex items-start gap-2 text-muted-foreground">
+                      <span className="text-primary mt-1">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Real-World Applications */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <Globe className="w-5 h-5 text-primary" />
+                Real-World Applications
+              </h2>
+              <div className="grid gap-3">
+                {content.content.realWorldApplications.map((application, index) => (
+                  <div key={index} className="pl-4 border-l-2 border-primary/30 py-1">
+                    <p className="text-muted-foreground">{application}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tips & Insights */}
+            <div className="p-6 rounded-xl bg-warning/5 border border-warning/20 space-y-3">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <Lightbulb className="w-5 h-5 text-warning" />
+                Tips & Insights
+              </h2>
+              <ul className="space-y-2">
+                {content.content.tipsInsights.map((tip, index) => (
+                  <li key={index} className="text-muted-foreground pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-warning">
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Thinking Questions */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-primary" />
+                Thinking Questions
+              </h2>
+              <div className="space-y-3">
+                {content.content.thinkingQuestions.map((question, index) => (
+                  <div key={index} className="pl-4 border-l-2 border-secondary py-1">
+                    <p className="text-muted-foreground italic">{question}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Further Reading */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                <ExternalLink className="w-5 h-5 text-primary" />
+                Further Reading
+              </h2>
+              <ul className="space-y-2">
+                {content.content.furtherReading.map((reading, index) => (
+                  <li key={index} className="text-muted-foreground flex items-start gap-2">
+                    <FileText className="w-4 h-4 mt-1 text-muted-foreground/60 flex-shrink-0" />
+                    {reading}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Next Lesson Button */}
+            {nextSubmoduleSlug && (
+              <div className="flex justify-end pt-4 border-t border-border">
+                <Button 
+                  onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
+                  className="gap-2"
+                  size="lg"
+                >
+                  Next: {nextSubmoduleTitle}
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Resources Tab */}
+          <TabsContent value="resources" className="mt-0 space-y-6">
+            <h2 className="text-2xl font-semibold text-foreground">Resources</h2>
+            
+            <div className="grid gap-4">
+              {content.resources.map((resource, index) => (
+                <a
+                  key={index}
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 rounded-lg border border-border bg-card hover:bg-muted/50 transition-colors group"
+                >
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    resource.type === 'Video' ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'
+                  }`}>
+                    {resource.type === 'Video' ? <Video className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-foreground group-hover:text-primary transition-colors truncate">
+                      {resource.title}
                     </p>
-                    <p className="text-muted-foreground mt-1">
-                      {quizScore! >= 70
-                        ? "Great job! You passed!"
-                        : "Keep practicing and try again!"}
-                    </p>
-                    {quizScore! >= 70 && nextSubmoduleId && (
+                    <p className="text-sm text-muted-foreground">{resource.type}</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                </a>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Quiz/Q&A Tab */}
+          <TabsContent value="quiz" className="mt-0 space-y-6">
+            {isCapstone ? (
+              <ProjectSubmission 
+                submoduleId={content.submodule} 
+                onComplete={() => {
+                  toast.success("Congratulations on completing the course! 🎉");
+                }}
+              />
+            ) : (
+              <Card className="border-0 shadow-none bg-transparent">
+                <CardHeader className="px-0">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-2xl">Quiz</CardTitle>
+                    {quizSubmitted && (
                       <Button 
-                        onClick={() => navigate(`/curriculum/submodule/${nextSubmoduleId}`)}
-                        className="mt-4 gap-2"
+                        variant="outline" 
+                        size="sm" 
+                        onClick={resetQuiz} 
+                        className="gap-2"
                       >
-                        Continue to Next Lesson
-                        <ArrowRight className="w-4 h-4" />
+                        <RefreshCcw className="w-4 h-4" />
+                        Retry
                       </Button>
                     )}
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                  {!quizSubmitted && (
+                    <p className="text-muted-foreground">
+                      Answer all questions to complete the quiz. You need 70% to pass.
+                    </p>
+                  )}
+                </CardHeader>
+                <CardContent className="px-0 space-y-6">
+                  {content.quizQuestions.map((question, qIndex) => (
+                    <div key={question.id} className="space-y-3 p-4 rounded-lg bg-card border border-border">
+                      <h4 className="font-medium flex items-start gap-3">
+                        <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm flex-shrink-0">
+                          {qIndex + 1}
+                        </span>
+                        <span className="pt-0.5">{question.question}</span>
+                      </h4>
+                      <div className="grid gap-2 pl-10">
+                        {question.options.map((option, oIndex) => {
+                          const isSelected = quizAnswers[question.id] === oIndex;
+                          const isCorrect = oIndex === question.correctAnswer;
+                          const showResult = quizSubmitted;
+
+                          return (
+                            <button
+                              key={oIndex}
+                              onClick={() => handleQuizAnswer(question.id, oIndex)}
+                              disabled={quizSubmitted}
+                              className={`p-3 rounded-lg text-left transition-all border-2 ${
+                                showResult
+                                  ? isCorrect
+                                    ? "border-success bg-success/10 text-success"
+                                    : isSelected
+                                    ? "border-destructive bg-destructive/10 text-destructive"
+                                    : "border-border bg-card"
+                                  : isSelected
+                                  ? "border-primary bg-primary/10"
+                                  : "border-border hover:border-primary/50 bg-card"
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                {showResult && isCorrect && (
+                                  <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0" />
+                                )}
+                                {showResult && isSelected && !isCorrect && (
+                                  <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />
+                                )}
+                                <span>{option}</span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {quizSubmitted && (
+                        <div className="ml-10 p-3 rounded-lg bg-muted/50 text-sm">
+                          <p className="flex items-start gap-2">
+                            <Lightbulb className="w-4 h-4 text-warning mt-0.5 flex-shrink-0" />
+                            <span>{question.explanation}</span>
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {!quizSubmitted && (
+                    <Button
+                      onClick={handleQuizSubmit}
+                      disabled={Object.keys(quizAnswers).length !== content.quizQuestions.length}
+                      className="w-full"
+                      size="lg"
+                    >
+                      Submit Quiz
+                    </Button>
+                  )}
+
+                  {quizSubmitted && (
+                    <div className="p-6 rounded-xl bg-muted text-center">
+                      <p className="text-3xl font-display font-bold">
+                        Your Score: {quizScore}%
+                      </p>
+                      <p className="text-muted-foreground mt-2">
+                        {quizScore! >= 70
+                          ? "Great job! You passed!"
+                          : "Keep practicing and try again!"}
+                      </p>
+                      {quizScore! >= 70 && nextSubmoduleSlug && (
+                        <Button 
+                          onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
+                          className="mt-4 gap-2"
+                        >
+                          Continue to Next Lesson
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          {/* Practice Tab */}
+          {hasPractice && practiceChallenge && (
+            <TabsContent value="practice" className="mt-0 space-y-6">
+              <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+                <Code className="w-6 h-6 text-primary" />
+                Coding Practice
+              </h2>
+
+              {/* Example Section */}
+              <div className="space-y-4">
+                <h3 className="font-semibold text-foreground flex items-center gap-2">
+                  <Lightbulb className="w-5 h-5 text-warning" />
+                  Example
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="border rounded-lg overflow-hidden">
+                    <div className="bg-muted px-4 py-2 border-b">
+                      <span className="text-sm font-medium">Example Input</span>
+                    </div>
+                    <pre className="p-4 bg-card overflow-x-auto">
+                      <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                        {practiceChallenge.exampleInput}
+                      </code>
+                    </pre>
+                  </div>
+                  <div className="border rounded-lg overflow-hidden">
+                    <div className="bg-success/10 px-4 py-2 border-b">
+                      <span className="text-sm font-medium text-success">Expected Output</span>
+                    </div>
+                    <pre className="p-4 bg-card overflow-x-auto">
+                      <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                        {practiceChallenge.exampleOutput}
+                      </code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Challenge Question */}
+              <div className="p-4 rounded-lg bg-muted/50 border border-border">
+                <div className="flex items-start gap-3">
+                  <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium flex-shrink-0">
+                    Q
+                  </span>
+                  <div>
+                    <p className="font-medium text-foreground mb-1">Your Challenge</p>
+                    <p className="text-muted-foreground">{practiceChallenge.question}</p>
+                    <Badge variant="outline" className="mt-2">
+                      Language: {practiceChallenge.language.toUpperCase()}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Code Editor */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="border rounded-lg overflow-hidden">
+                  <div className="bg-muted px-4 py-2 border-b flex items-center justify-between">
+                    <span className="text-sm font-medium">Code Editor ({practiceChallenge.language.toUpperCase()})</span>
+                    {isPracticeCompleted && (
+                      <Badge variant="outline" className="gap-1 text-success border-success">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Completed
+                      </Badge>
+                    )}
+                  </div>
+                  <textarea
+                    value={compilerCode}
+                    onChange={(e) => setCompilerCode(e.target.value)}
+                    placeholder={`Write your ${practiceChallenge.language.toUpperCase()} code here...`}
+                    className="w-full h-72 p-4 font-mono text-sm bg-card resize-none focus:outline-none"
+                    spellCheck={false}
+                  />
+                </div>
+
+                <div className="border rounded-lg overflow-hidden flex flex-col">
+                  <div className="bg-muted px-4 py-2 border-b flex items-center justify-between">
+                    <span className="text-sm font-medium">Output</span>
+                    {isRunning && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
+                  </div>
+                  <div className="flex-1 bg-card min-h-[288px] overflow-auto">
+                    {compilerOutput ? (
+                      <pre className={`p-4 h-full text-sm font-mono whitespace-pre-wrap ${
+                        compilerOutput.includes('Error') || compilerOutput.includes('error')
+                          ? 'text-destructive' 
+                          : 'text-foreground'
+                      }`}>
+                        {compilerOutput}
+                      </pre>
+                    ) : (
+                      <div className="text-muted-foreground text-sm font-mono h-full flex items-center justify-center p-4">
+                        <p className="text-center">Click "Run Code" to see output here</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Hint */}
+              {compilerHint && (
+                <div className="p-4 rounded-lg bg-secondary/10 text-secondary-foreground">
+                  <p className="flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 mt-0.5 text-warning flex-shrink-0" />
+                    {compilerHint}
+                  </p>
+                </div>
+              )}
+
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <Button onClick={handleRunCode} disabled={isRunning} className="flex-1 gap-2">
+                  {isRunning ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Running...
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4" />
+                      Run Code
+                    </>
+                  )}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowSolution(!showSolution)}
+                  className="gap-2"
+                >
+                  {showSolution ? "Hide" : "Show"} Solution
+                </Button>
+              </div>
+
+              {/* Solution */}
+              {showSolution && (
+                <div className="border rounded-lg overflow-hidden">
+                  <div className="bg-success/10 px-4 py-2 border-b flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                    <span className="text-sm font-medium text-success">Example Solution</span>
+                  </div>
+                  <pre className="p-4 bg-muted/50 overflow-x-auto">
+                    <code className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
+                      {practiceChallenge.solution}
+                    </code>
+                  </pre>
+                </div>
+              )}
+            </TabsContent>
           )}
-        </TabsContent>
-      </Tabs>
+        </Tabs>
+      </div>
     </div>
   );
 };
