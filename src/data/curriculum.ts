@@ -206,48 +206,48 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Data Engineering is the discipline of designing, building, and maintaining systems that collect, store, and analyze data at scale. As organizations increasingly rely on data-driven decision making, Data Engineers serve as the architects of the data ecosystem, ensuring that data flows seamlessly from source systems to analytical platforms.",
+      introduction: "A comprehensive overview of the data engineering role, core functions, responsibilities, and relevance within the broader data ecosystem. Data Engineering is primarily concerned with the movement and transformation of data from various source systems to target systems like data warehouses. The fundamental process in data engineering is ETL (Extract, Transform, Load).",
       keyConcepts: [
-        "Data Infrastructure: The foundational systems and technologies that support data collection, storage, and processing",
-        "Data Pipelines: Automated workflows that move and transform data between systems",
-        "Data Quality: Ensuring accuracy, completeness, and reliability of data",
-        "Scalability: Building systems that can handle growing data volumes efficiently",
-        "Data Governance: Policies and practices for managing data assets"
+        "ETL Process: Extract (querying and retrieving data from source systems), Transform (cleaning, converting, and reshaping data), Load (storing transformed data into a data warehouse)",
+        "Data Pipelines: Automated workflows that extract data from multiple sources and aggregate into centralized data warehouses",
+        "Data Quality: Testing and quality assurance to ensure data validity and compliance with production standards",
+        "Orchestration: Monitoring of data pipelines using tools such as Apache Airflow, Prefect, or others",
+        "Cloud Integration: Familiarity with platforms like AWS, Azure, or Google Cloud for pipeline orchestration"
       ],
       coreResponsibilities: [
-        "Design and implement data architectures that support business requirements",
-        "Build and maintain ETL/ELT pipelines for data integration",
-        "Optimize database performance and query efficiency",
-        "Ensure data security, privacy, and compliance",
-        "Collaborate with Data Scientists and Analysts to understand data needs",
-        "Monitor and troubleshoot data systems for reliability"
+        "Extracting data from diverse sources such as databases, flat files, and APIs",
+        "Transforming data by cleaning (e.g., converting missing text values to 'unknown') and standardizing (e.g., currency conversion)",
+        "Loading data into a structured data warehouse with a defined schema",
+        "Data testing and quality assurance to ensure data validity and compliance",
+        "Orchestration and monitoring of data pipelines",
+        "Cloud integration for pipeline orchestration"
       ],
       toolsEcosystem: [
-        "Programming: Python, SQL, Scala, Java",
-        "Databases: PostgreSQL, MySQL, MongoDB, Cassandra",
-        "Big Data: Apache Spark, Hadoop, Hive",
-        "Cloud Platforms: AWS, Google Cloud, Azure",
-        "Orchestration: Apache Airflow, Prefect, Dagster",
-        "Streaming: Apache Kafka, Apache Flink"
+        "SQL: Querying data from relational databases",
+        "Python: Scripting ETL processes, data transformation",
+        "ETL Tools: Informatica, SSIS, Stitch, Fivetran",
+        "Data Modeling: Designing data structures during transformation",
+        "Data Warehouse Design: Creating schemas (SQL Server, Postgres, Snowflake, Redshift)",
+        "Orchestration Software: Running and monitoring pipelines (Airflow, Prefect)",
+        "Cloud Platforms: AWS, Azure, Google Cloud"
       ],
       realWorldApplications: [
-        "E-commerce: Processing millions of transactions and user interactions daily",
-        "Healthcare: Managing patient data while ensuring HIPAA compliance",
-        "Finance: Real-time fraud detection and risk analysis",
-        "Social Media: Handling petabytes of user-generated content",
-        "IoT: Processing sensor data from connected devices"
+        "Retail: Processing transactional databases across different regions for company-wide analysis",
+        "Regional Sales Comparisons: Aggregating data from multiple geographic databases",
+        "Seasonal Sales Trends: Analyzing temporal patterns in sales data",
+        "Product Bundling: Cross-selling opportunities through data aggregation",
+        "Currency Standardization: Converting sales amounts from different currencies using exchange rate APIs"
       ],
       tipsInsights: [
-        "Start with understanding the business problem before designing technical solutions",
-        "Documentation is crucial – your future self and teammates will thank you",
-        "Always consider data quality at the source, not as an afterthought",
-        "Learn to balance between perfect architecture and practical delivery",
-        "Stay updated with emerging technologies but master the fundamentals first"
+        "Business/domain knowledge is important for effective data engineering but typically comes from business analysts",
+        "Data warehouse schema design is often handled by data or system architects; if unavailable, data engineers assume this responsibility",
+        "Data pipelines handle raw or 'dirty' data, applying cleansing and transformation before making it available for analysis",
+        "Data engineers operate behind the scenes but are critical for enabling data scientists and analysts"
       ],
       thinkingQuestions: [
-        "How would you design a data pipeline that handles 10x the current data volume?",
-        "What are the trade-offs between batch and real-time data processing?",
-        "How do you ensure data consistency across distributed systems?"
+        "How would you design a data pipeline for a retailer with multiple regional databases?",
+        "What are the trade-offs between running queries on production databases vs using a data warehouse?",
+        "How do you handle data standardization across different source systems?"
       ],
       furtherReading: [
         "Fundamentals of Data Engineering by Joe Reis and Matt Housley",
@@ -301,43 +301,47 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "The Data Engineering Lifecycle provides a comprehensive framework for understanding how data flows through an organization, from its origin to its ultimate consumption. This lifecycle approach helps Data Engineers systematically address challenges at each stage while maintaining focus on delivering value to stakeholders.",
+      introduction: "A comprehensive overview of the data engineering life cycle, breaking it down into seven distinct phases that a data pipeline undergoes within a business context. The lifecycle integrates modern software development best practices, such as CI/CD (Continuous Integration/Continuous Deployment), to ensure efficiency and sustainability in data engineering projects.",
       keyConcepts: [
-        "Generation: Data is created from source systems, applications, IoT devices, or user interactions",
-        "Ingestion: Moving data from source systems to storage or processing platforms",
-        "Transformation: Converting raw data into formats suitable for analysis",
-        "Storage: Persisting data in appropriate systems based on access patterns",
-        "Serving: Making data available for analytics, ML, and business applications"
+        "Phase 1 - Data Collection: Gathering data from various sources (internal systems like ERP, CRM; external APIs, social media, public datasets)",
+        "Phase 2 - Data Integration & Storage: Cleaning, transforming, consolidating data into warehouses or lakes",
+        "Phase 3 - Data Cleaning & Processing: Removing errors, normalizing, deduplicating, verifying, merging data",
+        "Phase 4 - Data Modeling & Warehousing: Designing efficient data schemas and warehouses for operational and analytical needs",
+        "Phase 5 - Data Analysis: Applying statistical methods and machine learning to extract insights",
+        "Phase 6 - Data Visualization & Reporting: Creating dashboards and automated reports for stakeholders",
+        "Phase 7 - Pipeline Maintenance: Ongoing updates and improvements of data processes and infrastructure"
       ],
       coreResponsibilities: [
-        "Define data contracts with upstream data producers",
-        "Implement reliable ingestion mechanisms for various data sources",
-        "Design transformation logic that ensures data quality",
-        "Select appropriate storage solutions based on use cases",
-        "Build serving layers that meet performance requirements"
+        "Handle inconsistent formats, high volume, data privacy, and anonymization during collection",
+        "Choose storage solutions (cloud vs on-premises), manage ETL vs ELT, handle real-time vs batch processing",
+        "Detect anomalies, missing values, outliers while maintaining data integrity",
+        "Ensure model flexibility, query performance, security, and compliance",
+        "Prevent poor data quality impacts, overfitting, and incorrect assumptions",
+        "Ensure reports are timely, relevant, and accessible without bias",
+        "Maintain data integrity over time, adapt to new technologies, ensure governance"
       ],
       toolsEcosystem: [
-        "Ingestion: Apache Kafka, AWS Kinesis, Fivetran, Airbyte",
-        "Transformation: dbt, Apache Spark, Pandas",
-        "Storage: Data Lakes (S3, ADLS), Data Warehouses (Snowflake, BigQuery)",
-        "Serving: APIs, BI Tools (Tableau, Looker), Feature Stores"
+        "Data Integration: ETL/ELT pipelines with batch vs real-time processing",
+        "Storage: Cloud and on-premises data warehouses and lakes",
+        "Quality: Automated cleaning and validation systems",
+        "CI/CD: Continuous integration and deployment for data pipelines"
       ],
       realWorldApplications: [
         "Retail: Tracking customer journey from website visit to purchase",
         "Manufacturing: Monitoring production line efficiency in real-time",
         "Media: Personalizing content recommendations based on user behavior",
-        "Logistics: Optimizing delivery routes using location data"
+        "AI/ML: Transforming data into specialized formats (e.g., vector embeddings) for machine learning"
       ],
       tipsInsights: [
-        "Think of the lifecycle as a continuous loop, not a linear process",
-        "Each stage should have clear SLAs and monitoring",
-        "Data quality issues are cheaper to fix earlier in the lifecycle",
-        "Consider both current and future requirements when designing stages"
+        "The life cycle is iterative, with pipeline maintenance feeding back into data collection and integration phases",
+        "Data decay occurs when data becomes outdated, undermining reliability",
+        "Risk of over-cleaning which can bias data and distort its meaning",
+        "AI/ML readiness is increasingly important for downstream machine learning models"
       ],
       thinkingQuestions: [
-        "How do you handle late-arriving data in your pipeline?",
-        "What metrics would you track to measure pipeline health?",
-        "How do you version and document changes to transformation logic?"
+        "How do you balance innovation with system stability in pipeline maintenance?",
+        "What metrics would you track to measure data decay?",
+        "How do you prevent over-cleaning that could bias your data?"
       ],
       furtherReading: [
         "The Data Engineering Lifecycle (Chapter 2) – Fundamentals of Data Engineering",
@@ -390,50 +394,49 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "A data pipeline is an automated series of processes that move data from one or more sources to one or more destinations, typically including transformations along the way. Modern organizations rely on data pipelines to ensure timely and reliable access to clean, consistent data for decision-making.",
+      introduction: "A comprehensive overview of data pipelines, explaining their purpose, processes, and applications by drawing an analogy to water pipelines. Just as water pipelines transport water from sources to treatment plants and then to end users, data pipelines move data from raw sources to places where it can be used after cleaning and transformation.",
       keyConcepts: [
-        "Source Systems: Origins of data including databases, APIs, files, and streaming sources",
-        "Destinations: Target systems such as data warehouses, data lakes, or applications",
-        "Transformations: Operations that clean, enrich, aggregate, or restructure data",
-        "Scheduling: Mechanisms for triggering pipeline execution (time-based, event-based)",
-        "Monitoring: Observability into pipeline health, performance, and data quality"
+        "Water Pipeline Analogy: Data pipelines move data like water from source to destination after treatment/transformation",
+        "ETL (Extract, Transform, Load): Extracts data, cleans and transforms it, then loads it into repositories like data warehouses",
+        "Data Replication: Continuously copies data from source to another repository for high-performance or backup/disaster recovery",
+        "Data Virtualization: Provides real-time virtual access to data sources without physically copying data",
+        "Data Sources: Data lakes, databases, SaaS applications (on-premises and cloud), and streaming data"
       ],
       coreResponsibilities: [
-        "Define clear data contracts between source and destination systems",
-        "Implement error handling and retry mechanisms",
-        "Ensure data quality checks at critical pipeline stages",
-        "Optimize for performance while maintaining reliability",
-        "Document pipeline logic and dependencies"
+        "Extract data from producers (sources) and deliver clean, transformed data to consumers",
+        "Clean and transform raw or 'dirty' data before making it available for analysis",
+        "Support both batch processing and streaming data ingestion",
+        "Enable Business Intelligence for various types of reporting and decision-making",
+        "Prepare high-quality data to train Machine Learning algorithms"
       ],
       toolsEcosystem: [
-        "Batch Processing: Apache Spark, AWS Glue, Azure Data Factory",
-        "Streaming: Apache Kafka, Apache Flink, AWS Kinesis",
-        "Orchestration: Apache Airflow, Prefect, Dagster",
-        "Data Integration: Fivetran, Airbyte, Stitch"
+        "ETL: Batch or streaming processing for clean, structured data",
+        "Data Replication: Continuous copying for fast access and business continuity",
+        "Data Virtualization: Real-time querying for quick testing and prototyping",
+        "Processing: Hadoop, Apache Spark, cloud data warehouses"
       ],
       comparison: {
-        title: "Batch vs Streaming Pipelines",
+        title: "Data Pipeline Methods",
         items: [
-          "Batch: Processes data in scheduled intervals; suitable for non-time-sensitive workloads",
-          "Streaming: Processes data in real-time or near-real-time; ideal for time-sensitive use cases",
-          "Batch: Easier to implement and debug; lower infrastructure costs",
-          "Streaming: More complex architecture; handles continuous data flows"
+          "ETL: Extract → Transform → Load, creates clean data ready for analysis, often scheduled not real-time",
+          "Data Replication: Continuous copying for high performance needs and backup/recovery, provides fast access",
+          "Data Virtualization: Real-time querying for quick testing, no data duplication, not suitable for large production workloads"
         ]
       },
       realWorldApplications: [
+        "Business Intelligence: Various types of reporting and decision-making",
+        "Machine Learning: Training algorithms with large volumes of high-quality data",
         "Data Warehousing: Consolidating data from multiple operational systems",
-        "Machine Learning: Preparing training data for model development",
-        "Business Intelligence: Feeding dashboards with up-to-date metrics",
-        "Data Synchronization: Keeping systems in sync across the organization"
+        "Disaster Recovery: Backup systems using data replication"
       ],
       tipsInsights: [
-        "Start simple and iterate – avoid over-engineering initially",
-        "Build pipelines with testability in mind from the start",
-        "Implement comprehensive logging for debugging",
-        "Consider data lineage to track data origins and transformations"
+        "Unlike physical water pipelines, data virtualization allows flexible, real-time data access without moving data",
+        "Data virtualization accelerates experimentation and use case validation",
+        "Batch processing remains common, but streaming ingestion is increasing to handle real-time data",
+        "Data replication supports both performance optimization and resilience"
       ],
       thinkingQuestions: [
-        "When would you choose a streaming pipeline over a batch pipeline?",
+        "When would you choose data virtualization over ETL for a new use case?",
         "How do you handle schema changes in source systems?",
         "What strategies can you use to make pipelines fault-tolerant?"
       ],
@@ -488,50 +491,48 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "ETL (Extract, Transform, Load) and ELT (Extract, Load, Transform) represent two fundamental approaches to data integration. Understanding when to use each approach is essential for designing efficient data architectures that meet business requirements while optimizing for cost and performance.",
+      introduction: "A comprehensive comparison between two prevalent data pipeline methodologies: Extract-Transform-Load (ETL) and Extract-Load-Transform (ELT). ETL is the 'old school' approach dominant for decades before modern cloud warehouses, while ELT emerged recently due to the rise of powerful cloud data warehouses capable of on-demand large-scale transformations.",
       keyConcepts: [
-        "ETL: Transform data in a staging area before loading to the destination",
-        "ELT: Load raw data first, then transform within the destination system",
-        "Staging Area: Intermediate storage for data processing in ETL workflows",
-        "Push-down Optimization: Leveraging destination system compute for transformations"
+        "ETL: Traditional pipeline where data is extracted, transformed in a staging environment, then loaded into a warehouse",
+        "ELT: Modern pipeline where data is extracted, loaded raw into the warehouse, and transformed within the warehouse itself",
+        "ETL Workflow: Extract raw data → Transform externally using ETL tools → Load cleaned data into warehouse",
+        "ELT Workflow: Extract data → Load raw data into cloud warehouses → Transform inside warehouse leveraging its computational power"
       ],
       coreResponsibilities: [
-        "Evaluate business requirements to choose the appropriate approach",
-        "Design staging areas and transformation logic",
-        "Optimize data loading strategies for performance",
-        "Implement data quality checks at appropriate stages"
+        "Evaluate data volume and velocity to choose appropriate approach",
+        "Consider processing capabilities of your data warehouse",
+        "Assess data quality and security requirements",
+        "Balance resource availability with analytical needs"
       ],
       toolsEcosystem: [
-        "ETL Tools: Informatica, Talend, SSIS, Apache NiFi",
+        "ETL Tools: Informatica, Talend, SSIS, Apache NiFi, Airflow for orchestration",
         "ELT Tools: dbt, Fivetran + Snowflake, Matillion",
-        "Cloud Warehouses (for ELT): Snowflake, BigQuery, Redshift, Databricks"
+        "Cloud Warehouses (for ELT): Snowflake, PostgreSQL, BigQuery, Redshift"
       ],
       comparison: {
         title: "ETL vs ELT Comparison",
         items: [
-          "ETL: Better for complex transformations requiring specialized processing",
-          "ELT: Ideal when leveraging cloud warehouse compute capabilities",
-          "ETL: Lower storage costs as only transformed data is stored",
-          "ELT: Greater flexibility for ad-hoc analysis on raw data",
-          "ETL: Longer development cycles due to upfront transformation design",
-          "ELT: Faster time-to-insight with schema-on-read approaches"
+          "ETL Advantages: Strong data quality and consistency, efficient for limited warehouse compute, enhanced security and compliance control",
+          "ELT Advantages: Highly scalable with parallel processing, simpler pipelines, near real-time data availability",
+          "ETL Drawbacks: Complex at large scale, limited scalability, delayed data availability",
+          "ELT Drawbacks: Data quality risks if raw data loaded without cleaning, dependent on powerful warehouse, less control over quality pre-load"
         ]
       },
       realWorldApplications: [
-        "Legacy Modernization: Migrating from ETL to ELT when adopting cloud warehouses",
-        "Real-time Analytics: Using ELT for faster data availability",
-        "Compliance: ETL for sensitive data that requires transformation before storage",
-        "Data Lakes: ELT pattern for storing raw data with on-demand transformations"
+        "Large Data Volume & Velocity: ELT handles better due to scalability and immediate loading",
+        "Limited Processing Capabilities: ETL preferred for complex transformations pre-load",
+        "High Data Quality & Security: ETL allows better control over cleansing and compliance",
+        "Real-time Analytics: ELT supports real-time analysis; ETL offers better accuracy at cost of latency"
       ],
       tipsInsights: [
-        "Modern data stacks increasingly favor ELT due to cloud warehouse capabilities",
-        "ETL remains relevant for edge computing and IoT scenarios",
-        "Consider hybrid approaches that combine benefits of both",
-        "dbt has become the industry standard for ELT transformations"
+        "ETL remains relevant for organizations requiring strict data quality, compliance, and legacy warehouses",
+        "ELT leverages modern cloud warehouses with scalable parallel processing",
+        "The choice depends on data volume, processing power, security requirements, and analytical priorities",
+        "ELT pipelines benefit from reduced complexity but require strong governance"
       ],
       thinkingQuestions: [
         "How does the choice between ETL and ELT affect data governance?",
-        "What factors would lead you to choose ETL over ELT?",
+        "What factors would lead you to choose ETL over ELT for a specific use case?",
         "How do you handle sensitive data in an ELT architecture?"
       ],
       furtherReading: [
@@ -674,51 +675,54 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Data modeling is the process of creating a visual representation of data structures and their relationships. It serves as a critical bridge between business requirements and technical implementation, ensuring that databases are designed to efficiently support organizational needs.",
+      introduction: "Data modeling is the process of designing a clear, structured blueprint for a database so raw, messy data becomes reliable, efficient, and easy to analyze. It defines entities, relationships, and keys, follows a workflow from conceptual → logical → physical models, and ensures data integrity, performance, and compliance. Strong data models power analytics, applications, and AI/ML.",
       keyConcepts: [
-        "Conceptual Model: High-level representation of business entities and relationships",
-        "Logical Model: Detailed structure independent of specific database technology",
-        "Physical Model: Implementation-specific design including data types and indexes",
-        "Entity-Relationship Diagrams: Visual notation for representing data models",
-        "Dimensional Modeling: Technique for designing data warehouses (star/snowflake schemas)"
+        "Data Modeling: Organizing raw, unstructured data into a logical, coherent framework for efficient storage, querying, and analysis",
+        "Primary Keys (PK): Unique identifiers for each record (e.g., Customer ID, Order ID)",
+        "Foreign Keys (FK): Establishing relationships between tables (e.g., Payment linked to Order Header)",
+        "Conceptual Modeling: High-level business view of data flow and key entities",
+        "Logical Modeling: Detailed technical design including attributes, keys, and relationships",
+        "Physical Modeling: Creation of database schemas, indexes, partitioning, and optimization"
       ],
       coreResponsibilities: [
-        "Translate business requirements into data models",
-        "Design schemas that balance normalization and performance",
-        "Document data models for team collaboration",
-        "Evolve models as business requirements change",
-        "Ensure consistency across different data systems"
+        "Translate business requirements into data models that support analytics needs",
+        "Design efficient database schemas aligned with business requirements",
+        "Ensure data integrity and accuracy for trustworthy analytics",
+        "Facilitate data governance and compliance (e.g., GDPR) by documenting data storage and security",
+        "Document models to avoid technical debt and ease future modifications"
       ],
       toolsEcosystem: [
-        "Modeling Tools: ERwin, IBM InfoSphere, Lucidchart, draw.io",
-        "Documentation: Data dictionaries, metadata catalogs",
-        "Version Control: Schema versioning with tools like Flyway, Liquibase"
+        "ER Studio: Connects to databases, identifies relationships",
+        "DB Schema: Schema documentation, monitoring, supports SQL/NoSQL",
+        "Lucidchart: Cloud-based collaborative diagramming tool",
+        "PG Modeler: Open source PostgreSQL modeling tool",
+        "MySQL Workbench, Oracle SQL Data Modeler, IBM Infosphere Data Architect"
       ],
       comparison: {
-        title: "OLTP vs OLAP Data Models",
+        title: "Data Model Types",
         items: [
-          "OLTP: Normalized schemas optimized for transactional operations",
-          "OLAP: Dimensional schemas (star/snowflake) optimized for analytical queries",
-          "OLTP: Frequent small updates and inserts",
-          "OLAP: Large batch loads with complex read queries"
+          "Relational Model: Data organized in tables with relations via primary and foreign keys - widely used",
+          "Object-Oriented Model: Combines data and operations, suitable for complex applications like robotics",
+          "Network Model: Allows multiple parent records per child for complex many-to-many relationships",
+          "Entity-Relationship Model: Maps entities, attributes, and relationships for logical data design"
         ]
       },
       realWorldApplications: [
-        "Enterprise Data Warehouse: Star schema for business intelligence",
-        "Customer 360: Unified customer data model across touchpoints",
-        "Supply Chain: Modeling complex relationships between suppliers, products, and logistics",
-        "Financial Reporting: Dimensional models for financial analysis"
+        "Database Design: Helping architects design efficient data structures",
+        "Data Integrity: Ensuring accuracy and consistency in stored data",
+        "Data Analysis: Facilitating smooth extraction of insights",
+        "Data Governance & Compliance: Providing clarity for data management policies and regulatory adherence"
       ],
       tipsInsights: [
-        "Involve business stakeholders in conceptual modeling",
-        "Document assumptions and business rules in the model",
-        "Plan for schema evolution from the beginning",
-        "Consider both current and future analytical requirements"
+        "Data modeling is fundamental to all database systems and data-driven applications",
+        "It bridges the gap between raw data and usable, analyzable information",
+        "Choosing the right data model depends on the complexity and nature of the data",
+        "Maintenance and documentation are as important as initial design"
       ],
       thinkingQuestions: [
         "How do you handle slowly changing dimensions in a data warehouse?",
         "When would you choose a snowflake schema over a star schema?",
-        "How do you model many-to-many relationships in dimensional modeling?"
+        "How do you make logical decisions about data storage to optimize space and query efficiency?"
       ],
       furtherReading: [
         "The Data Warehouse Toolkit by Ralph Kimball",
@@ -771,33 +775,32 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Big Data refers to datasets that are too large, complex, or fast-moving to be processed by traditional data management tools. The Big Data revolution has transformed how organizations collect, store, and analyze information, enabling insights that were previously impossible to obtain.",
+      introduction: "Every click, swipe, message, photo, video, and transaction generates data. When this data becomes too large, too fast, and too complex for traditional databases or spreadsheets to handle, it is known as Big Data. Understanding big data fundamentals helps grasp how modern systems store, process, and extract value from massive datasets used by companies like Google, Netflix, hospitals, and governments.",
       keyConcepts: [
-        "Volume: The massive scale of data generated and stored",
-        "Variety: Different types of data – structured, semi-structured, unstructured",
-        "Velocity: The speed at which data is generated and must be processed",
-        "Veracity: The reliability and accuracy of data",
-        "Value: The business insights and benefits derived from data"
+        "Volume: Massive quantities of data, often measured in terabytes, petabytes, or exabytes (e.g., healthcare systems generate 2314 exabytes annually)",
+        "Velocity: Data is produced and updated continuously and in real time (e.g., live stock market prices, ride-sharing apps tracking drivers every second)",
+        "Variety: Multiple formats - Structured (SQL tables), Semi-structured (JSON, XML), Unstructured (images, videos, audio)",
+        "Veracity: Data quality and trustworthiness (e.g., fake product reviews, faulty IoT sensor readings)",
+        "Value: Actionable insights (e.g., Netflix recommendations, bank fraud detection, hospital disease prediction)"
       ],
       coreResponsibilities: [
         "Design systems that can scale horizontally to handle data growth",
         "Implement distributed processing frameworks for large-scale analytics",
         "Manage data across different storage tiers based on access patterns",
-        "Optimize costs while maintaining performance",
+        "Handle data that traditional single-machine systems cannot process efficiently",
         "Ensure data reliability in distributed environments"
       ],
       toolsEcosystem: [
-        "Storage: HDFS, Amazon S3, Azure Data Lake Storage, Google Cloud Storage",
-        "Processing: Apache Spark, Apache Flink, Presto, Trino",
-        "Databases: Cassandra, HBase, MongoDB, ClickHouse",
+        "HDFS (Hadoop Distributed File System): Splits large files into blocks, stores across multiple machines, replicates for fault tolerance",
+        "MapReduce: Breaks large jobs into smaller tasks (Map), runs in parallel, combines results (Reduce)",
+        "Apache Spark, Apache Flink, Presto, Trino for processing",
         "Cloud Platforms: AWS EMR, Azure HDInsight, Google Dataproc, Databricks"
       ],
       realWorldApplications: [
-        "Recommendation Systems: Netflix, Spotify processing user behavior at scale",
-        "Fraud Detection: Financial institutions analyzing millions of transactions",
-        "Genomics: Processing and analyzing DNA sequencing data",
-        "Autonomous Vehicles: Processing sensor data in real-time",
-        "Social Media: Analyzing billions of posts and interactions"
+        "Healthcare: Early disease detection, personalized treatment plans",
+        "Gaming: Analyze player behavior, improve gameplay, reduce churn",
+        "Disaster Management: Predict hurricanes and floods, improve evacuation planning",
+        "E-commerce: Personalized recommendations, demand forecasting, inventory optimization"
       ],
       tipsInsights: [
         "Not all data problems require big data solutions – assess before adopting",
@@ -861,53 +864,54 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Apache Spark is a unified analytics engine for large-scale data processing. It provides high-level APIs in Java, Scala, Python, and R, and an optimized engine that supports general computation graphs. Spark has become the de facto standard for big data processing due to its speed, ease of use, and versatility.",
+      introduction: "As data volumes grow beyond what a single machine can handle, traditional tools become slow and inefficient. Apache Spark was built to solve this exact problem. It is a fast, distributed, in-memory data processing engine used to analyze massive datasets efficiently, processing data in memory instead of repeatedly writing to disk.",
       keyConcepts: [
-        "RDD (Resilient Distributed Dataset): The fundamental data structure in Spark",
-        "DataFrame: Higher-level abstraction built on RDDs with schema support",
-        "Transformations: Operations that create new datasets (lazy evaluation)",
-        "Actions: Operations that trigger computation and return results",
-        "Spark SQL: Module for structured data processing using SQL"
+        "In-Memory Processing: Spark processes data in memory, making it up to 100× faster than disk-based systems",
+        "Driver Program: Plans and coordinates execution (like a Master Chef)",
+        "Cluster Manager: Allocates CPU & memory (like a Restaurant Manager)",
+        "Worker Nodes & Executors: Execute tasks in parallel (like Assistant Chefs and Cooking Stations)",
+        "Lazy Evaluation: Spark builds a logical plan (DAG) for transformations, executing only when an action is called",
+        "DAG (Directed Acyclic Graph): Represents the full execution plan, optimized before execution"
       ],
       coreResponsibilities: [
         "Design efficient Spark applications for batch and streaming workloads",
-        "Optimize Spark jobs for performance and resource utilization",
+        "Optimize Spark jobs for performance and resource utilization using DAG optimization",
         "Manage data partitioning and cluster resources",
-        "Debug and troubleshoot Spark job failures",
-        "Integrate Spark with data lakes and warehouses"
+        "Understand the difference between Transformations (lazy) and Actions (trigger execution)",
+        "Choose between RDDs and DataFrames based on use case requirements"
       ],
       toolsEcosystem: [
-        "Spark Core: Foundation for parallel and distributed processing",
-        "Spark SQL: Structured data processing with SQL interface",
-        "Spark Streaming/Structured Streaming: Real-time data processing",
-        "MLlib: Machine learning library",
+        "Spark SQL: Structured data processing using SQL on logs",
+        "Spark Streaming: Real-time data processing for sensor streams",
+        "MLlib: Machine learning library for recommendations",
+        "GraphX: Graph processing for social networks",
         "Platforms: Databricks, AWS EMR, Google Dataproc, Azure HDInsight"
       ],
       comparison: {
-        title: "RDDs vs DataFrames",
+        title: "RDDs vs DataFrames & Spark vs MapReduce",
         items: [
-          "RDDs: Low-level API with full control over data processing",
-          "DataFrames: High-level API with query optimization",
-          "RDDs: Type-safe but harder to optimize",
-          "DataFrames: Schema-aware with Catalyst optimizer for performance"
+          "RDD: Fundamental Spark data structure, immutable, distributed, fault-tolerant using lineage",
+          "DataFrame: Higher ease of use, excellent performance, automatic optimization",
+          "Spark: In-memory processing, very fast, supports Batch/Streaming/ML",
+          "MapReduce: Disk-based, slow, batch only, lower developer experience"
         ]
       },
       realWorldApplications: [
-        "ETL at Scale: Processing petabytes of data for data warehouses",
-        "Machine Learning: Training models on large datasets with MLlib",
-        "Log Analysis: Processing application and server logs at scale",
-        "Real-time Analytics: Streaming dashboards and alerting systems"
+        "E-commerce: Product recommendations, sales analytics",
+        "Finance: Fraud detection, risk modeling",
+        "Healthcare: Patient data analysis, disease prediction",
+        "Social Media: Trend detection, user behavior analysis"
       ],
       tipsInsights: [
-        "Prefer DataFrames over RDDs for better performance through optimization",
-        "Monitor Spark UI to understand job execution and identify bottlenecks",
-        "Proper partitioning is key to Spark performance",
-        "Cache intermediate results that are reused multiple times"
+        "Prefer DataFrames over RDDs for better performance through automatic optimization",
+        "Transformations (filter, dropDuplicates) are lazy; Actions (count, show) trigger execution",
+        "Spark supports Python, Scala, Java, and SQL for developer flexibility",
+        "Spark runs on thousands of nodes, making it highly scalable"
       ],
       thinkingQuestions: [
         "How do you handle data skew in Spark applications?",
         "When would you use Spark Streaming vs batch processing?",
-        "How do you optimize Spark jobs that are running out of memory?"
+        "What is the execution flow from DAG Creation to Result Collection?"
       ],
       furtherReading: [
         "Learning Spark, 2nd Edition by Jules Damji et al.",
@@ -1048,52 +1052,53 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Apache Airflow is the most widely adopted open-source platform for orchestrating complex data workflows. Originally developed at Airbnb, Airflow allows you to programmatically author, schedule, and monitor workflows as code, making it easier to manage and version control your data pipelines.",
+      introduction: "Apache Airflow is the industry standard for workflow orchestration. It uses DAGs (Directed Acyclic Graphs) to define logic and dependencies, with operators executing work. The platform supports XCom for lightweight data sharing, TaskFlow API for simplified development, cron-based scheduling, connections and hooks for integration, and Docker-based deployment for scalability.",
       keyConcepts: [
-        "DAG: Python code defining workflows as directed acyclic graphs",
-        "Operators: Building blocks for tasks (BashOperator, PythonOperator, etc.)",
-        "Tasks: Individual units of work within a DAG",
-        "Scheduler: Component that triggers DAGs and schedules tasks",
-        "Executor: Component that runs tasks (Local, Celery, Kubernetes)"
+        "DAG: Defines logic and dependencies between tasks",
+        "Operators: BashOperator (shell commands), PythonOperator (Python functions), PostgreSQLOperator (SQL execution), S3KeySensor (waits for files)",
+        "XCom (Cross Communication): Sharing small data between tasks (48 KB limit, metadata only)",
+        "TaskFlow API (Airflow 2.0): Modern way using @dag and @task decorators with automatic dependencies and built-in XCom",
+        "Schedule Interval: Supports cron expressions and presets (@daily, @hourly, @weekly)",
+        "Catchup/Backfill: catchup=True runs missed DAG runs; backfill for manual execution of past dates"
       ],
       coreResponsibilities: [
-        "Design and implement DAGs for data pipeline orchestration",
-        "Configure Airflow for production deployment",
-        "Monitor and troubleshoot DAG execution",
-        "Manage connections and variables securely",
-        "Scale Airflow infrastructure for growing workloads"
+        "Design and implement DAGs with proper task dependencies using >> and << operators",
+        "Configure Airflow connections (PostgreSQL, AWS, S3, APIs) through Admin UI",
+        "Use PostgresHook for Python-based DB access and SQL templating with {{ ds }} for execution date",
+        "Manage sensors that pause workflow until conditions are met (poke_interval, timeout)",
+        "Install packages using extended Docker images or requirements.txt"
       ],
       toolsEcosystem: [
-        "Operators: BashOperator, PythonOperator, SQL operators, cloud-specific operators",
-        "Executors: LocalExecutor, CeleryExecutor, KubernetesExecutor",
-        "UI: Airflow Web Interface for monitoring and management",
-        "Managed Services: Astronomer, Google Cloud Composer, AWS MWAA"
+        "PostgreSQL Integration: PostgreSQLOperator for SQL, PostgresHook for Python DB access, DBeaver for management",
+        "S3 Integration: MinIO as local S3, S3KeySensor for file detection, AWS connection configuration",
+        "Package Installation: Extend official image with requirements.txt or build from source",
+        "Temporary Files: Python tempfile module for intermediate files"
       ],
       comparison: {
-        title: "Airflow vs Other Orchestrators",
+        title: "Key Airflow Features",
         items: [
-          "Airflow: Python-native, mature ecosystem, large community",
-          "Prefect: Modern Python API, better local development experience",
-          "Dagster: Strong focus on data quality and testing",
-          "Airflow: Industry standard with extensive operator library"
+          "Operators define behavior; tasks execute operators",
+          "PythonOperator: Executes functions with parameters via op_kwargs",
+          "TaskFlow API: Uses decorators, automatic dependency handling, cleaner syntax",
+          "Real pipelines: PostgreSQL → S3 with temp files, dynamic file names, and logged success"
         ]
       },
       realWorldApplications: [
+        "End-to-End Pipeline: Query PostgreSQL → Filter by execution date → Save to temp file → Upload to S3",
         "ETL Pipelines: Scheduled data extraction and loading workflows",
-        "ML Pipelines: Model training and deployment automation",
-        "Report Generation: Automated business reporting workflows",
-        "Data Quality: Scheduled data validation and alerting"
+        "DB + Cloud Integration: Combining database queries with cloud storage",
+        "Event-Driven Pipelines: Using sensors to wait for files before processing"
       ],
       tipsInsights: [
-        "Write DAGs as code – leverage version control and code review",
-        "Use XComs sparingly – they are not designed for large data transfer",
-        "Implement proper task timeouts to prevent resource leaks",
-        "Use task groups to organize complex DAGs for better readability"
+        "Always delete old records before inserting to avoid primary key conflicts",
+        "Use tempfile module to avoid cluttering DAG folder - files are automatically deleted",
+        "Function returns are automatically stored in XCom; pull using ti.xcom_pull()",
+        "TaskFlow API allows returning dictionaries for multiple outputs"
       ],
       thinkingQuestions: [
-        "How do you handle secrets and credentials in Airflow?",
+        "How do you choose between extending the official Docker image vs building from source?",
         "What executor would you choose for a production deployment?",
-        "How do you implement dynamic DAGs that respond to changing requirements?"
+        "How do you handle PostgreSQL → S3 pipelines with proper temp file management?"
       ],
       furtherReading: [
         "Data Pipelines with Apache Airflow by Bas Harenslak",
@@ -1146,18 +1151,19 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "A data warehouse is a centralized repository that stores integrated data from multiple sources, optimized for analytical queries and reporting. Data warehouses enable organizations to perform historical analysis, generate reports, and support data-driven decision-making at scale.",
+      introduction: "A data warehouse is a specialized relational database designed for analytical needs rather than just transactional storage. Unlike traditional databases (Oracle, MySQL, SQL Server) optimized for OLTP, data warehouses support OLAP (Online Analytical Processing) to enable complex queries and analysis. Data warehouses consolidate data from multiple sources into a centralized repository, including raw data, metadata, and aggregated data.",
       keyConcepts: [
-        "Subject-Oriented: Data organized around key business subjects (sales, customers, products)",
-        "Integrated: Data from multiple sources combined into a consistent format",
-        "Non-Volatile: Data is stable and not frequently updated once loaded",
-        "Time-Variant: Historical data maintained for trend analysis",
-        "Dimensional Modeling: Star and snowflake schemas for analytical queries"
+        "OLAP: Enables multi-dimensional data analysis using OLAP cubes (3D or higher dimensional structures)",
+        "OLAP Cubes: Three types - MOLAP, ROLAP, HOLAP - allowing users to view data from different dimensions",
+        "Dimension Tables: Contain descriptive attributes related to business entities (Customer, Product, Date)",
+        "Fact Tables: Contain measurable data (facts) such as sales quantities or revenue, linked to dimensions via keys",
+        "ETL Process: Data transferred first to staging area, then into warehouse",
+        "Data Marts: Subsets of warehouse tailored to specific user groups with restricted access"
       ],
       coreResponsibilities: [
         "Design dimensional models that support business analytics needs",
         "Implement ETL/ELT processes to populate the warehouse",
-        "Optimize query performance for analytical workloads",
+        "Perform OLAP operations: Roll-up, Drill-down, Slice, Dice, Pivot",
         "Manage data retention and archival policies",
         "Ensure data quality and consistency"
       ],
@@ -1235,51 +1241,49 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "OLTP (Online Transaction Processing) and OLAP (Online Analytical Processing) represent two fundamental approaches to data management, each optimized for different use cases. Understanding when to use each system is essential for designing effective data architectures.",
+      introduction: "A detailed comparison between Online Analytical Processing (OLAP) and Online Transactional Processing (OLTP) systems. OLAP is designed for multi-dimensional, high-speed analysis of large, aggregated datasets, while OLTP focuses on real-time execution of numerous simple transactions, serving many users simultaneously.",
       keyConcepts: [
-        "OLTP: Optimized for high-volume transactional operations",
-        "OLAP: Optimized for complex analytical queries and reporting",
-        "Normalization vs Denormalization: Trade-offs between data integrity and query performance",
-        "Write-Heavy vs Read-Heavy: Different optimization strategies for each workload type"
+        "OLAP: Multi-dimensional analysis using OLAP cubes, ideal for data mining, business intelligence, and reporting",
+        "OLTP: Powers everyday transactional systems (ATMs, purchases, reservations, password changes, messaging)",
+        "OLAP Cubes: Multi-layered view with dimensions (region, time, product) allowing drill-down exploration",
+        "OLTP Databases: Optimized for processing large volumes of simple transactions quickly with millisecond response times",
+        "Star/Snowflake Schema: Used for OLAP historical aggregated data storage"
       ],
       coreResponsibilities: [
         "Choose appropriate systems based on workload characteristics",
-        "Design schemas optimized for the specific use case",
+        "Design schemas optimized for the specific use case (normalized for OLTP, dimensional for OLAP)",
         "Implement data movement from OLTP to OLAP systems",
-        "Balance performance and consistency requirements"
+        "Ensure OLTP systems maintain data integrity and rapid transaction throughput",
+        "Support 24/7/365 availability with continuous incremental backups for OLTP"
       ],
       toolsEcosystem: [
         "OLTP Databases: PostgreSQL, MySQL, Oracle, SQL Server",
-        "OLAP Systems: Snowflake, BigQuery, Redshift, ClickHouse",
+        "OLAP Systems: Snowflake, BigQuery, Redshift, ClickHouse, Data Warehouses",
         "Hybrid: SingleStore, CockroachDB (HTAP systems)"
       ],
       comparison: {
-        title: "OLTP vs OLAP Comparison",
+        title: "OLAP vs OLTP Comparison",
         items: [
-          "OLTP: Many short transactions with CRUD operations",
-          "OLAP: Fewer, more complex queries with aggregations",
-          "OLTP: Normalized schemas to minimize redundancy",
-          "OLAP: Denormalized schemas for query performance",
-          "OLTP: Prioritizes data consistency and integrity",
-          "OLAP: Prioritizes query speed and analytical flexibility",
-          "OLTP: Current operational data",
-          "OLAP: Historical data for trend analysis"
+          "OLAP: Complex multi-dimensional data analysis; OLTP: Real-time high-volume transactions",
+          "OLAP: Aggregated historical data; OLTP: Current transactional data",
+          "OLAP: Data scientists, business analysts; OLTP: Frontline workers, customers",
+          "OLAP: Business intelligence, forecasting; OLTP: ATM transactions, retail purchases"
         ]
       },
       realWorldApplications: [
-        "OLTP: E-commerce order processing, banking transactions, inventory management",
-        "OLAP: Sales trend analysis, customer behavior analytics, financial reporting",
-        "Integration: ETL pipelines moving data from OLTP to OLAP systems"
+        "OLAP: Financial analysis, budgeting, sales forecasting, business reporting",
+        "OLTP: ATM transactions, in-store purchases, hotel reservations, online banking",
+        "Integration: OLTP provides real-time data feed that OLAP uses for deeper analysis"
       ],
       tipsInsights: [
-        "Modern cloud warehouses blur the line between OLTP and OLAP",
-        "Consider HTAP systems for use cases requiring both workloads",
-        "Design data movement strategies that balance freshness and performance",
-        "Materialized views can bridge OLTP and OLAP requirements"
+        "OLAP and OLTP serve complementary roles - OLTP handles everyday transactions, OLAP enables strategic decision-making",
+        "Organizations often integrate both systems with OLTP feeding into OLAP",
+        "OLAP cubes provide multi-layered views allowing detailed exploration across dimensions",
+        "OLTP systems ensure data integrity critical for operational functions"
       ],
       thinkingQuestions: [
         "When would you consider a hybrid HTAP system?",
-        "How do you determine the right refresh frequency for OLAP data?",
+        "How do you determine the right refresh frequency for OLAP data from OLTP sources?",
         "What are the trade-offs of running analytics directly on OLTP systems?"
       ],
       furtherReading: [
@@ -1333,50 +1337,45 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Streaming data processing enables organizations to act on data as it is generated, rather than waiting for batch processing windows. This paradigm shift is essential for use cases requiring real-time insights, immediate responses, and continuous analytics.",
+      introduction: "Overview of batch processing systems, stream processing systems, and the hybrid concept of micro-batching. Batch processing involves processing large volumes of data collected over a period, while stream processing handles data continuously in real time. Micro-batching combines both by collecting data in short intervals and processing it continuously.",
       keyConcepts: [
-        "Event Streams: Continuous sequences of events ordered by time",
-        "Stream Processing: Analyzing data in motion rather than at rest",
-        "Event Time vs Processing Time: When events occur vs when they are processed",
-        "Windowing: Grouping streaming events into time-based windows for aggregation",
-        "Exactly-Once Semantics: Ensuring each event is processed exactly once"
+        "Batch Processing: Processes data in scheduled or ad hoc runs, suitable for large end-of-day files",
+        "Stream Processing: Processes data continuously as it arrives, ideal for instant feedback and anomaly detection",
+        "Micro-Batching: Collects data in short intervals, faster than batch but not fully real-time",
+        "Event Time vs Processing Time: When events occur vs when they are processed"
       ],
       coreResponsibilities: [
-        "Design streaming architectures that meet latency requirements",
+        "Design streaming architectures using Kafka or Amazon Kinesis Data Streams",
+        "Implement batch processing with Hadoop, Apache Spark, and HDFS storage",
         "Handle late-arriving and out-of-order events",
-        "Implement fault-tolerant stream processing",
-        "Manage state in streaming applications",
+        "Build hybrid architectures combining batch and stream processing",
         "Monitor streaming pipeline health and throughput"
       ],
       toolsEcosystem: [
-        "Message Brokers: Apache Kafka, Amazon Kinesis, Google Pub/Sub, Azure Event Hubs",
-        "Stream Processing: Apache Flink, Apache Spark Streaming, Kafka Streams, Apache Storm",
-        "Databases: Apache Druid, ClickHouse, TimescaleDB",
-        "Platforms: Confluent, Decodable, Materialize"
+        "Batch: Hadoop, Apache Spark, HDFS, Tableau, Qlik Sense",
+        "Stream: Apache Flink, Apache Storm, Apache Beam, Spark Streaming, Kafka, Amazon Kinesis",
+        "Cloud: Amazon Kinesis Data Analytics, Amazon S3, Amazon EMR, Elasticsearch, Amazon Glacier"
       ],
       comparison: {
         title: "Batch vs Streaming",
         items: [
-          "Batch: Process data in scheduled intervals (hourly, daily)",
-          "Streaming: Process data continuously as it arrives",
-          "Batch: Higher latency, easier to implement and debug",
-          "Streaming: Lower latency, more complex architecture",
-          "Batch: Better for historical analysis and large transformations",
-          "Streaming: Essential for real-time dashboards and alerting"
+          "Batch: Large files processed once per day/month, historical data analysis",
+          "Streaming: Real-time data pushed continuously for filtering, aggregating, and alerting",
+          "Micro-batching: Balance between scheduled batch and real-time streaming",
+          "Hybrid Architecture: Instant insights (streaming) + deep historical analysis (batching)"
         ]
       },
       realWorldApplications: [
-        "Fraud Detection: Identifying suspicious transactions in real-time",
-        "IoT Monitoring: Processing sensor data for immediate alerts",
-        "Live Dashboards: Real-time business metrics and KPIs",
-        "Personalization: Adapting user experience based on recent behavior",
-        "Log Analytics: Detecting anomalies in application logs instantly"
+        "Netflix: Amazon Kinesis, CloudWatch, Apache Flink for terabytes of logs daily",
+        "Nasdaq: Amazon EMR, Redshift, S3, Hardware Security Module for highly secure historical data",
+        "Security Monitoring: Stream processing to identify anomalies and trigger security alerts",
+        "Analytics Applications: Live dashboards from streaming + historical analysis from batch"
       ],
       tipsInsights: [
-        "Start with understanding latency requirements before choosing streaming",
-        "Design for exactly-once processing from the beginning",
-        "Consider the Lambda or Kappa architecture for hybrid needs",
-        "Monitor consumer lag to ensure processing keeps up with data arrival"
+        "Batch excels for large, periodic data requiring historical analysis",
+        "Stream suits applications needing immediate processing and real-time decisions",
+        "Micro-batching balances latency and throughput",
+        "Security and compliance can influence architecture choices"
       ],
       thinkingQuestions: [
         "How do you handle late-arriving events in a streaming system?",
@@ -1434,43 +1433,38 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Apache Kafka is a distributed event streaming platform capable of handling trillions of events per day. Originally developed at LinkedIn, Kafka has become the industry standard for building real-time data pipelines and streaming applications.",
+      introduction: "Apache Kafka is a distributed event streaming platform designed for handling massive pipelines of real-time data at scale. Originally created at LinkedIn in 2011, it organizes data as an ordered, immutable log called a topic. Each event (record) includes a key, value, timestamp, and optional metadata. Events are durably stored on disk and Kafka guarantees consumers read events in exactly the same order.",
       keyConcepts: [
-        "Topics: Logical channels for organizing events",
-        "Partitions: Subdivisions of topics for parallelism and scalability",
-        "Producers: Applications that publish events to topics",
-        "Consumers: Applications that subscribe to topics and process events",
-        "Consumer Groups: Groups of consumers that share the processing load",
-        "Brokers: Kafka servers that store data and serve clients"
+        "Topics: Logical channels organizing data as ordered, immutable logs that can persist indefinitely",
+        "Partitions: Subdivisions distributed across brokers for fault tolerance and scalability",
+        "Producers and Consumers: Producers publish events; consumers subscribe and can read latest, entire log, or subset using offsets",
+        "Brokers: Kafka servers that store data and serve clients in a cluster",
+        "Streams API: Enables stateless transformations (filtering) and stateful transformations (aggregations over time windows)"
       ],
       coreResponsibilities: [
         "Design topic and partition strategies for scalability",
         "Implement reliable producers and consumers",
-        "Monitor Kafka cluster health and performance",
+        "Manage cluster with Zookeeper or KRaft mode",
         "Manage data retention and cleanup policies",
-        "Ensure high availability and fault tolerance"
+        "Use Streams API for complex stream transformations and aggregations"
       ],
       toolsEcosystem: [
         "Kafka Core: Brokers, producers, consumers",
-        "Kafka Connect: Framework for connecting to external systems",
-        "Kafka Streams: Stream processing library",
-        "KSQL/ksqlDB: SQL interface for stream processing",
-        "Schema Registry: Schema management for Kafka messages",
+        "Kafka Streams: Stream processing with Java support for stateless and stateful transformations",
+        "Cluster Management: Zookeeper or KRaft mode",
         "Managed Services: Confluent Cloud, Amazon MSK, Azure Event Hubs"
       ],
       realWorldApplications: [
-        "Log Aggregation: Centralizing logs from distributed systems",
-        "Event Sourcing: Storing application state as a sequence of events",
-        "Metrics Collection: Gathering operational metrics from services",
-        "Change Data Capture: Streaming database changes to downstream systems",
+        "Lyft: Collecting and processing geolocation data",
+        "Spotify & Netflix: Log processing at scale",
+        "Cloudflare: Real-time analytics",
         "Microservices Communication: Async messaging between services"
       ],
       tipsInsights: [
-        "Choose partition counts based on throughput requirements",
-        "Use keys to ensure related messages go to the same partition",
-        "Implement idempotent producers for exactly-once semantics",
-        "Monitor consumer lag to detect processing bottlenecks",
-        "Consider managed Kafka services for reduced operational burden"
+        "Kafka's distributed architecture ensures fault tolerance and horizontal scalability",
+        "The Streams API enhances functionality with complex stream transformations and aggregations",
+        "Kafka's log-based design guarantees event ordering and durability",
+        "Start by starting Zookeeper, then Kafka server, create topics, publish events, consume with offset control"
       ],
       thinkingQuestions: [
         "How do you determine the optimal number of partitions for a topic?",
@@ -1528,21 +1522,23 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "Data quality is the measure of data's fitness for its intended use. In data engineering, ensuring high data quality is crucial because downstream analytics, machine learning models, and business decisions are only as good as the data they are based on. Poor data quality can lead to incorrect insights, failed pipelines, and costly business mistakes.",
+      introduction: "Quality is difficult to define clearly because it depends on context, usage, and expectations. In data systems, quality is not just about correctness but about whether data is usable, supports decision-making, and avoids confusion and inefficiency. Quality problems often remain hidden until they cause losses in time, money, or credibility.",
       keyConcepts: [
-        "Accuracy: Data correctly represents the real-world entity or event",
-        "Completeness: All required data is present",
-        "Consistency: Data values are coherent across systems",
-        "Timeliness: Data is available when needed",
-        "Validity: Data conforms to defined formats and rules",
-        "Uniqueness: No unintended duplicate records"
+        "Accuracy: Data must be correct and error-free",
+        "Completeness: No missing or blank values",
+        "Consistency: Same data should match across systems",
+        "Timeliness: Data must be available at the right time",
+        "Clarity: Data and communication should be easily understood",
+        "Standardization: Uniform formats and rules",
+        "Validity: Data should follow defined rules",
+        "Confirmation: Data must be verified before use"
       ],
       coreResponsibilities: [
         "Implement data validation at ingestion and transformation stages",
         "Set up monitoring and alerting for data quality issues",
-        "Define and enforce data quality SLAs",
-        "Create data quality dashboards and reports",
-        "Collaborate with data producers to fix upstream issues"
+        "Introduce uniform standards across regions and systems",
+        "Implement validation checks and confirmation workflows",
+        "Automate data capture to reduce spelling errors and manual mistakes"
       ],
       toolsEcosystem: [
         "Data Quality Frameworks: Great Expectations, Deequ, Soda",
@@ -1551,19 +1547,19 @@ export const submodules: SubmoduleContent[] = [
         "Testing: dbt tests, custom validation scripts"
       ],
       realWorldApplications: [
-        "Financial Services: Ensuring transaction data accuracy for compliance",
-        "Healthcare: Validating patient data for accurate treatments",
-        "E-commerce: Maintaining product catalog integrity",
-        "Marketing: Ensuring customer data quality for targeting"
+        "Management Decisions: Poor data quality affects strategies and performance measurement",
+        "Shareholder Confidence: Unreliable data leads to misleading reports",
+        "Process Quality: Delayed notifications, poor coordination, unclear responsibility",
+        "Organizational Performance: Confusion, delays, financial and operational loss"
       ],
       tipsInsights: [
-        "Shift-left data quality – catch issues as early as possible",
-        "Automate quality checks in your data pipelines",
-        "Document expected data quality standards for each dataset",
-        "Build a culture of data quality ownership across teams"
+        "Data quality is a system-wide responsibility involving people, processes, and technology",
+        "Quality failures mostly arise from poor coordination, lack of clarity, and inconsistent systems",
+        "Quality must be built from the source, not corrected at the end",
+        "Poor quality leads to wastage of time, money, and repetition of work"
       ],
       thinkingQuestions: [
-        "How do you handle data quality issues without blocking pipeline execution?",
+        "How do you handle regional and state-level format variations?",
         "What metrics would you track to measure overall data quality?",
         "How do you balance data quality checks with pipeline performance?"
       ],
