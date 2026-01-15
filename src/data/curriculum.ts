@@ -206,21 +206,20 @@ export const submodules: SubmoduleContent[] = [
       }
     ],
     content: {
-      introduction: "A comprehensive overview of the data engineering role, core functions, responsibilities, and relevance within the broader data ecosystem. Data Engineering is primarily concerned with the movement and transformation of data from various source systems to target systems like data warehouses. The fundamental process in data engineering is ETL (Extract, Transform, Load).",
+      introduction: "A comprehensive overview of the data engineering role, core functions, responsibilities, and relevance within the broader data ecosystem, particularly in relation to data analytics and data science. Data Engineering is primarily concerned with the movement and transformation of data from various source systems to target systems like data warehouses. The role is closely linked to but distinct from data analytics and data science. The fundamental process in data engineering is ETL (Extract, Transform, Load).",
       keyConcepts: [
-        "ETL Process: Extract (querying and retrieving data from source systems), Transform (cleaning, converting, and reshaping data), Load (storing transformed data into a data warehouse)",
-        "Data Pipelines: Automated workflows that extract data from multiple sources and aggregate into centralized data warehouses",
-        "Data Quality: Testing and quality assurance to ensure data validity and compliance with production standards",
-        "Orchestration: Monitoring of data pipelines using tools such as Apache Airflow, Prefect, or others",
-        "Cloud Integration: Familiarity with platforms like AWS, Azure, or Google Cloud for pipeline orchestration"
+        "ETL (Extract, Transform, Load): Extract - Querying and retrieving data from source systems (databases, flat files, APIs). Transform - Cleaning, converting, and reshaping data to standardize it for analysis. Load - Storing the transformed data into a data warehouse for querying and analysis.",
+        "Data Pipelines: Automated workflows that extract data from multiple sources and aggregate into centralized data warehouses for company-wide analysis.",
+        "Data Warehousing: Centralizing data from multiple regional databases enables analysis such as regional sales comparisons, seasonal trends, and cross-selling opportunities.",
+        "Orchestration: Automating, running, and monitoring the ETL pipelines using tools like Apache Airflow or Prefect."
       ],
       coreResponsibilities: [
         "Extracting data from diverse sources such as databases, flat files, and APIs",
-        "Transforming data by cleaning (e.g., converting missing text values to 'unknown') and standardizing (e.g., currency conversion)",
+        "Transforming data by cleaning (e.g., converting missing text values to 'unknown') and standardizing (e.g., converting sales amounts from different currencies to USD using exchange rate APIs)",
         "Loading data into a structured data warehouse with a defined schema",
-        "Data testing and quality assurance to ensure data validity and compliance",
-        "Orchestration and monitoring of data pipelines",
-        "Cloud integration for pipeline orchestration"
+        "Data testing and quality assurance to ensure data validity and compliance with production standards",
+        "Orchestration and monitoring of data pipelines using tools such as Apache Airflow, Prefect, or others",
+        "Cloud integration requiring familiarity with platforms like AWS, Azure, or Google Cloud for pipeline orchestration"
       ],
       toolsEcosystem: [
         "SQL: Querying data from relational databases",
@@ -232,22 +231,23 @@ export const submodules: SubmoduleContent[] = [
         "Cloud Platforms: AWS, Azure, Google Cloud"
       ],
       realWorldApplications: [
-        "Retail: Processing transactional databases across different regions for company-wide analysis",
-        "Regional Sales Comparisons: Aggregating data from multiple geographic databases",
-        "Seasonal Sales Trends: Analyzing temporal patterns in sales data",
-        "Product Bundling: Cross-selling opportunities through data aggregation",
-        "Currency Standardization: Converting sales amounts from different currencies using exchange rate APIs"
+        "AdventureWorks Example: A fictional retailer with multiple transactional databases across different regions (North America, Asia, Africa, Europe)",
+        "Regional Sales Comparisons: Aggregating data from multiple geographic databases for company-wide analysis",
+        "Seasonal Sales Trends: Analyzing temporal patterns in sales data across regions",
+        "Product Bundling: Identifying cross-selling opportunities through centralized data analysis",
+        "Currency Standardization: Converting sales amounts from different currencies to USD using exchange rate APIs"
       ],
       tipsInsights: [
         "Business/domain knowledge is important for effective data engineering but typically comes from business analysts",
-        "Data warehouse schema design is often handled by data or system architects; if unavailable, data engineers assume this responsibility",
+        "The data warehouse schema design is often handled by data or system architects; if unavailable, data engineers assume this responsibility",
         "Data pipelines handle raw or 'dirty' data, applying cleansing and transformation before making it available for analysis",
-        "Data engineers operate behind the scenes but are critical for enabling data scientists and analysts"
+        "Data engineers operate behind the scenes but are critical for enabling data scientists and analysts to perform their work effectively"
       ],
       thinkingQuestions: [
-        "How would you design a data pipeline for a retailer with multiple regional databases?",
-        "What are the trade-offs between running queries on production databases vs using a data warehouse?",
-        "How do you handle data standardization across different source systems?"
+        "How do ETL pipelines support company-wide decision making?",
+        "What are the technical trade-offs between different orchestration tools?",
+        "Why is data quality assurance critical before data reaches the warehouse?",
+        "How would you design a data pipeline for a retailer with multiple regional databases?"
       ],
       furtherReading: [
         "Fundamentals of Data Engineering by Joe Reis and Matt Housley",
