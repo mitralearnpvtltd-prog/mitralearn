@@ -12,6 +12,7 @@ import airflowDagsPipelineImage from "@/assets/airflow-dags-pipeline.png";
 import dimensionalModelingImage from "@/assets/dimensional-modeling-diagram.png";
 import oltpOlapEtlImage from "@/assets/oltp-olap-etl-diagram.png";
 import batchStreamProcessingImage from "@/assets/batch-stream-processing-diagram.png";
+import apacheKafkaArchImage from "@/assets/apache-kafka-architecture.png";
 
 interface NotionDocumentProps {
   content: SubmoduleContent;
@@ -3080,6 +3081,135 @@ const Lesson71Content = () => (
   </div>
 );
 
+// Lesson 7.2 Content
+const Lesson72Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-[2.5rem] font-bold text-foreground mb-8">7.2 Apache Kafka</h1>
+
+      {/* Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">Apache Kafka</strong> is a distributed event streaming platform designed for handling massive pipelines of real-time data at scale. Originally created at LinkedIn in 2011, it is implemented in Java and Scala and named Kafka to emphasize its optimization for writing and processing event streams efficiently.
+      </p>
+
+      {/* Core Concepts and Architecture */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Core Concepts and Architecture</h1>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Event Streaming and Topics</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Kafka organizes data as an ordered, immutable log called a <strong className="text-foreground">topic</strong>. Each event (record) includes a key, value, timestamp, and optional metadata or headers.
+      </p>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Durability and Ordering</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Events are durably stored on disk within topics, which can persist indefinitely or be deleted when no longer needed. Kafka guarantees that consumers read events in exactly the same order.
+      </p>
+
+      {/* Image - Below key features of introduction */}
+      <div className="my-6">
+        <img 
+          src={apacheKafkaArchImage} 
+          alt="Apache Kafka: Distributed Event Streaming Platform - Producers, Consumers, Topics, and Zookeeper" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Cluster and Brokers</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Topics are partitioned and distributed across a cluster of servers known as <strong className="text-foreground">brokers</strong>. This design provides Kafka with fault tolerance and scalability, allowing it to handle any workload size.
+      </p>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Producers and Consumers</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1"><strong className="text-foreground">Producers</strong> publish events to topics.</li>
+        <li className="pl-1"><strong className="text-foreground">Consumers</strong> subscribe to topics and can read the latest event, the entire log from the beginning, or a subset using offsets.</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Stream Processing API</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Kafka offers a powerful <strong className="text-foreground">Streams API</strong> primarily supported in Java. This API enables:
+      </p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Stateless transformations (e.g., filtering events).</li>
+        <li className="pl-1">Stateful transformations such as aggregations over time windows, combining multiple events into single results.</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        This capability allows real-time processing and management of data streams at scale, beyond simple event consumption.
+      </p>
+
+      {/* Use Cases and Industry Adoption */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Use Cases and Industry Adoption</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Kafka is widely used in production environments for streaming data applications due to its high throughput and reliability. Examples of companies leveraging Kafka include:
+      </p>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Company</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Lyft</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Collecting and processing geolocation data</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Spotify</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Log processing</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Netflix</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Log processing</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Cloudflare</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Real-time analytics</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Getting Started Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Getting Started Overview</h1>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Kafka Workflow</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Kafka requires a cluster manager such as <strong className="text-foreground">Zookeeper</strong> or the newer <strong className="text-foreground">KRaft mode</strong> to manage the cluster.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        The typical workflow to begin using Kafka involves:
+      </p>
+      <ol className="list-decimal ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Starting Zookeeper in one terminal.</li>
+        <li className="pl-1">Starting the Kafka server in another.</li>
+        <li className="pl-1">Creating topics to hold event logs.</li>
+        <li className="pl-1">Publishing events (each line representing an event) to topics.</li>
+        <li className="pl-1">Consuming events using Kafka consumer commands, optionally reading from the beginning or a specific offset.</li>
+      </ol>
+
+      {/* Key Insights */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Key Insights</h1>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Kafka is optimized for handling large-scale, real-time streaming data workloads.</li>
+        <li className="pl-1">Its distributed architecture ensures fault tolerance and horizontal scalability.</li>
+        <li className="pl-1">The Streams API enhances Kafka's functionality by enabling complex stream transformations and aggregations.</li>
+        <li className="pl-1">Kafka's log-based design guarantees event ordering and durability, critical for many streaming data applications.</li>
+        <li className="pl-1">It has broad adoption in industries requiring robust, scalable data pipelines.</li>
+      </ul>
+
+      {/* Conclusion */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Conclusion</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Apache Kafka is a powerful, fault-tolerant event streaming platform suitable for real-time data pipelines and stream processing at scale. Its architecture combining distributed logs, durable storage, and robust APIs has made it a foundational technology for modern data infrastructure in multiple industries.
+      </p>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -3108,6 +3238,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson62Content />;
     case "7.1":
       return <Lesson71Content />;
+    case "7.2":
+      return <Lesson72Content />;
     default:
       return (
         <div className="bg-background min-h-full">
