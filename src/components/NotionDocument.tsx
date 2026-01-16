@@ -11,6 +11,7 @@ import airflowCourseOverviewImage from "@/assets/airflow-course-overview.png";
 import airflowDagsPipelineImage from "@/assets/airflow-dags-pipeline.png";
 import dimensionalModelingImage from "@/assets/dimensional-modeling-diagram.png";
 import oltpOlapEtlImage from "@/assets/oltp-olap-etl-diagram.png";
+import batchStreamProcessingImage from "@/assets/batch-stream-processing-diagram.png";
 
 interface NotionDocumentProps {
   content: SubmoduleContent;
@@ -2942,6 +2943,143 @@ const Lesson62Content = () => (
   </div>
 );
 
+// Lesson 7.1 Content
+const Lesson71Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-[2.5rem] font-bold text-foreground mb-8">7.1 Batch Processing and Stream Processing Systems</h1>
+
+      {/* Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Overview of batch processing systems, stream processing systems, and the hybrid concept of micro-batching, explaining their differences, use cases, and practical implementations including real-world examples from Netflix and Nasdaq.
+      </p>
+
+      {/* Core Concepts */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Core Concepts</h1>
+
+      {/* Batch Processing */}
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Batch Processing</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Involves processing large volumes of data collected over a period (e.g., end-of-day files).</li>
+        <li className="pl-1">Processes data in scheduled or ad hoc runs.</li>
+        <li className="pl-1">Suitable for scenarios where data arrives periodically in large sizes.</li>
+        <li className="pl-1">Commonly uses big data frameworks like <strong className="text-foreground">Hadoop</strong>, <strong className="text-foreground">Apache Spark</strong>, and storage solutions like <strong className="text-foreground">HDFS</strong>.</li>
+        <li className="pl-1">Data is transformed, stored in databases or data stores, and then retrieved for analysis via tools like Tableau or Qlik Sense.</li>
+      </ul>
+
+      {/* Image - Below key features of introduction */}
+      <div className="my-6">
+        <img 
+          src={batchStreamProcessingImage} 
+          alt="Batch Processing and Stream Processing Systems - Batch, Micro-Batching, and Stream Processing with Real-World Examples" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* Stream Processing */}
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Stream Processing</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Processes data continuously and in real time as it arrives.</li>
+        <li className="pl-1">Ideal for scenarios requiring instant feedback or anomaly detection.</li>
+        <li className="pl-1">Data is pushed continuously into systems like <strong className="text-foreground">Kafka</strong> or <strong className="text-foreground">Amazon Kinesis Data Streams</strong>.</li>
+        <li className="pl-1">Frameworks such as <strong className="text-foreground">Apache Flink</strong>, <strong className="text-foreground">Apache Storm</strong>, <strong className="text-foreground">Apache Beam</strong>, and <strong className="text-foreground">Spark Streaming</strong> consume and process these streams.</li>
+        <li className="pl-1">Allows filtering, aggregating, and real-time action triggering (e.g., alerting or system shutdown).</li>
+      </ul>
+
+      {/* Micro-Batching */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Micro-Batching</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Combines batch and stream processing by collecting data in short intervals and processing it continuously.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Offers a balance between scheduled batch processing and real-time streaming.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Processes data faster than traditional batch but not fully real-time.
+      </p>
+
+      {/* Use Cases and Application Architecture */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Use Cases and Application Architecture</h1>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Batch Processing Use Case</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Processing end-of-day files from multiple sources.</li>
+        <li className="pl-1">Large file sizes and formats processed once per day or month.</li>
+        <li className="pl-1">Processed using Hadoop or Spark, stored in databases or HDFS.</li>
+        <li className="pl-1">Used for historical data analysis and generating aggregated reports.</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Stream Processing Use Case</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Multiple applications publish real-time accessibility or security-related data to a Kafka topic.</li>
+        <li className="pl-1">Stream processing frameworks consume this data to identify anomalies and trigger security alerts.</li>
+        <li className="pl-1">Enables continuous monitoring and instant response to security events.</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Analytics Application Example</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Combines both batch and stream processing architectures.
+      </p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Data from web browsers, mobile apps, and IoT devices are streamed via an API gateway into Amazon Kinesis Data Streams.</li>
+        <li className="pl-1">Real-time processing using Amazon Kinesis Data Analytics with Apache Flink to generate live dashboards.</li>
+        <li className="pl-1">Data is simultaneously stored in Amazon S3 via Kinesis Data Firehose for batch processing.</li>
+        <li className="pl-1">Historical data analytics are performed using Amazon EMR with Apache Spark, storing results in Elasticsearch for querying.</li>
+        <li className="pl-1">Archival storage uses Amazon Glacier for audit and long-term retention.</li>
+        <li className="pl-1">This hybrid architecture supports instant insights (streaming) and deep historical analysis (batching).</li>
+      </ul>
+
+      {/* Real-World Industry Examples */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Real-World Industry Examples</h1>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Company</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Processing Type</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Technologies Used</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Netflix</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Stream</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Amazon Kinesis Data Streams, CloudWatch, Apache Flink</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Processes terabytes of logs daily for real-time analytics and tracing application flows</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Nasdaq</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Batch</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Amazon EMR, Amazon Redshift, S3, Hardware Security Module (HSM)</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Historical data with client-side encryption and secure EMR clusters for auditing and analysis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Key Insights */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Key Insights</h1>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Batch processing excels where data is large, periodic, and requires historical analysis.</li>
+        <li className="pl-1">Stream processing suits applications needing immediate data processing and real-time decision-making.</li>
+        <li className="pl-1">Micro-batching provides a compromise by processing data in small time windows, balancing latency and throughput.</li>
+        <li className="pl-1">The combination of batch and stream processing enables organizations to meet both real-time operational needs and historical data analytics.</li>
+        <li className="pl-1">Security and compliance considerations can influence architecture choices, as seen in Nasdaq's use of encryption and hardware security modules.</li>
+        <li className="pl-1">Selecting the right pattern depends on the specific use case and data characteristics.</li>
+      </ul>
+
+      {/* Conclusion */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Conclusion</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        This video clarifies the conceptual and practical differences between batch and stream processing systems and illustrates how they can be integrated within a single analytics platform. With frameworks like Hadoop, Spark, Kafka, and AWS Kinesis, organizations can build scalable, flexible data processing pipelines tailored to their operational and analytical needs. The examples from Netflix and Nasdaq demonstrate the adoption of these technologies in large-scale, real-world environments, highlighting the importance of choosing appropriate processing methods based on data velocity, volume, and security requirements.
+      </p>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -2968,6 +3106,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson61Content />;
     case "6.2":
       return <Lesson62Content />;
+    case "7.1":
+      return <Lesson71Content />;
     default:
       return (
         <div className="bg-background min-h-full">
