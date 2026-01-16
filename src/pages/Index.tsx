@@ -134,10 +134,16 @@ const Index = () => {
   const courses = [
     {
       category: "DATA ENGINEERING",
-      title: "Data Engineer",
+      categoryBadge: "Tech Fundamentals",
+      title: "Data Engineering",
       description: "Build scalable data pipelines and infrastructures for big data processing.",
-      concepts: ["ETL Pipelines", "Data Warehousing", "Apache Spark", "SQL & NoSQL", "Cloud Platforms"],
-      duration: "5 Months",
+      concepts: ["Python", "SQL", "ETL"],
+      extraConceptsCount: 1,
+      duration: "12 weeks",
+      students: "12,543",
+      rating: 4.8,
+      reviews: "2.4k",
+      level: "Beginner",
       status: "active",
       badge: "Project + Internship",
       badgeColor: "#7C3AED",
@@ -146,10 +152,16 @@ const Index = () => {
     },
     {
       category: "ARTIFICIAL INTELLIGENCE",
+      categoryBadge: "AI & ML",
       title: "AI Engineer",
       description: "Master NLP, chatbots, and build intelligent systems with cutting-edge technologies.",
-      concepts: ["Machine Learning", "Deep Learning", "Neural Networks", "NLP", "Computer Vision"],
-      duration: "6 Months",
+      concepts: ["ML", "DL", "NLP"],
+      extraConceptsCount: 2,
+      duration: "16 weeks",
+      students: "8,234",
+      rating: 4.7,
+      reviews: "1.8k",
+      level: "Intermediate",
       status: "coming",
       badge: "Project + Internship",
       badgeColor: "#7C3AED",
@@ -158,10 +170,16 @@ const Index = () => {
     },
     {
       category: "WEB DEVELOPMENT",
+      categoryBadge: "Full Stack",
       title: "Fullstack Developer",
       description: "Build complete web applications from frontend to backend with modern frameworks.",
-      concepts: ["React", "Node.js", "REST APIs", "Databases"],
-      duration: "5 Months",
+      concepts: ["React", "Node.js", "APIs"],
+      extraConceptsCount: 1,
+      duration: "14 weeks",
+      students: "15,678",
+      rating: 4.9,
+      reviews: "3.2k",
+      level: "Beginner",
       status: "coming",
       badge: "Project + Internship",
       badgeColor: "#7C3AED",
@@ -170,10 +188,16 @@ const Index = () => {
     },
     {
       category: "AI & PYTHON",
+      categoryBadge: "Python",
       title: "Python AI Engineer",
       description: "Specialize in Python for AI, machine learning, and data science applications.",
-      concepts: ["Python Programming", "TensorFlow", "PyTorch", "Data Analysis", "Model Deployment"],
-      duration: "6 Months",
+      concepts: ["Python", "TensorFlow", "PyTorch"],
+      extraConceptsCount: 2,
+      duration: "16 weeks",
+      students: "9,456",
+      rating: 4.6,
+      reviews: "2.1k",
+      level: "Intermediate",
       status: "coming",
       badge: "Project + Internship",
       badgeColor: "#7C3AED",
@@ -182,10 +206,16 @@ const Index = () => {
     },
     {
       category: "ENTERPRISE DEVELOPMENT",
+      categoryBadge: "Enterprise",
       title: "Java Fullstack",
       description: "Build enterprise-grade applications with Java and Spring ecosystem.",
-      concepts: ["Java", "Spring Boot", "Microservices", "Hibernate", "Angular/React"],
-      duration: "5 Months",
+      concepts: ["Java", "Spring", "Microservices"],
+      extraConceptsCount: 2,
+      duration: "18 weeks",
+      students: "6,789",
+      rating: 4.5,
+      reviews: "1.4k",
+      level: "Advanced",
       status: "coming",
       badge: "Advanced",
       badgeColor: "#7C3AED",
@@ -194,10 +224,16 @@ const Index = () => {
     },
     {
       category: "MARKETING & GROWTH",
+      categoryBadge: "Marketing",
       title: "Product Marketing",
       description: "Drive product adoption, market positioning, and growth strategies.",
-      concepts: ["Go-to-Market Strategy", "Customer Research", "Positioning", "Content Marketing", "Analytics"],
-      duration: "4 Months",
+      concepts: ["GTM", "Research", "Positioning"],
+      extraConceptsCount: 2,
+      duration: "10 weeks",
+      students: "5,123",
+      rating: 4.4,
+      reviews: "1.1k",
+      level: "Beginner",
       status: "coming",
       badge: "Project + Internship",
       badgeColor: "#7C3AED",
@@ -537,92 +573,120 @@ const Index = () => {
             {courses.map((course, index) => (
               <div 
                 key={index}
-                className="group bg-white p-5 sm:p-6 relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1"
+                className="group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden"
                 style={{ 
-                  borderRadius: '20px',
+                  borderRadius: '16px',
                   border: '1px solid #E5E7EB',
                 }}
               >
-                {/* Badge */}
-                <div className="absolute top-4 right-4">
-                  <span 
-                    className="text-white text-xs font-medium px-3 py-1 rounded-full"
-                    style={{ backgroundColor: course.badgeColor }}
-                  >
-                    {course.badge}
-                  </span>
-                </div>
-                
-                {/* Icon */}
+                {/* Image Section */}
                 <div 
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                  style={{ backgroundColor: course.iconBg }}
+                  className="relative h-40 w-full"
+                  style={{ 
+                    backgroundColor: course.iconBg,
+                    background: `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
+                  }}
                 >
-                  <course.icon className="h-6 w-6 text-white" />
+                  {/* Icon as placeholder */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                    <course.icon className="h-24 w-24 text-white" />
+                  </div>
+                  
+                  {/* Category Badge */}
+                  <div className="absolute top-3 right-3">
+                    <span 
+                      className="text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm"
+                      style={{ backgroundColor: 'rgba(124, 58, 237, 0.9)' }}
+                    >
+                      {course.categoryBadge || course.category}
+                    </span>
+                  </div>
                 </div>
                 
-                <p 
-                  className="text-xs font-semibold uppercase tracking-wider mb-2"
-                  style={{ color: '#64748B' }}
-                >
-                  {course.category}
-                </p>
-                <h3 
-                  className="text-xl mb-3"
-                  style={{ color: '#0F172A', fontWeight: 700 }}
-                >
-                  {course.title}
-                </h3>
-                <p 
-                  className="text-sm mb-4 leading-relaxed"
-                  style={{ color: '#475569' }}
-                >
-                  {course.description}
-                </p>
-                
-                <div className="mb-4">
-                  <p 
-                    className="text-xs font-semibold uppercase mb-2"
-                    style={{ color: '#64748B' }}
+                {/* Content Section */}
+                <div className="p-5">
+                  {/* Title */}
+                  <h3 
+                    className="text-lg font-bold mb-3"
+                    style={{ color: '#0F172A' }}
                   >
-                    Key Concepts:
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {course.concepts.slice(0, 4).map((concept, i) => (
+                    {course.title}
+                  </h3>
+                  
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {course.concepts.map((concept, i) => (
                       <span 
                         key={i} 
-                        className="text-xs px-2 py-1 rounded"
-                        style={{ backgroundColor: '#F1F5F9', color: '#475569' }}
+                        className="text-xs px-3 py-1 rounded-full border"
+                        style={{ borderColor: '#E5E7EB', color: '#475569' }}
                       >
                         {concept}
                       </span>
                     ))}
+                    {course.extraConceptsCount && course.extraConceptsCount > 0 && (
+                      <span 
+                        className="text-xs px-3 py-1 rounded-full border"
+                        style={{ borderColor: '#E5E7EB', color: '#475569' }}
+                      >
+                        +{course.extraConceptsCount}
+                      </span>
+                    )}
                   </div>
-                </div>
-                
-                <div 
-                  className="flex items-center justify-between pt-4"
-                  style={{ borderTop: '1px solid #E5E7EB' }}
-                >
-                  <div className="flex items-center gap-2" style={{ color: '#64748B' }}>
-                    <Clock className="h-4 w-4" />
-                    <span className="text-sm">{course.duration}</span>
+                  
+                  {/* Duration & Students */}
+                  <div className="flex items-center gap-4 mb-4 text-sm" style={{ color: '#64748B' }}>
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="h-4 w-4" />
+                      <span>{course.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Users className="h-4 w-4" />
+                      <span>{course.students}</span>
+                    </div>
                   </div>
-                  {course.status === 'active' ? (
-                    <Link 
-                      to="/curriculum" 
-                      className="text-sm font-semibold flex items-center gap-1 transition-colors"
-                      style={{ color: '#0F172A' }}
+                  
+                  {/* Rating & Level */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1.5">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span className="font-semibold" style={{ color: '#0F172A' }}>{course.rating}</span>
+                      <span className="text-sm" style={{ color: '#64748B' }}>({course.reviews})</span>
+                    </div>
+                    <span 
+                      className="text-xs font-medium px-2.5 py-1 rounded-full"
+                      style={{ 
+                        backgroundColor: course.level === 'Beginner' ? '#DCFCE7' : course.level === 'Intermediate' ? '#FEF3C7' : '#FEE2E2',
+                        color: course.level === 'Beginner' ? '#166534' : course.level === 'Intermediate' ? '#92400E' : '#991B1B',
+                      }}
                     >
-                      Start Learning Now <ArrowRight className="h-4 w-4" />
+                      {course.level}
+                    </span>
+                  </div>
+                  
+                  {/* CTA Button */}
+                  {course.status === 'active' ? (
+                    <Link to="/curriculum" className="block">
+                      <button 
+                        className="w-full py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                        style={{ 
+                          background: 'linear-gradient(90deg, #7C3AED 0%, #06B6D4 100%)',
+                        }}
+                      >
+                        Explore Course <ArrowRight className="h-4 w-4" />
+                      </button>
                     </Link>
                   ) : (
-                    <span 
-                      className="text-sm flex items-center gap-1"
-                      style={{ color: '#64748B' }}
+                    <button 
+                      className="w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
+                      style={{ 
+                        backgroundColor: '#F1F5F9',
+                        color: '#64748B',
+                      }}
+                      disabled
                     >
                       <Clock className="h-4 w-4" /> Coming Soon
-                    </span>
+                    </button>
                   )}
                 </div>
               </div>
