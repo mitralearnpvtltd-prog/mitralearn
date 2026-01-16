@@ -470,7 +470,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           {/* Overview Tab */}
           <TabsContent value="overview" className="mt-0">
             {/* Use NotionDocument for lessons with custom content */}
-            {(content.submodule === "1.1" || content.submodule === "1.2") ? (
+            {(content.submodule === "1.1" || content.submodule === "1.2" || content.submodule === "2.1") ? (
               <NotionDocument content={content} />
             ) : (
               <div className="space-y-8">
