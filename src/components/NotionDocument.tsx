@@ -2142,24 +2142,6 @@ const Lesson52Content = () => (
       {/* Title */}
       <h1 className="text-[2.5rem] font-bold text-foreground mb-8">5.2 Apache Airflow</h1>
 
-      {/* Prerequisites & Architecture Image - First */}
-      <div className="my-6">
-        <img 
-          src={airflowPrerequisitesImage} 
-          alt="Prerequisites & Installation, Airflow Architecture, Task Lifecycle" 
-          className="w-full rounded-lg border border-border"
-        />
-      </div>
-
-      {/* Course Overview Image - Below first image */}
-      <div className="my-6">
-        <img 
-          src={airflowCourseOverviewImage} 
-          alt="Course Overview & Setup" 
-          className="w-full rounded-lg border border-border"
-        />
-      </div>
-
       {/* Overview */}
       <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
       <p className="my-2 text-muted-foreground leading-relaxed">
@@ -2190,6 +2172,23 @@ const Lesson52Content = () => (
         <li className="pl-1">Rich UI for monitoring</li>
         <li className="pl-1">Extensible using plugins and providers</li>
       </ul>
+
+      {/* Images - Below Key Features */}
+      <div className="my-6">
+        <img 
+          src={airflowPrerequisitesImage} 
+          alt="Prerequisites & Installation, Airflow Architecture, Task Lifecycle" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      <div className="my-6">
+        <img 
+          src={airflowCourseOverviewImage} 
+          alt="Course Overview & Setup" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
 
       {/* 2. Course Prerequisites & Setup */}
       <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">2. Course Prerequisites & Setup</h1>
