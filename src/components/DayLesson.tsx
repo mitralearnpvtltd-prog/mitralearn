@@ -255,6 +255,10 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   const previousSubmoduleId = getPreviousSubmoduleId(content.submodule);
   const isPreviousCompleted = !previousSubmoduleId || progress.completedSubmodules.includes(previousSubmoduleId);
 
+  // Next lesson info
+  const nextSubmoduleId = getNextSubmoduleId(content.submodule);
+  const nextSubmoduleTitle = getNextSubmoduleTitle(content.submodule);
+
   // Count resources and questions
   const resourceCount = content.resources.length;
   const quizCount = content.quizQuestions.length;
@@ -292,7 +296,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     completeQuiz(content.submodule, score);
     setQuizSubmitted(true);
     
-    const nextSubmoduleId = getNextSubmoduleId(content.submodule);
     
     if (score >= 70) {
       toast.success(`Great job! You scored ${score}%`);
@@ -304,7 +307,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
         const nextSlug = getSlugFromSubmoduleId(nextSubmoduleId);
         setTimeout(() => {
           navigate(`/curriculum/lesson/${nextSlug}`);
-          toast.info(`Moving to next lesson: ${getNextSubmoduleTitle(content.submodule)}`);
+          toast.info(`Moving to next lesson: ${nextSubmoduleTitle}`);
         }, 2000);
       }
     } else {
@@ -367,10 +370,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
     }
   };
 
-  const nextSubmoduleId = getNextSubmoduleId(content.submodule);
-  const nextSubmoduleTitle = nextSubmoduleId ? getNextSubmoduleTitle(content.submodule) : undefined;
-  const nextSubmoduleSlug = nextSubmoduleId ? getSlugFromSubmoduleId(nextSubmoduleId) : undefined;
-
   return (
     <div className="min-h-full">
       {/* Video Section - Full Width Dark Background with 16:9 Aspect Ratio */}
@@ -432,24 +431,6 @@ export const DayLesson = ({ content }: DayLessonProps) => {
               >
                 Overview
               </TabsTrigger>
-              <TabsTrigger 
-                value="resources" 
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
-              >
-                Resources
-                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
-                  {resourceCount}
-                </Badge>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="quiz" 
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
-              >
-                {isCapstone ? "Project" : "Q&A"}
-                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
-                  {isCapstone ? "1" : quizCount}
-                </Badge>
-              </TabsTrigger>
               {hasPractice && (
                 <TabsTrigger 
                   value="practice" 
@@ -459,6 +440,24 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                   <Code className="w-4 h-4" />
                 </TabsTrigger>
               )}
+              <TabsTrigger 
+                value="quiz" 
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+              >
+                {isCapstone ? "Project" : "Q&A"}
+                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
+                  {isCapstone ? "1" : quizCount}
+                </Badge>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="resources" 
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+              >
+                Resources
+                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
+                  {resourceCount}
+                </Badge>
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -628,10 +627,10 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                 </div>
 
                 {/* Next Lesson Button */}
-                {nextSubmoduleSlug && (
+                {nextSubmoduleId && (
                   <div className="flex justify-end pt-4 border-t border-border">
                     <Button 
-                      onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
+                      onClick={() => navigate(`/curriculum/lesson/${getSlugFromSubmoduleId(nextSubmoduleId)}`)}
                       className="gap-2"
                       size="lg"
                     >
@@ -783,9 +782,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                           ? "Great job! You passed!"
                           : "Keep practicing and try again!"}
                       </p>
-                      {quizScore! >= 70 && nextSubmoduleSlug && (
+                      {quizScore! >= 70 && nextSubmoduleId && (
                         <Button 
-                          onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
+                          onClick={() => navigate(`/curriculum/lesson/${getSlugFromSubmoduleId(nextSubmoduleId)}`)}
                           className="mt-4 gap-2"
                         >
                           Continue to Next Lesson
@@ -948,6 +947,20 @@ export const DayLesson = ({ content }: DayLessonProps) => {
             </TabsContent>
           )}
         </Tabs>
+
+        {/* Next Lesson Button */}
+        {nextSubmoduleId && (
+          <div className="mt-8 pt-8 border-t border-border flex justify-end">
+            <Button 
+              onClick={() => navigate(`/curriculum/lesson/${getSlugFromSubmoduleId(nextSubmoduleId)}`)}
+              className="gap-2"
+              size="lg"
+            >
+              Next: {nextSubmoduleTitle}
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
