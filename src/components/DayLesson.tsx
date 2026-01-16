@@ -469,8 +469,8 @@ export const DayLesson = ({ content }: DayLessonProps) => {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           {/* Overview Tab */}
           <TabsContent value="overview" className="mt-0">
-            {/* Use NotionDocument for lesson 1.1, otherwise use default layout */}
-            {content.submodule === "1.1" ? (
+            {/* Use NotionDocument for lessons with custom content */}
+            {(content.submodule === "1.1" || content.submodule === "1.2") ? (
               <NotionDocument content={content} />
             ) : (
               <div className="space-y-8">
