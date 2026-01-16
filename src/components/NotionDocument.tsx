@@ -4,6 +4,7 @@ import dataLifecycleImage from "@/assets/data-engineering-lifecycle.png";
 import dataPipelinesImage from "@/assets/data-pipelines-diagram.png";
 import etlVsEltImage from "@/assets/etl-vs-elt-diagram.png";
 import apacheSparkImage from "@/assets/apache-spark-fundamentals.png";
+import apacheSparkBasicsImage from "@/assets/apache-spark-basics.png";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -477,38 +478,6 @@ const Lesson21Content = () => (
   </div>
 );
 
-export const NotionDocument = ({ content }: NotionDocumentProps) => {
-  // Render appropriate content based on lesson
-  if (content.submodule === "1.1") {
-    return <Lesson11Content />;
-  }
-  
-  if (content.submodule === "1.2") {
-    return <Lesson12Content />;
-  }
-
-  if (content.submodule === "2.1") {
-    return <Lesson21Content />;
-  }
-
-  if (content.submodule === "2.2") {
-    return <Lesson22Content />;
-  }
-
-  if (content.submodule === "3.1") {
-    return <Lesson31Content />;
-  }
-
-  if (content.submodule === "3.2") {
-    return <Lesson32Content />;
-  }
-
-  if (content.submodule === "4.1") {
-    return <Lesson41Content />;
-  }
-
-  return null;
-};
 
 // Lesson 2.2 Content
 const Lesson22Content = () => (
@@ -1398,3 +1367,451 @@ const Lesson41Content = () => (
     </div>
   </div>
 );
+
+// Lesson 4.2 Content
+const Lesson42Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        4.2 Apache Spark Basics
+      </h1>
+
+      {/* Overview Section */}
+      <h3 className="text-xl font-semibold text-foreground mt-8 mb-4">Overview</h3>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        As data volumes grow beyond what a single machine can handle, traditional tools become slow and inefficient. <strong className="text-foreground">Apache Spark</strong> was built to solve this exact problem. It is a fast, distributed, in-memory data processing engine used to analyze massive datasets efficiently.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        This page explains Apache Spark fundamentals from zero, covering:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>What Spark is and why it matters</li>
+        <li>Spark architecture and execution flow</li>
+        <li>Core concepts like RDDs, DAGs, and lazy evaluation</li>
+        <li>How Spark is used in real-world big data systems</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* What Is Apache Spark? */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">What Is Apache Spark?</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Apache Spark is an <strong className="text-foreground">open-source distributed computing framework</strong> designed to process large datasets across multiple machines in parallel.
+      </p>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Why Spark Is Fast</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Processes data <strong className="text-foreground">in memory</strong> instead of repeatedly writing to disk</li>
+        <li>Splits data into <strong className="text-foreground">partitions</strong> and processes them in parallel</li>
+        <li>Optimizes execution automatically using a <strong className="text-foreground">logical execution plan</strong></li>
+      </ul>
+
+      {/* Comparison Table */}
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Approach</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Performance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Excel / traditional scripts</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Slow for large data</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Apache Spark</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Processes terabytes or petabytes efficiently</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Image */}
+      <div className="my-6 flex justify-center">
+        <img 
+          src={apacheSparkBasicsImage} 
+          alt="Apache Spark Fundamentals Diagram" 
+          className="w-full max-w-2xl rounded-lg border border-border"
+        />
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Why Apache Spark Was Created */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Why Apache Spark Was Created</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Earlier systems like <strong className="text-foreground">Hadoop MapReduce</strong> were powerful but slow because:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Each step wrote intermediate data to disk</li>
+        <li>Iterative workloads (analytics, ML) were inefficient</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Apache Spark Architecture */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Apache Spark Architecture (Beginner View)</h2>
+      
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Key Components of Spark Architecture</h3>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Component</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Role in Spark</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Simple Analogy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Driver Program</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Plans and coordinates execution</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Master Chef</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Cluster Manager</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Allocates CPU & memory</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Restaurant Manager</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Worker Nodes</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Execute tasks in parallel</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Assistant Chefs</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Executors</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Run tasks & store data</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Cooking Stations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Restaurant Analogy (Easy to Remember)</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>The <strong className="text-foreground">Master Chef (Driver)</strong> receives an order (Spark job)</li>
+        <li>The work is divided among <strong className="text-foreground">Assistant Chefs (Workers)</strong></li>
+        <li>The <strong className="text-foreground">Restaurant Manager (Cluster Manager)</strong> decides how many chefs are needed</li>
+        <li>All chefs work in parallel, finishing the order faster</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Spark follows the same idea to process large data quickly.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Spark Execution Flow */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Spark Execution Flow (With Example)</h2>
+      
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Example Task</h3>
+      <ol className="list-decimal list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Read a CSV file</li>
+        <li>Remove duplicate records</li>
+        <li>Count total rows</li>
+      </ol>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Step-by-Step Execution</h3>
+      
+      <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">1. Spark Session / Spark Context</h4>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Created by the Driver Program</li>
+        <li>Acts as the entry point to Spark</li>
+        <li>Connects to the cluster manager</li>
+      </ul>
+
+      <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">2. Lazy Evaluation</h4>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Spark does not execute immediately</li>
+        <li>It builds a logical plan (DAG) for all transformations</li>
+      </ul>
+
+      <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">3. DAG (Directed Acyclic Graph)</h4>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Represents the full execution plan</li>
+        <li>Optimized before execution begins</li>
+      </ul>
+
+      <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">4. Transformations vs Actions</h4>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Type</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Description</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Transformation</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Modifies data, not executed immediately</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><code className="bg-muted px-1 rounded text-sm">filter()</code>, <code className="bg-muted px-1 rounded text-sm">dropDuplicates()</code></td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Action</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Triggers execution</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><code className="bg-muted px-1 rounded text-sm">count()</code>, <code className="bg-muted px-1 rounded text-sm">show()</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Execution starts only when an <strong className="text-foreground">action</strong> is called.
+      </p>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">How Spark Executes Internally</h3>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Step</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">What Happens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">DAG Creation</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Logical plan is built</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Stage Division</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">DAG is split into stages</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Task Creation</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Each stage is divided into tasks</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Task Scheduling</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Tasks assigned to executors</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Parallel Execution</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Workers process data partitions</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Result Collection</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Driver aggregates results</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Core Spark Data Concepts */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Core Spark Data Concepts</h2>
+      
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">RDD (Resilient Distributed Dataset)</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Fundamental Spark data structure</li>
+        <li>Immutable and distributed</li>
+        <li>Fault-tolerant using lineage</li>
+        <li><em>Example: A large log file split across multiple machines.</em></li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">DataFrames (Preferred for Beginners)</h3>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Feature</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">RDD</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">DataFrame</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Ease of Use</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Low</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">High</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Performance</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Good</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Excellent</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Optimization</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Manual</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Automatic</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        <em>Example: A table with columns: order_id, amount, date</em>
+      </p>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Spark Ecosystem Components</h3>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Component</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Purpose</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Spark SQL</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Structured data</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">SQL on logs</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Spark Streaming</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Real-time data</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Sensor streams</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">MLlib</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Machine learning</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Recommendations</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">GraphX</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Graph processing</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Social networks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Why Apache Spark Is Important */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Why Apache Spark Is Important in Big Data</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground mb-6">
+        <li><strong className="text-foreground">Speed</strong> — In-memory processing makes Spark up to 100× faster</li>
+        <li><strong className="text-foreground">Scalability</strong> — Runs on thousands of nodes</li>
+        <li><strong className="text-foreground">Versatility</strong> — Batch + Streaming + ML in one engine</li>
+        <li><strong className="text-foreground">Developer Friendly</strong> — Supports Python, Scala, Java, SQL</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Real-World Use Cases */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Real-World Use Cases</h2>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">E-commerce</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Product recommendations</li>
+        <li>Sales analytics</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Finance</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Fraud detection</li>
+        <li>Risk modeling</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Healthcare</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Patient data analysis</li>
+        <li>Disease prediction</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Social Media</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Trend detection</li>
+        <li>User behavior analysis</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Spark vs Hadoop MapReduce */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Spark vs Hadoop MapReduce</h2>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Feature</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">Spark</th>
+              <th className="border border-border px-4 py-3 text-left text-foreground font-semibold">MapReduce</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Processing</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">In-memory</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Disk-based</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Speed</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Very fast</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Slow</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Use Cases</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Batch, Streaming, ML</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Batch only</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Developer Experience</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">High</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Low</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Key Takeaways */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Takeaways</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>Apache Spark is a <strong className="text-foreground">fast, distributed big data engine</strong></li>
+        <li>Uses <strong className="text-foreground">parallel processing + in-memory execution</strong></li>
+        <li><strong className="text-foreground">Lazy evaluation</strong> and <strong className="text-foreground">DAG optimization</strong> make it efficient</li>
+        <li>Core building block of modern data platforms</li>
+        <li>Essential skill for data engineers and analysts</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Final Thought */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Final Thought</h3>
+      <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground my-6">
+        "Big data is not about size alone—it's about speed, insight, and action. Apache Spark turns raw data into intelligence."
+      </blockquote>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        If you master Spark fundamentals, you gain a powerful foundation for <strong className="text-foreground">analytics, machine learning, and large-scale data engineering</strong>.
+      </p>
+    </div>
+  </div>
+);
+
+export const NotionDocument = ({ content }: NotionDocumentProps) => {
+  switch (content.submodule) {
+    case "1.1":
+      return <Lesson11Content />;
+    case "1.2":
+      return <Lesson12Content />;
+    case "2.1":
+      return <Lesson21Content />;
+    case "2.2":
+      return <Lesson22Content />;
+    case "3.1":
+      return <Lesson31Content />;
+    case "3.2":
+      return <Lesson32Content />;
+    case "4.1":
+      return <Lesson41Content />;
+    case "4.2":
+      return <Lesson42Content />;
+    default:
+      return (
+        <div className="bg-background min-h-full">
+          <div className="max-w-4xl mx-auto px-6 py-12">
+            <h1 className="text-4xl font-bold text-foreground mb-8">
+              Content for {content.submodule} not found.
+            </h1>
+          </div>
+        </div>
+      );
+  }
+};
