@@ -593,20 +593,26 @@ const Index = () => {
               >
                 {/* Image Section */}
                 <div 
-                  className="relative h-40 w-full"
+                  className="relative h-48 w-full overflow-hidden"
                   style={{ 
                     backgroundColor: course.iconBg,
-                    background: course.image ? `url(${course.image})` : `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
                   }}
                 >
-                  {/* Icon as placeholder when no image */}
-                  {!course.image && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                      <course.icon className="h-24 w-24 text-white" />
-                    </div>
+                  {course.image ? (
+                    <img 
+                      src={course.image} 
+                      alt={course.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <div 
+                      className="w-full h-full"
+                      style={{ 
+                        background: `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
+                      }}
+                    />
                   )}
+                  {/* Icon as placeholder when no image - moved inside the else branch above */}
                   
                   {/* Original Badge Style */}
                   <div className="absolute top-3 left-3">
