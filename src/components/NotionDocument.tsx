@@ -13,6 +13,8 @@ import dimensionalModelingImage from "@/assets/dimensional-modeling-diagram.png"
 import oltpOlapEtlImage from "@/assets/oltp-olap-etl-diagram.png";
 import batchStreamProcessingImage from "@/assets/batch-stream-processing-diagram.png";
 import apacheKafkaArchImage from "@/assets/apache-kafka-architecture.png";
+import ensuringDataQualityImage from "@/assets/ensuring-data-quality.png";
+import improvingDataQualityImage from "@/assets/improving-data-quality.png";
 
 interface NotionDocumentProps {
   content: SubmoduleContent;
@@ -3210,6 +3212,296 @@ const Lesson72Content = () => (
   </div>
 );
 
+// Lesson 8.1 Content
+const Lesson81Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-[2.5rem] font-bold text-foreground mb-8">8.1 Data Quality</h1>
+
+      {/* Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Introduction emphasizing the exploration of the concept of quality, highlighting the difficulties in understanding it clearly. Quality is a complex topic requiring deeper investigation.
+      </p>
+
+      {/* 1. Concept of Quality */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">1. Concept of Quality</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Quality is difficult to define clearly because it depends on context, usage, and expectations.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">In data systems, quality is not just about correctness but about:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Whether data is usable</li>
+        <li className="pl-1">Whether it supports decision-making</li>
+        <li className="pl-1">Whether it avoids confusion and inefficiency</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Quality problems often remain hidden until they cause losses in time, money, or credibility.
+      </p>
+
+      {/* Image 1 - Ensuring Data Quality */}
+      <div className="my-6">
+        <img 
+          src={ensuringDataQualityImage} 
+          alt="Ensuring Data Quality - Clarity, Accuracy, Completeness, Consistency" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* 2. Relationship Between Quality and Efficiency */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">2. Relationship Between Quality and Efficiency</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Poor quality directly leads to:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Wastage of time</li>
+        <li className="pl-1">Wastage of money</li>
+        <li className="pl-1">Repetition of work</li>
+        <li className="pl-1">Delayed outcomes</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Organizations suffer when data is:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Incomplete</li>
+        <li className="pl-1">Late</li>
+        <li className="pl-1">Incorrect</li>
+        <li className="pl-1">Misinterpreted</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Even small quality issues multiply into large operational inefficiencies.
+      </p>
+
+      {/* 3. Time-Related Quality Issues */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">3. Time-Related Quality Issues</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Time is a critical dimension of data quality.</p>
+      <p className="my-2 text-muted-foreground leading-relaxed">Delays such as:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Late notifications</li>
+        <li className="pl-1">Slow approvals</li>
+        <li className="pl-1">Delayed communication</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">reduce the value of data.</p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">Data that arrives late is often as harmful as incorrect data.</strong>
+      </p>
+
+      {/* 4. Missing Data Problems */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">4. Missing Data Problems</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Missing data is a major quality issue.</p>
+      <p className="my-2 text-muted-foreground leading-relaxed">Causes of missing data include:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Poor data entry</li>
+        <li className="pl-1">System incompatibility</li>
+        <li className="pl-1">Manual processes</li>
+        <li className="pl-1">Lack of validation checks</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Missing records reduce:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Reliability</li>
+        <li className="pl-1">Completeness</li>
+        <li className="pl-1">Trust in the system</li>
+      </ul>
+
+      {/* 5. Centralization vs Standardization */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">5. Centralization vs Standardization</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Centralization alone does not guarantee quality.</p>
+      <p className="my-2 text-muted-foreground leading-relaxed">Problems arise when:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Systems are centralized</li>
+        <li className="pl-1">But formats differ across states or regions</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Different forms, rules, or structures create:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Data inconsistency</li>
+        <li className="pl-1">Integration challenges</li>
+        <li className="pl-1">Increased manual correction</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">A centralized system must also be standardized to ensure quality.</strong>
+      </p>
+
+      {/* 6. Regional and State-Level Variations */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">6. Regional and State-Level Variations</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Different states following different formats cause:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Data mismatch</li>
+        <li className="pl-1">Incomplete aggregation</li>
+        <li className="pl-1">Reporting errors</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">This leads to:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Increased complexity</li>
+        <li className="pl-1">Reduced comparability</li>
+      </ul>
+
+      {/* 7. Language Barriers in Data Quality */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">7. Language Barriers in Data Quality</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Language differences create:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Misinterpretation of instructions</li>
+        <li className="pl-1">Errors in forms and records</li>
+        <li className="pl-1">Communication gaps</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Poor language clarity leads to process breakdowns.</p>
+
+      {/* 8. Communication Quality */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">8. Communication Quality</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Communication is a core part of data quality.</p>
+      <p className="my-2 text-muted-foreground leading-relaxed">Issues mentioned include:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Spelling mistakes</li>
+        <li className="pl-1">Incorrect terms</li>
+        <li className="pl-1">Ambiguous wording</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Even minor communication errors can lead to major quality failures.
+      </p>
+
+      {/* 9. Confirmation and Validation Failures */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">9. Confirmation and Validation Failures</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Quality requires:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Clear confirmation</li>
+        <li className="pl-1">Validation before acceptance</li>
+        <li className="pl-1">Avoiding assumptions</li>
+      </ul>
+
+      {/* 10. Process Quality Issues */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">10. Process Quality Issues</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Quality is affected not just by data but by:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">People</li>
+        <li className="pl-1">Human involvement</li>
+        <li className="pl-1">Communication flow</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Process-related problems include:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Delayed notifications</li>
+        <li className="pl-1">Poor coordination</li>
+        <li className="pl-1">Unclear responsibility</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Quality failures often come from process design flaws, not technology alone.
+      </p>
+
+      {/* 11. Impact on Organizational Performance */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">11. Impact on Organizational Performance</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Poor data quality affects:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Management decisions</li>
+        <li className="pl-1">Shareholder confidence</li>
+        <li className="pl-1">Performance measurement</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">When data is unreliable:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Reports become misleading</li>
+        <li className="pl-1">Strategies become flawed</li>
+        <li className="pl-1">Trust in systems reduces</li>
+      </ul>
+
+      {/* 12. Data Quality Dimensions */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">12. Data Quality Dimensions</h1>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Dimension</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Explanation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Accuracy</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Data must be correct and error-free</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Completeness</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">No missing or blank values</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Consistency</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Same data should match across systems</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Timeliness</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Data must be available at the right time</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Clarity</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Data and communication should be easily understood</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* 13. Root Causes of Poor Data Quality */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">13. Root Causes of Poor Data Quality</h1>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Manual data handling</li>
+        <li className="pl-1">Lack of training</li>
+        <li className="pl-1">No standard formats</li>
+        <li className="pl-1">Language mismatches</li>
+        <li className="pl-1">Weak validation systems</li>
+        <li className="pl-1">Poor communication channels</li>
+      </ul>
+
+      {/* 14. Methods to Improve Data Quality */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">14. Methods to Improve Data Quality</h1>
+
+      {/* Image 2 - Improving Data Quality */}
+      <div className="my-6">
+        <img 
+          src={improvingDataQualityImage} 
+          alt="Improving Data Quality - Standardize Data, Validate & Clean, Automate Processes, Monitor & Verify" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Introduce uniform standards across regions</li>
+        <li className="pl-1">Ensure centralized systems with standardized rules</li>
+        <li className="pl-1">Implement validation checks and confirmation workflows</li>
+        <li className="pl-1">Reduce language issues through clear documentation and simple terminology</li>
+        <li className="pl-1">Automate data capture to reduce spelling errors and manual mistakes</li>
+      </ul>
+
+      {/* 15. Core Insight */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">15. Core Insight</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">Data quality is a system-wide responsibility, not just a technical task.</strong>
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">It involves:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">People</li>
+        <li className="pl-1">Processes</li>
+        <li className="pl-1">Technology</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Quality failures mostly arise from:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Poor coordination</li>
+        <li className="pl-1">Lack of clarity</li>
+        <li className="pl-1">Inconsistent systems</li>
+      </ul>
+
+      {/* 16. Final Takeaway */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">16. Final Takeaway</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">High-quality data ensures:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Efficiency</li>
+        <li className="pl-1">Accuracy</li>
+        <li className="pl-1">Trust</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Poor-quality data leads to:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Confusion</li>
+        <li className="pl-1">Delays</li>
+        <li className="pl-1">Financial and operational loss</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">Quality must be built from the source, not corrected at the end.</strong>
+      </p>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -3240,6 +3532,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson71Content />;
     case "7.2":
       return <Lesson72Content />;
+    case "8.1":
+      return <Lesson81Content />;
     default:
       return (
         <div className="bg-background min-h-full">
