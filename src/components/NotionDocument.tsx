@@ -5,7 +5,7 @@ import dataPipelinesImage from "@/assets/data-pipelines-diagram.png";
 import etlVsEltImage from "@/assets/etl-vs-elt-diagram.png";
 import apacheSparkImage from "@/assets/apache-spark-fundamentals.png";
 import apacheSparkBasicsImage from "@/assets/apache-spark-basics.png";
-import dataOrchestrationImage from "@/assets/data-orchestration-diagram.jpg";
+import dataOrchestrationImage from "@/assets/data-orchestration-diagram.png";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
