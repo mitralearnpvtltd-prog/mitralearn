@@ -27,7 +27,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
-import courseDataEngineering from "@/assets/course-cover-data-engineering.png";
+import courseDataEngineering from "@/assets/course-cover-data-engineering.jpg";
 import courseAiEngineer from "@/assets/course-cover-ai-engineer.png";
 import courseFullstack from "@/assets/course-cover-fullstack.png";
 import coursePythonAi from "@/assets/course-cover-python-ai.png";
