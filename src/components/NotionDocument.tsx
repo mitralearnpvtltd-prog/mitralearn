@@ -210,11 +210,14 @@ const Lesson12Content = () => (
       {/* Overview Section */}
       <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">Overview</h2>
       <p className="text-muted-foreground leading-relaxed mb-6">
-        A comprehensive overview of the <strong className="text-foreground">data engineering life cycle</strong>, breaking it down into seven distinct phases that a data pipeline undergoes within a business context. The lifecycle integrates modern software development best practices, such as <strong className="text-foreground">CI/CD (Continuous Integration/Continuous Deployment)</strong>, to ensure efficiency and sustainability in data engineering projects.
+        A comprehensive overview of the <strong className="text-foreground">data engineering life cycle</strong>, breaking it down into <strong className="text-foreground">seven distinct phases</strong> that a data pipeline undergoes within a business context. The presenter emphasizes not only the technical steps but also the integration of modern software development best practices, such as <strong className="text-foreground">CI/CD (Continuous Integration/Continuous Deployment)</strong>, to ensure efficiency and sustainability in data engineering projects.
       </p>
 
-      {/* Data Engineering Lifecycle Diagram */}
-      <div className="my-8 flex justify-center">
+      {/* Seven Phases of the Data Engineering Life Cycle */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Seven Phases of the Data Engineering Life Cycle</h2>
+      
+      {/* Image */}
+      <div className="my-6 flex justify-center">
         <img 
           src={dataLifecycleImage} 
           alt="Data Engineering Life Cycle" 
@@ -222,161 +225,100 @@ const Lesson12Content = () => (
         />
       </div>
 
-      {/* The Seven Phases */}
-      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">The Seven Phases of the Data Engineering Lifecycle</h2>
-      
-      {/* Phase 1 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 1: Data Collection</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Gathering data from various sources including:
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
-        <li>Internal systems like <strong className="text-foreground">ERP</strong> and <strong className="text-foreground">CRM</strong></li>
-        <li>External APIs and social media platforms</li>
-        <li>Public datasets and third-party data providers</li>
-      </ul>
-      <p className="text-muted-foreground leading-relaxed">
-        <strong className="text-foreground">Challenges:</strong> Handling inconsistent formats, high volume, data privacy, and anonymization requirements.
-      </p>
-
-      {/* Phase 2 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 2: Data Integration & Storage</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Consolidating, transforming, and storing data into warehouses or data lakes.
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground">
-        <li>Choosing between <strong className="text-foreground">cloud vs on-premises</strong> storage solutions</li>
-        <li>Managing <strong className="text-foreground">ETL vs ELT</strong> approaches</li>
-        <li>Handling <strong className="text-foreground">real-time vs batch</strong> processing</li>
-      </ul>
-
-      {/* Phase 3 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 3: Data Cleaning & Processing</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Ensuring data quality through:
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground">
-        <li>Removing errors and normalizing data formats</li>
-        <li>Deduplicating records and verifying data integrity</li>
-        <li>Merging data from multiple sources</li>
-        <li>Detecting and handling anomalies, missing values, and outliers</li>
-      </ul>
-
-      {/* Phase 4 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 4: Data Modeling & Warehousing</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Designing efficient and scalable data schemas:
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground">
-        <li>Creating <strong className="text-foreground">dimensional models</strong> for analytical workloads</li>
-        <li>Ensuring model flexibility and query performance</li>
-        <li>Implementing security and compliance measures</li>
-      </ul>
-
-      {/* Phase 5 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 5: Data Analysis</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Applying statistical and machine learning techniques to extract insights:
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground">
-        <li>Exploratory data analysis and statistical modeling</li>
-        <li>Machine learning model training and evaluation</li>
-        <li>Preventing poor data quality impacts and overfitting</li>
-      </ul>
-
-      {/* Phase 6 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 6: Data Visualization & Reporting</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Creating dashboards and automated reports for stakeholders:
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground">
-        <li>Building interactive dashboards with tools like Tableau, Power BI, or Looker</li>
-        <li>Ensuring reports are timely, relevant, and accessible</li>
-        <li>Avoiding bias in data presentation</li>
-      </ul>
-
-      {/* Phase 7 */}
-      <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Phase 7: Pipeline Maintenance</h3>
-      <p className="text-muted-foreground leading-relaxed mb-4">
-        Ongoing updates and improvements:
-      </p>
-      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground">
-        <li>Maintaining data integrity over time</li>
-        <li>Adapting to new technologies and requirements</li>
-        <li>Ensuring governance and compliance</li>
-        <li>Balancing innovation with system stability</li>
-      </ul>
-
-      {/* CI/CD Integration Table */}
-      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Modern Best Practices: CI/CD Integration</h2>
+      {/* Table */}
       <div className="overflow-x-auto my-6">
         <table className="w-full border-collapse border border-border">
           <thead>
             <tr className="bg-muted">
-              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Practice</th>
-              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Description</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Phase Number</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Phase Name</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Key Activities & Focus</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Challenges & Considerations</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Automated Testing</strong></td>
-              <td className="border border-border px-4 py-3 text-muted-foreground">Validate data quality and pipeline functionality automatically</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">1</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Collection</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Gathering data from various sources (internal systems like ERP, CRM; external APIs, social media, public datasets)</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Handling inconsistent formats, high volume, data privacy, anonymization, and ensuring data accuracy and relevance</td>
             </tr>
             <tr className="bg-muted/50">
-              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Version Control</strong></td>
-              <td className="border border-border px-4 py-3 text-muted-foreground">Track changes to pipeline code and configurations</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">2</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Integration & Storage</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Cleaning, transforming, consolidating data into warehouses or lakes</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Choosing storage (cloud vs. on-premises), ETL vs. ELT, real-time vs. batch processing, avoiding data decay</td>
             </tr>
             <tr>
-              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Continuous Deployment</strong></td>
-              <td className="border border-border px-4 py-3 text-muted-foreground">Automatically deploy pipeline updates to production</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">3</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Cleaning & Processing</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Removing errors, normalizing, deduplicating, verifying, merging, and rebuilding missing data</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Detecting anomalies, missing values, outliers; maintaining data integrity and avoiding biased cleaning</td>
             </tr>
             <tr className="bg-muted/50">
-              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Monitoring & QA</strong></td>
-              <td className="border border-border px-4 py-3 text-muted-foreground">Continuous monitoring of pipeline health and data quality</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">4</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Modeling & Warehousing</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Designing efficient data schemas and warehouses that support operational and analytical needs</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Ensuring model flexibility, query performance, security, compliance, and alignment with business requirements</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">5</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Analysis</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Applying statistical methods, machine learning, and other analytics to extract insights</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Avoiding poor data quality impacts, overfitting, and incorrect assumptions that lead to misleading conclusions</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">6</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Visualization & Reporting</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Creating visualizations (charts, dashboards) and automated reports that communicate insights clearly to stakeholders</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Preventing bias or misinterpretation in presentations; ensuring reports are timely, relevant, and accessible</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">7</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Pipeline Maintenance</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Ongoing updates and improvements of data processes and infrastructure</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Maintaining data integrity over time, adapting to new technologies, ensuring governance, quality assurance</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Real-World Applications */}
-      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Real-World Applications</h2>
+      {/* Key Insights and Concepts */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Insights and Concepts</h2>
       <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
-        <li><strong className="text-foreground">Retail:</strong> Tracking customer journey from website visit to purchase</li>
-        <li><strong className="text-foreground">Manufacturing:</strong> Monitoring production line efficiency in real-time</li>
-        <li><strong className="text-foreground">Media:</strong> Personalizing content recommendations based on user behavior</li>
-        <li><strong className="text-foreground">AI/ML:</strong> Transforming data into specialized formats (e.g., vector embeddings) for machine learning</li>
+        <li><strong className="text-foreground">Data Collection</strong> is foundational, requiring verification of data accuracy and timeliness beyond trusting metadata or descriptions.</li>
+        <li><strong className="text-foreground">Integration</strong> involves making diverse data formats coherent and accessible, often requiring complex ETL/ELT pipelines and decisions on batch vs. real-time processing.</li>
+        <li>The <strong className="text-foreground">cleaning phase</strong> is the most time-consuming, essential for ensuring data usability, and should be automated where possible to reduce manual effort and bias.</li>
+        <li><strong className="text-foreground">Data modeling</strong> must be business-driven, balancing technical efficiency with actual operational and analytical requirements.</li>
+        <li><strong className="text-foreground">Data analysis</strong> heavily relies on clean, high-quality data to produce valid insights, with serious risks if poor data leads to inaccurate business decisions.</li>
+        <li><strong className="text-foreground">Visualization and reporting</strong> are critical for translating data insights into actionable business knowledge, requiring clarity and avoidance of interpretative bias.</li>
+        <li><strong className="text-foreground">Pipeline maintenance</strong> is continuous and vital for adapting to evolving data, new business needs, and technological changes, involving strong governance frameworks.</li>
       </ul>
 
-      {/* Key Considerations */}
-      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Considerations</h2>
+      {/* Challenges and Pitfalls Highlighted */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Challenges and Pitfalls Highlighted</h2>
       <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
-        <li>The lifecycle is <strong className="text-foreground">iterative</strong>—pipeline maintenance feeds back into data collection and integration phases</li>
-        <li><strong className="text-foreground">Data decay</strong> occurs when data becomes outdated, undermining reliability</li>
-        <li>Risk of <strong className="text-foreground">over-cleaning</strong> which can bias data and distort its meaning</li>
-        <li><strong className="text-foreground">AI/ML readiness</strong> is increasingly important for downstream machine learning models</li>
+        <li><strong className="text-foreground">Data inconsistency and volume</strong> during collection can overwhelm systems.</li>
+        <li><strong className="text-foreground">Data decay</strong>, where data becomes outdated, undermines reliability.</li>
+        <li>Risk of <strong className="text-foreground">over-cleaning</strong> which can bias data and distort its meaning.</li>
+        <li>Designing data models that are <strong className="text-foreground">too rigid</strong> or inefficient can degrade performance and limit scalability.</li>
+        <li>Poor data quality leading to <strong className="text-foreground">misleading analytics and flawed business decisions</strong>.</li>
+        <li>Visualizations that <strong className="text-foreground">misrepresent or bias data</strong> can misguide stakeholders.</li>
+        <li>Maintenance requires balancing <strong className="text-foreground">innovation with system stability and data accuracy</strong>.</li>
       </ul>
 
-      {/* Thinking Questions */}
-      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Thinking Questions</h2>
+      {/* Additional Notes */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Additional Notes</h2>
       <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
-        <li>How do you balance innovation with system stability in pipeline maintenance?</li>
-        <li>What metrics would you track to measure data decay?</li>
-        <li>How do you prevent over-cleaning that could bias your data?</li>
+        <li>The speaker stresses the importance of incorporating <strong className="text-foreground">software development lifecycle best practices</strong> (like CI/CD) into data engineering workflows for improved lifecycle management.</li>
+        <li>The life cycle is iterative, with pipeline maintenance feeding back into data collection and integration phases as data and business requirements evolve.</li>
+        <li><strong className="text-foreground">AI/ML readiness</strong> is increasingly important; data often needs to be transformed into specialized formats (e.g., vector embeddings) to support machine learning models downstream.</li>
       </ul>
 
-      {/* Key Takeaways */}
-      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Takeaways</h2>
-      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
-        <li>The data engineering lifecycle consists of <strong className="text-foreground">seven interconnected phases</strong></li>
-        <li>Each phase has specific <strong className="text-foreground">challenges and responsibilities</strong> that data engineers must address</li>
-        <li><strong className="text-foreground">CI/CD practices</strong> ensure efficiency and sustainability in data projects</li>
-        <li>The lifecycle is <strong className="text-foreground">iterative and continuous</strong>, not a one-time process</li>
-        <li>Understanding the full lifecycle helps data engineers make <strong className="text-foreground">better architectural decisions</strong></li>
-      </ul>
-
-      {/* Closing Paragraph */}
-      <p className="text-muted-foreground leading-relaxed mt-8 mb-12">
-        Understanding the complete data engineering lifecycle is essential for building robust, scalable data infrastructure. Each phase builds upon the previous one, and modern CI/CD practices ensure that data pipelines remain reliable and maintainable over time.
+      {/* Conclusion */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Conclusion</h2>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        This video offers a detailed and structured framework for understanding the <strong className="text-foreground">data engineering life cycle</strong>, emphasizing that success relies on careful attention to each phase—from initial data collection through ongoing pipeline maintenance—while integrating modern best practices and anticipating challenges. By mastering these stages, data engineers can effectively <strong className="text-foreground">wrangle vast and complex data environments to deliver reliable, actionable insights that drive business value</strong>.
       </p>
     </div>
   </div>
