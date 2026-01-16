@@ -9,6 +9,8 @@ import dataOrchestrationImage from "@/assets/data-orchestration-51.jpg";
 import airflowPrerequisitesImage from "@/assets/airflow-prerequisites.png";
 import airflowCourseOverviewImage from "@/assets/airflow-course-overview.png";
 import airflowDagsPipelineImage from "@/assets/airflow-dags-pipeline.png";
+import dimensionalModelingImage from "@/assets/dimensional-modeling-diagram.png";
+
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -2551,6 +2553,251 @@ const Lesson52Content = () => (
   </div>
 );
 
+// Lesson 6.1 Content
+const Lesson61Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-[2.5rem] font-bold text-foreground mb-8">6.1 Data Warehouse Explained</h1>
+
+      {/* Data Engineering Foundations */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Data Engineering Foundations: Data Warehousing & Analytics</h1>
+
+      {/* Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Comprehensive introduction to data warehousing concepts including OLAP, dimensions, facts, measures, OLAP cubes, operations, and schemas.
+      </p>
+
+      {/* What is Data Warehousing? */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">What is Data Warehousing?</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        A data warehouse is a specialized relational database designed for analytical needs rather than just transactional storage.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Unlike traditional databases (Oracle, MySQL, SQL Server), which are optimized for <strong className="text-foreground">Online Transaction Processing (OLTP)</strong>, data warehouses support <strong className="text-foreground">Online Analytical Processing (OLAP)</strong> to enable complex queries and analysis.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Data warehouses consolidate data from multiple sources (databases, flat files) into a centralized repository.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        The data stored in a warehouse is processed and organized as information (not just raw data) to facilitate efficient and insightful retrieval.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        <strong className="text-foreground">ETL process (Extract, Transform, Load)</strong> transfers data first to a staging area (temporary storage), then into the warehouse.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Data in warehouses includes raw data, metadata, and aggregated data; metadata is crucial as it describes the data structure, attributes, and relationships, differentiating a warehouse from a simple database.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Warehouses may include <strong className="text-foreground">data marts</strong> — subsets of the warehouse tailored to specific user groups with restricted access for security and simplicity.
+      </p>
+
+      {/* Image - Below key features of introduction */}
+      <div className="my-6">
+        <img 
+          src={dimensionalModelingImage} 
+          alt="Dimensional Modeling in Data Engineering - Dimensions, Facts, Measures" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* OLAP (Online Analytical Processing) */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">OLAP (Online Analytical Processing)</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        OLAP enables multi-dimensional data analysis using <strong className="text-foreground">OLAP cubes</strong> (3D or higher dimensional structures).
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        OLAP contrasts with OLTP by supporting complex aggregations, filtering, sorting, and mathematical operations on large datasets stored across multiple tables.
+      </p>
+
+      {/* Data Storage and OLAP */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Data Storage and OLAP</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Data is stored in cubes allowing users to view data from different dimensions (e.g., time, location, product).
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        OLAP provides new insights by allowing data to be examined from multiple perspectives, enhancing decision-making.
+      </p>
+
+      {/* OLAP Cubes */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">OLAP Cubes</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">OLAP cubes come in three types:</p>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">OLAP Type</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Description</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Advantages</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Disadvantages</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">MOLAP (Multi-dimensional OLAP)</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Stores data directly in a multi-dimensional database</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Excellent performance, complex calculations</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Handles limited data volume</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">ROLAP (Relational OLAP)</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Stores multi-dimensional data in relational databases</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Handles large data volumes</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Requires more processing time and disk space</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">HOLAP (Hybrid OLAP)</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Combines MOLAP and ROLAP</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Allows drill-through from cube to relational data, balances performance and scalability</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Not explicitly detailed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* OLAP Operations */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">OLAP Operations</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">Five key operations enable flexible data analysis on OLAP cubes:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1"><strong className="text-foreground">Roll-up:</strong> Aggregates data by climbing up a hierarchy (e.g., from cities to countries).</li>
+        <li className="pl-1"><strong className="text-foreground">Drill-down:</strong> Opposite of roll-up; breaks down aggregate data into finer details (e.g., quarters into months).</li>
+        <li className="pl-1"><strong className="text-foreground">Slice:</strong> Extracts a sub-cube by fixing a single dimension (e.g., viewing data for only Q1).</li>
+        <li className="pl-1"><strong className="text-foreground">Dice:</strong> Extracts a sub-cube by selecting multiple dimensions and values (e.g., data for specific cities and products).</li>
+        <li className="pl-1"><strong className="text-foreground">Pivot (Rotation):</strong> Rotates the data axes to provide alternate views (e.g., swapping rows and columns).</li>
+      </ul>
+
+      {/* Dimensions, Facts, and Measures */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Dimensions, Facts, and Measures</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Dimension Tables</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Contain descriptive attributes related to business entities (e.g., Customer, Product, Date) and provide structured context for analysis.
+      </p>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Fact Tables</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Contain measurable data (facts) such as sales quantities or revenue, linked to dimensions via keys.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">A fact table includes:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1"><strong className="text-foreground">Dimension keys:</strong> Foreign keys linking to dimension tables.</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Measures</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Numeric values that can be aggregated or manipulated (e.g., total units sold).
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Every dimension table must be linked to a fact table to enable querying and analysis.
+      </p>
+
+      {/* Schemas in Data Warehousing */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Schemas in Data Warehousing</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Schemas define the logical structure and relationships between tables in a data warehouse. Unlike the typical ER (Entity-Relationship) model in databases, data warehouses use specialized schemas:
+      </p>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Schema Type</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Description</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Key Characteristics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Star Schema</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Central fact table surrounded by denormalized dimension tables</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Simple structure; dimension tables have primary keys; fact table contains foreign keys and measures</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Snowflake Schema</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Normalized form of star schema; dimension tables split into more tables</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Reduces data redundancy by normalizing dimension tables into related sub-tables</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Galaxy Schema (Fact Constellation)</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Contains multiple fact tables sharing dimension tables</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Supports complex relationships; some dimension tables linked to multiple fact tables; used for complex analysis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        In Star schema, dimension tables have unique primary keys; fact tables hold foreign keys and measures; dimension tables store descriptive attributes.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Snowflake schema normalizes dimension tables into multiple related tables for better structure and storage efficiency.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Galaxy schema allows multiple fact tables sharing common dimensions, supporting more complex organizational data models.
+      </p>
+
+      {/* Timeline Table of Key Topics Covered */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Timeline Table of Key Topics Covered</h1>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Topic</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Key Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Introduction & Overview</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Data warehousing definition, architecture, ETL, staging area, difference between database and warehouse</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">OLAP & OLTP Concepts</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Online Analytical Processing, multi-dimensional data, OLAP cubes vs. OLTP tables</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">OLAP Cubes Types</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">MOLAP, ROLAP, HOLAP definitions, advantages, and disadvantages</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">OLAP Operations</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Roll-up, Drill-down, Slice, Dice, Pivot operations explained with examples</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Dimensions</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Definition, role of dimension tables, benefits for structured analysis</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Facts and Measures</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Fact tables, dimension keys, measures, connection between facts and dimensions</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Schemas in Data Warehousing</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Star schema, Snowflake schema, Galaxy schema; relationships between fact and dimension tables</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Summary and Q&A</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Recap of all topics and closing remarks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Key Insights and Conclusions */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Key Insights and Conclusions</h1>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Data warehousing transforms raw data into meaningful information to support business intelligence and decision-making through efficient retrieval and analysis.</li>
+        <li className="pl-1">OLAP is central to data warehousing, enabling complex, multi-dimensional queries that are not feasible in traditional OLTP systems.</li>
+        <li className="pl-1">The choice of OLAP cube type (MOLAP, ROLAP, HOLAP) depends on data volume, performance needs, and storage considerations.</li>
+        <li className="pl-1">OLAP operations like roll-up, drill-down, slice, dice, and pivot allow flexible and dynamic data analysis from multiple perspectives.</li>
+        <li className="pl-1">Dimensions and facts form the backbone of data modeling in warehouses, with facts providing measurable metrics and dimensions providing descriptive context.</li>
+        <li className="pl-1">Schemas organize and define relationships between data warehouse tables; understanding star, snowflake, and galaxy schemas is essential for designing efficient warehouses.</li>
+        <li className="pl-1">Metadata plays a critical role in managing and understanding the data warehouse structure and content.</li>
+        <li className="pl-1">Data marts provide segmented access to data, improving security and simplifying analysis for specific user groups.</li>
+      </ul>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -2573,6 +2820,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson51Content />;
     case "5.2":
       return <Lesson52Content />;
+    case "6.1":
+      return <Lesson61Content />;
     default:
       return (
         <div className="bg-background min-h-full">
