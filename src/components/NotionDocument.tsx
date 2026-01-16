@@ -15,6 +15,7 @@ import batchStreamProcessingImage from "@/assets/batch-stream-processing-diagram
 import apacheKafkaArchImage from "@/assets/apache-kafka-architecture.png";
 import ensuringDataQualityImage from "@/assets/ensuring-data-quality.png";
 import improvingDataQualityImage from "@/assets/improving-data-quality.png";
+import dataGovernanceFrameworkImage from "@/assets/data-governance-framework.png";
 
 interface NotionDocumentProps {
   content: SubmoduleContent;
@@ -3502,6 +3503,392 @@ const Lesson81Content = () => (
   </div>
 );
 
+// Lesson 8.2 Content - Data Governance
+const Lesson82Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        8.2 Data Governance
+      </h1>
+
+      {/* Overview */}
+      <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">Overview</h2>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Introduction to Data Governance Challenges in Customer Service William Rondon, Cloud Advocate with IBM, introduces a common customer service frustration: repeatedly providing personal information (name, date of birth, account number) to multiple agents during a single support interaction. This scenario illustrates poor data governance, highlighting how inefficient data sharing and permission management within organizations negatively impact customer experience.
+      </p>
+
+      {/* Image */}
+      <figure className="my-8">
+        <img 
+          src={dataGovernanceFrameworkImage} 
+          alt="Data Governance Framework" 
+          className="w-full max-w-2xl mx-auto rounded-lg"
+        />
+      </figure>
+
+      {/* Section 1 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">1. What is Data Governance?</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data governance refers to the structured framework used to manage:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">How data is accessed</li>
+        <li className="pl-1">How data is shared</li>
+        <li className="pl-1">How data is protected</li>
+        <li className="pl-1">How data complies with internal policies and external regulations</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        It ensures that the right people get the right data at the right time, without exposing sensitive information unnecessarily.
+      </p>
+
+      {/* Section 2 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">2. Real-Life Problem Illustrating Poor Data Governance</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        A common customer service issue:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Customers are repeatedly asked for the same personal details (name, date of birth, account number).</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        This occurs because:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Data is stored in silos</li>
+        <li className="pl-1">Agents do not have governed access to shared customer information</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-2">
+        Result:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Poor customer experience</li>
+        <li className="pl-1">Loss of trust</li>
+        <li className="pl-1">Inefficient service operations</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        👉 This scenario highlights failure of data governance, not failure of technology.
+      </p>
+
+      {/* Section 3 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">3. Data Flow in an Organization</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Customer data originates from:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Websites</li>
+        <li className="pl-1">Mobile applications</li>
+        <li className="pl-1">Digital forms</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        This data flows into a central data repository, which acts as a single source of truth.
+      </p>
+
+      <h3 className="text-xl font-semibold text-foreground mt-8 mb-4">Types of Data Stored</h3>
+      <p className="text-muted-foreground leading-relaxed mb-2">
+        <strong className="text-foreground">Non-confidential data:</strong>
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Name</li>
+        <li className="pl-1">Address</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-2">
+        <strong className="text-foreground">Confidential / sensitive data:</strong>
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Social security number</li>
+        <li className="pl-1">Account number</li>
+      </ul>
+
+      {/* Section 4 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">4. Why Governance is Needed in Centralized Data Systems</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data from the central repository is accessed by:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Customer service</li>
+        <li className="pl-1">Marketing</li>
+        <li className="pl-1">Loan departments</li>
+        <li className="pl-1">Other business units</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-2">
+        <strong className="text-foreground">Without governance:</strong>
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Sensitive data may be overexposed</li>
+        <li className="pl-1">Unauthorized access may occur</li>
+        <li className="pl-1">Compliance violations may arise</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-2">
+        <strong className="text-foreground">Governance ensures:</strong>
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Secure data sharing</li>
+        <li className="pl-1">Controlled access</li>
+        <li className="pl-1">Protection of confidential data</li>
+      </ul>
+
+      {/* Section 5 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">5. Core Components of a Data Governance Framework</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data governance operates through three interconnected components:
+      </p>
+      <div className="overflow-x-auto my-6">
+        <table className="min-w-full border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="px-4 py-3 text-left font-semibold text-foreground border-b border-border">Component</th>
+              <th className="px-4 py-3 text-left font-semibold text-foreground border-b border-border">Explanation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 text-muted-foreground">Policy</td>
+              <td className="px-4 py-3 text-muted-foreground">High-level rules defining how data should be protected</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 text-muted-foreground">Rules</td>
+              <td className="px-4 py-3 text-muted-foreground">Actionable instructions enforcing policies</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="px-4 py-3 text-muted-foreground">Classification</td>
+              <td className="px-4 py-3 text-muted-foreground">Categorization of data for consistent handling</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        These components together enable automated, controlled data flow.
+      </p>
+
+      {/* Section 6 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">6. Policies in Data Governance</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Policies define what is allowed and what is restricted.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-2">
+        Examples include:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">GDPR</li>
+        <li className="pl-1">Internal data privacy policies</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Policies:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Do not define implementation</li>
+        <li className="pl-1">Act as guiding principles</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        They establish boundaries for:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Data usage</li>
+        <li className="pl-1">Data access</li>
+        <li className="pl-1">Data protection</li>
+      </ul>
+
+      {/* Section 7 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">7. Rules in Data Governance</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Rules translate policies into operational actions.
+      </p>
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-4">a) Data Protection Rules</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Apply to specific data assets. Control:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Who can access sensitive data</li>
+        <li className="pl-1">Where the data can move</li>
+        <li className="pl-1">How it is masked or restricted</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-4">b) Governance Rules</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Define how departments can use data. Examples:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Customer service may view partial customer data</li>
+        <li className="pl-1">Marketing may access anonymized data only</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Governance rules ensure departments function efficiently while sensitive data is not misused.
+      </p>
+
+      {/* Section 8 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">8. Data Classification – Purpose and Importance</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Classification ensures consistent interpretation and handling of data across the organization. It forms the foundation for automation in governance.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Classification is done using:
+      </p>
+      <ol className="list-decimal ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Business Terms</li>
+        <li className="pl-1">Data Classes</li>
+      </ol>
+
+      {/* Section 9 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">9. Business Terms</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Business terms provide a standard vocabulary. They ensure all departments interpret data in the same way.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Example: "Utilization Rate" measured differently across teams
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        By defining a business term:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Measurement is standardized (e.g., days instead of months)</li>
+        <li className="pl-1">Confusion and reporting inconsistencies are eliminated</li>
+      </ul>
+
+      {/* Section 10 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">10. Data Classes</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data classes rely on metadata, not actual data values. Metadata describes:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Number of rows</li>
+        <li className="pl-1">Number of columns</li>
+        <li className="pl-1">Creation date</li>
+        <li className="pl-1">Types of data present</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Example: Identifying whether a file contains account numbers
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Benefits:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Sensitive data is detected automatically</li>
+        <li className="pl-1">Files do not need to be opened manually</li>
+        <li className="pl-1">Protection rules can be applied at scale</li>
+      </ul>
+
+      {/* Section 11 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">11. Role of Metadata in Governance</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Metadata acts as a summary layer of data. It enables:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Automated classification</li>
+        <li className="pl-1">Automated protection</li>
+        <li className="pl-1">Faster governance decisions</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Metadata-driven governance reduces:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Manual effort</li>
+        <li className="pl-1">Human error</li>
+        <li className="pl-1">Compliance risk</li>
+      </ul>
+
+      {/* Section 12 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">12. Automation Using Reference Data</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Once policies, rules, and classification are defined, governance can be automated using reference data.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Reference data is:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Code-based logic</li>
+        <li className="pl-1">Embedded into data architecture</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Automation ensures:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Correct data access</li>
+        <li className="pl-1">Continuous compliance</li>
+        <li className="pl-1">Reduced dependency on manual controls</li>
+      </ul>
+
+      {/* Section 13 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">13. Impact on Customer Service</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Proper data governance ensures:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Customer service agents access necessary data instantly</li>
+        <li className="pl-1">Customers do not repeat sensitive information</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Benefits:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Faster issue resolution</li>
+        <li className="pl-1">Improved customer satisfaction</li>
+        <li className="pl-1">Enhanced trust</li>
+      </ul>
+
+      {/* Section 14 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">14. Data Governance Beyond Customer Service</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Customer service is only one use case. Governance frameworks apply to:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Marketing analytics</li>
+        <li className="pl-1">Financial reporting</li>
+        <li className="pl-1">Risk management</li>
+        <li className="pl-1">Regulatory compliance</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Each organization customizes governance based on:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Industry</li>
+        <li className="pl-1">Regulations</li>
+        <li className="pl-1">Data sensitivity</li>
+      </ul>
+
+      {/* Section 15 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">15. Data Fabric as an Implementation Approach</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data fabric is an architectural method to operationalize governance. It:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Connects data across distributed environments</li>
+        <li className="pl-1">Applies governance rules consistently</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data fabric supports:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Scalability</li>
+        <li className="pl-1">Automation</li>
+        <li className="pl-1">Real-time governance enforcement</li>
+      </ul>
+
+      {/* Section 16 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">16. Key Benefits of Data Governance</h2>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Reduced data silos</li>
+        <li className="pl-1">Improved data security</li>
+        <li className="pl-1">Regulatory compliance</li>
+        <li className="pl-1">Better customer experience</li>
+      </ul>
+
+      {/* Section 17 */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">17. Relationship Between Data Quality and Data Governance</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data governance enables data quality.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Governance provides:
+      </p>
+      <ul className="list-disc ml-6 my-4 text-muted-foreground space-y-2">
+        <li className="pl-1">Structure</li>
+        <li className="pl-1">Accountability</li>
+        <li className="pl-1">Control mechanisms</li>
+      </ul>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -3534,6 +3921,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson72Content />;
     case "8.1":
       return <Lesson81Content />;
+    case "8.2":
+      return <Lesson82Content />;
     default:
       return (
         <div className="bg-background min-h-full">
