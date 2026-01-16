@@ -948,19 +948,64 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           )}
         </Tabs>
 
-        {/* Next Lesson Button */}
-        {nextSubmoduleId && (
-          <div className="mt-8 pt-8 border-t border-border flex justify-end">
-            <Button 
-              onClick={() => navigate(`/curriculum/lesson/${getSlugFromSubmoduleId(nextSubmoduleId)}`)}
-              className="gap-2"
-              size="lg"
-            >
-              Next: {nextSubmoduleTitle}
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </div>
-        )}
+        {/* Smart Next Button - navigates through tabs then to next lesson */}
+        <div className="mt-8 pt-8 border-t border-border flex justify-end">
+          <Button 
+            onClick={() => {
+              // Define tab flow: overview → practice (if applicable) → quiz → resources → next lesson
+              const tabOrder = hasPractice 
+                ? ["overview", "practice", "quiz", "resources"] 
+                : ["overview", "quiz", "resources"];
+              
+              const currentIndex = tabOrder.indexOf(activeTab);
+              
+              if (currentIndex < tabOrder.length - 1) {
+                // Move to next tab
+                setActiveTab(tabOrder[currentIndex + 1]);
+              } else if (nextSubmoduleId) {
+                // On last tab, go to next lesson
+                navigate(`/curriculum/lesson/${getSlugFromSubmoduleId(nextSubmoduleId)}`);
+              }
+            }}
+            className="gap-2"
+            size="lg"
+          >
+            {(() => {
+              const tabOrder = hasPractice 
+                ? ["overview", "practice", "quiz", "resources"] 
+                : ["overview", "quiz", "resources"];
+              const currentIndex = tabOrder.indexOf(activeTab);
+              
+              if (currentIndex < tabOrder.length - 1) {
+                const nextTab = tabOrder[currentIndex + 1];
+                const tabLabels: Record<string, string> = {
+                  "practice": "Practice",
+                  "quiz": "Q&A",
+                  "resources": "Resources"
+                };
+                return (
+                  <>
+                    Next: {tabLabels[nextTab]}
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                );
+              } else if (nextSubmoduleId) {
+                return (
+                  <>
+                    Next: {nextSubmoduleTitle}
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                );
+              }
+              return (
+                <>
+                  Complete
+                  <CheckCircle2 className="w-4 h-4" />
+                </>
+              );
+            })()}
+          </Button>
+        </div>
       </div>
     </div>
   );
