@@ -221,7 +221,7 @@ const Lesson12Content = () => (
         <img 
           src={dataLifecycleImage} 
           alt="Data Engineering Life Cycle" 
-          className="w-full max-w-3xl rounded-lg border border-border"
+          className="w-full max-w-2xl rounded-lg border border-border"
         />
       </div>
 
