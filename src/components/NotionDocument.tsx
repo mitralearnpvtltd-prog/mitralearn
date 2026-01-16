@@ -2142,7 +2142,16 @@ const Lesson52Content = () => (
       {/* Title */}
       <h1 className="text-[2.5rem] font-bold text-foreground mb-8">5.2 Apache Airflow</h1>
 
-      {/* Course Overview Image */}
+      {/* Prerequisites & Architecture Image - First */}
+      <div className="my-6">
+        <img 
+          src={airflowPrerequisitesImage} 
+          alt="Prerequisites & Installation, Airflow Architecture, Task Lifecycle" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* Course Overview Image - Below first image */}
       <div className="my-6">
         <img 
           src={airflowCourseOverviewImage} 
@@ -2156,15 +2165,6 @@ const Lesson52Content = () => (
       <p className="my-2 text-muted-foreground leading-relaxed">
         This comprehensive tutorial, presented by Code J, offers an in-depth introduction to Apache Airflow 2.0, combining theoretical explanations and practical demonstrations over approximately two hours. It is designed for beginners with basic Python knowledge and includes hands-on examples with source code hosted on a GitHub repository.
       </p>
-
-      {/* Prerequisites & Architecture Image */}
-      <div className="my-6">
-        <img 
-          src={airflowPrerequisitesImage} 
-          alt="Prerequisites & Installation, Airflow Architecture, Task Lifecycle" 
-          className="w-full rounded-lg border border-border"
-        />
-      </div>
 
       {/* 1. Introduction to Apache Airflow */}
       <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">1. Introduction to Apache Airflow</h1>
