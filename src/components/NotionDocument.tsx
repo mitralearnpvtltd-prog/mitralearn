@@ -2,6 +2,7 @@ import { SubmoduleContent } from "@/data/curriculum";
 import dataEngineeringImage from "@/assets/data-engineering-etl-diagram.png";
 import dataLifecycleImage from "@/assets/data-engineering-lifecycle.png";
 import dataPipelinesImage from "@/assets/data-pipelines-diagram.png";
+import etlVsEltImage from "@/assets/etl-vs-elt-diagram.png";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -489,5 +490,182 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
     return <Lesson21Content />;
   }
 
+  if (content.submodule === "2.2") {
+    return <Lesson22Content />;
+  }
+
   return null;
 };
+
+// Lesson 2.2 Content
+const Lesson22Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        2.2 ETL vs ELT Explained
+      </h1>
+
+      {/* Overview Section */}
+      <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">Overview</h2>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        An explanation and comparison of two data integration methods: <strong className="text-foreground">ETL (Extract, Transform, Load)</strong> and <strong className="text-foreground">ELT (Extract, Load, Transform)</strong>. These are processes commonly used in data engineering to move and prepare data for analytics.
+      </p>
+
+      {/* ETL vs ELT Diagram */}
+      <div className="my-6 flex justify-center">
+        <img 
+          src={etlVsEltImage} 
+          alt="ETL vs ELT Comparison Diagram" 
+          className="w-full max-w-2xl rounded-lg border border-border"
+        />
+      </div>
+
+      {/* ETL: Extract, Transform, Load */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">ETL: Extract, Transform, Load</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>
+          <strong className="text-foreground">Process:</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li><strong className="text-foreground">Extract</strong>: Data is gathered from various source systems (e.g., databases, APIs, files).</li>
+            <li><strong className="text-foreground">Transform</strong>: Data is processed in a staging area. Transformations include cleaning, filtering, aggregating, joining, and conforming data before loading it.</li>
+            <li><strong className="text-foreground">Load</strong>: The prepared, transformed data is loaded into the target system, such as a data warehouse.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Legacy Context:</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Used with <strong className="text-foreground">on-premises data warehouses</strong> where compute and storage are limited and closely tied together.</li>
+            <li>Transformation was done externally to avoid overloading the warehouse.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Tools mentioned:</strong> Apache Spark, Apache Kafka, Fivetran, Stitch, Talend, Informatica, SSIS
+        </li>
+      </ul>
+
+      {/* ELT: Extract, Load, Transform */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">ELT: Extract, Load, Transform</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>
+          <strong className="text-foreground">Process:</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li><strong className="text-foreground">Extract</strong>: Data is gathered from source systems.</li>
+            <li><strong className="text-foreground">Load</strong>: Raw data is loaded directly into the target system (often a <strong className="text-foreground">cloud-based data warehouse</strong>).</li>
+            <li><strong className="text-foreground">Transform</strong>: Data transformation happens <strong className="text-foreground">inside the target system</strong>, using its compute resources.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Modern Context:</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Enabled by <strong className="text-foreground">cloud data warehouses</strong> like Snowflake, BigQuery, and Redshift, where compute and storage are <strong className="text-foreground">decoupled and scalable</strong>.</li>
+            <li>Easier to scale compute on demand, making transformation inside the warehouse practical and efficient.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Tools mentioned:</strong> Snowflake, BigQuery, Redshift, dbt
+        </li>
+      </ul>
+
+      {/* Side-by-Side Comparison */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Side-by-Side Comparison</h2>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Aspect</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">ETL</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">ELT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Transformation Location</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Staging area (before loading)</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Inside the target system (after loading)</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Infrastructure</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">On-premises, tightly coupled compute and storage</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Cloud, decoupled compute and storage</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Data Warehouse Type</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Traditional/on-premises (e.g., Teradata, Oracle)</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Cloud-based (e.g., Snowflake, BigQuery, Redshift)</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Scalability</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Limited by hardware</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Highly scalable (cloud elasticity)</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Typical Tools</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Informatica, SSIS, Talend, Spark, Kafka</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Snowflake, BigQuery, Redshift, dbt</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Use Case</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Legacy systems, complex pre-processing needs</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Modern cloud analytics, fast iteration</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Key Insights */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Insights</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>The key difference is <strong className="text-foreground">where and when</strong> transformation happens.</li>
+        <li><strong className="text-foreground">ETL</strong> transforms data outside the warehouse (often necessary for legacy systems with limited resources).</li>
+        <li><strong className="text-foreground">ELT</strong> leverages the power of modern cloud warehouses to transform data after loading.</li>
+        <li>ELT is increasingly popular due to <strong className="text-foreground">cloud scalability and separation of compute and storage</strong>.</li>
+        <li>Choosing between ETL and ELT depends on <strong className="text-foreground">existing infrastructure, data volume, and transformation complexity</strong>.</li>
+      </ul>
+
+      {/* When to Use Each Approach */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">When to Use Each Approach</h2>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Scenario</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Recommended Approach</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">On-premises data warehouse with limited compute</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">ETL</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Complex transformations before loading</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">ETL</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Cloud data warehouse with scalable compute</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">ELT</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Need for raw data retention and flexible transformations</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">ELT</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Modern analytics with dbt-style transformations</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">ELT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Conclusion */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Conclusion</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Both ETL and ELT are valid data integration approaches, but <strong className="text-foreground">ELT has become the dominant pattern</strong> in modern cloud-based data engineering due to the scalability and flexibility of cloud data warehouses.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        Understanding both approaches is essential for data engineers, as many organizations still operate hybrid environments with both legacy and modern systems. The choice between ETL and ELT should be driven by <strong className="text-foreground">infrastructure capabilities, data requirements, and organizational needs</strong>.
+      </p>
+    </div>
+  </div>
+);
