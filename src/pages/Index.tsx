@@ -26,7 +26,7 @@ import {
   Rocket,
   TrendingUp,
 } from "lucide-react";
-import innovskillsLogo from "@/assets/innovskills-logo.png";
+import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -218,7 +218,7 @@ const Index = () => {
     {
       name: "Priya S.",
       role: "Data Analyst at TechCorp",
-      content: "Innov Skills gave me the structured learning path I needed. Got my first data role within 3 months!",
+      content: "Mitra Learn gave me the structured learning path I needed. Got my first data role within 3 months!",
       rating: 5,
       bgColor: "#7C3AED",
     },
@@ -298,8 +298,8 @@ const Index = () => {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center">
             <img 
-              src={innovskillsLogo} 
-              alt="InnovSkills" 
+              src={mitraLearnLogo} 
+              alt="Mitra Learn" 
               className="h-7 sm:h-8 w-auto"
             />
           </Link>
@@ -903,7 +903,7 @@ const Index = () => {
               className="mt-4 sm:mt-6 mb-6 sm:mb-8 max-w-xl mx-auto text-sm sm:text-base px-4 sm:px-0"
               style={{ color: '#64748B' }}
             >
-              Join thousands of learners who transformed their careers with Innov Skills. No prior experience needed – just bring your curiosity.
+              Join thousands of learners who transformed their careers with Mitra Learn. No prior experience needed – just bring your curiosity.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
@@ -939,18 +939,11 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <div className="flex items-center gap-2">
-              <div 
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #7C3AED, #6366F1)' }}
-              >
-                <span className="text-white font-bold text-sm">S</span>
-              </div>
-              <span 
-                className="text-xl font-bold"
-                style={{ color: '#0F172A' }}
-              >
-                Innov Skills
-              </span>
+              <img 
+                src={mitraLearnLogo} 
+                alt="Mitra Learn" 
+                className="h-8 w-auto"
+              />
             </div>
             <div className="flex gap-6">
               <Link 
@@ -972,7 +965,7 @@ const Index = () => {
               className="text-sm"
               style={{ color: '#64748B' }}
             >
-              © 2024 Innov Skills by Innosphere. All rights reserved.
+              © 2025 Mitra Learn. All rights reserved.
             </p>
           </div>
         </div>
