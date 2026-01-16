@@ -1,7 +1,7 @@
 import { SubmoduleContent } from "@/data/curriculum";
 import dataEngineeringImage from "@/assets/data-engineering-etl-diagram.png";
 import dataLifecycleImage from "@/assets/data-engineering-lifecycle.png";
-
+import dataPipelinesImage from "@/assets/data-pipelines-diagram.png";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -324,6 +324,157 @@ const Lesson12Content = () => (
   </div>
 );
 
+// Lesson 2.1 Content
+const Lesson21Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        2.1 Understanding Data Pipelines
+      </h1>
+
+      {/* Overview Section */}
+      <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">Overview</h2>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        A comprehensive overview of <strong className="text-foreground">data pipelines</strong>, explaining their purpose, processes, and applications by drawing an analogy to water pipelines. It breaks down the concept, tools, and use cases to clarify how data is collected, transformed, and delivered within organizations.
+      </p>
+
+      {/* Key Concepts and Analogies */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Concepts and Analogies</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>
+          <strong className="text-foreground">Water Pipeline Analogy</strong>:
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Water originates from natural sources such as lakes, oceans, and rivers.</li>
+            <li>It undergoes treatment to become safe for use.</li>
+            <li>Water pipelines transport water from sources to treatment plants and then to end users (for drinking, cleaning, agriculture).</li>
+            <li>Similarly, <strong className="text-foreground">data pipelines</strong> move data from raw sources to places where it can be used after cleaning and transformation.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Data Sources</strong>:
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Data exists in various forms: data lakes, databases, SaaS applications (both on-premises and cloud), and streaming data (e.g., factory sensor data).</li>
+            <li>This raw data is often <strong className="text-foreground">dirty or contaminated</strong>, requiring cleaning and transformation before use.</li>
+          </ul>
+        </li>
+      </ul>
+
+      {/* Data Pipeline Processes */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Data Pipeline Processes</h2>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Process</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Description</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Use Case / Benefits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">ETL (Extract, Transform, Load)</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Extracts data, cleans and transforms it (removes duplicates, fills missing values), then loads it into repositories such as enterprise data warehouses. Usually done in batch processing but can also support streaming data ingestion.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Creates clean, ready-to-use business data repositories for analysis and reporting.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Data Replication</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Continuously copies data from source to another repository to support high-performance back ends or backup/disaster recovery.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Ensures business continuity and supports applications requiring fast data access where source systems can't.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Data Virtualization</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Provides real-time, virtual access to data sources without physically copying data. Useful for testing new data use cases quickly without heavy transformation projects.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Enables rapid prototyping and querying across disparate data sources; formal pipelines can be built later if successful.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Workflow and Usage */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Workflow and Usage</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>Data pipelines <strong className="text-foreground">extract data from producers</strong> (sources) and deliver clean, transformed data to <strong className="text-foreground">consumers</strong> (business intelligence platforms, machine learning models, etc.).</li>
+        <li>
+          After data is prepared, it supports:
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li><strong className="text-foreground">Business Intelligence (BI)</strong> for various types of reporting and decision-making.</li>
+            <li><strong className="text-foreground">Machine Learning (ML)</strong>, which requires large volumes of high-quality data to train algorithms and enable smarter business decisions.</li>
+          </ul>
+        </li>
+      </ul>
+
+      {/* Core Insights */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Core Insights</h2>
+      
+      {/* Image */}
+      <div className="my-6 flex justify-center">
+        <img 
+          src={dataPipelinesImage} 
+          alt="Understanding Data Pipelines" 
+          className="w-full max-w-2xl rounded-lg border border-border"
+        />
+      </div>
+
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li><strong className="text-foreground">Data pipelines are essential</strong> for managing the flow of data from raw, unstructured sources into usable, reliable business assets.</li>
+        <li>Unlike physical water pipelines, <strong className="text-foreground">data virtualization allows flexible, real-time data access without moving data</strong>, which accelerates experimentation and use case validation.</li>
+        <li><strong className="text-foreground">Batch processing remains common</strong>, but streaming ingestion is increasing to handle real-time data.</li>
+        <li>Data replication supports both performance optimization and resilience in business systems.</li>
+        <li>The ultimate goal is to enable data consumers—whether BI tools or ML models—to operate on <strong className="text-foreground">clean, trustworthy data</strong>.</li>
+      </ul>
+
+      {/* Summary Table: Data Pipeline Methods */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Summary Table: Data Pipeline Methods</h2>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Method</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Data Movement</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Use Case</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Key Advantage</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Limitations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">ETL</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Extract → Transform → Load (batch or streaming)</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Clean and prepare data for business use</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Structured, clean data ready for analysis</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Often scheduled, not real-time</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Replication</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Continuous copying</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">High performance needs, backup/recovery</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Fast access, business continuity</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Storage overhead, redundancy</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Virtualization</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Real-time querying</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Quick testing, prototyping</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">No data duplication, immediate access</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Not suitable for large production workloads</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Conclusion */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Conclusion</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        The video effectively communicates the <strong className="text-foreground">importance of data pipelines</strong> in transforming raw data into actionable insights. It highlights different technologies—ETL, replication, and virtualization—that organizations use to manage data flow. By comparing data pipelines to water pipelines, the explanation grounds abstract concepts in everyday experience, making the material accessible and clear.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        <strong className="text-foreground">Understanding these pipelines is crucial</strong> for businesses aiming to leverage data for intelligence and machine learning, ensuring decisions are based on clean, timely, and reliable data.
+      </p>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   // Render appropriate content based on lesson
   if (content.submodule === "1.1") {
@@ -332,6 +483,10 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
   
   if (content.submodule === "1.2") {
     return <Lesson12Content />;
+  }
+
+  if (content.submodule === "2.1") {
+    return <Lesson21Content />;
   }
 
   return null;
