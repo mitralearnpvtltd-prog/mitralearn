@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MinimalYouTubePlayer } from "@/components/MinimalYouTubePlayer";
 import { ProjectSubmission } from "@/components/ProjectSubmission";
+import { NotionDocument } from "@/components/NotionDocument";
 import {
   BookOpen,
   Code,
@@ -467,171 +468,178 @@ export const DayLesson = ({ content }: DayLessonProps) => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           {/* Overview Tab */}
-          <TabsContent value="overview" className="mt-0 space-y-8">
-            {/* Module Badge and Title */}
-            <div className="space-y-4">
-              <Badge variant="default" className="bg-primary/10 text-primary border-0 font-medium">
-                Module {module?.module}: {module?.title}
-              </Badge>
-              
-              <h1 className="text-3xl font-display font-bold text-foreground">
-                {content.title}
-              </h1>
-              
-              {isSubmoduleCompleted && (
-                <div className="flex items-center gap-2 text-success">
-                  <CheckCircle2 className="w-5 h-5" />
-                  <span className="font-medium">Completed</span>
-                </div>
-              )}
-            </div>
-
-            {/* Introduction */}
-            <div className="prose prose-lg max-w-none dark:prose-invert">
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {content.content.introduction}
-              </p>
-            </div>
-
-            {/* Key Concepts */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <Brain className="w-5 h-5 text-primary" />
-                Key Concepts
-              </h2>
-              <div className="grid gap-3">
-                {content.content.keyConcepts.map((concept, index) => (
-                  <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
-                    <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium flex-shrink-0">
-                      {index + 1}
-                    </span>
-                    <p className="text-muted-foreground">{concept}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Core Responsibilities */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <Target className="w-5 h-5 text-primary" />
-                Core Responsibilities
-              </h2>
-              <div className="grid gap-2">
-                {content.content.coreResponsibilities.map((responsibility, index) => (
-                  <div key={index} className="flex items-start gap-3 py-2">
-                    <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
-                    <p className="text-muted-foreground">{responsibility}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Tools & Ecosystem */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <Wrench className="w-5 h-5 text-primary" />
-                Tools & Ecosystem
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {content.content.toolsEcosystem.map((tool, index) => (
-                  <Badge key={index} variant="secondary" className="px-3 py-1.5 text-sm font-normal">
-                    {tool}
+          <TabsContent value="overview" className="mt-0">
+            {/* Use NotionDocument for lesson 1.1, otherwise use default layout */}
+            {content.submodule === "1.1" ? (
+              <NotionDocument content={content} />
+            ) : (
+              <div className="space-y-8">
+                {/* Module Badge and Title */}
+                <div className="space-y-4">
+                  <Badge variant="default" className="bg-primary/10 text-primary border-0 font-medium">
+                    Module {module?.module}: {module?.title}
                   </Badge>
-                ))}
-              </div>
-            </div>
+                  
+                  <h1 className="text-3xl font-display font-bold text-foreground">
+                    {content.title}
+                  </h1>
+                  
+                  {isSubmoduleCompleted && (
+                    <div className="flex items-center gap-2 text-success">
+                      <CheckCircle2 className="w-5 h-5" />
+                      <span className="font-medium">Completed</span>
+                    </div>
+                  )}
+                </div>
 
-            {/* Comparison */}
-            {content.content.comparison && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                  <GitCompare className="w-5 h-5 text-primary" />
-                  {content.content.comparison.title}
-                </h2>
-                <ul className="space-y-2">
-                  {content.content.comparison.items.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-muted-foreground">
-                      <span className="text-primary mt-1">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                {/* Introduction */}
+                <div className="prose prose-lg max-w-none dark:prose-invert">
+                  <p className="text-muted-foreground leading-relaxed text-lg">
+                    {content.content.introduction}
+                  </p>
+                </div>
 
-            {/* Real-World Applications */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <Globe className="w-5 h-5 text-primary" />
-                Real-World Applications
-              </h2>
-              <div className="grid gap-3">
-                {content.content.realWorldApplications.map((application, index) => (
-                  <div key={index} className="pl-4 border-l-2 border-primary/30 py-1">
-                    <p className="text-muted-foreground">{application}</p>
+                {/* Key Concepts */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <Brain className="w-5 h-5 text-primary" />
+                    Key Concepts
+                  </h2>
+                  <div className="grid gap-3">
+                    {content.content.keyConcepts.map((concept, index) => (
+                      <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
+                        <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium flex-shrink-0">
+                          {index + 1}
+                        </span>
+                        <p className="text-muted-foreground">{concept}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-            {/* Tips & Insights */}
-            <div className="p-6 rounded-xl bg-warning/5 border border-warning/20 space-y-3">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <Lightbulb className="w-5 h-5 text-warning" />
-                Tips & Insights
-              </h2>
-              <ul className="space-y-2">
-                {content.content.tipsInsights.map((tip, index) => (
-                  <li key={index} className="text-muted-foreground pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-warning">
-                    {tip}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Thinking Questions */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-primary" />
-                Thinking Questions
-              </h2>
-              <div className="space-y-3">
-                {content.content.thinkingQuestions.map((question, index) => (
-                  <div key={index} className="pl-4 border-l-2 border-secondary py-1">
-                    <p className="text-muted-foreground italic">{question}</p>
+                {/* Core Responsibilities */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <Target className="w-5 h-5 text-primary" />
+                    Core Responsibilities
+                  </h2>
+                  <div className="grid gap-2">
+                    {content.content.coreResponsibilities.map((responsibility, index) => (
+                      <div key={index} className="flex items-start gap-3 py-2">
+                        <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                        <p className="text-muted-foreground">{responsibility}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-            {/* Further Reading */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                <ExternalLink className="w-5 h-5 text-primary" />
-                Further Reading
-              </h2>
-              <ul className="space-y-2">
-                {content.content.furtherReading.map((reading, index) => (
-                  <li key={index} className="text-muted-foreground flex items-start gap-2">
-                    <FileText className="w-4 h-4 mt-1 text-muted-foreground/60 flex-shrink-0" />
-                    {reading}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                {/* Tools & Ecosystem */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <Wrench className="w-5 h-5 text-primary" />
+                    Tools & Ecosystem
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {content.content.toolsEcosystem.map((tool, index) => (
+                      <Badge key={index} variant="secondary" className="px-3 py-1.5 text-sm font-normal">
+                        {tool}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
 
-            {/* Next Lesson Button */}
-            {nextSubmoduleSlug && (
-              <div className="flex justify-end pt-4 border-t border-border">
-                <Button 
-                  onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
-                  className="gap-2"
-                  size="lg"
-                >
-                  Next: {nextSubmoduleTitle}
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
+                {/* Comparison */}
+                {content.content.comparison && (
+                  <div className="space-y-4">
+                    <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                      <GitCompare className="w-5 h-5 text-primary" />
+                      {content.content.comparison.title}
+                    </h2>
+                    <ul className="space-y-2">
+                      {content.content.comparison.items.map((item, index) => (
+                        <li key={index} className="flex items-start gap-2 text-muted-foreground">
+                          <span className="text-primary mt-1">•</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Real-World Applications */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <Globe className="w-5 h-5 text-primary" />
+                    Real-World Applications
+                  </h2>
+                  <div className="grid gap-3">
+                    {content.content.realWorldApplications.map((application, index) => (
+                      <div key={index} className="pl-4 border-l-2 border-primary/30 py-1">
+                        <p className="text-muted-foreground">{application}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tips & Insights */}
+                <div className="p-6 rounded-xl bg-warning/5 border border-warning/20 space-y-3">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5 text-warning" />
+                    Tips & Insights
+                  </h2>
+                  <ul className="space-y-2">
+                    {content.content.tipsInsights.map((tip, index) => (
+                      <li key={index} className="text-muted-foreground pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-warning">
+                        {tip}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Thinking Questions */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-primary" />
+                    Thinking Questions
+                  </h2>
+                  <div className="space-y-3">
+                    {content.content.thinkingQuestions.map((question, index) => (
+                      <div key={index} className="pl-4 border-l-2 border-secondary py-1">
+                        <p className="text-muted-foreground italic">{question}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Further Reading */}
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                    <ExternalLink className="w-5 h-5 text-primary" />
+                    Further Reading
+                  </h2>
+                  <ul className="space-y-2">
+                    {content.content.furtherReading.map((reading, index) => (
+                      <li key={index} className="text-muted-foreground flex items-start gap-2">
+                        <FileText className="w-4 h-4 mt-1 text-muted-foreground/60 flex-shrink-0" />
+                        {reading}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Next Lesson Button */}
+                {nextSubmoduleSlug && (
+                  <div className="flex justify-end pt-4 border-t border-border">
+                    <Button 
+                      onClick={() => navigate(`/curriculum/lesson/${nextSubmoduleSlug}`)}
+                      className="gap-2"
+                      size="lg"
+                    >
+                      Next: {nextSubmoduleTitle}
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
           </TabsContent>
