@@ -27,7 +27,12 @@ import {
   TrendingUp,
 } from "lucide-react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
-import dataEngineeringImage from "@/assets/data-engineering-lifecycle.png";
+import courseDataEngineering from "@/assets/course-cover-data-engineering.png";
+import courseAiEngineer from "@/assets/course-cover-ai-engineer.png";
+import courseFullstack from "@/assets/course-cover-fullstack.png";
+import coursePythonAi from "@/assets/course-cover-python-ai.png";
+import courseJavaFullstack from "@/assets/course-cover-java-fullstack.png";
+import courseMarketing from "@/assets/course-cover-marketing.png";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -150,7 +155,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#7C3AED",
       icon: Database,
-      image: dataEngineeringImage,
+      image: courseDataEngineering,
     },
     {
       category: "ARTIFICIAL INTELLIGENCE",
@@ -169,6 +174,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#F97316",
       icon: Brain,
+      image: courseAiEngineer,
     },
     {
       category: "WEB DEVELOPMENT",
@@ -187,6 +193,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#06B6D4",
       icon: Code,
+      image: courseFullstack,
     },
     {
       category: "AI & PYTHON",
@@ -205,6 +212,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#6366F1",
       icon: Brain,
+      image: coursePythonAi,
     },
     {
       category: "ENTERPRISE DEVELOPMENT",
@@ -223,6 +231,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#F97316",
       icon: Code,
+      image: courseJavaFullstack,
     },
     {
       category: "MARKETING & GROWTH",
@@ -241,6 +250,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#EC4899",
       icon: TrendingUp,
+      image: courseMarketing,
     },
   ];
 
