@@ -27,6 +27,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
+import dataEngineeringImage from "@/assets/data-engineering-lifecycle.png";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -149,6 +150,7 @@ const Index = () => {
       badgeColor: "#7C3AED",
       iconBg: "#7C3AED",
       icon: Database,
+      image: dataEngineeringImage,
     },
     {
       category: "ARTIFICIAL INTELLIGENCE",
@@ -584,21 +586,25 @@ const Index = () => {
                   className="relative h-40 w-full"
                   style={{ 
                     backgroundColor: course.iconBg,
-                    background: `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
+                    background: course.image ? `url(${course.image})` : `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }}
                 >
-                  {/* Icon as placeholder */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
-                    <course.icon className="h-24 w-24 text-white" />
-                  </div>
+                  {/* Icon as placeholder when no image */}
+                  {!course.image && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                      <course.icon className="h-24 w-24 text-white" />
+                    </div>
+                  )}
                   
-                  {/* Category Badge */}
-                  <div className="absolute top-3 right-3">
+                  {/* Original Badge Style */}
+                  <div className="absolute top-3 left-3">
                     <span 
-                      className="text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm"
-                      style={{ backgroundColor: 'rgba(124, 58, 237, 0.9)' }}
+                      className="text-white text-xs font-semibold px-3 py-1.5 rounded-md"
+                      style={{ backgroundColor: course.badgeColor }}
                     >
-                      {course.categoryBadge || course.category}
+                      {course.badge}
                     </span>
                   </div>
                 </div>
