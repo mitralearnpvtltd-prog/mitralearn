@@ -494,6 +494,14 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
     return <Lesson22Content />;
   }
 
+  if (content.submodule === "3.1") {
+    return <Lesson31Content />;
+  }
+
+  if (content.submodule === "3.2") {
+    return <Lesson32Content />;
+  }
+
   return null;
 };
 
@@ -665,6 +673,471 @@ const Lesson22Content = () => (
       </p>
       <p className="text-muted-foreground leading-relaxed mb-12">
         Understanding both approaches is essential for data engineers, as many organizations still operate hybrid environments with both legacy and modern systems. The choice between ETL and ELT should be driven by <strong className="text-foreground">infrastructure capabilities, data requirements, and organizational needs</strong>.
+      </p>
+    </div>
+  </div>
+);
+
+// Lesson 3.1 Content
+const Lesson31Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        3.1 Relational Databases Basics
+      </h1>
+
+      {/* Overview Section */}
+      <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">Overview</h2>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        In today's world, data is everywhere from library checkouts and school records to millions of online transactions. To <strong className="text-foreground">store, organize, and extract insights efficiently</strong>, we use <strong className="text-foreground">databases, relational data models, and SQL</strong>. These concepts form the foundation for big data analytics, machine learning, and business intelligence.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* What Is a Database? */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">What Is a Database?</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        A <strong className="text-foreground">database</strong> is an electronic system that organizes data in <strong className="text-foreground">tables (rows and columns)</strong> for efficient storage and retrieval.
+      </p>
+      
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Example (Library Scenario):</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li><strong className="text-foreground">Tables:</strong> Patrons, Books, Checkouts</li>
+        <li><strong className="text-foreground">Patrons table fields:</strong> Library card number, Name, Membership year, Total overdue fines</li>
+      </ul>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Relational Databases:</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Tables are <strong className="text-foreground">linked via relationships</strong> (primary keys and foreign keys)</li>
+        <li>Enables complex queries:
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>"Which books did a specific patron check out in 2025?"</li>
+            <li>"Which books are most frequently checked out?"</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Databases vs. Spreadsheets:</strong>
+      </p>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Feature</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Databases</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Spreadsheets</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Capacity</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Can store vast amounts of data</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Limited by file size</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Security</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Encrypted and secure</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Less secure</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Multi-user Access</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Supports simultaneous queries</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Limited or no real-time collaboration</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Relationships</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Supports relational links</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Flat structure, no formal relationships</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data Modification</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Queries don't alter stored data</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Direct edits possible</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Key Insight:</strong> Databases provide <strong className="text-foreground">more scalable, secure, and powerful</strong> storage and retrieval than spreadsheets. Queries <strong className="text-foreground">don't change the underlying data</strong>, allowing safe analysis.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Data Modeling Basics */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Data Modeling Basics</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Data modeling</strong> is the process of <strong className="text-foreground">structuring raw data logically</strong>, defining tables, attributes, and relationships. It ensures <strong className="text-foreground">consistency, usability, and efficient querying</strong>.
+      </p>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Steps in Data Modeling:</strong>
+      </p>
+      <ol className="list-decimal list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li><strong className="text-foreground">Conceptual Model</strong> – High-level entities and relationships (e.g., Customer, Order, Product)</li>
+        <li><strong className="text-foreground">Logical Model</strong> – Detailed attributes, primary keys (PK), and foreign keys (FK)</li>
+        <li><strong className="text-foreground">Physical Model</strong> – Database schema with optimized storage and indexes</li>
+      </ol>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Example:</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Customer Table → CustomerID (PK), Name, Email</li>
+        <li>Order Table → OrderID (PK), CustomerID (FK), Date, TotalAmount</li>
+        <li><strong className="text-foreground">Relationship:</strong> Customers linked to orders for analytical queries</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Introduction to SQL */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Introduction to SQL</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">SQL (Structured Query Language)</strong> is used to <strong className="text-foreground">create, query, and manage relational databases</strong>.
+      </p>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Basic SQL Examples:</strong>
+      </p>
+
+      <ol className="list-decimal list-outside ml-6 space-y-4 text-muted-foreground mb-4">
+        <li>
+          <strong className="text-foreground">Create Table:</strong>
+          <pre className="bg-muted/50 p-4 rounded-lg mt-2 overflow-x-auto text-sm">
+            <code className="text-foreground">{`CREATE TABLE Customers (
+  CustomerID INT PRIMARY KEY,
+  Name VARCHAR(50),
+  Email VARCHAR(50)
+);`}</code>
+          </pre>
+        </li>
+        <li>
+          <strong className="text-foreground">Insert Data:</strong>
+          <pre className="bg-muted/50 p-4 rounded-lg mt-2 overflow-x-auto text-sm">
+            <code className="text-foreground">{`INSERT INTO Customers (CustomerID, Name, Email)
+VALUES (1, 'Alice', 'alice@example.com');`}</code>
+          </pre>
+        </li>
+        <li>
+          <strong className="text-foreground">Query Data:</strong>
+          <pre className="bg-muted/50 p-4 rounded-lg mt-2 overflow-x-auto text-sm">
+            <code className="text-foreground">{`SELECT Name, Email
+FROM Customers
+WHERE CustomerID = 1;`}</code>
+          </pre>
+        </li>
+        <li>
+          <strong className="text-foreground">Join Tables:</strong>
+          <pre className="bg-muted/50 p-4 rounded-lg mt-2 overflow-x-auto text-sm">
+            <code className="text-foreground">{`SELECT Customers.Name, Orders.TotalAmount
+FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID;`}</code>
+          </pre>
+        </li>
+      </ol>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Why SQL Matters for Big Data:</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Efficiently extracts insights from <strong className="text-foreground">large, relational datasets</strong></li>
+        <li>Supports <strong className="text-foreground">aggregations, filters, and complex queries</strong></li>
+        <li>Powers <strong className="text-foreground">analytics, dashboards, and ML pipelines</strong></li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Real-World Applications */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Real-World Applications</h2>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">E-commerce</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Query customer purchase history</li>
+        <li>Analyze top-selling products</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Healthcare</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Aggregate patient data for trends</li>
+        <li>Identify high-risk patients</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Finance</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Detect fraudulent transactions</li>
+        <li>Generate reports on user spending patterns</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Library Management (Example from Video)</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Track book checkouts by patrons</li>
+        <li>Identify overdue books and frequent borrowers</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Key Takeaways */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Takeaways</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li><strong className="text-foreground">Databases</strong> store structured data efficiently and securely</li>
+        <li><strong className="text-foreground">Relational models</strong> link tables, enabling complex analysis</li>
+        <li><strong className="text-foreground">Data modeling</strong> ensures logical structure, relationships, and optimized queries</li>
+        <li><strong className="text-foreground">SQL</strong> is the essential language for interacting with databases without altering underlying data</li>
+        <li>Together, these tools provide the foundation for <strong className="text-foreground">big data analytics, reporting, and AI applications</strong></li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Final Thought */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Final Thought</h3>
+      <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground my-6">
+        "Raw data is only valuable once it's structured, linked, and queried effectively, databases, data modeling, and SQL turn data into actionable insights."
+      </blockquote>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        Mastering these fundamentals equips students with the skills to <strong className="text-foreground">handle big data confidently</strong>, enabling advanced analytics and informed decision-making.
+      </p>
+    </div>
+  </div>
+);
+
+// Lesson 3.2 Content
+const Lesson32Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        3.2 Data Modeling Concepts
+      </h1>
+
+      {/* Overview Section */}
+      <h2 className="text-2xl font-semibold text-foreground mt-8 mb-4">Overview</h2>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Data modeling is the process of designing a <strong className="text-foreground">clear, structured blueprint for a database</strong> so raw, messy data becomes reliable, efficient, and easy to analyze. It defines <strong className="text-foreground">entities, relationships, and keys</strong>, follows a workflow from <strong className="text-foreground">conceptual → logical → physical models</strong>, and ensures <strong className="text-foreground">data integrity, performance, and compliance</strong>. Strong data models power analytics, applications, and AI/ML, and must be well-documented and maintained as systems evolve.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Core Concepts and Definitions */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Core Concepts and Definitions</h3>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li><strong className="text-foreground">Data Modeling</strong>: The process of <strong className="text-foreground">defining the structure of a database</strong> by organizing raw, unstructured data into a logical, coherent framework that supports efficient storage, querying, and analysis.</li>
+        <li>It involves creating a <strong className="text-foreground">blueprint or schema</strong> that dictates how data entities relate to each other, ensuring consistency and usability across various applications.</li>
+        <li>The goal is to make data <strong className="text-foreground">both human-readable and computationally efficient</strong> to reduce costs during large-scale analytics and improve performance.</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Explanation and Importance */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Explanation and Importance</h3>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>Raw data (e.g., from APIs or transactional sources) is often messy and unstructured.</li>
+        <li>Data modeling <strong className="text-foreground">aligns and integrates</strong> this data into existing databases by defining relationships like linking transactions to customers or payments to orders.</li>
+        <li>A well-designed data model:
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Supports <strong className="text-foreground">efficient data queries</strong> and analysis.</li>
+            <li>Provides a <strong className="text-foreground">foundation for applications</strong> such as machine learning, analytics platforms, and database design.</li>
+            <li>Ensures <strong className="text-foreground">data integrity and accuracy</strong>, critical for reliable AI/ML outcomes and business decision-making.</li>
+            <li>Facilitates <strong className="text-foreground">data governance and compliance</strong> with regulations like GDPR by clearly documenting data storage and security.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Data Model Example Breakdown */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Data Model Example Breakdown</h3>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>The video walks through a <strong className="text-foreground">relational data model</strong> example involving:
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Tables such as <strong className="text-foreground">Order Header</strong>, <strong className="text-foreground">Payment</strong>, <strong className="text-foreground">Customer</strong>, <strong className="text-foreground">Order Line</strong>, and <strong className="text-foreground">Product</strong>.</li>
+            <li>Use of <strong className="text-foreground">Primary Keys (PK)</strong> as unique identifiers (e.g., Customer ID, Order ID).</li>
+            <li>Use of <strong className="text-foreground">Foreign Keys (FK)</strong> to establish relationships between tables (e.g., Payment linked to Order Header).</li>
+            <li>Logical decisions about data storage (e.g., whether to include Delivery ID in Order Header) to optimize space and query efficiency.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Types of Data Models Covered */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Types of Data Models Covered</h3>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Data Model Type</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Description</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Use Case / Strengths</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Relational Model</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Data organized in tables with relations via primary and foreign keys.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Widely used; simple to set up; powerful querying capabilities.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Object-Oriented Model</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Combines data and operations on that data, modeling complex objects with state changes.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Suitable for complex applications like robotics or simulations.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Network Model</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Extension of hierarchical model; allows multiple parent records per child for complex links.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Handles complex many-to-many relationships better than trees.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Hierarchical Model</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Tree-like structure with one parent and multiple children per record.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Early database systems; limited in representing many relationships.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Entity-Relationship Model</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Maps entities, attributes, and relationships clearly for logical data design.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Useful for databases with distinct, well-defined entity relations.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Data Modeling Workflow */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Data Modeling Workflow</h3>
+      <ol className="list-decimal list-outside ml-6 space-y-4 text-muted-foreground">
+        <li>
+          <strong className="text-foreground">Conceptual Modeling</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>High-level business view of data flow and key entities.</li>
+            <li>Focus on stakeholder requirements and what data is needed for reports and analytics.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Logical Modeling</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Detailed technical design including attributes, keys, and relationships.</li>
+            <li>Defines how data is structured logically before physical implementation.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Physical Modeling</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Creation of database schemas, indexes, partitioning, and optimization for performance.</li>
+            <li>Preparing the database architecture before ingesting data.</li>
+          </ul>
+        </li>
+        <li>
+          <strong className="text-foreground">Implementation and Maintenance</strong>
+          <ul className="list-disc list-outside ml-6 mt-2 space-y-1">
+            <li>Building the actual database and uploading data.</li>
+            <li>Ongoing updates to the model based on changing business needs or data requirements.</li>
+            <li>Documentation is critical to avoid technical debt and ease future modifications.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <hr className="border-border my-8" />
+
+      {/* Applications and Benefits of Data Modeling */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Applications and Benefits of Data Modeling</h3>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li><strong className="text-foreground">Database Design</strong>: Helps architects design efficient data structures aligned with business needs.</li>
+        <li><strong className="text-foreground">Data Integrity</strong>: Ensures accuracy and consistency in stored data, critical for trustworthy analytics.</li>
+        <li><strong className="text-foreground">Data Analysis</strong>: Facilitates smooth extraction of insights by providing a clear data framework.</li>
+        <li><strong className="text-foreground">Application Development</strong>: Supports transactional and operational applications with reliable data usage.</li>
+        <li><strong className="text-foreground">Data Governance & Compliance</strong>: Provides clarity for data management policies and regulatory adherence.</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Popular Data Modeling Tools Mentioned */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Popular Data Modeling Tools Mentioned</h3>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Tool</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Key Features</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">ER Studio</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Connects to databases, identifies relationships, design.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Popular and feature-rich.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">DB Schema</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Schema documentation, monitoring, supports SQL/NoSQL.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Useful for schema replication.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">IRND Data Modeling</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Creates database from physical models automatically.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Reduces manual steps if correctly formatted.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Archie</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Visual architecture tool.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Free/cheap option for visualization.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">SQL Database Modeler</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Build and visualize SQL database models.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Supports SQL-centric workflows.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Oracle SQL Data Modeler</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Specialized for Oracle databases.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Useful in Oracle environments.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">IBM Infosphere Data Architect</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Focus on BI and analytics-friendly modeling.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Good for less technical users.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">MySQL Workbench</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Open source, MySQL focused modeling and design.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Popular but presenter prefers not to use it.</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">Lucidchart</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Cloud-based collaborative diagramming tool.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Great for team collaboration.</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground"><strong className="text-foreground">PG Modeler</strong></td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Open source PostgreSQL modeling tool.</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Full source code access and ease of use.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Key Insights */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Key Insights</h3>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li><strong className="text-foreground">Data modeling is fundamental</strong> to all database systems and data-driven applications.</li>
+        <li>It bridges the gap between raw data and usable, analyzable information.</li>
+        <li>Choosing the right data model depends on the complexity and nature of the data and applications.</li>
+        <li>Maintenance and documentation are as important as initial design to keep models functional and adaptable.</li>
+        <li>Modern tools facilitate data modeling, ranging from simple visualization to automated database creation.</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        This Page thoroughly demystifies data modeling, emphasizing its indispensability in the modern data landscape for ensuring <strong className="text-foreground">robust, efficient, and compliant data management</strong>.
       </p>
     </div>
   </div>
