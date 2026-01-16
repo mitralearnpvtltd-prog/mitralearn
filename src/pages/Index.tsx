@@ -300,7 +300,7 @@ const Index = () => {
             <img 
               src={mitraLearnLogo} 
               alt="Mitra Learn" 
-              className="h-10 sm:h-12 w-auto"
+              className="h-14 sm:h-16 w-auto"
             />
           </Link>
           <div className="flex items-center gap-2 sm:gap-4">
