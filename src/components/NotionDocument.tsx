@@ -6,6 +6,9 @@ import etlVsEltImage from "@/assets/etl-vs-elt-diagram.png";
 import apacheSparkImage from "@/assets/apache-spark-fundamentals.png";
 import apacheSparkBasicsImage from "@/assets/apache-spark-basics.png";
 import dataOrchestrationImage from "@/assets/data-orchestration-51.jpg";
+import airflowPrerequisitesImage from "@/assets/airflow-prerequisites.png";
+import airflowCourseOverviewImage from "@/assets/airflow-course-overview.png";
+import airflowDagsPipelineImage from "@/assets/airflow-dags-pipeline.png";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -2132,6 +2135,423 @@ const Lesson51Content = () => (
   </div>
 );
 
+// Lesson 5.2 Content - Apache Airflow
+const Lesson52Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-[2.5rem] font-bold text-foreground mb-8">5.2 Apache Airflow</h1>
+
+      {/* Course Overview Image */}
+      <div className="my-6">
+        <img 
+          src={airflowCourseOverviewImage} 
+          alt="Course Overview & Setup" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        This comprehensive tutorial, presented by Code J, offers an in-depth introduction to Apache Airflow 2.0, combining theoretical explanations and practical demonstrations over approximately two hours. It is designed for beginners with basic Python knowledge and includes hands-on examples with source code hosted on a GitHub repository.
+      </p>
+
+      {/* Prerequisites & Architecture Image */}
+      <div className="my-6">
+        <img 
+          src={airflowPrerequisitesImage} 
+          alt="Prerequisites & Installation, Airflow Architecture, Task Lifecycle" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* 1. Introduction to Apache Airflow */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">1. Introduction to Apache Airflow</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Definition</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Apache Airflow is an open-source workflow orchestration platform used to design, schedule, and monitor data pipelines using Python.
+      </p>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Purpose</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Automate ETL pipelines</li>
+        <li className="pl-1">Schedule batch jobs</li>
+        <li className="pl-1">Monitor data workflows</li>
+        <li className="pl-1">Manage dependencies between tasks</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Key Features</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Python-based DAG creation</li>
+        <li className="pl-1">Scalable architecture</li>
+        <li className="pl-1">Powerful scheduling system</li>
+        <li className="pl-1">Rich UI for monitoring</li>
+        <li className="pl-1">Extensible using plugins and providers</li>
+      </ul>
+
+      {/* 2. Course Prerequisites & Setup */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">2. Course Prerequisites & Setup</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Prerequisites</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Basic Python knowledge</li>
+        <li className="pl-1">Understanding of command line</li>
+        <li className="pl-1">Familiarity with data workflows (optional)</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Installation Options</h2>
+      
+      <h3 className="text-[1.25rem] font-semibold mt-5 mb-2">Option 1: Local Installation</h3>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Python 3.6+ required</li>
+        <li className="pl-1">Install using <code className="bg-muted px-1.5 py-0.5 rounded text-sm">pip install apache-airflow</code></li>
+        <li className="pl-1">Initialize DB using <code className="bg-muted px-1.5 py-0.5 rounded text-sm">airflow db init</code></li>
+        <li className="pl-1">Start services</li>
+      </ul>
+
+      <h3 className="text-[1.25rem] font-semibold mt-5 mb-2">Option 2: Docker Setup (Recommended)</h3>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Install Docker Desktop</li>
+        <li className="pl-1">Use Docker Compose file</li>
+        <li className="pl-1">Faster and production-like environment</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Airflow Components Started Manually</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Webserver (UI access)</li>
+        <li className="pl-1">Scheduler (task scheduling)</li>
+        <li className="pl-1">User created via CLI for login</li>
+      </ul>
+
+      {/* 3. Core Concepts */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">3. Core Concepts of Apache Airflow</h1>
+      
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold">Concept</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold">Explanation</th>
+            </tr>
+          </thead>
+          <tbody className="text-muted-foreground">
+            <tr>
+              <td className="border border-border px-4 py-2">DAG</td>
+              <td className="border border-border px-4 py-2">Directed Acyclic Graph representing workflow</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Task</td>
+              <td className="border border-border px-4 py-2">Individual unit of work</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Operator</td>
+              <td className="border border-border px-4 py-2">Defines what a task does</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">DAG Run</td>
+              <td className="border border-border px-4 py-2">Execution of DAG for a specific date</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Task Instance</td>
+              <td className="border border-border px-4 py-2">Specific execution of a task</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Execution Date</td>
+              <td className="border border-border px-4 py-2">Logical time for which DAG runs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* 4. Task Lifecycle */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">4. Task Lifecycle</h1>
+      <p className="my-2 text-muted-foreground">Task moves through these states:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">no status</li>
+        <li className="pl-1">scheduled</li>
+        <li className="pl-1">queued</li>
+        <li className="pl-1">running</li>
+        <li className="pl-1">success / failed</li>
+        <li className="pl-1">retry / reschedule</li>
+      </ul>
+      
+      <p className="my-2 text-muted-foreground">Additional states:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">skipped</li>
+        <li className="pl-1">upstream_failed</li>
+        <li className="pl-1">removed</li>
+      </ul>
+      
+      <p className="my-2 text-muted-foreground">Airflow UI visually represents task states using colors.</p>
+
+      {/* 5. Apache Airflow Architecture */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">5. Apache Airflow Architecture</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Main Components</h2>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold">Component</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold">Role</th>
+            </tr>
+          </thead>
+          <tbody className="text-muted-foreground">
+            <tr>
+              <td className="border border-border px-4 py-2">Webserver</td>
+              <td className="border border-border px-4 py-2">UI for monitoring and triggering</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Scheduler</td>
+              <td className="border border-border px-4 py-2">Decides when tasks should run</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Executor</td>
+              <td className="border border-border px-4 py-2">Sends tasks to workers</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Workers</td>
+              <td className="border border-border px-4 py-2">Execute tasks</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">Metadata Database</td>
+              <td className="border border-border px-4 py-2">Stores DAG runs, task states, logs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Data Engineer Responsibility</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Write DAGs</li>
+        <li className="pl-1">Manage dependencies</li>
+        <li className="pl-1">Configure connections</li>
+        <li className="pl-1">Maintain scheduling</li>
+      </ul>
+
+      {/* DAGs & Pipeline Image */}
+      <div className="my-6">
+        <img 
+          src={airflowDagsPipelineImage} 
+          alt="Creating DAGs in Airflow, Scheduling & Connections, PostgreSQL to S3 Pipeline, Key Takeaways" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* 6. DAG Creation */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">6. DAG Creation (Core Practical Skill)</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">DAG File Location</h2>
+      <p className="my-2 text-muted-foreground">Stored inside <code className="bg-muted px-1.5 py-0.5 rounded text-sm">/dags</code> folder</p>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Important DAG Parameters</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">dag_id</li>
+        <li className="pl-1">description</li>
+        <li className="pl-1">start_date</li>
+        <li className="pl-1">schedule_interval</li>
+        <li className="pl-1">default_args</li>
+        <li className="pl-1">retries</li>
+        <li className="pl-1">retry_delay</li>
+        <li className="pl-1">owner</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Defining Dependencies</h2>
+      <p className="my-2 text-muted-foreground"><code className="bg-muted px-1.5 py-0.5 rounded text-sm">task1 &gt;&gt; task2</code></p>
+
+      {/* 7. Operators */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">7. Operators in Airflow</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Common Operators</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1"><strong className="text-foreground">BashOperator</strong> – runs shell commands</li>
+        <li className="pl-1"><strong className="text-foreground">PythonOperator</strong> – runs Python functions</li>
+        <li className="pl-1"><strong className="text-foreground">PostgreSQLOperator</strong> – executes SQL</li>
+        <li className="pl-1"><strong className="text-foreground">S3KeySensor</strong> – waits for files</li>
+      </ul>
+      
+      <p className="my-2 text-muted-foreground">Operators define behavior; tasks execute operators.</p>
+
+      {/* 8. PythonOperator & XCom */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">8. PythonOperator & XCom</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">PythonOperator</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Executes Python functions</li>
+        <li className="pl-1">Parameters passed using <code className="bg-muted px-1.5 py-0.5 rounded text-sm">op_kwargs</code></li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">XCom (Cross Communication)</h2>
+      <p className="my-2 text-muted-foreground">Used for sharing small data between tasks.</p>
+      
+      <p className="my-2 text-muted-foreground">Key rules:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Function return automatically stored in XCom</li>
+        <li className="pl-1">Pulled using <code className="bg-muted px-1.5 py-0.5 rounded text-sm">ti.xcom_pull()</code></li>
+        <li className="pl-1">Size limit: 48 KB only</li>
+        <li className="pl-1">Suitable only for metadata, not large datasets</li>
+      </ul>
+
+      {/* 9. TaskFlow API */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">9. TaskFlow API (Airflow 2.0 Feature)</h1>
+      <p className="my-2 text-muted-foreground">Modern way to write DAGs using decorators.</p>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Benefits</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Uses <code className="bg-muted px-1.5 py-0.5 rounded text-sm">@dag</code> and <code className="bg-muted px-1.5 py-0.5 rounded text-sm">@task</code></li>
+        <li className="pl-1">Automatically handles dependencies</li>
+        <li className="pl-1">Built-in XCom support</li>
+        <li className="pl-1">Less boilerplate code</li>
+        <li className="pl-1">Cleaner syntax</li>
+      </ul>
+      
+      <p className="my-2 text-muted-foreground">Allows returning dictionaries for multiple outputs.</p>
+
+      {/* 10. DAG Scheduling Concepts */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">10. DAG Scheduling Concepts</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Schedule Interval</h2>
+      <p className="my-2 text-muted-foreground">Supports:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Cron expressions (e.g., <code className="bg-muted px-1.5 py-0.5 rounded text-sm">0 9 * * 1-5</code>)</li>
+        <li className="pl-1">Presets</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Catchup</h2>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold">Setting</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold">Behavior</th>
+            </tr>
+          </thead>
+          <tbody className="text-muted-foreground">
+            <tr>
+              <td className="border border-border px-4 py-2">catchup=True</td>
+              <td className="border border-border px-4 py-2">Runs all missed DAG runs</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2">catchup=False</td>
+              <td className="border border-border px-4 py-2">Skips old runs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Backfill</h2>
+      <p className="my-2 text-muted-foreground">Manual execution of DAGs for past dates.</p>
+
+      {/* 11. Airflow Connections */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">11. Airflow Connections & External Services</h1>
+      <p className="my-2 text-muted-foreground">Managed through Airflow UI → Admin → Connections</p>
+
+      {/* 12. PostgreSQL Integration */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">12. PostgreSQL Integration</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Tools Used</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">PostgreSQL container via Docker</li>
+        <li className="pl-1">DBeaver for DB management</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Techniques</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Use <code className="bg-muted px-1.5 py-0.5 rounded text-sm">PostgreSQLOperator</code> for SQL execution</li>
+        <li className="pl-1">Use <code className="bg-muted px-1.5 py-0.5 rounded text-sm">PostgresHook</code> for Python-based DB access</li>
+        <li className="pl-1">Use SQL templating: <code className="bg-muted px-1.5 py-0.5 rounded text-sm">{"{{ ds }}"}</code> for execution date</li>
+      </ul>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Best Practice</h2>
+      <p className="my-2 text-muted-foreground">Always delete old records before inserting to avoid primary key conflicts.</p>
+
+      {/* 13. S3 Integration */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">13. S3 Integration using MinIO</h1>
+      <p className="my-2 text-muted-foreground">MinIO acts as local S3 service.</p>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Workflow</h2>
+      <ol className="list-decimal ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Run MinIO in Docker</li>
+        <li className="pl-1">Create bucket</li>
+        <li className="pl-1">Upload file</li>
+        <li className="pl-1">Configure AWS connection</li>
+        <li className="pl-1">Use S3KeySensor to detect file</li>
+      </ol>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Sensors</h2>
+      <p className="my-2 text-muted-foreground">Sensors pause workflow until condition is met.</p>
+      
+      <p className="my-2 text-muted-foreground">Common parameters:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">poke_interval</li>
+        <li className="pl-1">timeout</li>
+      </ul>
+
+      {/* 14. Installing Python Packages */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">14. Installing Python Packages in Airflow Docker</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Method 1: Extend Official Image (Recommended)</h2>
+      <ol className="list-decimal ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Create requirements.txt</li>
+        <li className="pl-1">Write Dockerfile extending Airflow image</li>
+        <li className="pl-1">Install packages using pip</li>
+        <li className="pl-1">Update docker-compose.yml</li>
+        <li className="pl-1">Rebuild image</li>
+      </ol>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">Method 2: Build from Airflow Source</h2>
+      <ol className="list-decimal ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Clone GitHub repo</li>
+        <li className="pl-1">Modify build files</li>
+        <li className="pl-1">Build custom image</li>
+      </ol>
+
+      {/* 15. Temporary Files Handling */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">15. Temporary Files Handling</h1>
+      <p className="my-2 text-muted-foreground">Use Python <code className="bg-muted px-1.5 py-0.5 rounded text-sm">tempfile</code> module:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Avoid cluttering DAG folder</li>
+        <li className="pl-1">Automatically deleted after use</li>
+        <li className="pl-1">Ideal for pipelines writing intermediate files</li>
+      </ul>
+
+      {/* 16. End-to-End Pipeline Example */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">16. End-to-End Pipeline Example</h1>
+      <p className="my-2 text-muted-foreground font-semibold">PostgreSQL → S3 Pipeline</p>
+      
+      <p className="my-2 text-muted-foreground">Steps:</p>
+      <ol className="list-decimal ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Query data from PostgreSQL</li>
+        <li className="pl-1">Filter using execution date</li>
+        <li className="pl-1">Save results to temp file</li>
+        <li className="pl-1">Upload file to S3 using S3Hook</li>
+        <li className="pl-1">File name dynamically generated</li>
+        <li className="pl-1">Logs confirm success</li>
+        <li className="pl-1">No leftover files</li>
+      </ol>
+      
+      <p className="my-2 text-muted-foreground">Demonstrates real-world ETL pipeline.</p>
+
+      {/* 17. Key Takeaways */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">17. Key Takeaways</h1>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Apache Airflow is industry standard for workflow orchestration</li>
+        <li className="pl-1">DAG defines logic and dependencies</li>
+        <li className="pl-1">Operators execute work</li>
+        <li className="pl-1">XCom enables lightweight data sharing</li>
+        <li className="pl-1">TaskFlow API simplifies development</li>
+        <li className="pl-1">Cron-based scheduling offers flexibility</li>
+        <li className="pl-1">Connections and hooks enable integration</li>
+        <li className="pl-1">Docker-based deployment is scalable</li>
+        <li className="pl-1">Sensors support event-driven pipelines</li>
+        <li className="pl-1">Real pipelines involve DB + cloud integration</li>
+      </ul>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -2152,6 +2572,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson42Content />;
     case "5.1":
       return <Lesson51Content />;
+    case "5.2":
+      return <Lesson52Content />;
     default:
       return (
         <div className="bg-background min-h-full">
