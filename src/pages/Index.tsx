@@ -672,11 +672,11 @@ const Index = () => {
                     <span 
                       className="text-xs font-medium px-2.5 py-1 rounded-full"
                       style={{ 
-                        backgroundColor: course.level === 'Beginner' ? '#DCFCE7' : course.level === 'Intermediate' ? '#FEF3C7' : '#FEE2E2',
-                        color: course.level === 'Beginner' ? '#166534' : course.level === 'Intermediate' ? '#92400E' : '#991B1B',
+                        backgroundColor: '#EDE9FE',
+                        color: '#7C3AED',
                       }}
                     >
-                      {course.level}
+                      Beginner to Advanced
                     </span>
                   </div>
                   
