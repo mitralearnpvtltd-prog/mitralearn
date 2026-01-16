@@ -74,10 +74,10 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
         <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Responsibilities of Data Engineers</h2>
         
         {/* Image */}
-        <div className="my-6">
+        <div className="my-6 flex justify-center">
           <img 
             src={dataEngineeringImage} 
-            alt="Data Engineering Responsibilities" 
+            alt="Data Engineering ETL Diagram" 
             className="w-full max-w-2xl rounded-lg border border-border"
           />
         </div>
