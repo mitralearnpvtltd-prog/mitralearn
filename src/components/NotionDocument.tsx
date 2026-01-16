@@ -5,6 +5,7 @@ import dataPipelinesImage from "@/assets/data-pipelines-diagram.png";
 import etlVsEltImage from "@/assets/etl-vs-elt-diagram.png";
 import apacheSparkImage from "@/assets/apache-spark-fundamentals.png";
 import apacheSparkBasicsImage from "@/assets/apache-spark-basics.png";
+import dataOrchestrationImage from "@/assets/data-orchestration-diagram.jpg";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -1785,6 +1786,321 @@ const Lesson42Content = () => (
   </div>
 );
 
+// Lesson 5.1 Content
+const Lesson51Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        5.1 Data Orchestration
+      </h1>
+
+      {/* Overview Section */}
+      <h3 className="text-xl font-semibold text-foreground mt-8 mb-4">Overview</h3>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Data orchestration in modern cloud data management. Just as a <strong className="text-foreground">conductor synchronizes musicians</strong> to produce harmonious music, data orchestration coordinates the loading, processing, and compute resource allocation in cloud data environments to ensure <strong className="text-foreground">efficient and accurate data flow</strong>.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Definition */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Definition of Data Orchestration</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Data orchestration</strong> is the systematic coordination, scheduling, and management of:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Data ingestion</li>
+        <li>Data replication</li>
+        <li>Data transformation</li>
+        <li>Data processing</li>
+        <li>Compute resource provisioning</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        across distributed cloud environments to ensure data arrives <strong className="text-foreground">accurately, on time, and cost-efficiently</strong>. It acts as the control layer that ensures all data-related services execute in the correct sequence and with appropriate resources.
+      </p>
+
+      {/* Image */}
+      <div className="my-6 flex justify-center">
+        <img 
+          src={dataOrchestrationImage} 
+          alt="Data Orchestration Workflow" 
+          className="w-full max-w-2xl rounded-lg border border-border"
+        />
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Why Data Orchestration is Needed */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Why Data Orchestration is Needed</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Modern cloud environments introduce:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Distributed data sources</li>
+        <li>Multiple cloud services</li>
+        <li>Dynamic compute scaling</li>
+        <li>Real-time data needs</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Without orchestration:</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Data pipelines break</li>
+        <li>Costs increase due to idle compute</li>
+        <li>Downstream systems process incomplete data</li>
+        <li>Systems lose reliability</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Symphony Conductor Analogy */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Symphony Conductor Analogy</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        A <strong className="text-foreground">conductor</strong> does not create music directly. The conductor:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Controls timing</li>
+        <li>Coordinates performers</li>
+        <li>Ensures harmony</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Similarly, <strong className="text-foreground">data orchestration</strong>:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Does not store data</li>
+        <li>Controls execution timing</li>
+        <li>Coordinates services and workflows</li>
+        <li>Ensures correct data flow</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Without orchestration, systems behave independently, leading to inefficiency.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Traditional vs Modern */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Traditional Data Ingestion (Batch-Based Model)</h2>
+      
+      <div className="bg-muted/30 border border-border rounded-lg p-4 mb-6">
+        <p className="text-sm text-muted-foreground">
+          <strong className="text-foreground">Definition:</strong> Batch processing is a method where data is collected over time and processed in large chunks at scheduled intervals.
+        </p>
+      </div>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Characteristics</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Overnight execution</li>
+        <li>Fixed compute resources</li>
+        <li>Centralized systems</li>
+        <li>Predictable workloads</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Limitations</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>High latency</li>
+        <li>No real-time insights</li>
+        <li>Inefficient compute usage</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Transition to Cloud */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Transition to Cloud Data Environments</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Cloud computing changed data management by introducing:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Distributed data sources</li>
+        <li>Decoupled storage and compute</li>
+        <li>Elastic scaling</li>
+        <li>Continuous data generation</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        This shift made static batch schedules <strong className="text-foreground">insufficient</strong>.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Live Streaming */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Live Streaming Data Ingestion</h2>
+      
+      <div className="bg-muted/30 border border-border rounded-lg p-4 mb-6">
+        <p className="text-sm text-muted-foreground">
+          <strong className="text-foreground">Definition:</strong> Live streaming data ingestion is the continuous movement of data from source systems to target platforms in near real time.
+        </p>
+      </div>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Benefits</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Reduced latency</li>
+        <li>Continuous data availability</li>
+        <li>Avoids batch spikes</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Challenges Introduced</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Identifying all relevant data sources</li>
+        <li>Managing data dependencies</li>
+        <li>Triggering transformations correctly</li>
+        <li>Handling partial or late data</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Live streaming increases orchestration complexity, making <strong className="text-foreground">coordination essential</strong>.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Compute Resource Management */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Compute Resource Management in the Cloud</h2>
+      
+      <div className="bg-muted/30 border border-border rounded-lg p-4 mb-6">
+        <p className="text-sm text-muted-foreground">
+          <strong className="text-foreground">Definition:</strong> Cloud compute scaling allows resources to scale up during heavy workloads and scale down when idle.
+        </p>
+      </div>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Example:</strong> Platforms like Snowflake allow on-demand compute provisioning and usage-based billing.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Orchestration decides:</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>When to start compute</li>
+        <li>How much compute is required</li>
+        <li>When to terminate resources</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Orchestration Framework */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Orchestration Framework</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        An <strong className="text-foreground">orchestration framework</strong> is a system that:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Schedules workflows</li>
+        <li>Manages dependencies</li>
+        <li>Monitors execution</li>
+        <li>Handles failures</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Core Functions</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-6">
+        <li>Task sequencing</li>
+        <li>Conditional execution</li>
+        <li>Error handling</li>
+        <li>Resource provisioning</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* End-to-End Process */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">End-to-End Data Orchestration Process</h2>
+      
+      <div className="space-y-4 mb-6">
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 1: Data Onboarding</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Identify data sources</li>
+            <li>Define ingestion method (batch or streaming)</li>
+            <li>Configure replication tools</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 2: Data Ingestion</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Data is streamed or batch-loaded into the cloud</li>
+            <li>Orchestration monitors ingestion status</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 3: Compute Provisioning</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Orchestration allocates compute resources</li>
+            <li>Microservices are spun up as required</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 4: Data Transformation</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Data is cleaned, enriched, and structured</li>
+            <li>Transformations run only after ingestion completion</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 5: Dependency Management</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Tasks run in correct order</li>
+            <li>No step starts prematurely</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 6: Data Loading</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Transformed data loaded into data warehouses, data lakes, or analytical platforms</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 7: Compute De-Provisioning</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Resources are shut down</li>
+            <li>Costs are minimized</li>
+          </ul>
+        </div>
+        
+        <div className="bg-muted/30 border border-border rounded-lg p-4">
+          <h4 className="font-semibold text-foreground mb-2">Step 8: Monitoring and Error Handling</h4>
+          <ul className="list-disc list-outside ml-6 space-y-1 text-muted-foreground text-sm">
+            <li>Orchestration tracks execution</li>
+            <li>Alerts and retries on failures</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr className="border-border my-8" />
+
+      {/* Benefits */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Benefits of Data Orchestration</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground mb-6">
+        <li><strong className="text-foreground">Real-time analytics</strong> — Faster insights from live data</li>
+        <li><strong className="text-foreground">Lower cloud costs</strong> — Pay only for resources when needed</li>
+        <li><strong className="text-foreground">Reliable data pipelines</strong> — Consistent, monitored execution</li>
+        <li><strong className="text-foreground">Scalable architectures</strong> — Grow with your data needs</li>
+        <li><strong className="text-foreground">Better business decisions</strong> — Accurate, timely data</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Key Takeaways */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Takeaways</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>Data orchestration <strong className="text-foreground">coordinates</strong> data workflows across cloud systems</li>
+        <li>It ensures <strong className="text-foreground">timing, dependencies, and resources</strong> are managed correctly</li>
+        <li>Modern cloud environments <strong className="text-foreground">require orchestration</strong> for efficiency</li>
+        <li>Orchestration enables <strong className="text-foreground">scalable, cost-effective, and reliable</strong> data operations</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Final Thought */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Final Thought</h3>
+      <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground my-6">
+        "Data orchestration transforms cloud data systems from independent components into a coordinated ecosystem."
+      </blockquote>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        By managing timing, dependencies, and resources, orchestration enables <strong className="text-foreground">scalable, efficient, and reliable cloud data operations</strong>.
+      </p>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -1803,6 +2119,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson41Content />;
     case "4.2":
       return <Lesson42Content />;
+    case "5.1":
+      return <Lesson51Content />;
     default:
       return (
         <div className="bg-background min-h-full">
