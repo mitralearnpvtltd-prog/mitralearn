@@ -3,6 +3,7 @@ import dataEngineeringImage from "@/assets/data-engineering-etl-diagram.png";
 import dataLifecycleImage from "@/assets/data-engineering-lifecycle.png";
 import dataPipelinesImage from "@/assets/data-pipelines-diagram.png";
 import etlVsEltImage from "@/assets/etl-vs-elt-diagram.png";
+import apacheSparkImage from "@/assets/apache-spark-fundamentals.png";
 interface NotionDocumentProps {
   content: SubmoduleContent;
 }
@@ -500,6 +501,10 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
 
   if (content.submodule === "3.2") {
     return <Lesson32Content />;
+  }
+
+  if (content.submodule === "4.1") {
+    return <Lesson41Content />;
   }
 
   return null;
@@ -1138,6 +1143,257 @@ const Lesson32Content = () => (
 
       <p className="text-muted-foreground leading-relaxed mb-12">
         This Page thoroughly demystifies data modeling, emphasizing its indispensability in the modern data landscape for ensuring <strong className="text-foreground">robust, efficient, and compliant data management</strong>.
+      </p>
+    </div>
+  </div>
+);
+
+// Lesson 4.1 Content
+const Lesson41Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-foreground mb-8">
+        4.1 Big Data Fundamentals
+      </h1>
+
+      {/* Overview Section */}
+      <h3 className="text-xl font-semibold text-foreground mt-8 mb-4">Overview</h3>
+      <p className="text-muted-foreground leading-relaxed mb-6">
+        Every click, swipe, message, photo, video, and transaction generates data. When this data becomes <strong className="text-foreground">too large, too fast, and too complex</strong> for traditional databases or spreadsheets to handle, it is known as <strong className="text-foreground">Big Data</strong>. Understanding big data fundamentals helps students grasp <strong className="text-foreground">how modern systems store, process, and extract value from massive datasets</strong> used by companies like Google, Netflix, hospitals, and governments.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* What Is Big Data? */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">What Is Big Data?</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Big Data</strong> refers to extremely large and complex datasets that cannot be efficiently stored or analyzed using single-machine systems.
+      </p>
+      
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        <strong className="text-foreground">Simple example:</strong>
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>A school storing marks in Excel → <em>normal data</em></li>
+        <li>YouTube storing billions of videos, comments, likes, and watch histories → <em>big data</em></li>
+      </ul>
+
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        With nearly <strong className="text-foreground">5 billion smartphone users worldwide</strong>, the amount of data generated every minute is enormous:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>3.8 million Google searches</li>
+        <li>4.5 million YouTube videos watched</li>
+        <li>188 million emails sent</li>
+        <li>2.1 million snaps shared</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Image */}
+      <div className="my-6 flex justify-center">
+        <img 
+          src={apacheSparkImage} 
+          alt="Apache Spark Fundamentals" 
+          className="w-full max-w-2xl rounded-lg border border-border"
+        />
+      </div>
+
+      {/* The 5 V's of Big Data */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">The 5 V's of Big Data (Core Foundation)</h2>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">1. Volume – How much data?</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Big data involves <strong className="text-foreground">massive quantities of data</strong>, often measured in terabytes, petabytes, or exabytes.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Healthcare systems generate <strong className="text-foreground">2314 exabytes annually</strong> from patient records, scans, and lab results</li>
+        <li>Social media platforms store billions of images and videos</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">2. Velocity – How fast is data generated?</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data is produced and updated <strong className="text-foreground">continuously and in real time</strong>.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Live stock market prices</li>
+        <li>Ride-sharing apps tracking driver locations every second</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">3. Variety – What types of data?</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Big data comes in multiple formats:
+      </p>
+      <div className="overflow-x-auto my-6">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Data Type</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Description</th>
+              <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Structured</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Fixed schema</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">SQL tables, Excel sheets</td>
+            </tr>
+            <tr className="bg-muted/50">
+              <td className="border border-border px-4 py-3 text-muted-foreground">Semi-structured</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Partial structure</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">JSON, XML, log files</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Unstructured</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">No structure</td>
+              <td className="border border-border px-4 py-3 text-muted-foreground">Images, videos, audio</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <p className="text-muted-foreground leading-relaxed mb-4">An e-commerce app stores:</p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Orders in tables (structured)</li>
+        <li>App logs (semi-structured)</li>
+        <li>Product images (unstructured)</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">4. Veracity – How reliable is the data?</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Not all data is accurate or clean. Veracity focuses on <strong className="text-foreground">data quality and trustworthiness</strong>.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Fake product reviews</li>
+        <li>Faulty IoT sensor readings</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">5. Value – What insight does data provide?</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Data is useful only if it delivers <strong className="text-foreground">actionable insights</strong>.
+      </p>
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Netflix recommending shows</li>
+        <li>Banks detecting fraud in real time</li>
+        <li>Hospitals predicting diseases early</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Why Traditional Systems Fail */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Why Traditional Systems Fail</h2>
+      <p className="text-muted-foreground leading-relaxed mb-4">Traditional databases:</p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Operate on a <strong className="text-foreground">single machine</strong></li>
+        <li>Cannot scale efficiently</li>
+        <li>Are costly to upgrade</li>
+        <li>Struggle with unstructured data</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        Big data systems overcome this by <strong className="text-foreground">distributing storage and computation across multiple machines</strong>.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      {/* Hadoop: Foundation of Big Data Processing */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Hadoop: Foundation of Big Data Processing</h2>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">1. HDFS (Hadoop Distributed File System)</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        HDFS enables scalable and fault-tolerant storage by:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Splitting large files into <strong className="text-foreground">small blocks</strong></li>
+        <li>Storing blocks across <strong className="text-foreground">multiple machines</strong></li>
+        <li>Replicating data to prevent loss during failures</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        A 1 TB video file is divided into chunks and stored on several servers instead of one.
+      </p>
+
+      <hr className="border-border my-8" />
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">2. MapReduce (Parallel Processing)</h3>
+      <p className="text-muted-foreground leading-relaxed mb-4">
+        MapReduce speeds up processing by:
+      </p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Breaking large jobs into smaller tasks (<strong className="text-foreground">Map</strong>)</li>
+        <li>Running them <strong className="text-foreground">in parallel</strong></li>
+        <li>Combining results into a final output (<strong className="text-foreground">Reduce</strong>)</li>
+      </ul>
+      <p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Example:</strong></p>
+      <p className="text-muted-foreground leading-relaxed mb-4">Counting words in millions of documents:</p>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Each machine counts words in its portion</li>
+        <li>Results are merged into a final count</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Real-World Applications */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Real-World Applications of Big Data</h2>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Healthcare</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Early disease detection</li>
+        <li>Personalized treatment plans</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Gaming</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Analyze player behavior</li>
+        <li>Improve gameplay and reduce churn</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Disaster Management</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Predict hurricanes and floods</li>
+        <li>Improve evacuation and response planning</li>
+      </ul>
+
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">E-commerce</h3>
+      <ul className="list-disc list-outside ml-6 space-y-2 text-muted-foreground mb-4">
+        <li>Personalized recommendations</li>
+        <li>Demand forecasting and inventory optimization</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Key Takeaways */}
+      <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">Key Takeaways</h2>
+      <ul className="list-disc list-outside ml-6 space-y-3 text-muted-foreground">
+        <li>Big data deals with <strong className="text-foreground">large, fast, and diverse datasets</strong></li>
+        <li>The <strong className="text-foreground">5 V's</strong> define big data characteristics</li>
+        <li><strong className="text-foreground">Hadoop</strong> enables distributed storage (HDFS) and parallel processing (MapReduce)</li>
+        <li>Proper big data analysis creates value across industries</li>
+      </ul>
+
+      <hr className="border-border my-8" />
+
+      {/* Final Thought */}
+      <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Final Thought</h3>
+      <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground my-6">
+        "Data is the new oil, but big data analytics is the refinery that turns it into value."
+      </blockquote>
+      <p className="text-muted-foreground leading-relaxed mb-12">
+        Mastering big data fundamentals builds a strong foundation for careers in <strong className="text-foreground">data engineering, analytics, AI, cloud computing, and modern software systems</strong>.
       </p>
     </div>
   </div>
