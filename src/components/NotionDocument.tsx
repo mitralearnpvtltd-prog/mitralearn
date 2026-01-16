@@ -10,6 +10,7 @@ import airflowPrerequisitesImage from "@/assets/airflow-prerequisites.png";
 import airflowCourseOverviewImage from "@/assets/airflow-course-overview.png";
 import airflowDagsPipelineImage from "@/assets/airflow-dags-pipeline.png";
 import dimensionalModelingImage from "@/assets/dimensional-modeling-diagram.png";
+import oltpOlapEtlImage from "@/assets/oltp-olap-etl-diagram.png";
 
 interface NotionDocumentProps {
   content: SubmoduleContent;
@@ -2798,6 +2799,149 @@ const Lesson61Content = () => (
   </div>
 );
 
+// Lesson 6.2 Content
+const Lesson62Content = () => (
+  <div className="bg-background min-h-full">
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Title */}
+      <h1 className="text-[2.5rem] font-bold text-foreground mb-8">6.2 OLAP versus OLTP Systems</h1>
+
+      {/* Overview */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Overview</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        A detailed comparison between <strong className="text-foreground">Online Analytical Processing (OLAP)</strong> and <strong className="text-foreground">Online Transactional Processing (OLTP)</strong> systems, highlighting their distinct purposes, architectures, and use cases within data management environments.
+      </p>
+
+      {/* Core Concepts and Definitions */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Core Concepts and Definitions</h1>
+
+      {/* OLAP */}
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">OLAP (Online Analytical Processing)</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Designed for multi-dimensional, high-speed analysis of large, aggregated datasets.</li>
+        <li className="pl-1">Typically operates on data sourced from data warehouses, data marts, or other centralized repositories.</li>
+        <li className="pl-1">Ideal for data mining, business intelligence, complex analytical calculations, and business reporting such as financial analysis, budgeting, and sales forecasting.</li>
+        <li className="pl-1">Central to OLAP is the <strong className="text-foreground">OLAP cube</strong>, a multi-dimensional data structure that extends traditional relational databases by adding layers (dimensions) beyond simple rows and columns.</li>
+        <li className="pl-1">A <strong className="text-foreground">data dimension</strong> represents an element of a dataset, e.g., region, time, product model.</li>
+        <li className="pl-1">OLAP cubes allow users to drill down through layers, e.g., from region level to state, city, or specific stores.</li>
+        <li className="pl-1">Historical aggregated data in OLAP is usually stored using <strong className="text-foreground">star schema</strong> or <strong className="text-foreground">snowflake schema</strong> designs.</li>
+      </ul>
+
+      {/* Image - Below key features of introduction */}
+      <div className="my-6">
+        <img 
+          src={oltpOlapEtlImage} 
+          alt="OLTP vs OLAP with ETL - Transactions to High Volume Data Analysis" 
+          className="w-full rounded-lg border border-border"
+        />
+      </div>
+
+      {/* OLTP */}
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">OLTP (Online Transactional Processing)</h2>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Focuses on real-time execution of numerous simple transactions, serving many users simultaneously.</li>
+        <li className="pl-1">Powers everyday transactional systems such as ATMs, in-store purchases, hotel reservations, and extends to non-financial transactions like password changes or text messaging.</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">Built on relational databases optimized for:</p>
+      <ul className="list-disc ml-6 my-2 text-muted-foreground">
+        <li className="pl-1">Processing large volumes of simple transactions quickly.</li>
+        <li className="pl-1">Supporting multi-user access while maintaining data integrity.</li>
+        <li className="pl-1">Delivering rapid response times (milliseconds).</li>
+        <li className="pl-1">Ensuring high availability (24/7/365) with continuous incremental backups.</li>
+      </ul>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Primarily used by frontline workers (cashiers, bank tellers, hotel clerks) and customers through self-service applications (online banking, e-commerce, travel bookings).
+      </p>
+
+      {/* OLAP vs OLTP: Key Differences */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">OLAP vs OLTP: Key Differences</h1>
+      <div className="overflow-x-auto my-4">
+        <table className="w-full border-collapse border border-border text-sm">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">Feature</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">OLAP</th>
+              <th className="border border-border px-4 py-2 text-left font-semibold text-foreground">OLTP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Purpose</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Complex multi-dimensional data analysis</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Real-time processing of high-volume transactions</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Data Type</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Aggregated, historical data</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Current, transactional data</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Users</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Data scientists, business analysts, knowledge workers</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Frontline workers, customers</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Database Structure</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">OLAP cubes with multi-dimensional schemas (star/snowflake)</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Relational databases with indexed tables</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Performance Focus</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Fast querying for analytics and reporting</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Fast transaction processing with low latency</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Typical Applications</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Business intelligence, data mining, reporting, forecasting</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">ATM transactions, retail purchases, reservations</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Data Volume Handling</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Large volumes of historical data</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Large volumes of simple, individual transactions</td>
+            </tr>
+            <tr>
+              <td className="border border-border px-4 py-2 text-muted-foreground font-medium">Availability & Backup</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">Not specified</td>
+              <td className="border border-border px-4 py-2 text-muted-foreground">24/7/365 availability, incremental backups</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Key Insights */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Key Insights</h1>
+      
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">OLAP and OLTP</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        OLAP and OLTP serve complementary roles in modern data ecosystems; OLTP systems handle everyday transactions, while OLAP systems enable strategic decision-making through data analysis.
+      </p>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">OLAP Cubes</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        OLAP cubes provide a multi-layered view of data, allowing detailed exploration across various dimensions.
+      </p>
+
+      <h2 className="text-[1.5rem] font-semibold mt-6 mb-3">OLTP Systems</h2>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        OLTP systems ensure data integrity and rapid transaction throughput, critical for operational functions.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        Organizations often integrate both systems, where OLTP provides the real-time data feed that OLAP uses for deeper analysis.
+      </p>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        The distinction in optimization—analytical (OLAP) versus transactional (OLTP)—is fundamental to understanding their deployment and usage scenarios.
+      </p>
+
+      {/* Conclusion */}
+      <h1 className="text-[1.875rem] font-semibold mt-8 mb-4">Conclusion</h1>
+      <p className="my-2 text-muted-foreground leading-relaxed">
+        The video clearly delineates OLAP as the analytical powerhouse enabling strategic insights through complex queries on aggregated datasets, and OLTP as the operational backbone, handling high volumes of simple, real-time transactions. Both are indispensable in data-driven organizations, serving different but interconnected functions to support business operations and intelligence.
+      </p>
+    </div>
+  </div>
+);
+
 export const NotionDocument = ({ content }: NotionDocumentProps) => {
   switch (content.submodule) {
     case "1.1":
@@ -2822,6 +2966,8 @@ export const NotionDocument = ({ content }: NotionDocumentProps) => {
       return <Lesson52Content />;
     case "6.1":
       return <Lesson61Content />;
+    case "6.2":
+      return <Lesson62Content />;
     default:
       return (
         <div className="bg-background min-h-full">
