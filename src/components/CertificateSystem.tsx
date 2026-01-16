@@ -101,7 +101,7 @@ export const CertificateSystem = () => {
           <Award className="w-12 h-12 text-primary-foreground" />
         </div>
         <h1 className="text-3xl font-display font-bold mb-2">
-          Silk Miltra Certification
+          Mitra Learn Certification
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Complete all requirements to earn your Data Scientist certification

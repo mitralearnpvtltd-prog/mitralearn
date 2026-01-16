@@ -12,7 +12,7 @@ const Auth = () => {
         <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-primary flex items-center justify-center mb-4 shadow-glow">
           <GraduationCap className="w-8 h-8 text-primary-foreground" />
         </div>
-        <h1 className="text-2xl font-display font-bold text-foreground">Welcome to Innov Skills</h1>
+        <h1 className="text-2xl font-display font-bold text-foreground">Welcome to Mitra Learn</h1>
         <p className="text-muted-foreground text-sm mt-1">
           Start your tech learning journey today
         </p>

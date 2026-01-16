@@ -19,7 +19,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useState } from "react";
-import innovskillsLogo from "@/assets/innovskills-logo.png";
+import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
 import { useAdminRole } from "@/hooks/useAdminRole";
 
 export const Navbar = () => {
@@ -44,8 +44,8 @@ export const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
-              src={innovskillsLogo} 
-              alt="InnovSkills" 
+              src={mitraLearnLogo} 
+              alt="Mitra Learn" 
               className="h-8 w-auto"
             />
           </Link>
