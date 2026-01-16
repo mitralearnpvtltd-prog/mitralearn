@@ -1,5 +1,5 @@
 import { SubmoduleContent } from "@/data/curriculum";
-import dataEngineeringImage from "@/assets/data-engineering-responsibilities.png";
+import dataEngineeringImage from "@/assets/data-engineering-etl-diagram.png";
 
 interface NotionDocumentProps {
   content: SubmoduleContent;
