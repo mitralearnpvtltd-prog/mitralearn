@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +21,9 @@ import {
   Clock,
   Loader2,
   Plus,
-  Trash2
+  Trash2,
+  Star,
+  ArrowRight
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -68,13 +71,13 @@ const defaultFormData: CourseFormData = {
   duration: '',
   price: 0,
   students_count: '0',
-  rating: 0,
+  rating: 4.5,
   reviews_count: '0',
   badge: 'Project + Internship',
   badge_color: '#7C3AED',
   icon_bg: '#7C3AED',
   icon_type: 'database',
-  status: 'draft',
+  status: 'coming_soon',
   is_published: false,
 };
 
@@ -97,7 +100,6 @@ export default function AdminCourseManagement() {
   );
 
   const getCourseEnrollments = (courseId: string, courseTitle: string) => {
-    // Match enrollments based on course title containing "Data Engineer" for now
     if (courseTitle.toLowerCase().includes('data engineer')) {
       return enrolledUsers;
     }
@@ -108,11 +110,6 @@ export default function AdminCourseManagement() {
   const selectedCourseEnrollments = selectedCourse 
     ? getCourseEnrollments(selectedCourse.id, selectedCourse.title) 
     : [];
-
-  const getIconComponent = (iconType: string) => {
-    const icon = iconOptions.find(i => i.value === iconType);
-    return icon?.icon || Database;
-  };
 
   const handleAddConcept = () => {
     if (conceptInput.trim()) {
@@ -132,7 +129,7 @@ export default function AdminCourseManagement() {
   };
 
   const handleSubmit = async () => {
-    if (!formData.title || !formData.description || !formData.category || !formData.duration || formData.price <= 0) {
+    if (!formData.title || !formData.description || !formData.category || !formData.duration) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -168,9 +165,9 @@ export default function AdminCourseManagement() {
       price: Number(course.price),
       original_price: course.original_price ? Number(course.original_price) : undefined,
       students_count: course.students_count || '0',
-      rating: Number(course.rating) || 0,
+      rating: Number(course.rating) || 4.5,
       reviews_count: course.reviews_count || '0',
-      badge: course.badge || '',
+      badge: course.badge || 'Project + Internship',
       badge_color: course.badge_color || '#7C3AED',
       icon_bg: course.icon_bg || '#7C3AED',
       icon_type: course.icon_type || 'database',
@@ -229,7 +226,7 @@ export default function AdminCourseManagement() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Course Management</h1>
-          <p className="text-muted-foreground mt-1">Manage courses and track enrollments</p>
+          <p className="text-muted-foreground mt-1">Manage courses - changes sync to landing page automatically</p>
         </div>
         <Dialog open={isFormOpen} onOpenChange={(open) => {
           setIsFormOpen(open);
@@ -245,54 +242,37 @@ export default function AdminCourseManagement() {
             <DialogHeader>
               <DialogTitle>{isEditing ? 'Edit Course' : 'Add New Course'}</DialogTitle>
               <DialogDescription>
-                {isEditing ? 'Update course details below' : 'Fill in the course details below'}
+                {isEditing ? 'Update course details - same fields as landing page cards' : 'Create a course with all card fields'}
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    placeholder="e.g., Data Engineering"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
-                  <Input
-                    id="category"
-                    value={formData.category}
-                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value.toUpperCase() }))}
-                    placeholder="e.g., DATA ENGINEERING"
-                  />
-                </div>
+              {/* Title */}
+              <div className="space-y-2">
+                <Label htmlFor="title">Course Title *</Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="e.g., Data Engineering"
+                />
               </div>
               
+              {/* Description */}
               <div className="space-y-2">
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Course description..."
-                  rows={3}
+                  placeholder="Build scalable data pipelines..."
+                  rows={2}
                 />
               </div>
 
+              {/* Badge (top-left on card image) */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="category_badge">Category Badge</Label>
-                  <Input
-                    id="category_badge"
-                    value={formData.category_badge}
-                    onChange={(e) => setFormData(prev => ({ ...prev, category_badge: e.target.value }))}
-                    placeholder="e.g., Tech Fundamentals"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="badge">Badge</Label>
+                  <Label htmlFor="badge">Badge Text (on image)</Label>
                   <Input
                     id="badge"
                     value={formData.badge}
@@ -300,30 +280,67 @@ export default function AdminCourseManagement() {
                     placeholder="e.g., Project + Internship"
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="badge_color">Badge Color</Label>
+                  <Select value={formData.badge_color} onValueChange={(v) => setFormData(prev => ({ ...prev, badge_color: v }))}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select color" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {colorOptions.map(opt => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 rounded" style={{ backgroundColor: opt.value }} />
+                            {opt.label}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
+              {/* Keywords/Concepts (tags shown below title) */}
               <div className="space-y-2">
-                <Label>Concepts/Technologies</Label>
+                <Label>Keywords / Technologies (tags on card)</Label>
                 <div className="flex gap-2">
                   <Input
                     value={conceptInput}
                     onChange={(e) => setConceptInput(e.target.value)}
-                    placeholder="Add a concept..."
+                    placeholder="e.g., Python, SQL, ETL..."
                     onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddConcept())}
                   />
                   <Button type="button" onClick={handleAddConcept} variant="outline">Add</Button>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {formData.concepts.map((concept, idx) => (
-                    <Badge key={idx} variant="secondary" className="gap-1">
+                    <span 
+                      key={idx} 
+                      className="text-xs px-3 py-1 rounded-full border flex items-center gap-1"
+                      style={{ borderColor: '#E5E7EB', color: '#475569' }}
+                    >
                       {concept}
-                      <button onClick={() => handleRemoveConcept(idx)} className="ml-1 hover:text-destructive">×</button>
-                    </Badge>
+                      <button onClick={() => handleRemoveConcept(idx)} className="ml-1 hover:text-destructive font-bold">×</button>
+                    </span>
                   ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              {/* Extra concepts count */}
+              <div className="space-y-2">
+                <Label htmlFor="extra_concepts_count">Extra Topics Count (+N shown on card)</Label>
+                <Input
+                  id="extra_concepts_count"
+                  type="number"
+                  min="0"
+                  value={formData.extra_concepts_count}
+                  onChange={(e) => setFormData(prev => ({ ...prev, extra_concepts_count: Number(e.target.value) }))}
+                  placeholder="0"
+                />
+              </div>
+
+              {/* Duration & Students */}
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="duration">Duration *</Label>
                   <Input
@@ -334,39 +351,20 @@ export default function AdminCourseManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price (₹) *</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
-                    placeholder="24999"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="original_price">Original Price (₹)</Label>
-                  <Input
-                    id="original_price"
-                    type="number"
-                    value={formData.original_price || ''}
-                    onChange={(e) => setFormData(prev => ({ ...prev, original_price: e.target.value ? Number(e.target.value) : undefined }))}
-                    placeholder="29999"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="students_count">Students</Label>
+                  <Label htmlFor="students_count">Students Count</Label>
                   <Input
                     id="students_count"
                     value={formData.students_count}
                     onChange={(e) => setFormData(prev => ({ ...prev, students_count: e.target.value }))}
-                    placeholder="12,543"
+                    placeholder="e.g., 12,543"
                   />
                 </div>
+              </div>
+
+              {/* Rating & Reviews */}
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="rating">Rating</Label>
+                  <Label htmlFor="rating">Rating (0-5)</Label>
                   <Input
                     id="rating"
                     type="number"
@@ -379,32 +377,30 @@ export default function AdminCourseManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="reviews_count">Reviews</Label>
+                  <Label htmlFor="reviews_count">Reviews Count</Label>
                   <Input
                     id="reviews_count"
                     value={formData.reviews_count}
                     onChange={(e) => setFormData(prev => ({ ...prev, reviews_count: e.target.value }))}
-                    placeholder="2.4k"
+                    placeholder="e.g., 2.4k"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              {/* Price */}
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="icon_type">Icon</Label>
-                  <Select value={formData.icon_type} onValueChange={(v) => setFormData(prev => ({ ...prev, icon_type: v }))}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select icon" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {iconOptions.map(opt => (
-                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="price">Price (₹)</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    value={formData.price}
+                    onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
+                    placeholder="24999"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="icon_bg">Icon Color</Label>
+                  <Label htmlFor="icon_bg">Card Background Color</Label>
                   <Select value={formData.icon_bg} onValueChange={(v) => setFormData(prev => ({ ...prev, icon_bg: v }))}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select color" />
@@ -421,28 +417,44 @@ export default function AdminCourseManagement() {
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+
+              {/* Category (internal) */}
+              <div className="space-y-2">
+                <Label htmlFor="category">Category (internal) *</Label>
+                <Input
+                  id="category"
+                  value={formData.category}
+                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value.toUpperCase() }))}
+                  placeholder="e.g., DATA ENGINEERING"
+                />
+              </div>
+
+              {/* Status & Published */}
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="status">Status</Label>
+                  <Label htmlFor="status">Status (CTA button)</Label>
                   <Select value={formData.status} onValueChange={(v: 'active' | 'coming_soon' | 'draft') => setFormData(prev => ({ ...prev, status: v }))}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="active">Active (Explore Course)</SelectItem>
                       <SelectItem value="coming_soon">Coming Soon</SelectItem>
                       <SelectItem value="draft">Draft</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="is_published"
-                  checked={formData.is_published}
-                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
-                />
-                <Label htmlFor="is_published">Published (visible on landing page)</Label>
+                <div className="space-y-2 flex flex-col justify-end">
+                  <div className="flex items-center space-x-2 h-10">
+                    <Switch
+                      id="is_published"
+                      checked={formData.is_published}
+                      onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
+                    />
+                    <Label htmlFor="is_published">Show on Landing Page</Label>
+                  </div>
+                </div>
               </div>
             </div>
             <DialogFooter>
@@ -484,10 +496,10 @@ export default function AdminCourseManagement() {
         </Card>
         <Card className="border-none shadow-sm bg-blue-500/5">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Enrollments</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Published</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{enrolledUsers.length}</div>
+            <div className="text-2xl font-bold text-blue-600">{courses.filter(c => c.is_published).length}</div>
           </CardContent>
         </Card>
       </div>
@@ -504,104 +516,159 @@ export default function AdminCourseManagement() {
         </div>
       </div>
 
-      {/* Course Cards Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* Course Cards Grid - EXACT SAME DESIGN AS LANDING PAGE */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {filteredCourses.map((course) => {
-          const IconComponent = getIconComponent(course.icon_type);
           const enrollments = getCourseEnrollments(course.id, course.title);
           
           return (
-            <Card key={course.id} className={`overflow-hidden border-none shadow-md hover:shadow-lg transition-all group flex flex-col ${!course.is_published ? 'opacity-60' : ''}`}>
+            <div 
+              key={course.id}
+              className={`group bg-white relative transition-all duration-200 hover:shadow-xl overflow-hidden ${!course.is_published ? 'opacity-70' : ''}`}
+              style={{ 
+                borderRadius: '16px',
+                border: '1px solid #E5E7EB',
+              }}
+            >
+              {/* Admin Controls Overlay */}
+              <div className="absolute top-3 right-3 z-20 flex gap-1">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="secondary" size="icon" className="h-8 w-8 bg-white/90 hover:bg-white shadow-sm">
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem className="gap-2" onClick={() => handleEdit(course)}>
+                      <Edit className="h-3 w-3" /> Edit Course
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="gap-2 text-destructive" 
+                      onClick={() => handleDelete(course.id)}
+                    >
+                      <Trash2 className="h-3 w-3" /> Disable Course
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+
+              {/* Image Section */}
               <div 
-                className="h-2 w-full transition-colors" 
-                style={{ backgroundColor: course.icon_bg + '40' }}
-              />
-              <CardHeader className="pb-4">
-                <div className="flex justify-between items-start gap-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div 
-                        className="w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: course.icon_bg + '20' }}
-                      >
-                        <IconComponent className="h-4 w-4" style={{ color: course.icon_bg }} />
-                      </div>
-                      <Badge variant="secondary" className="text-xs">{course.category}</Badge>
-                      {!course.is_published && <Badge variant="outline" className="text-xs">Draft</Badge>}
-                    </div>
-                    <CardTitle className="line-clamp-2 text-lg">{course.title}</CardTitle>
+                className="relative h-48 w-full overflow-hidden"
+                style={{ backgroundColor: course.icon_bg }}
+              >
+                {course.image_url ? (
+                  <img 
+                    src={course.image_url} 
+                    alt={course.title}
+                    className="w-full h-full object-cover object-center"
+                  />
+                ) : (
+                  <div 
+                    className="w-full h-full"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${course.icon_bg}cc 0%, ${course.icon_bg} 100%)`,
+                    }}
+                  />
+                )}
+                
+                {/* Badge (top-left) */}
+                {course.badge && (
+                  <div className="absolute top-3 left-3">
+                    <span 
+                      className="text-white text-xs font-semibold px-3 py-1.5 rounded-md"
+                      style={{ backgroundColor: course.badge_color }}
+                    >
+                      {course.badge}
+                    </span>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem className="gap-2" onClick={() => handleEdit(course)}>
-                        <Edit className="h-3 w-3" /> Edit Course
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        className="gap-2 text-destructive" 
-                        onClick={() => handleDelete(course.id)}
-                      >
-                        <Trash2 className="h-3 w-3" /> Disable Course
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <CardDescription className="line-clamp-2 mt-2">
-                  {course.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 flex-1">
-                <div className="flex flex-wrap gap-1">
-                  {course.concepts?.slice(0, 3).map((concept, i) => (
-                    <Badge key={i} variant="outline" className="text-xs font-normal">
+                )}
+
+                {/* Published/Draft indicator */}
+                {!course.is_published && (
+                  <div className="absolute bottom-3 left-3">
+                    <Badge variant="secondary" className="bg-white/90">Draft</Badge>
+                  </div>
+                )}
+              </div>
+              
+              {/* Content Section */}
+              <div className="p-5">
+                {/* Title */}
+                <h3 
+                  className="text-lg font-bold mb-3"
+                  style={{ color: '#0F172A' }}
+                >
+                  {course.title}
+                </h3>
+                
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {course.concepts?.map((concept, i) => (
+                    <span 
+                      key={i} 
+                      className="text-xs px-3 py-1 rounded-full border"
+                      style={{ borderColor: '#E5E7EB', color: '#475569' }}
+                    >
                       {concept}
-                    </Badge>
+                    </span>
                   ))}
-                  {course.concepts && course.concepts.length > 3 && (
-                    <Badge variant="outline" className="text-xs font-normal">
-                      +{course.concepts.length - 3} more
-                    </Badge>
+                  {course.extra_concepts_count && course.extra_concepts_count > 0 && (
+                    <span 
+                      className="text-xs px-3 py-1 rounded-full border"
+                      style={{ borderColor: '#E5E7EB', color: '#475569' }}
+                    >
+                      +{course.extra_concepts_count}
+                    </span>
                   )}
                 </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="space-y-1">
-                    <div className="text-muted-foreground text-xs">Duration</div>
-                    <div className="font-medium flex items-center gap-1">
-                      <Clock className="h-4 w-4" /> {course.duration}
-                    </div>
+                
+                {/* Duration & Students */}
+                <div className="flex items-center gap-4 mb-4 text-sm" style={{ color: '#64748B' }}>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="h-4 w-4" />
+                    <span>{course.duration}</span>
                   </div>
-                  <div className="space-y-1">
-                    <div className="text-muted-foreground text-xs">Enrollments</div>
-                    <div className="font-medium flex items-center gap-1">
-                      <Users className="h-4 w-4" /> {enrollments.length}
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <Users className="h-4 w-4" />
+                    <span>{course.students_count || '0'}</span>
                   </div>
                 </div>
-                <div className="text-sm">
-                  <div className="text-muted-foreground text-xs">Price</div>
-                  <div className="font-semibold text-lg">₹{Number(course.price).toLocaleString()}</div>
-                </div>
-              </CardContent>
-              <CardFooter className="bg-secondary/20 flex items-center justify-between py-3 gap-2">
-                <div className="flex items-center gap-2">
-                  <Switch 
-                    checked={course.is_published}
-                    onCheckedChange={(checked) => handleTogglePublish(course.id, checked)}
-                  />
-                  <span className={`text-xs font-medium ${course.is_published ? 'text-green-600' : 'text-muted-foreground'}`}>
-                    {course.is_published ? 'Published' : 'Unpublished'}
+                
+                {/* Rating & Level */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-1.5">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="font-semibold" style={{ color: '#0F172A' }}>{course.rating}</span>
+                    <span className="text-sm" style={{ color: '#64748B' }}>({course.reviews_count || '0'})</span>
+                  </div>
+                  <span 
+                    className="text-xs font-medium px-2.5 py-1 rounded-full"
+                    style={{ 
+                      backgroundColor: '#EDE9FE',
+                      color: '#7C3AED',
+                    }}
+                  >
+                    Beginner to Advanced
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                
+                {/* Admin Status Controls */}
+                <div className="flex items-center justify-between gap-2 mb-3 pt-3 border-t border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <Switch 
+                      checked={course.is_published}
+                      onCheckedChange={(checked) => handleTogglePublish(course.id, checked)}
+                    />
+                    <span className={`text-xs font-medium ${course.is_published ? 'text-green-600' : 'text-muted-foreground'}`}>
+                      {course.is_published ? 'Published' : 'Hidden'}
+                    </span>
+                  </div>
                   <Select 
                     value={course.status} 
                     onValueChange={(v: 'active' | 'coming_soon' | 'draft') => handleStatusChange(course.id, v)}
                   >
-                    <SelectTrigger className="h-8 w-28 text-xs">
+                    <SelectTrigger className="h-7 w-28 text-xs">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -610,15 +677,44 @@ export default function AdminCourseManagement() {
                       <SelectItem value="draft">Draft</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+
+                {/* CTA Button (same as landing page) */}
+                {course.status === 'active' ? (
+                  <button 
+                    className="w-full py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                    style={{ 
+                      background: 'linear-gradient(90deg, #7C3AED 0%, #06B6D4 100%)',
+                    }}
+                    onClick={() => handleEdit(course)}
+                  >
+                    Explore Course <ArrowRight className="h-4 w-4" />
+                  </button>
+                ) : (
+                  <button 
+                    className="w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
+                    style={{ 
+                      backgroundColor: '#F1F5F9',
+                      color: '#64748B',
+                    }}
+                    onClick={() => handleEdit(course)}
+                  >
+                    <Clock className="h-4 w-4" /> Coming Soon
+                  </button>
+                )}
+
+                {/* Enrollments info */}
+                <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">{enrollments.length} enrolled</span>
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button 
-                        variant="outline" 
+                        variant="ghost" 
                         size="sm" 
-                        className="h-8 gap-1" 
+                        className="h-7 text-xs gap-1" 
                         onClick={() => setSelectedCourseId(course.id)}
                       >
-                        <Eye className="h-3 w-3" /> View
+                        <Eye className="h-3 w-3" /> View Enrollments
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl">
@@ -680,8 +776,8 @@ export default function AdminCourseManagement() {
                     </DialogContent>
                   </Dialog>
                 </div>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>
