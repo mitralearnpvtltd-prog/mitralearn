@@ -139,7 +139,8 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
     <div className="flex justify-center w-full">
       <div
         ref={containerRef}
-        className="relative w-full max-w-3xl rounded-xl overflow-hidden bg-muted cursor-pointer group aspect-video"
+        className="relative w-full max-w-2xl rounded-xl overflow-hidden bg-muted cursor-pointer group"
+        style={{ aspectRatio: '16/9', maxHeight: '45vh' }}
         onClick={togglePlay}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
