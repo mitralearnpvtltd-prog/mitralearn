@@ -25,14 +25,34 @@ import {
   Briefcase,
   Rocket,
   TrendingUp,
+  BarChart3,
+  Cpu,
+  Globe,
+  Layers,
+  Megaphone,
+  Server,
+  Zap,
+  LucideIcon,
 } from "lucide-react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
-import courseDataEngineering from "@/assets/course-cover-data-engineering.jpg";
-import courseAiEngineer from "@/assets/course-cover-ai-engineer.png";
-import courseFullstack from "@/assets/course-cover-fullstack.png";
-import coursePythonAi from "@/assets/course-cover-python-ai.png";
-import courseJavaFullstack from "@/assets/course-cover-java-fullstack.png";
-import courseMarketing from "@/assets/course-cover-marketing.png";
+import { usePublishedCourses } from "@/hooks/useCourses";
+
+// Icon mapping for courses
+const iconMap: Record<string, LucideIcon> = {
+  database: Database,
+  brain: Brain,
+  code: Code,
+  trending: TrendingUp,
+  rocket: Rocket,
+  briefcase: Briefcase,
+  barchart: BarChart3,
+  cpu: Cpu,
+  globe: Globe,
+  layers: Layers,
+  megaphone: Megaphone,
+  server: Server,
+  zap: Zap,
+};
 
 const Index = () => {
   const navigate = useNavigate();
@@ -137,122 +157,8 @@ const Index = () => {
     }`;
   };
 
-  const courses = [
-    {
-      category: "DATA ENGINEERING",
-      categoryBadge: "Tech Fundamentals",
-      title: "Data Engineering",
-      description: "Build scalable data pipelines and infrastructures for big data processing.",
-      concepts: ["Python", "SQL", "ETL"],
-      extraConceptsCount: 1,
-      duration: "12 weeks",
-      students: "12,543",
-      rating: 4.8,
-      reviews: "2.4k",
-      level: "Beginner",
-      status: "active",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#7C3AED",
-      icon: Database,
-      image: courseDataEngineering,
-    },
-    {
-      category: "ARTIFICIAL INTELLIGENCE",
-      categoryBadge: "AI & ML",
-      title: "AI Engineer",
-      description: "Master NLP, chatbots, and build intelligent systems with cutting-edge technologies.",
-      concepts: ["ML", "DL", "NLP"],
-      extraConceptsCount: 2,
-      duration: "16 weeks",
-      students: "8,234",
-      rating: 4.7,
-      reviews: "1.8k",
-      level: "Intermediate",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#F97316",
-      icon: Brain,
-      image: courseAiEngineer,
-    },
-    {
-      category: "WEB DEVELOPMENT",
-      categoryBadge: "Full Stack",
-      title: "Fullstack Developer",
-      description: "Build complete web applications from frontend to backend with modern frameworks.",
-      concepts: ["React", "Node.js", "APIs"],
-      extraConceptsCount: 1,
-      duration: "14 weeks",
-      students: "15,678",
-      rating: 4.9,
-      reviews: "3.2k",
-      level: "Beginner",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#06B6D4",
-      icon: Code,
-      image: courseFullstack,
-    },
-    {
-      category: "AI & PYTHON",
-      categoryBadge: "Python",
-      title: "Python AI Engineer",
-      description: "Specialize in Python for AI, machine learning, and data science applications.",
-      concepts: ["Python", "TensorFlow", "PyTorch"],
-      extraConceptsCount: 2,
-      duration: "16 weeks",
-      students: "9,456",
-      rating: 4.6,
-      reviews: "2.1k",
-      level: "Intermediate",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#6366F1",
-      icon: Brain,
-      image: coursePythonAi,
-    },
-    {
-      category: "ENTERPRISE DEVELOPMENT",
-      categoryBadge: "Enterprise",
-      title: "Java Fullstack",
-      description: "Build enterprise-grade applications with Java and Spring ecosystem.",
-      concepts: ["Java", "Spring", "Microservices"],
-      extraConceptsCount: 2,
-      duration: "18 weeks",
-      students: "6,789",
-      rating: 4.5,
-      reviews: "1.4k",
-      level: "Advanced",
-      status: "coming",
-      badge: "Advanced",
-      badgeColor: "#7C3AED",
-      iconBg: "#F97316",
-      icon: Code,
-      image: courseJavaFullstack,
-    },
-    {
-      category: "MARKETING & GROWTH",
-      categoryBadge: "Marketing",
-      title: "Product Marketing",
-      description: "Drive product adoption, market positioning, and growth strategies.",
-      concepts: ["GTM", "Research", "Positioning"],
-      extraConceptsCount: 2,
-      duration: "10 weeks",
-      students: "5,123",
-      rating: 4.4,
-      reviews: "1.1k",
-      level: "Beginner",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#EC4899",
-      icon: TrendingUp,
-      image: courseMarketing,
-    },
-  ];
+  // Fetch courses from database
+  const { courses: dbCourses, isLoading: coursesLoading } = usePublishedCourses();
 
   const features = [
     { icon: BookOpen, title: "Structured Courses", bgColor: "#F1F5F9", iconColor: "#475569" },
@@ -581,139 +487,155 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto px-1 sm:px-0">
-            {courses.map((course, index) => (
-              <div 
-                key={index}
-                className="group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden"
-                style={{ 
-                  borderRadius: '16px',
-                  border: '1px solid #E5E7EB',
-                }}
-              >
-                {/* Image Section */}
-                <div 
-                  className="relative h-48 w-full overflow-hidden"
-                  style={{ 
-                    backgroundColor: course.iconBg,
-                  }}
-                >
-                  {course.image ? (
-                    <img 
-                      src={course.image} 
-                      alt={course.title}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  ) : (
-                    <div 
-                      className="w-full h-full"
-                      style={{ 
-                        background: `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
-                      }}
-                    />
-                  )}
-                  {/* Icon as placeholder when no image - moved inside the else branch above */}
-                  
-                  {/* Original Badge Style */}
-                  <div className="absolute top-3 left-3">
-                    <span 
-                      className="text-white text-xs font-semibold px-3 py-1.5 rounded-md"
-                      style={{ backgroundColor: course.badgeColor }}
-                    >
-                      {course.badge}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Content Section */}
-                <div className="p-5">
-                  {/* Title */}
-                  <h3 
-                    className="text-lg font-bold mb-3"
-                    style={{ color: '#0F172A' }}
+          {coursesLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            </div>
+          ) : dbCourses.length === 0 ? (
+            <div className="text-center py-12">
+              <p style={{ color: '#64748B' }}>No courses available yet. Check back soon!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto px-1 sm:px-0">
+              {dbCourses.map((course) => {
+                const IconComponent = iconMap[course.icon_type || 'database'] || Database;
+                return (
+                  <div 
+                    key={course.id}
+                    className="group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden"
+                    style={{ 
+                      borderRadius: '16px',
+                      border: '1px solid #E5E7EB',
+                    }}
                   >
-                    {course.title}
-                  </h3>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {course.concepts.map((concept, i) => (
-                      <span 
-                        key={i} 
-                        className="text-xs px-3 py-1 rounded-full border"
-                        style={{ borderColor: '#E5E7EB', color: '#475569' }}
-                      >
-                        {concept}
-                      </span>
-                    ))}
-                    {course.extraConceptsCount && course.extraConceptsCount > 0 && (
-                      <span 
-                        className="text-xs px-3 py-1 rounded-full border"
-                        style={{ borderColor: '#E5E7EB', color: '#475569' }}
-                      >
-                        +{course.extraConceptsCount}
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* Duration & Students */}
-                  <div className="flex items-center gap-4 mb-4 text-sm" style={{ color: '#64748B' }}>
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="h-4 w-4" />
-                      <span>{course.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Users className="h-4 w-4" />
-                      <span>{course.students}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Rating & Level */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-1.5">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-semibold" style={{ color: '#0F172A' }}>{course.rating}</span>
-                      <span className="text-sm" style={{ color: '#64748B' }}>({course.reviews})</span>
-                    </div>
-                    <span 
-                      className="text-xs font-medium px-2.5 py-1 rounded-full"
+                    {/* Image Section */}
+                    <div 
+                      className="relative h-48 w-full overflow-hidden"
                       style={{ 
-                        backgroundColor: '#EDE9FE',
-                        color: '#7C3AED',
+                        backgroundColor: course.icon_bg || '#7C3AED',
                       }}
                     >
-                      Beginner to Advanced
-                    </span>
-                  </div>
-                  
-                  {/* CTA Button */}
-                  {course.status === 'active' ? (
-                    <Link to="/curriculum" className="block">
-                      <button 
-                        className="w-full py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
-                        style={{ 
-                          background: 'linear-gradient(90deg, #7C3AED 0%, #06B6D4 100%)',
-                        }}
+                      {course.image_url ? (
+                        <img 
+                          src={course.image_url} 
+                          alt={course.title}
+                          className="w-full h-full object-cover object-center"
+                        />
+                      ) : (
+                        <div 
+                          className="w-full h-full flex items-center justify-center"
+                          style={{ 
+                            background: `linear-gradient(135deg, ${course.icon_bg || '#7C3AED'}cc 0%, ${course.icon_bg || '#7C3AED'} 100%)`,
+                          }}
+                        >
+                          <IconComponent className="h-16 w-16 text-white/50" />
+                        </div>
+                      )}
+                      
+                      {/* Badge */}
+                      {course.badge && (
+                        <div className="absolute top-3 left-3">
+                          <span 
+                            className="text-white text-xs font-semibold px-3 py-1.5 rounded-md"
+                            style={{ backgroundColor: course.badge_color || '#7C3AED' }}
+                          >
+                            {course.badge}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Content Section */}
+                    <div className="p-5">
+                      {/* Title */}
+                      <h3 
+                        className="text-lg font-bold mb-3"
+                        style={{ color: '#0F172A' }}
                       >
-                        Explore Course <ArrowRight className="h-4 w-4" />
-                      </button>
-                    </Link>
-                  ) : (
-                    <button 
-                      className="w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
-                      style={{ 
-                        backgroundColor: '#F1F5F9',
-                        color: '#64748B',
-                      }}
-                      disabled
-                    >
-                      <Clock className="h-4 w-4" /> Coming Soon
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                        {course.title}
+                      </h3>
+                      
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {course.concepts.slice(0, 3).map((concept, i) => (
+                          <span 
+                            key={i} 
+                            className="text-xs px-3 py-1 rounded-full border"
+                            style={{ borderColor: '#E5E7EB', color: '#475569' }}
+                          >
+                            {concept}
+                          </span>
+                        ))}
+                        {(course.extra_concepts_count || 0) > 0 && (
+                          <span 
+                            className="text-xs px-3 py-1 rounded-full border"
+                            style={{ borderColor: '#E5E7EB', color: '#475569' }}
+                          >
+                            +{course.extra_concepts_count}
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* Duration & Students */}
+                      <div className="flex items-center gap-4 mb-4 text-sm" style={{ color: '#64748B' }}>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-4 w-4" />
+                          <span>{course.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Users className="h-4 w-4" />
+                          <span>{course.students_count || '0'}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Rating & Level */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-1.5">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span className="font-semibold" style={{ color: '#0F172A' }}>{course.rating || 0}</span>
+                          <span className="text-sm" style={{ color: '#64748B' }}>({course.reviews_count || '0'})</span>
+                        </div>
+                        <span 
+                          className="text-xs font-medium px-2.5 py-1 rounded-full"
+                          style={{ 
+                            backgroundColor: '#EDE9FE',
+                            color: '#7C3AED',
+                          }}
+                        >
+                          Beginner to Advanced
+                        </span>
+                      </div>
+                      
+                      {/* CTA Button */}
+                      {course.status === 'active' ? (
+                        <Link to="/curriculum" className="block">
+                          <button 
+                            className="w-full py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                            style={{ 
+                              background: 'linear-gradient(90deg, #7C3AED 0%, #06B6D4 100%)',
+                            }}
+                          >
+                            Explore Course <ArrowRight className="h-4 w-4" />
+                          </button>
+                        </Link>
+                      ) : (
+                        <button 
+                          className="w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
+                          style={{ 
+                            backgroundColor: '#F1F5F9',
+                            color: '#64748B',
+                          }}
+                          disabled
+                        >
+                          <Clock className="h-4 w-4" /> Coming Soon
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
