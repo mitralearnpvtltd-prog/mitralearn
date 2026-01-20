@@ -372,52 +372,50 @@ export const DayLesson = ({ content }: DayLessonProps) => {
 
   return (
     <div className="min-h-full">
-      {/* Video Section - Full Width Dark Background with 16:9 Aspect Ratio */}
-      <div className="bg-[#1a1a2e] w-full">
-        {content.resources.filter(r => r.type === 'Video').length > 0 ? (
-          content.resources.filter(r => r.type === 'Video').map((resource, index) => {
-            const videoId = getYouTubeVideoId(resource.url);
-            
-            if (videoId && isEmbeddableVideo(resource.url)) {
+      {/* Video Section - Reduced Size with Custom Player */}
+      <div className="bg-[#1a1a2e] w-full py-6">
+        <div className="max-w-3xl mx-auto px-4">
+          {content.resources.filter(r => r.type === 'Video').length > 0 ? (
+            content.resources.filter(r => r.type === 'Video').map((resource, index) => {
+              const videoId = getYouTubeVideoId(resource.url);
+              
+              if (videoId && isEmbeddableVideo(resource.url)) {
+                return (
+                  <MinimalYouTubePlayer 
+                    key={index} 
+                    videoId={videoId} 
+                    title={resource.title}
+                  />
+                );
+              }
+              
               return (
-                <div key={index} className="w-full">
-                  <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                    <iframe
-                      className="absolute top-0 left-0 w-full h-full"
-                      src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
-                      title={resource.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                <a
+                  key={index}
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-16 text-white/80 hover:text-white transition-colors"
+                >
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
+                    <Play className="w-8 h-8" />
                   </div>
-                </div>
+                </a>
               );
-            }
-            
-            return (
-              <a
-                key={index}
-                href={resource.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 py-24 text-white/80 hover:text-white transition-colors"
-              >
-                <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
-                  <Play className="w-10 h-10" />
-                </div>
-              </a>
-            );
-          })
-        ) : (
-          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white/60">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10 mb-4">
-                <Play className="w-10 h-10" />
+            })
+          ) : (
+            <div className="aspect-video max-w-2xl mx-auto bg-white/5 rounded-xl flex flex-col items-center justify-center text-white/60">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 mb-4">
+                <Play className="w-8 h-8" />
               </div>
               <span>Video Player</span>
             </div>
+          )}
+          {/* Scroll hint */}
+          <div className="text-center mt-4 text-white/40 text-sm animate-pulse">
+            ↓ Scroll down for theory & resources
           </div>
-        )}
+        </div>
       </div>
 
       {/* Tabs Section */}
@@ -948,8 +946,11 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           )}
         </Tabs>
 
-        {/* Smart Next Button - navigates through tabs then to next lesson */}
-        <div className="mt-8 pt-8 border-t border-border flex justify-end">
+      </div>
+
+      {/* Sticky Next Button - Fixed at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur border-t border-border shadow-lg md:left-64">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex justify-end">
           <Button 
             onClick={() => {
               // Define tab flow: overview → practice (if applicable) → quiz → resources → next lesson
@@ -1007,6 +1008,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
           </Button>
         </div>
       </div>
+
+      {/* Spacer for fixed bottom bar */}
+      <div className="h-20" />
     </div>
   );
 };
