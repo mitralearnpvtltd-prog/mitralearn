@@ -164,13 +164,15 @@ export default function AdminUsers() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50 hover:bg-muted/50">
                 <TableHead className="w-[180px]">User</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead className="w-[140px]">Registration</TableHead>
+                <TableHead className="w-[130px]">Registration</TableHead>
+                <TableHead className="w-[100px]">Last Login</TableHead>
+                <TableHead className="w-[100px]">Course Status</TableHead>
                 <TableHead>Progress</TableHead>
                 <TableHead>Certificate</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -208,8 +210,29 @@ export default function AdminUsers() {
                           })}
                         </div>
                       </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {user.last_login ? (
+                          new Date(user.last_login).toLocaleDateString('en-US', { 
+                            month: 'short',
+                            day: 'numeric'
+                          })
+                        ) : (
+                          <span className="text-muted-foreground/50">Never</span>
+                        )}
+                      </TableCell>
                       <TableCell>
-                        <div className="space-y-1 w-32">
+                        {user.course_opted ? (
+                          <Badge variant="default" className="bg-primary/80 text-xs">
+                            Enrolled
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="text-xs">
+                            Not Enrolled
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1 w-28">
                           <div className="flex justify-between text-xs text-muted-foreground mb-1">
                             <span>Modules</span>
                             <span className="font-medium text-foreground">{user.completed_modules_count}/30</span>
@@ -234,13 +257,27 @@ export default function AdminUsers() {
                               <Eye className="h-3 w-3" /> View
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
+                          <DialogContent className="max-w-lg">
                             <DialogHeader>
                               <DialogTitle>{user.name}</DialogTitle>
                               <DialogDescription>{user.email}</DialogDescription>
                             </DialogHeader>
                             <div className="space-y-4 py-4">
                               <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <p className="text-xs text-muted-foreground">User ID</p>
+                                  <p className="font-medium text-xs font-mono truncate">{user.user_id}</p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Email Verified</p>
+                                  <p className="font-medium">
+                                    {user.email_verified ? (
+                                      <Badge variant="default" className="text-xs">Yes</Badge>
+                                    ) : (
+                                      <Badge variant="outline" className="text-xs">No</Badge>
+                                    )}
+                                  </p>
+                                </div>
                                 <div>
                                   <p className="text-xs text-muted-foreground">Registered</p>
                                   <p className="font-medium">{new Date(user.registered_at).toLocaleDateString()}</p>
@@ -252,8 +289,18 @@ export default function AdminUsers() {
                                   </p>
                                 </div>
                                 <div>
+                                  <p className="text-xs text-muted-foreground">Course Status</p>
+                                  <p className="font-medium">
+                                    {user.course_opted ? (
+                                      <Badge variant="default" className="text-xs">Enrolled</Badge>
+                                    ) : (
+                                      <Badge variant="outline" className="text-xs">Not Enrolled</Badge>
+                                    )}
+                                  </p>
+                                </div>
+                                <div>
                                   <p className="text-xs text-muted-foreground">Modules Completed</p>
-                                  <p className="font-medium">{user.completed_modules_count}</p>
+                                  <p className="font-medium">{user.completed_modules_count}/30</p>
                                 </div>
                                 <div>
                                   <p className="text-xs text-muted-foreground">Quizzes Completed</p>
@@ -265,6 +312,16 @@ export default function AdminUsers() {
                                   <p className="text-xs text-muted-foreground">Final Assessment</p>
                                   <p className="font-medium">
                                     {user.final_assessment_score !== null ? `${user.final_assessment_score}%` : 'Not taken'}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Final Project</p>
+                                  <p className="font-medium">
+                                    {user.final_project_submitted ? (
+                                      <Badge variant="default" className="text-xs">Submitted</Badge>
+                                    ) : (
+                                      <Badge variant="outline" className="text-xs">Not Submitted</Badge>
+                                    )}
                                   </p>
                                 </div>
                                 <div>
@@ -284,6 +341,12 @@ export default function AdminUsers() {
                                   <code className="text-sm bg-muted px-2 py-1 rounded">{user.cert_id}</code>
                                 </div>
                               )}
+                              {user.completion_date && (
+                                <div className="border-t pt-4">
+                                  <p className="text-xs text-muted-foreground mb-1">Completion Date</p>
+                                  <p className="font-medium">{new Date(user.completion_date).toLocaleDateString()}</p>
+                                </div>
+                              )}
                             </div>
                           </DialogContent>
                         </Dialog>
@@ -293,7 +356,7 @@ export default function AdminUsers() {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                     No users found
                   </TableCell>
                 </TableRow>
