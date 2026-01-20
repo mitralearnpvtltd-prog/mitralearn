@@ -62,6 +62,129 @@ export type Database = {
         }
         Relationships: []
       }
+      coupons: {
+        Row: {
+          applicable_courses: string[] | null
+          applies_to_all: boolean | null
+          code: string
+          created_at: string
+          discount_type: string
+          discount_value: number
+          expiry_date: string | null
+          id: string
+          is_active: boolean | null
+          minimum_order_value: number | null
+          updated_at: string
+          usage_count: number | null
+          usage_limit: number | null
+        }
+        Insert: {
+          applicable_courses?: string[] | null
+          applies_to_all?: boolean | null
+          code: string
+          created_at?: string
+          discount_type: string
+          discount_value: number
+          expiry_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          minimum_order_value?: number | null
+          updated_at?: string
+          usage_count?: number | null
+          usage_limit?: number | null
+        }
+        Update: {
+          applicable_courses?: string[] | null
+          applies_to_all?: boolean | null
+          code?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          expiry_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          minimum_order_value?: number | null
+          updated_at?: string
+          usage_count?: number | null
+          usage_limit?: number | null
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          badge: string | null
+          badge_color: string | null
+          category: string
+          category_badge: string | null
+          concepts: string[]
+          created_at: string
+          description: string
+          duration: string
+          extra_concepts_count: number | null
+          icon_bg: string | null
+          icon_type: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean | null
+          original_price: number | null
+          price: number
+          rating: number | null
+          reviews_count: string | null
+          status: string
+          students_count: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge?: string | null
+          badge_color?: string | null
+          category: string
+          category_badge?: string | null
+          concepts?: string[]
+          created_at?: string
+          description: string
+          duration: string
+          extra_concepts_count?: number | null
+          icon_bg?: string | null
+          icon_type?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          original_price?: number | null
+          price?: number
+          rating?: number | null
+          reviews_count?: string | null
+          status?: string
+          students_count?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          badge?: string | null
+          badge_color?: string | null
+          category?: string
+          category_badge?: string | null
+          concepts?: string[]
+          created_at?: string
+          description?: string
+          duration?: string
+          extra_concepts_count?: number | null
+          icon_bg?: string | null
+          icon_type?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          original_price?: number | null
+          price?: number
+          rating?: number | null
+          reviews_count?: string | null
+          status?: string
+          students_count?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           course_opted: boolean | null

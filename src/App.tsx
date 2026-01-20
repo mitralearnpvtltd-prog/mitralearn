@@ -19,7 +19,8 @@ import NotFound from "./pages/NotFound";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminUsers from "./components/admin/AdminUsers";
-import AdminCourses from "./components/admin/AdminCourses";
+import AdminCourseManagement from "./components/admin/AdminCourseManagement";
+import AdminCouponManagement from "./components/admin/AdminCouponManagement";
 import AdminCertificates from "./components/admin/AdminCertificates";
 import AdminReports from "./components/admin/AdminReports";
 
@@ -59,7 +60,8 @@ const App = () => (
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
-              <Route path="courses" element={<AdminCourses />} />
+              <Route path="courses" element={<AdminCourseManagement />} />
+              <Route path="coupons" element={<AdminCouponManagement />} />
               <Route path="certificates" element={<AdminCertificates />} />
               <Route path="reports" element={<AdminReports />} />
             </Route>
