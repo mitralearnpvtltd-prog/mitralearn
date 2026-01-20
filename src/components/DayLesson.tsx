@@ -945,11 +945,17 @@ export const DayLesson = ({ content }: DayLessonProps) => {
       </div>
 
       {/* Sticky Next Button - Fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur border-t border-border shadow-lg md:left-64">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex justify-end">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-background border-t border-border shadow-[0_-4px_20px_rgba(0,0,0,0.1)] lg:left-80">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+          {/* Current tab indicator */}
+          <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="capitalize">{activeTab}</span>
+            <span>•</span>
+            <span>{content.title}</span>
+          </div>
+          
           <Button 
             onClick={() => {
-              // Define tab flow: overview → practice (if applicable) → quiz → resources → next lesson
               const tabOrder = hasPractice 
                 ? ["overview", "practice", "quiz", "resources"] 
                 : ["overview", "quiz", "resources"];
@@ -957,15 +963,13 @@ export const DayLesson = ({ content }: DayLessonProps) => {
               const currentIndex = tabOrder.indexOf(activeTab);
               
               if (currentIndex < tabOrder.length - 1) {
-                // Move to next tab
                 setActiveTab(tabOrder[currentIndex + 1]);
               } else if (nextSubmoduleId) {
-                // On last tab, go to next lesson
                 navigate(`/curriculum/lesson/${getSlugFromSubmoduleId(nextSubmoduleId)}`);
               }
             }}
-            className="gap-2"
-            size="lg"
+            className="gap-2 min-w-[140px]"
+            size="default"
           >
             {(() => {
               const tabOrder = hasPractice 
@@ -989,7 +993,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
               } else if (nextSubmoduleId) {
                 return (
                   <>
-                    Next: {nextSubmoduleTitle}
+                    Next Lesson
                     <ArrowRight className="w-4 h-4" />
                   </>
                 );
@@ -1006,7 +1010,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
       </div>
 
       {/* Spacer for fixed bottom bar */}
-      <div className="h-20" />
+      <div className="h-16" />
     </div>
   );
 };
