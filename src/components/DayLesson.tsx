@@ -373,8 +373,8 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   return (
     <div className="min-h-full">
       {/* Video Section - Reduced Size with Custom Player */}
-      <div className="bg-[#1a1a2e] w-full py-6">
-        <div className="max-w-3xl mx-auto px-4">
+      <div className="bg-[#1a1a2e] w-full py-4">
+        <div className="max-w-2xl mx-auto px-4">
           {content.resources.filter(r => r.type === 'Video').length > 0 ? (
             content.resources.filter(r => r.type === 'Video').map((resource, index) => {
               const videoId = getYouTubeVideoId(resource.url);
@@ -395,26 +395,22 @@ export const DayLesson = ({ content }: DayLessonProps) => {
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-16 text-white/80 hover:text-white transition-colors"
+                  className="flex items-center justify-center gap-3 py-12 text-white/80 hover:text-white transition-colors"
                 >
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
-                    <Play className="w-8 h-8" />
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors">
+                    <Play className="w-7 h-7" />
                   </div>
                 </a>
               );
             })
           ) : (
-            <div className="aspect-video max-w-2xl mx-auto bg-white/5 rounded-xl flex flex-col items-center justify-center text-white/60">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 mb-4">
-                <Play className="w-8 h-8" />
+            <div className="bg-white/5 rounded-xl flex flex-col items-center justify-center text-white/60 py-12">
+              <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white/10 mb-3">
+                <Play className="w-7 h-7" />
               </div>
-              <span>Video Player</span>
+              <span className="text-sm">Video Player</span>
             </div>
           )}
-          {/* Scroll hint */}
-          <div className="text-center mt-4 text-white/40 text-sm animate-pulse">
-            ↓ Scroll down for theory & resources
-          </div>
         </div>
       </div>
 
