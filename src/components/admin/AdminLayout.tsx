@@ -19,7 +19,8 @@ import {
   Clock,
   InfoIcon,
   Loader2,
-  ShieldX
+  ShieldX,
+  Ticket
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -48,6 +49,7 @@ export default function AdminLayout() {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Courses', href: '/admin/courses', icon: BookOpen },
+    { name: 'Coupons', href: '/admin/coupons', icon: Ticket },
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Certificates', href: '/admin/certificates', icon: Award },
     { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
