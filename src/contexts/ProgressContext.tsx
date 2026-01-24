@@ -160,6 +160,13 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       .maybeSingle();
 
     const now = new Date().toISOString();
+    
+    // Capture device info
+    let deviceInfo = 'Unknown';
+    if (typeof navigator !== 'undefined') {
+      const { getDeviceInfo } = await import('@/lib/deviceDetector');
+      deviceInfo = getDeviceInfo();
+    }
 
     if (!existingProfile) {
       // Create new profile
@@ -170,9 +177,10 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
         email_verified: emailVerified,
         last_login: now,
         course_opted: true,
+        device_info: deviceInfo,
       });
     } else {
-      // Update profile with latest Clerk data
+      // Update profile with latest Clerk data and device info
       await supabase
         .from('profiles')
         .update({
@@ -180,6 +188,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
           email,
           email_verified: emailVerified,
           last_login: now,
+          device_info: deviceInfo,
         })
         .eq('user_id', userId);
     }

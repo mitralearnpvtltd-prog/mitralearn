@@ -192,6 +192,7 @@ export type Database = {
         Row: {
           course_opted: boolean | null
           created_at: string
+          device_info: string | null
           email: string
           email_verified: boolean | null
           id: string
@@ -203,6 +204,7 @@ export type Database = {
         Insert: {
           course_opted?: boolean | null
           created_at?: string
+          device_info?: string | null
           email: string
           email_verified?: boolean | null
           id?: string
@@ -214,6 +216,7 @@ export type Database = {
         Update: {
           course_opted?: boolean | null
           created_at?: string
+          device_info?: string | null
           email?: string
           email_verified?: boolean | null
           id?: string
@@ -326,6 +329,7 @@ export type Database = {
           completed_quizzes: Json
           completion_date: string
           course_opted: boolean
+          device_info: string
           email: string
           email_verified: boolean
           final_assessment_score: number
