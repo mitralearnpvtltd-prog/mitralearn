@@ -46,7 +46,7 @@ export const Navbar = () => {
             <img 
               src={mitraLearnLogo} 
               alt="Mitra Learn" 
-              className="h-10 w-auto"
+              className="h-8 w-auto"
             />
           </Link>
 
