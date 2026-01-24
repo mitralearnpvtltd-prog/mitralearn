@@ -117,6 +117,7 @@ export type Database = {
           category: string
           category_badge: string | null
           concepts: string[]
+          course_code: string | null
           created_at: string
           description: string
           duration: string
@@ -141,6 +142,7 @@ export type Database = {
           category: string
           category_badge?: string | null
           concepts?: string[]
+          course_code?: string | null
           created_at?: string
           description: string
           duration: string
@@ -165,6 +167,7 @@ export type Database = {
           category?: string
           category_badge?: string | null
           concepts?: string[]
+          course_code?: string | null
           created_at?: string
           description?: string
           duration?: string
@@ -366,7 +369,13 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role:
+        | "admin"
+        | "moderator"
+        | "user"
+        | "manager"
+        | "supporter"
+        | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -494,7 +503,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: [
+        "admin",
+        "moderator",
+        "user",
+        "manager",
+        "supporter",
+        "viewer",
+      ],
     },
   },
 } as const

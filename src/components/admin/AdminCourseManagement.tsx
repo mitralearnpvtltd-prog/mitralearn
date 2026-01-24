@@ -43,6 +43,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { useAdminCourses, CourseFormData } from "@/hooks/useCourses";
 import { useAdminUsers } from "@/hooks/useAdminData";
+import { useAdminRole } from "@/hooks/useAdminRole";
 import { toast } from "sonner";
 
 const iconOptions = [
@@ -62,6 +63,7 @@ const colorOptions = [
 ];
 
 const defaultFormData: CourseFormData = {
+  course_code: '',
   title: '',
   description: '',
   category: '',
@@ -84,6 +86,7 @@ const defaultFormData: CourseFormData = {
 export default function AdminCourseManagement() {
   const { courses, isLoading, createCourse, updateCourse, deleteCourse, togglePublish, updateStatus } = useAdminCourses();
   const { users } = useAdminUsers();
+  const { permissions } = useAdminRole();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -129,8 +132,15 @@ export default function AdminCourseManagement() {
   };
 
   const handleSubmit = async () => {
-    if (!formData.title || !formData.description || !formData.category || !formData.duration) {
-      toast.error("Please fill in all required fields");
+    if (!formData.course_code || !formData.title || !formData.description || !formData.category || !formData.duration) {
+      toast.error("Please fill in all required fields including Course Code");
+      return;
+    }
+    
+    // Validate course_code format (e.g., DE-FND-001)
+    const codePattern = /^[A-Z]{2,4}-[A-Z]{2,8}-\d{3}$/;
+    if (!codePattern.test(formData.course_code)) {
+      toast.error("Course code must follow format: XX-XXX-000 (e.g., DE-FND-001)");
       return;
     }
 
@@ -154,7 +164,12 @@ export default function AdminCourseManagement() {
   };
 
   const handleEdit = (course: typeof courses[0]) => {
+    if (!permissions.canEditCourse) {
+      toast.error("You don't have permission to edit courses");
+      return;
+    }
     setFormData({
+      course_code: course.course_code || '',
       title: course.title,
       description: course.description,
       category: course.category,
@@ -180,6 +195,10 @@ export default function AdminCourseManagement() {
   };
 
   const handleDelete = async (courseId: string) => {
+    if (!permissions.canDeleteCourse) {
+      toast.error("You don't have permission to delete courses");
+      return;
+    }
     try {
       await deleteCourse(courseId);
       toast.success("Course disabled successfully");
@@ -189,6 +208,10 @@ export default function AdminCourseManagement() {
   };
 
   const handleTogglePublish = async (courseId: string, isPublished: boolean) => {
+    if (!permissions.canPublishCourse) {
+      toast.error("You don't have permission to publish/unpublish courses");
+      return;
+    }
     try {
       await togglePublish(courseId, isPublished);
       toast.success(isPublished ? "Course published" : "Course unpublished");
@@ -233,7 +256,7 @@ export default function AdminCourseManagement() {
           if (!open) resetForm();
         }}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="gap-2" disabled={!permissions.canCreateCourse}>
               <Plus className="h-4 w-4" />
               Add Course
             </Button>
@@ -246,6 +269,22 @@ export default function AdminCourseManagement() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
+              {/* Course Code */}
+              <div className="space-y-2">
+                <Label htmlFor="course_code">Course Code * (e.g., DE-FND-001)</Label>
+                <Input
+                  id="course_code"
+                  value={formData.course_code}
+                  onChange={(e) => setFormData(prev => ({ ...prev, course_code: e.target.value.toUpperCase() }))}
+                  placeholder="DE-FND-001"
+                  disabled={isEditing}
+                  className={isEditing ? "bg-muted" : ""}
+                />
+                {isEditing && (
+                  <p className="text-xs text-muted-foreground">Course code cannot be changed after creation</p>
+                )}
+              </div>
+
               {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title">Course Title *</Label>
@@ -539,12 +578,17 @@ export default function AdminCourseManagement() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="gap-2" onClick={() => handleEdit(course)}>
+                    <DropdownMenuItem 
+                      className="gap-2" 
+                      onClick={() => handleEdit(course)}
+                      disabled={!permissions.canEditCourse}
+                    >
                       <Edit className="h-3 w-3" /> Edit Course
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       className="gap-2 text-destructive" 
                       onClick={() => handleDelete(course.id)}
+                      disabled={!permissions.canDeleteCourse}
                     >
                       <Trash2 className="h-3 w-3" /> Disable Course
                     </DropdownMenuItem>
@@ -594,6 +638,15 @@ export default function AdminCourseManagement() {
               
               {/* Content Section */}
               <div className="p-5">
+                {/* Course Code */}
+                {course.course_code && (
+                  <div className="mb-2">
+                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      {course.course_code}
+                    </span>
+                  </div>
+                )}
+                
                 {/* Title */}
                 <h3 
                   className="text-lg font-bold mb-3"
@@ -659,6 +712,7 @@ export default function AdminCourseManagement() {
                     <Switch 
                       checked={course.is_published}
                       onCheckedChange={(checked) => handleTogglePublish(course.id, checked)}
+                      disabled={!permissions.canPublishCourse}
                     />
                     <span className={`text-xs font-medium ${course.is_published ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {course.is_published ? 'Published' : 'Hidden'}
@@ -667,6 +721,7 @@ export default function AdminCourseManagement() {
                   <Select 
                     value={course.status} 
                     onValueChange={(v: 'active' | 'coming_soon' | 'draft') => handleStatusChange(course.id, v)}
+                    disabled={!permissions.canEditCourse}
                   >
                     <SelectTrigger className="h-7 w-28 text-xs">
                       <SelectValue />
