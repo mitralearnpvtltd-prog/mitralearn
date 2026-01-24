@@ -25,6 +25,7 @@ import {
   Briefcase,
   Rocket,
   TrendingUp,
+  Target,
 } from "lucide-react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
 import courseDataEngineering from "@/assets/course-cover-data-engineering.jpg";
@@ -932,6 +933,141 @@ const Index = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section 
+        id="about-section"
+        ref={setSectionRef('about-section')}
+        className={`py-12 sm:py-16 ${getSectionClasses('about-section')}`}
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            {/* Section Header */}
+            <div className="text-center mb-10 sm:mb-14">
+              <span 
+                className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full mb-4"
+                style={{ backgroundColor: '#EDE9FE', color: '#7C3AED' }}
+              >
+                About Us
+              </span>
+              <h2 
+                className="text-2xl sm:text-4xl mb-4 relative inline-block"
+                style={{ color: '#0F172A', fontWeight: 700 }}
+              >
+                Who We Are
+                <svg 
+                  className="absolute -bottom-2 left-0 w-full" 
+                  height="12" 
+                  viewBox="0 0 200 12" 
+                  fill="none"
+                  preserveAspectRatio="none"
+                >
+                  <path 
+                    d="M2 8 Q 50 2, 100 6 T 198 4" 
+                    stroke="#7C3AED" 
+                    strokeWidth="3" 
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <polygon points="195,2 202,5 195,8" fill="#7C3AED" />
+                </svg>
+              </h2>
+              <p className="mt-6 text-sm sm:text-lg max-w-2xl mx-auto px-4 sm:px-0" style={{ color: '#64748B' }}>
+                Mitra Learn is your trusted partner in tech education, bridging the gap between learning and industry readiness.
+              </p>
+            </div>
+
+            {/* About Content Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-center mb-10 sm:mb-14">
+              {/* Left - Mission */}
+              <div 
+                className="p-6 sm:p-8 rounded-2xl"
+                style={{ backgroundColor: '#F8FAFC', border: '1px solid #E5E7EB' }}
+              >
+                <div 
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                  style={{ backgroundColor: '#EDE9FE' }}
+                >
+                  <Rocket className="h-6 w-6" style={{ color: '#7C3AED' }} />
+                </div>
+                <h3 
+                  className="text-xl sm:text-2xl font-bold mb-3"
+                  style={{ color: '#0F172A' }}
+                >
+                  Our Mission
+                </h3>
+                <p 
+                  className="text-sm sm:text-base leading-relaxed"
+                  style={{ color: '#475569' }}
+                >
+                  We're on a mission to democratize quality tech education. We believe everyone deserves access to industry-relevant skills, expert mentorship, and real-world project experience to launch their dream career.
+                </p>
+              </div>
+
+              {/* Right - Vision */}
+              <div 
+                className="p-6 sm:p-8 rounded-2xl"
+                style={{ backgroundColor: '#F8FAFC', border: '1px solid #E5E7EB' }}
+              >
+                <div 
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                  style={{ backgroundColor: '#FFF7ED' }}
+                >
+                  <Target className="h-6 w-6" style={{ color: '#F97316' }} />
+                </div>
+                <h3 
+                  className="text-xl sm:text-2xl font-bold mb-3"
+                  style={{ color: '#0F172A' }}
+                >
+                  Our Vision
+                </h3>
+                <p 
+                  className="text-sm sm:text-base leading-relaxed"
+                  style={{ color: '#475569' }}
+                >
+                  To become the leading platform for career-focused learning, where students don't just learn concepts but become job-ready professionals with hands-on experience and verified certifications.
+                </p>
+              </div>
+            </div>
+
+            {/* Stats Row */}
+            <div 
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 p-6 sm:p-8 rounded-2xl"
+              style={{ 
+                background: 'linear-gradient(135deg, #7C3AED 0%, #6366F1 100%)',
+              }}
+            >
+              <div className="text-center">
+                <p className="text-2xl sm:text-4xl font-bold text-white mb-1">50K+</p>
+                <p className="text-xs sm:text-sm text-white/80">Students Trained</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl sm:text-4xl font-bold text-white mb-1">95%</p>
+                <p className="text-xs sm:text-sm text-white/80">Completion Rate</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl sm:text-4xl font-bold text-white mb-1">200+</p>
+                <p className="text-xs sm:text-sm text-white/80">Hiring Partners</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl sm:text-4xl font-bold text-white mb-1">4.8★</p>
+                <p className="text-xs sm:text-sm text-white/80">Average Rating</p>
+              </div>
+            </div>
+
+            {/* Team Description */}
+            <div className="text-center mt-10 sm:mt-14 px-4 sm:px-0">
+              <p 
+                className="text-sm sm:text-base max-w-2xl mx-auto leading-relaxed"
+                style={{ color: '#475569' }}
+              >
+                Our team comprises industry veterans from top tech companies, passionate educators, and dedicated mentors who are committed to your success. We've curated curriculums that blend theoretical knowledge with practical application, ensuring you're ready to tackle real-world challenges from day one.
+              </p>
+            </div>
           </div>
         </div>
       </section>
