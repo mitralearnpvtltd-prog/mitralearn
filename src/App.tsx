@@ -14,6 +14,7 @@ import Certificate from "./pages/Certificate";
 import VerifyCertificate from "./pages/VerifyCertificate";
 import AdminSetup from "./pages/AdminSetup";
 import NotFound from "./pages/NotFound";
+import OnboardingModal from "./components/OnboardingModal";
 
 // Admin imports
 import AdminLayout from "./components/admin/AdminLayout";
@@ -43,6 +44,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <OnboardingModal />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

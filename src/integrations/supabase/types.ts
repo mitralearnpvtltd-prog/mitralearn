@@ -190,42 +190,65 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age_group: string | null
           course_opted: boolean | null
           created_at: string
           device_info: string | null
           email: string
           email_verified: boolean | null
+          enrolled_course_id: string | null
           id: string
           last_login: string | null
+          location: string | null
           name: string
+          onboarding_completed: boolean | null
+          phone: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          age_group?: string | null
           course_opted?: boolean | null
           created_at?: string
           device_info?: string | null
           email: string
           email_verified?: boolean | null
+          enrolled_course_id?: string | null
           id?: string
           last_login?: string | null
+          location?: string | null
           name: string
+          onboarding_completed?: boolean | null
+          phone?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          age_group?: string | null
           course_opted?: boolean | null
           created_at?: string
           device_info?: string | null
           email?: string
           email_verified?: boolean | null
+          enrolled_course_id?: string | null
           id?: string
           last_login?: string | null
+          location?: string | null
           name?: string
+          onboarding_completed?: boolean | null
+          phone?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_enrolled_course_id_fkey"
+            columns: ["enrolled_course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_progress: {
         Row: {
@@ -320,6 +343,7 @@ export type Database = {
       get_admin_dashboard_data: {
         Args: never
         Returns: {
+          age_group: string
           cert_id: string
           certificate_earned: boolean
           certificate_id: string
@@ -332,11 +356,16 @@ export type Database = {
           device_info: string
           email: string
           email_verified: boolean
+          enrolled_course_id: string
+          enrolled_course_title: string
           final_assessment_score: number
           final_project_submitted: boolean
           last_login: string
+          location: string
           name: string
+          onboarding_completed: boolean
           overall_band: string
+          phone: string
           registered_at: string
           user_id: string
         }[]
