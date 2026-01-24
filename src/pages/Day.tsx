@@ -38,25 +38,25 @@ const Day = () => {
       
       {/* Auth Required Message for Signed Out Users */}
       <SignedOut>
-        <main className="flex-1 flex items-center justify-center px-4">
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center mb-6 shadow-glow">
-              <BookOpen className="w-10 h-10 text-primary-foreground" />
+        <main className="flex-1 flex items-center justify-center px-3 sm:px-4">
+          <div className="flex flex-col items-center justify-center py-10 sm:py-16 text-center px-2">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-primary flex items-center justify-center mb-4 sm:mb-6 shadow-glow">
+              <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-primary-foreground" />
             </div>
-            <h1 className="text-3xl font-display font-bold mb-4">
+            <h1 className="text-xl sm:text-3xl font-display font-bold mb-3 sm:mb-4 px-2">
               {content.title}
             </h1>
-            <p className="text-muted-foreground mb-8 max-w-md">
+            <p className="text-muted-foreground mb-6 sm:mb-8 max-w-md text-sm sm:text-base">
               Sign in to access this lesson, track your progress, and complete quizzes.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
               <SignInButton mode="modal">
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto min-h-[48px]">
                   Login
                 </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button size="lg">
+                <Button size="lg" className="w-full sm:w-auto min-h-[48px]">
                   Register Now
                 </Button>
               </SignUpButton>
@@ -68,11 +68,11 @@ const Day = () => {
       {/* Lesson Content for Signed In Users */}
       <SignedIn>
         <div className="flex flex-1 overflow-hidden">
-          {/* Left Sidebar - Fixed */}
+          {/* Left Sidebar - Hidden on mobile */}
           <CourseSidebar currentSubmoduleId={submoduleId} />
           
-          {/* Main Content - Scrollable */}
-          <main className="flex-1 overflow-y-auto h-[calc(100vh-64px)]">
+          {/* Main Content - Scrollable, full width on mobile */}
+          <main className="flex-1 overflow-y-auto h-[calc(100vh-80px)] w-full">
             <DayLesson content={content} />
           </main>
         </div>

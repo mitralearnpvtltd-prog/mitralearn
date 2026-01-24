@@ -112,17 +112,17 @@ export const CertificateSystem = () => {
         </TabsList>
 
         {/* Certificate Tab */}
-        <TabsContent value="certificate" className="mt-6">
-          <div className="space-y-8">
+        <TabsContent value="certificate" className="mt-4 sm:mt-6">
+          <div className="space-y-6 sm:space-y-8">
             {/* Header */}
-            <div className="text-center">
-              <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-primary flex items-center justify-center shadow-glow animate-pulse-glow">
-                <Award className="w-12 h-12 text-primary-foreground" />
+            <div className="text-center px-2">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4 rounded-full bg-gradient-primary flex items-center justify-center shadow-glow animate-pulse-glow">
+                <Award className="w-10 h-10 sm:w-12 sm:h-12 text-primary-foreground" />
               </div>
-              <h1 className="text-3xl font-display font-bold mb-2">
+              <h1 className="text-2xl sm:text-3xl font-display font-bold mb-2">
                 Mitra Learn Certification
               </h1>
-              <p className="text-muted-foreground max-w-xl mx-auto">
+              <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base">
                 Complete all requirements to earn your Data Scientist certification
                 and showcase your skills to employers.
               </p>
@@ -130,36 +130,36 @@ export const CertificateSystem = () => {
 
             {/* Requirements Progress */}
             <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>Certification Requirements</CardTitle>
-                  <Badge variant={canEarnCertificate ? "default" : "secondary"}>
+              <CardHeader className="px-4 sm:px-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <CardTitle className="text-base sm:text-lg">Certification Requirements</CardTitle>
+                  <Badge variant={canEarnCertificate ? "default" : "secondary"} className="w-fit">
                     {completedRequirements}/{requirements.length} Complete
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="px-4 sm:px-6">
+                <div className="space-y-3 sm:space-y-4">
                   {requirements.map((req, index) => (
                     <div
                       key={index}
-                      className={`flex items-center justify-between p-4 rounded-lg border ${
+                      className={`flex items-center justify-between p-3 sm:p-4 rounded-lg border gap-2 ${
                         req.completed
                           ? "border-success/30 bg-success/5"
                           : "border-border bg-card"
                       }`}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                         {req.completed ? (
-                          <CheckCircle2 className="w-5 h-5 text-success" />
+                          <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
                         ) : (
-                          <XCircle className="w-5 h-5 text-muted-foreground" />
+                          <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
                         )}
-                        <span className={req.completed ? "text-foreground" : "text-muted-foreground"}>
+                        <span className={`text-sm sm:text-base truncate ${req.completed ? "text-foreground" : "text-muted-foreground"}`}>
                           {req.label}
                         </span>
                       </div>
-                      <Badge variant={req.completed ? "default" : "outline"}>
+                      <Badge variant={req.completed ? "default" : "outline"} className="flex-shrink-0 text-xs">
                         {req.current}/{req.total}{req.suffix || ""}
                       </Badge>
                     </div>
@@ -171,62 +171,62 @@ export const CertificateSystem = () => {
             {/* Certificate Preview or Generation */}
             {progress.certificateEarned ? (
               <Card className="bg-gradient-hero text-primary-foreground overflow-hidden">
-                <CardContent className="p-8">
-                  <div className="text-center space-y-6">
+                <CardContent className="p-4 sm:p-8">
+                  <div className="text-center space-y-4 sm:space-y-6">
                     {/* Certificate Design */}
-                    <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-8 border border-primary-foreground/20 relative">
-                      <div className="absolute top-4 right-4 opacity-20">
-                        <img src={certificateBadge} alt="Badge" className="w-20 h-20" />
+                    <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-8 border border-primary-foreground/20 relative">
+                      <div className="absolute top-2 right-2 sm:top-4 sm:right-4 opacity-20">
+                        <img src={certificateBadge} alt="Badge" className="w-12 h-12 sm:w-20 sm:h-20" />
                       </div>
                       
-                      <p className="text-primary-foreground/60 text-sm uppercase tracking-widest mb-2">
+                      <p className="text-primary-foreground/60 text-xs sm:text-sm uppercase tracking-widest mb-2">
                         Certificate of Completion
                       </p>
-                      <h2 className="text-3xl font-display font-bold mb-1">
+                      <h2 className="text-xl sm:text-3xl font-display font-bold mb-1">
                         Silk Miltra
                       </h2>
-                      <p className="text-primary-foreground/80 mb-6">
+                      <p className="text-primary-foreground/80 mb-4 sm:mb-6 text-sm sm:text-base">
                         Data Scientist – 60 Day Internship-Prep Program
                       </p>
                       
-                      <div className="text-xl font-medium mb-6">
+                      <div className="text-base sm:text-xl font-medium mb-4 sm:mb-6">
                         This certifies that
                       </div>
-                      <div className="text-3xl font-display font-bold mb-6">
+                      <div className="text-xl sm:text-3xl font-display font-bold mb-4 sm:mb-6">
                         {user?.name || "Student Name"}
                       </div>
                       
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-6">
-                        <div className="p-3 rounded-lg bg-primary-foreground/10">
+                      <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm mb-4 sm:mb-6">
+                        <div className="p-2 sm:p-3 rounded-lg bg-primary-foreground/10">
                           <p className="text-primary-foreground/60">Certificate ID</p>
-                          <p className="font-mono font-medium">{progress.certificateId}</p>
+                          <p className="font-mono font-medium text-xs sm:text-sm truncate">{progress.certificateId}</p>
                         </div>
-                        <div className="p-3 rounded-lg bg-primary-foreground/10">
+                        <div className="p-2 sm:p-3 rounded-lg bg-primary-foreground/10">
                           <p className="text-primary-foreground/60">Completion Date</p>
                           <p className="font-medium">{new Date().toLocaleDateString()}</p>
                         </div>
-                        <div className="p-3 rounded-lg bg-primary-foreground/10">
+                        <div className="p-2 sm:p-3 rounded-lg bg-primary-foreground/10">
                           <p className="text-primary-foreground/60">Final Score</p>
                           <p className="font-medium">{progress.finalAssessmentScore}%</p>
                         </div>
-                        <div className="p-3 rounded-lg bg-primary-foreground/10">
+                        <div className="p-2 sm:p-3 rounded-lg bg-primary-foreground/10">
                           <p className="text-primary-foreground/60">Performance</p>
                           <p className="font-medium">{getPerformanceBand()}</p>
                         </div>
                       </div>
 
-                      <div className="border-t border-primary-foreground/20 pt-4 text-sm text-primary-foreground/60">
+                      <div className="border-t border-primary-foreground/20 pt-3 sm:pt-4 text-xs sm:text-sm text-primary-foreground/60">
                         Silk Miltra Certification Council – Innovkaro
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-wrap justify-center gap-4">
-                      <Button variant="heroOutline" className="gap-2">
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <Button variant="heroOutline" className="gap-2 min-h-[48px]">
                         <Download className="w-4 h-4" />
                         Download PDF
                       </Button>
-                      <Button variant="heroOutline" className="gap-2">
+                      <Button variant="heroOutline" className="gap-2 min-h-[48px]">
                         <Share2 className="w-4 h-4" />
                         Share on LinkedIn
                       </Button>
@@ -236,12 +236,12 @@ export const CertificateSystem = () => {
               </Card>
             ) : (
               <Card className="border-2 border-dashed border-muted">
-                <CardContent className="p-8 text-center">
-                  <AlertCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-xl font-display font-bold mb-2">
+                <CardContent className="p-4 sm:p-8 text-center">
+                  <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12 text-muted-foreground mx-auto mb-3 sm:mb-4" />
+                  <h3 className="text-lg sm:text-xl font-display font-bold mb-2">
                     Certificate Not Yet Earned
                   </h3>
-                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                  <p className="text-muted-foreground mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base">
                     Complete all the requirements above to unlock your Silk Miltra
                     Data Scientist certification.
                   </p>
@@ -249,7 +249,7 @@ export const CertificateSystem = () => {
                     onClick={handleGenerateCertificate}
                     disabled={!canEarnCertificate || isGenerating}
                     size="lg"
-                    className="gap-2"
+                    className="gap-2 min-h-[48px] w-full sm:w-auto"
                   >
                     <Award className="w-5 h-5" />
                     {isGenerating
@@ -264,31 +264,31 @@ export const CertificateSystem = () => {
 
             {/* Badge Preview */}
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-secondary" />
+              <CardHeader className="px-4 sm:px-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Award className="w-4 h-4 sm:w-5 sm:h-5 text-secondary" />
                   Your Achievement Badge
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-col md:flex-row items-center gap-6">
+              <CardContent className="px-4 sm:px-6">
+                <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
                   <img
                     src={certificateBadge}
                     alt="Certified Data Scientist Badge"
-                    className={`w-32 h-32 ${!progress.certificateEarned && "opacity-30 grayscale"}`}
+                    className={`w-24 h-24 sm:w-32 sm:h-32 ${!progress.certificateEarned && "opacity-30 grayscale"}`}
                   />
-                  <div className="flex-1">
-                    <h4 className="font-display font-bold mb-2">
+                  <div className="flex-1 text-center sm:text-left">
+                    <h4 className="font-display font-bold mb-2 text-sm sm:text-base">
                       Certified Data Scientist – Silk Miltra
                     </h4>
-                    <p className="text-muted-foreground text-sm mb-4">
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-4">
                       This badge certifies that the holder has successfully completed the
                       60-day Data Scientist Internship-Prep Program with demonstrated
                       proficiency in Python, data analysis, machine learning, and deep learning.
                     </p>
                     {progress.certificateEarned && (
-                      <div className="p-3 rounded-lg bg-muted text-sm font-mono">
-                        {`<img src="https://silkmiltra.com/badges/${progress.certificateId}" alt="Silk Miltra Certified" />`}
+                      <div className="p-2 sm:p-3 rounded-lg bg-muted text-xs sm:text-sm font-mono overflow-x-auto">
+                        <code className="break-all">{`<img src="https://silkmiltra.com/badges/${progress.certificateId}" alt="Silk Miltra Certified" />`}</code>
                       </div>
                     )}
                   </div>

@@ -373,8 +373,8 @@ export const DayLesson = ({ content }: DayLessonProps) => {
   return (
     <div className="min-h-full">
       {/* Video Section - Reduced Size with Custom Player */}
-      <div className="bg-[#1a1a2e] w-full py-4">
-        <div className="max-w-2xl mx-auto px-4">
+      <div className="bg-[#1a1a2e] w-full py-3 sm:py-4">
+        <div className="max-w-2xl mx-auto px-2 sm:px-4">
           {content.resources.filter(r => r.type === 'Video').length > 0 ? (
             content.resources.filter(r => r.type === 'Video').map((resource, index) => {
               const videoId = getYouTubeVideoId(resource.url);
@@ -415,40 +415,41 @@ export const DayLesson = ({ content }: DayLessonProps) => {
       </div>
 
       {/* Tabs Section */}
-      <div className="border-b border-border bg-card">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="border-b border-border bg-card overflow-x-auto">
+        <div className="max-w-5xl mx-auto px-2 sm:px-4 md:px-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="h-12 bg-transparent border-0 p-0 gap-6">
+            <TabsList className="h-12 bg-transparent border-0 p-0 gap-2 sm:gap-4 md:gap-6 w-max min-w-full sm:w-auto">
               <TabsTrigger 
                 value="overview" 
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-2 sm:px-0 text-sm sm:text-base min-h-[48px]"
               >
                 Overview
               </TabsTrigger>
               {hasPractice && (
                 <TabsTrigger 
                   value="practice" 
-                  className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+                  className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-2 sm:px-0 gap-1 sm:gap-2 text-sm sm:text-base min-h-[48px]"
                 >
                   Practice
-                  <Code className="w-4 h-4" />
+                  <Code className="w-3 h-3 sm:w-4 sm:h-4" />
                 </TabsTrigger>
               )}
               <TabsTrigger 
                 value="quiz" 
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-2 sm:px-0 gap-1 sm:gap-2 text-sm sm:text-base min-h-[48px]"
               >
                 {isCapstone ? "Project" : "Q&A"}
-                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
+                <Badge variant="secondary" className="rounded-full text-xs px-1.5 sm:px-2 py-0.5">
                   {isCapstone ? "1" : quizCount}
                 </Badge>
               </TabsTrigger>
               <TabsTrigger 
                 value="resources" 
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-0 gap-2"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-12 px-2 sm:px-0 gap-1 sm:gap-2 text-sm sm:text-base min-h-[48px]"
               >
-                Resources
-                <Badge variant="secondary" className="rounded-full text-xs px-2 py-0.5">
+                <span className="hidden sm:inline">Resources</span>
+                <span className="sm:hidden">Files</span>
+                <Badge variant="secondary" className="rounded-full text-xs px-1.5 sm:px-2 py-0.5">
                   {resourceCount}
                 </Badge>
               </TabsTrigger>
@@ -458,7 +459,7 @@ export const DayLesson = ({ content }: DayLessonProps) => {
       </div>
 
       {/* Content Section */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           {/* Overview Tab */}
           <TabsContent value="overview" className="mt-0">
