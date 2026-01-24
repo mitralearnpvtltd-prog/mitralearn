@@ -28,6 +28,12 @@ interface UserData {
   overall_band: string | null;
   completed_modules_count: number;
   device_info: string | null;
+  phone: string | null;
+  location: string | null;
+  age_group: string | null;
+  enrolled_course_id: string | null;
+  enrolled_course_title: string | null;
+  onboarding_completed: boolean;
 }
 
 interface CertificateData {

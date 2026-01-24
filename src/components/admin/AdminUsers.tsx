@@ -174,10 +174,11 @@ export default function AdminUsers() {
               <TableRow className="bg-muted/50 hover:bg-muted/50">
                 <TableHead className="w-[180px]">User</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead className="w-[100px]">Phone</TableHead>
+                <TableHead className="w-[100px]">Location</TableHead>
+                <TableHead className="w-[80px]">Age</TableHead>
                 <TableHead className="w-[100px]">Device</TableHead>
-                <TableHead className="w-[130px]">Registration</TableHead>
-                <TableHead className="w-[100px]">Last Login</TableHead>
-                <TableHead className="w-[100px]">Course Status</TableHead>
+                <TableHead className="w-[150px]">Enrolled Course</TableHead>
                 <TableHead>Progress</TableHead>
                 <TableHead>Certificate</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -205,6 +206,15 @@ export default function AdminUsers() {
                         </div>
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{user.email}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {user.phone || <span className="text-muted-foreground/50">-</span>}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {user.location || <span className="text-muted-foreground/50">-</span>}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {user.age_group || <span className="text-muted-foreground/50">-</span>}
+                      </TableCell>
                       <TableCell className="text-sm">
                         {(() => {
                           const deviceType = getDeviceIcon(user.device_info);
@@ -218,30 +228,10 @@ export default function AdminUsers() {
                           );
                         })()}
                       </TableCell>
-                      <TableCell className="text-sm">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3 text-muted-foreground" />
-                          {new Date(user.registered_at).toLocaleDateString('en-US', { 
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric'
-                          })}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {user.last_login ? (
-                          new Date(user.last_login).toLocaleDateString('en-US', { 
-                            month: 'short',
-                            day: 'numeric'
-                          })
-                        ) : (
-                          <span className="text-muted-foreground/50">Never</span>
-                        )}
-                      </TableCell>
                       <TableCell>
-                        {user.course_opted ? (
-                          <Badge variant="default" className="bg-primary/80 text-xs">
-                            Enrolled
+                        {user.enrolled_course_title ? (
+                          <Badge variant="default" className="bg-primary/80 text-xs max-w-[140px] truncate">
+                            {user.enrolled_course_title}
                           </Badge>
                         ) : (
                           <Badge variant="outline" className="text-xs">
@@ -306,17 +296,29 @@ export default function AdminUsers() {
                                     {user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never'}
                                   </p>
                                 </div>
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Phone</p>
+                                  <p className="font-medium">{user.phone || 'Not provided'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Location</p>
+                                  <p className="font-medium">{user.location || 'Not provided'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Age Group</p>
+                                  <p className="font-medium">{user.age_group || 'Not provided'}</p>
+                                </div>
                                 <div className="col-span-2">
                                   <p className="text-xs text-muted-foreground">Device Info</p>
                                   <p className="font-medium text-sm">
                                     {user.device_info || 'Unknown'}
                                   </p>
                                 </div>
-                                <div>
-                                  <p className="text-xs text-muted-foreground">Course Status</p>
+                                <div className="col-span-2">
+                                  <p className="text-xs text-muted-foreground">Enrolled Course</p>
                                   <p className="font-medium">
-                                    {user.course_opted ? (
-                                      <Badge variant="default" className="text-xs">Enrolled</Badge>
+                                    {user.enrolled_course_title ? (
+                                      <Badge variant="default" className="text-xs">{user.enrolled_course_title}</Badge>
                                     ) : (
                                       <Badge variant="outline" className="text-xs">Not Enrolled</Badge>
                                     )}
@@ -380,7 +382,7 @@ export default function AdminUsers() {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                     No users found
                   </TableCell>
                 </TableRow>
