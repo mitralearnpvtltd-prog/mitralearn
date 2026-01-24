@@ -278,17 +278,17 @@ const Curriculum = () => {
       </section>
 
       {/* Main Content - Curriculum + Sidebar */}
-      <section id="curriculum" className="bg-background py-8 sm:py-12 scroll-mt-20">
+      <section id="curriculum" className="bg-background py-6 sm:py-12 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Curriculum Section */}
             <div className="lg:col-span-2">
-              <div className="mb-8">
-                <h2 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-2">
+              <div className="mb-6 sm:mb-8">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-foreground mb-1 sm:mb-2">
                   Course Curriculum
                 </h2>
-                <p className="text-muted-foreground">
-                  Master data engineering in 12 intensive weeks. Dive into essential modules and learn core topics for building scalable data pipelines.
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  Master data engineering in 12 intensive weeks.
                 </p>
               </div>
 
@@ -304,44 +304,90 @@ const Curriculum = () => {
                   const moduleSubmodules = submodules.filter(s => s.moduleNumber === mod.module);
                   const lessonCount = moduleSubmodules.length;
                   const hasProject = mod.assessment?.type === 'project';
+                  const completedInModule = moduleSubmodules.filter(s => 
+                    progress.completedSubmodules.includes(s.submodule)
+                  ).length;
+                  const moduleProgress = lessonCount > 0 ? Math.round((completedInModule / lessonCount) * 100) : 0;
+                  const isModuleComplete = completedInModule === lessonCount && lessonCount > 0;
 
                   return (
                     <AccordionItem 
                       key={mod.module} 
                       value={`module-${mod.module}`}
-                      className="border border-border rounded-lg overflow-hidden bg-card"
+                      className="border-0 rounded-2xl overflow-hidden bg-card shadow-sm"
                     >
-                      <AccordionTrigger className="px-4 py-4 hover:no-underline hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center gap-4 text-left w-full">
-                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <BookOpen className="w-5 h-5 text-primary" />
+                      <AccordionTrigger className="px-4 py-4 hover:no-underline md:hover:bg-muted/30 active:bg-muted/50 transition-colors data-[state=open]:bg-muted/20">
+                        <div className="flex items-center gap-3 sm:gap-4 text-left w-full">
+                          {/* Module Icon with Progress Ring */}
+                          <div className="relative flex-shrink-0">
+                            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center ${
+                              isModuleComplete 
+                                ? 'bg-success/15' 
+                                : moduleProgress > 0 
+                                  ? 'bg-primary/10' 
+                                  : 'bg-muted'
+                            }`}>
+                              {isModuleComplete ? (
+                                <CheckCircle2 className="w-6 h-6 sm:w-7 sm:h-7 text-success" />
+                              ) : (
+                                <BookOpen className={`w-5 h-5 sm:w-6 sm:h-6 ${moduleProgress > 0 ? 'text-primary' : 'text-muted-foreground'}`} />
+                              )}
+                            </div>
+                            {/* Progress indicator badge */}
+                            {moduleProgress > 0 && !isModuleComplete && (
+                              <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                                {moduleProgress}%
+                              </div>
+                            )}
                           </div>
+                          
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-foreground text-sm lg:text-base">
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                Module {mod.module}
+                              </span>
+                              {hasProject && (
+                                <Badge variant="secondary" className="text-[9px] sm:text-[10px] px-1.5 py-0 h-4">
+                                  Capstone
+                                </Badge>
+                              )}
+                            </div>
+                            <h3 className="font-semibold text-foreground text-sm sm:text-base leading-tight">
                               {mod.title}
                             </h3>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {lessonCount} lesson{lessonCount > 1 ? 's' : ''}{hasProject ? ' • Capstone Project' : ''}
-                            </p>
-                            <p className="text-xs text-muted-foreground/80 mt-1 line-clamp-1">
-                              {moduleDescriptions[mod.module]}
-                            </p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs text-muted-foreground">
+                                {completedInModule}/{lessonCount} lessons
+                              </span>
+                              {/* Mini progress bar */}
+                              <div className="flex-1 max-w-[60px] h-1 bg-muted rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full rounded-full transition-all ${isModuleComplete ? 'bg-success' : 'bg-primary'}`}
+                                  style={{ width: `${moduleProgress}%` }}
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="px-4 pb-4">
-                        <div className="space-y-2 pt-2 border-t border-border">
-                          {moduleSubmodules.map((sub) => {
+                      <AccordionContent className="px-3 sm:px-4 pb-3 sm:pb-4">
+                        <div className="space-y-1.5 pt-2">
+                          {moduleSubmodules.map((sub, index) => {
                             const isCompleted = progress.completedSubmodules.includes(sub.submodule);
+                            const isFirst = index === 0;
+                            const isLast = index === moduleSubmodules.length - 1;
                             
                             return (
                               <SignedIn key={sub.submodule}>
                                 <Link 
                                   to={`/curriculum/submodule/${sub.submodule}`}
-                                  className="flex items-center gap-3 p-3 min-h-[56px] rounded-lg bg-transparent md:hover:bg-muted/50 active:bg-primary/10 active:scale-[0.98] transition-all duration-100 touch-manipulation select-none group"
+                                  className={`flex items-center gap-3 p-3 min-h-[60px] rounded-xl bg-background border border-border/50 md:hover:border-primary/30 md:hover:bg-primary/5 active:bg-primary/10 active:scale-[0.98] active:border-primary/50 transition-all duration-100 touch-manipulation select-none group ${
+                                    isCompleted ? 'border-success/30 bg-success/5' : ''
+                                  }`}
                                   style={{ WebkitTapHighlightColor: 'transparent' }}
                                 >
-                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-100 ${
+                                  {/* Lesson number/status indicator */}
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-100 font-semibold text-sm ${
                                     isCompleted 
                                       ? 'bg-success text-success-foreground' 
                                       : 'bg-muted text-muted-foreground md:group-hover:bg-primary md:group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground'
@@ -349,41 +395,43 @@ const Curriculum = () => {
                                     {isCompleted ? (
                                       <CheckCircle2 className="w-5 h-5" />
                                     ) : (
-                                      <Play className="w-4 h-4 ml-0.5" />
+                                      <span>{index + 1}</span>
                                     )}
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-foreground truncate">
+                                    <p className={`text-sm font-medium leading-tight ${isCompleted ? 'text-success' : 'text-foreground'}`}>
                                       {sub.title}
                                     </p>
-                                    <p className="text-xs text-muted-foreground truncate mt-0.5">
+                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
                                       {sub.description}
                                     </p>
                                   </div>
-                                  <ChevronRight className="w-5 h-5 text-muted-foreground md:opacity-0 md:group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
+                                  <ChevronRight className={`w-5 h-5 flex-shrink-0 transition-all ${
+                                    isCompleted ? 'text-success' : 'text-muted-foreground'
+                                  } md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-x-0.5 group-active:opacity-100`} />
                                 </Link>
                               </SignedIn>
                             );
                           })}
                           <SignedOut>
-                            {moduleSubmodules.map((sub) => (
+                            {moduleSubmodules.map((sub, index) => (
                               <SignInButton key={sub.submodule} mode="modal">
                                 <div 
-                                  className="flex items-center gap-3 p-3 min-h-[56px] rounded-lg bg-transparent md:hover:bg-muted/50 active:bg-primary/10 active:scale-[0.98] transition-all duration-100 touch-manipulation select-none cursor-pointer group"
+                                  className="flex items-center gap-3 p-3 min-h-[60px] rounded-xl bg-background border border-border/50 md:hover:border-primary/30 md:hover:bg-primary/5 active:bg-primary/10 active:scale-[0.98] active:border-primary/50 transition-all duration-100 touch-manipulation select-none cursor-pointer group"
                                   style={{ WebkitTapHighlightColor: 'transparent' }}
                                 >
-                                  <div className="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center flex-shrink-0 transition-colors duration-100 md:group-hover:bg-primary md:group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground">
-                                    <Play className="w-4 h-4 ml-0.5" />
+                                  <div className="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center flex-shrink-0 transition-colors duration-100 font-semibold text-sm md:group-hover:bg-primary md:group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground">
+                                    <span>{index + 1}</span>
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-foreground truncate">
+                                    <p className="text-sm font-medium text-foreground leading-tight">
                                       {sub.title}
                                     </p>
-                                    <p className="text-xs text-muted-foreground truncate mt-0.5">
+                                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
                                       {sub.description}
                                     </p>
                                   </div>
-                                  <ChevronRight className="w-5 h-5 text-muted-foreground md:opacity-0 md:group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
+                                  <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0 md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-x-0.5 group-active:opacity-100 transition-all" />
                                 </div>
                               </SignInButton>
                             ))}
