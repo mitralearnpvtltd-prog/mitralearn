@@ -89,97 +89,97 @@ const getPracticeChallenge = (submoduleId: string): {
   }> = {
     // 3.1 Relational Databases Basics - SQL (SQL.js)
     "3.1": {
-      question: "Write a SQL query to select all users from the 'users' table where their age is greater than 25.",
+      question: "Write a SQL query to select all employees from the 'employees' table where their salary is greater than 50000.",
       language: "sql",
-      expectedPatterns: ["SELECT", "FROM", "WHERE", "users", ">"],
+      expectedPatterns: ["SELECT", "FROM", "WHERE", "employees", ">"],
       exampleInput: `-- Example: Select all columns from a table with a condition
-SELECT * FROM employees WHERE salary > 50000;`,
-      exampleOutput: `-- Output would show all employees with salary above 50000
-id | name    | salary
-1  | Alice   | 75000
-3  | Charlie | 62000`,
-      solution: `-- Select all users older than 25
-SELECT * FROM users WHERE age > 25;
+SELECT * FROM users WHERE age > 25;`,
+      exampleOutput: `-- Output would show all users with age above 25
+id | name    | age
+2  | Bob     | 35
+4  | David   | 45`,
+      solution: `-- Select all employees with salary above 50000
+SELECT * FROM employees WHERE salary > 50000;
 
 -- Or select specific columns
-SELECT id, name, email, age 
-FROM users 
-WHERE age > 25
-ORDER BY age ASC;`,
-      hint: "Use SELECT to choose columns, FROM to specify the table, and WHERE with a comparison operator (>) to filter by age."
+SELECT id, name, department, salary 
+FROM employees 
+WHERE salary > 50000
+ORDER BY salary DESC;`,
+      hint: "Use SELECT to choose columns, FROM to specify the table, and WHERE with a comparison operator (>) to filter by salary."
     },
     
     // 4.2 Apache Spark Basics - Python (Pyodide)
     "4.2": {
-      question: "Write Python code that simulates counting records in a dataset. Create a list of sales records and print the total count.",
+      question: "Write Python code that simulates counting records in a dataset. Create a list of order records and print the total count.",
       language: "python",
       expectedPatterns: ["len(", "print", "=", "["],
       exampleInput: `# Example: Count items in a list
-products = ["laptop", "phone", "tablet"]
-count = len(products)
-print(f"Total products: {count}")`,
-      exampleOutput: `Total products: 3`,
+fruits = ["apple", "banana", "mango"]
+count = len(fruits)
+print(f"Total fruits: {count}")`,
+      exampleOutput: `Total fruits: 3`,
       solution: `# Simulating Spark record counting
-sales_records = [
-    {"id": 1, "product": "Laptop", "amount": 999},
-    {"id": 2, "product": "Mouse", "amount": 29},
-    {"id": 3, "product": "Keyboard", "amount": 79},
-    {"id": 4, "product": "Monitor", "amount": 299},
-    {"id": 5, "product": "Headphones", "amount": 149}
+order_records = [
+    {"id": 1, "customer": "Rahul", "amount": 1500},
+    {"id": 2, "customer": "Priya", "amount": 2300},
+    {"id": 3, "customer": "Amit", "amount": 890},
+    {"id": 4, "customer": "Sneha", "amount": 4200},
+    {"id": 5, "customer": "Vikram", "amount": 1750}
 ]
 
 # Count total records (like df.count() in Spark)
-total_records = len(sales_records)
+total_records = len(order_records)
 print(f"Total records: {total_records}")
 
 # Filter and count (like df.filter().count())
-high_value = [r for r in sales_records if r["amount"] > 100]
-print(f"High value sales: {len(high_value)}")`,
+high_value = [r for r in order_records if r["amount"] > 2000]
+print(f"High value orders: {len(high_value)}")`,
       hint: "Create a list of dictionaries representing records, use len() to count them, and print the result."
     },
     
     // 5.2 Apache Airflow Basics - Python (Pyodide)
     "5.2": {
-      question: "Write Python code that defines 3 task functions (extract, transform, load) and executes them in sequence, printing the task name when each runs.",
+      question: "Write Python code that defines 3 task functions (fetch_data, process_data, save_data) and executes them in sequence, printing the task name when each runs.",
       language: "python",
-      expectedPatterns: ["def", "print", "extract", "transform", "load"],
+      expectedPatterns: ["def", "print", "fetch", "process", "save"],
       exampleInput: `# Example: Define and run sequential tasks
-def task_a():
-    print("Running Task A")
-    return "data_a"
+def step_one():
+    print("Running Step 1")
+    return "output_1"
 
-def task_b(input_data):
-    print(f"Running Task B with {input_data}")
-    return "data_b"
+def step_two(input_data):
+    print(f"Running Step 2 with {input_data}")
+    return "output_2"
 
-result = task_a()
-task_b(result)`,
-      exampleOutput: `Running Task A
-Running Task B with data_a`,
+result = step_one()
+step_two(result)`,
+      exampleOutput: `Running Step 1
+Running Step 2 with output_1`,
       solution: `# Airflow-style task execution simulation
 
-def extract():
-    print("Task 1: EXTRACT - Fetching data from source")
-    data = [1, 2, 3, 4, 5]
+def fetch_data():
+    print("Task 1: FETCH_DATA - Retrieving data from API")
+    data = [10, 20, 30, 40, 50]
     return data
 
-def transform(data):
-    print("Task 2: TRANSFORM - Processing data")
-    transformed = [x * 2 for x in data]
-    return transformed
+def process_data(data):
+    print("Task 2: PROCESS_DATA - Cleaning and transforming")
+    processed = [x * 3 for x in data]
+    return processed
 
-def load(data):
-    print("Task 3: LOAD - Saving to destination")
-    print(f"Loaded {len(data)} records: {data}")
+def save_data(data):
+    print("Task 3: SAVE_DATA - Writing to database")
+    print(f"Saved {len(data)} records: {data}")
     return True
 
 # Execute DAG (Directed Acyclic Graph)
 print("=== Starting Airflow DAG ===")
-raw_data = extract()
-processed_data = transform(raw_data)
-success = load(processed_data)
+raw_data = fetch_data()
+clean_data = process_data(raw_data)
+success = save_data(clean_data)
 print(f"=== DAG Complete: {'Success' if success else 'Failed'} ===")`,
-      hint: "Define three functions (extract, transform, load) that each print their task name, then call them in sequence."
+      hint: "Define three functions (fetch_data, process_data, save_data) that each print their task name, then call them in sequence."
     },
     
     // 7.2 Apache Kafka Basics - Python (Pyodide)
@@ -188,27 +188,27 @@ print(f"=== DAG Complete: {'Success' if success else 'Failed'} ===")`,
       language: "python",
       expectedPatterns: ["append", "for", "print", "message", "="],
       exampleInput: `# Example: Simple queue simulation
-queue = []
-queue.append("msg1")
-queue.append("msg2")
+notifications = []
+notifications.append("alert1")
+notifications.append("alert2")
 
-for msg in queue:
-    print(f"Received: {msg}")`,
-      exampleOutput: `Received: msg1
-Received: msg2`,
+for notif in notifications:
+    print(f"Received: {notif}")`,
+      exampleOutput: `Received: alert1
+Received: alert2`,
       solution: `# Kafka Producer/Consumer Simulation
 
 # Create topic (message queue)
-orders_topic = []
+payments_topic = []
 
 # PRODUCER - Send messages to topic
 def produce(topic, message):
     topic.append(message)
     print(f"[PRODUCER] Sent: {message}")
 
-produce(orders_topic, {"order_id": 1, "item": "Laptop", "price": 999})
-produce(orders_topic, {"order_id": 2, "item": "Mouse", "price": 29})
-produce(orders_topic, {"order_id": 3, "item": "Keyboard", "price": 79})
+produce(payments_topic, {"txn_id": 101, "customer": "Ankit", "amount": 2500})
+produce(payments_topic, {"txn_id": 102, "customer": "Divya", "amount": 1800})
+produce(payments_topic, {"txn_id": 103, "customer": "Rohit", "amount": 3200})
 
 print("\\n--- Consumer Processing ---\\n")
 
@@ -217,9 +217,9 @@ def consume(topic):
     for message in topic:
         print(f"[CONSUMER] Received: {message}")
         # Process the message
-        print(f"  Processing order #{message['order_id']}: {message['item']}")
+        print(f"  Processing transaction #{message['txn_id']}: {message['customer']}")
 
-consume(orders_topic)
+consume(payments_topic)
 print("\\n[DONE] All messages consumed!")`,
       hint: "Create an empty list as a topic, use append() to add messages (produce), then use a for loop to read and print each message (consume)."
     }

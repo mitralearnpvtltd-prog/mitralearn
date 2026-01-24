@@ -65,7 +65,7 @@ const Curriculum = () => {
   // Career stats
   const careerStats = {
     growth: "97%",
-    salary: "$120,000+",
+    salary: "₹15,00,000+",
     roles: ["Python", "Apache Airflow", "SQL", "Spark", "AWS"],
     industries: ["Finance", "Healthcare", "Technology", "E-commerce"],
     perfectFor: ["Career switchers", "Data analysts", "Software engineers"],
@@ -242,8 +242,8 @@ const Curriculum = () => {
                     <span className="text-xs text-muted-foreground">Limited Time</span>
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-display font-bold text-foreground">$399</span>
-                    <span className="text-lg text-muted-foreground line-through">$599</span>
+                    <span className="text-3xl font-display font-bold text-foreground">₹4,999</span>
+                    <span className="text-lg text-muted-foreground line-through">₹7,499</span>
                   </div>
                   <p className="text-xs text-muted-foreground">One-time payment • Lifetime access</p>
 
