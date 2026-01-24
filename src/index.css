@@ -196,6 +196,42 @@
   .animate-fade-in {
     animation: fade-in 0.5s ease-out;
   }
+
+  /* Mobile touch-friendly utilities */
+  .touch-target {
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .touch-feedback {
+    transition: transform 0.1s ease, background-color 0.1s ease;
+  }
+
+  .touch-feedback:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Disable hover effects on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .group:hover .group-hover\:bg-primary,
+  .group:hover .group-hover\:text-primary-foreground,
+  .group:hover .group-hover\:opacity-100,
+  .hover\:bg-muted\/50:hover,
+  .hover\:underline:hover {
+    /* Reset hover styles on touch devices */
+  }
+  
+  /* Make active states more prominent on touch */
+  .touch-feedback:active,
+  .group:active .group-active\:bg-primary {
+    background-color: hsl(var(--primary)) !important;
+  }
+  
+  .group:active .group-active\:text-primary-foreground {
+    color: hsl(var(--primary-foreground)) !important;
+  }
 }
 
 @keyframes float {

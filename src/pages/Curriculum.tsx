@@ -338,12 +338,13 @@ const Curriculum = () => {
                               <SignedIn key={sub.submodule}>
                                 <Link 
                                   to={`/curriculum/submodule/${sub.submodule}`}
-                                  className="flex items-center gap-3 p-3 min-h-[56px] rounded-lg hover:bg-muted/50 active:bg-muted/70 active:scale-[0.99] transition-all touch-manipulation group"
+                                  className="flex items-center gap-3 p-3 min-h-[56px] rounded-lg bg-transparent md:hover:bg-muted/50 active:bg-primary/10 active:scale-[0.98] transition-all duration-100 touch-manipulation select-none group"
+                                  style={{ WebkitTapHighlightColor: 'transparent' }}
                                 >
-                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-100 ${
                                     isCompleted 
                                       ? 'bg-success text-success-foreground' 
-                                      : 'bg-muted text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground'
+                                      : 'bg-muted text-muted-foreground md:group-hover:bg-primary md:group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground'
                                   }`}>
                                     {isCompleted ? (
                                       <CheckCircle2 className="w-5 h-5" />
@@ -359,7 +360,7 @@ const Curriculum = () => {
                                       {sub.description}
                                     </p>
                                   </div>
-                                  <ChevronRight className="w-5 h-5 text-muted-foreground opacity-50 group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
+                                  <ChevronRight className="w-5 h-5 text-muted-foreground md:opacity-0 md:group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
                                 </Link>
                               </SignedIn>
                             );
@@ -367,8 +368,11 @@ const Curriculum = () => {
                           <SignedOut>
                             {moduleSubmodules.map((sub) => (
                               <SignInButton key={sub.submodule} mode="modal">
-                                <div className="flex items-center gap-3 p-3 min-h-[56px] rounded-lg hover:bg-muted/50 active:bg-muted/70 active:scale-[0.99] transition-all touch-manipulation cursor-pointer group">
-                                  <div className="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground">
+                                <div 
+                                  className="flex items-center gap-3 p-3 min-h-[56px] rounded-lg bg-transparent md:hover:bg-muted/50 active:bg-primary/10 active:scale-[0.98] transition-all duration-100 touch-manipulation select-none cursor-pointer group"
+                                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                                >
+                                  <div className="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center flex-shrink-0 transition-colors duration-100 md:group-hover:bg-primary md:group-hover:text-primary-foreground group-active:bg-primary group-active:text-primary-foreground">
                                     <Play className="w-4 h-4 ml-0.5" />
                                   </div>
                                   <div className="flex-1 min-w-0">
@@ -379,7 +383,7 @@ const Curriculum = () => {
                                       {sub.description}
                                     </p>
                                   </div>
-                                  <ChevronRight className="w-5 h-5 text-muted-foreground opacity-50 group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
+                                  <ChevronRight className="w-5 h-5 text-muted-foreground md:opacity-0 md:group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
                                 </div>
                               </SignInButton>
                             ))}
