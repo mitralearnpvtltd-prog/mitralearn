@@ -344,12 +344,12 @@ const Index = () => {
       
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b" style={{ borderColor: '#E5E7EB' }}>
-        <div className="container mx-auto px-4 h-20 sm:h-24 flex items-center justify-between">
+        <div className="container mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center">
             <img 
               src={mitraLearnLogo} 
               alt="Mitra Learn" 
-              className="h-16 sm:h-20 w-auto"
+              className="h-10 sm:h-12 w-auto"
             />
           </Link>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -1164,7 +1164,7 @@ const Index = () => {
               <img 
                 src={mitraLearnLogo} 
                 alt="Mitra Learn" 
-                className="h-12 sm:h-14 w-auto"
+                className="h-10 sm:h-12 w-auto"
               />
             </div>
             <div className="flex gap-6">
