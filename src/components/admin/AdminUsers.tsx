@@ -11,8 +11,12 @@ import {
   Calendar,
   Loader2,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  Smartphone,
+  Tablet,
+  Monitor
 } from "lucide-react";
+import { parseDeviceInfo, getDeviceIcon } from "@/lib/deviceDetector";
 import {
   Table,
   TableBody,
@@ -170,6 +174,7 @@ export default function AdminUsers() {
               <TableRow className="bg-muted/50 hover:bg-muted/50">
                 <TableHead className="w-[180px]">User</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead className="w-[100px]">Device</TableHead>
                 <TableHead className="w-[130px]">Registration</TableHead>
                 <TableHead className="w-[100px]">Last Login</TableHead>
                 <TableHead className="w-[100px]">Course Status</TableHead>
@@ -200,6 +205,19 @@ export default function AdminUsers() {
                         </div>
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{user.email}</TableCell>
+                      <TableCell className="text-sm">
+                        {(() => {
+                          const deviceType = getDeviceIcon(user.device_info);
+                          const deviceParsed = parseDeviceInfo(user.device_info);
+                          const DeviceIconComponent = deviceType === 'smartphone' ? Smartphone : deviceType === 'tablet' ? Tablet : Monitor;
+                          return (
+                            <div className="flex items-center gap-1.5" title={user.device_info || 'Unknown'}>
+                              <DeviceIconComponent className="h-3.5 w-3.5 text-muted-foreground" />
+                              <span className="text-xs text-muted-foreground">{deviceParsed.os}</span>
+                            </div>
+                          );
+                        })()}
+                      </TableCell>
                       <TableCell className="text-sm">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
@@ -288,6 +306,12 @@ export default function AdminUsers() {
                                     {user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never'}
                                   </p>
                                 </div>
+                                <div className="col-span-2">
+                                  <p className="text-xs text-muted-foreground">Device Info</p>
+                                  <p className="font-medium text-sm">
+                                    {user.device_info || 'Unknown'}
+                                  </p>
+                                </div>
                                 <div>
                                   <p className="text-xs text-muted-foreground">Course Status</p>
                                   <p className="font-medium">
@@ -356,7 +380,7 @@ export default function AdminUsers() {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                     No users found
                   </TableCell>
                 </TableRow>

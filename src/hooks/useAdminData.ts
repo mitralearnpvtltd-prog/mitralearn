@@ -27,6 +27,7 @@ interface UserData {
   completion_date: string | null;
   overall_band: string | null;
   completed_modules_count: number;
+  device_info: string | null;
 }
 
 interface CertificateData {
