@@ -22,11 +22,12 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
-        // Mobile touch-friendly: larger tap target, active state feedback
-        "min-h-[48px] touch-manipulation active:bg-muted/70 active:scale-[0.99] transition-transform",
+        "flex flex-1 items-center justify-between py-4 font-medium transition-all md:hover:underline [&[data-state=open]>svg]:rotate-180",
+        // Mobile touch-friendly: larger tap target, active state feedback, no hover on touch
+        "min-h-[48px] touch-manipulation select-none active:bg-muted/50 active:scale-[0.99] transition-transform duration-100",
         className,
       )}
+      style={{ WebkitTapHighlightColor: 'transparent' }}
       {...props}
     >
       {children}
