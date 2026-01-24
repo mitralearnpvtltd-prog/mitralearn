@@ -18,13 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, MapPin, Phone, Users, BookOpen } from "lucide-react";
+import { Loader2, MapPin, Phone, Users } from "lucide-react";
 import { toast } from "sonner";
-
-interface Course {
-  id: string;
-  title: string;
-}
 
 const AGE_GROUPS = [
   { value: "18-24", label: "18-24 years" },
@@ -38,15 +33,13 @@ export default function OnboardingModal() {
   const { user, isLoaded } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [courses, setCourses] = useState<Course[]>([]);
   const [formData, setFormData] = useState({
     phone: "",
     location: "",
     ageGroup: "",
-    enrolledCourseId: "",
   });
 
-  // Check if user needs onboarding
+  // Check if user needs onboarding (only for first-time users)
   useEffect(() => {
     const checkOnboardingStatus = async () => {
       if (!isLoaded || !user) return;
@@ -57,7 +50,8 @@ export default function OnboardingModal() {
         .eq("user_id", user.id)
         .maybeSingle();
 
-      if (profile && !profile.onboarding_completed) {
+      // Only show if profile exists and onboarding not completed
+      if (profile && profile.onboarding_completed === false) {
         setIsOpen(true);
       }
     };
@@ -65,28 +59,11 @@ export default function OnboardingModal() {
     checkOnboardingStatus();
   }, [user, isLoaded]);
 
-  // Fetch available courses
-  useEffect(() => {
-    const fetchCourses = async () => {
-      const { data } = await supabase
-        .from("courses")
-        .select("id, title")
-        .eq("is_published", true)
-        .order("title");
-
-      if (data) {
-        setCourses(data);
-      }
-    };
-
-    if (isOpen) {
-      fetchCourses();
-    }
-  }, [isOpen]);
+  const isFormValid = formData.phone && formData.location && formData.ageGroup;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !isFormValid) return;
 
     setIsSubmitting(true);
 
@@ -94,12 +71,10 @@ export default function OnboardingModal() {
       const { error } = await supabase
         .from("profiles")
         .update({
-          phone: formData.phone || null,
-          location: formData.location || null,
-          age_group: formData.ageGroup || null,
-          enrolled_course_id: formData.enrolledCourseId || null,
+          phone: formData.phone,
+          location: formData.location,
+          age_group: formData.ageGroup,
           onboarding_completed: true,
-          course_opted: !!formData.enrolledCourseId,
         })
         .eq("user_id", user.id);
 
@@ -115,33 +90,15 @@ export default function OnboardingModal() {
     }
   };
 
-  const handleSkip = async () => {
-    if (!user) return;
-
-    setIsSubmitting(true);
-    try {
-      await supabase
-        .from("profiles")
-        .update({ onboarding_completed: true })
-        .eq("user_id", user.id);
-
-      setIsOpen(false);
-    } catch (error) {
-      console.error("Error skipping onboarding:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   if (!isLoaded || !user) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()}>
+      <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="text-xl">Welcome! Let's get you started</DialogTitle>
+          <DialogTitle className="text-xl">Welcome! Complete your profile</DialogTitle>
           <DialogDescription>
-            Help us personalize your learning experience by answering a few questions.
+            Please provide your details to get started with your learning journey.
           </DialogDescription>
         </DialogHeader>
 
@@ -149,7 +106,7 @@ export default function OnboardingModal() {
           <div className="space-y-2">
             <Label htmlFor="phone" className="flex items-center gap-2 text-sm">
               <Phone className="h-4 w-4 text-muted-foreground" />
-              Phone Number
+              Phone Number <span className="text-destructive">*</span>
             </Label>
             <Input
               id="phone"
@@ -157,13 +114,14 @@ export default function OnboardingModal() {
               placeholder="+91 98765 43210"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              required
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="location" className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4 text-muted-foreground" />
-              Location
+              Location <span className="text-destructive">*</span>
             </Label>
             <Input
               id="location"
@@ -171,17 +129,19 @@ export default function OnboardingModal() {
               placeholder="City, Country"
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              required
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="ageGroup" className="flex items-center gap-2 text-sm">
               <Users className="h-4 w-4 text-muted-foreground" />
-              Age Group
+              Age Group <span className="text-destructive">*</span>
             </Label>
             <Select
               value={formData.ageGroup}
               onValueChange={(value) => setFormData({ ...formData, ageGroup: value })}
+              required
             >
               <SelectTrigger id="ageGroup">
                 <SelectValue placeholder="Select your age group" />
@@ -196,49 +156,16 @@ export default function OnboardingModal() {
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="course" className="flex items-center gap-2 text-sm">
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-              Which course would you like to enroll in?
-            </Label>
-            <Select
-              value={formData.enrolledCourseId}
-              onValueChange={(value) => setFormData({ ...formData, enrolledCourseId: value })}
-            >
-              <SelectTrigger id="course">
-                <SelectValue placeholder="Select a course" />
-              </SelectTrigger>
-              <SelectContent>
-                {courses.map((course) => (
-                  <SelectItem key={course.id} value={course.id}>
-                    {course.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex gap-3 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleSkip}
-              disabled={isSubmitting}
-              className="flex-1"
-            >
-              Skip for now
-            </Button>
-            <Button type="submit" disabled={isSubmitting} className="flex-1">
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                "Continue"
-              )}
-            </Button>
-          </div>
+          <Button type="submit" disabled={isSubmitting || !isFormValid} className="w-full mt-6">
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Continue"
+            )}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
