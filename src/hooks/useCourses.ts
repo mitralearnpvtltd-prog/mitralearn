@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 export interface Course {
   id: string;
+  course_code: string | null;
   title: string;
   description: string;
   category: string;
@@ -27,6 +28,7 @@ export interface Course {
 }
 
 export interface CourseFormData {
+  course_code: string;
   title: string;
   description: string;
   category: string;
