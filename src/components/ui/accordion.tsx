@@ -23,6 +23,8 @@ const AccordionTrigger = React.forwardRef<
       ref={ref}
       className={cn(
         "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        // Mobile touch-friendly: larger tap target, active state feedback
+        "min-h-[48px] touch-manipulation active:bg-muted/70 active:scale-[0.99] transition-transform",
         className,
       )}
       {...props}
