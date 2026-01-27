@@ -158,10 +158,9 @@ export function useAdminCourses() {
   };
 
   const deleteCourse = async (id: string) => {
-    // Soft delete by setting is_published to false and status to draft
     const { error } = await supabase
       .from('courses')
-      .update({ is_published: false, status: 'draft' })
+      .delete()
       .eq('id', id);
 
     if (error) throw error;
