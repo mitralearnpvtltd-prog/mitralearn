@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,10 @@ import {
   Edit,
   Eye,
   EyeOff,
-  MoreVertical
+  MoreVertical,
+  Upload,
+  ImageIcon,
+  X
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -47,7 +50,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useAdminCourses, CourseFormData, Course } from "@/hooks/useCourses";
+import { useAdminCourses, CourseFormData, Course, uploadCourseImage } from "@/hooks/useCourses";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import { CourseCard } from "@/components/CourseCard";
 import { toast } from "sonner";
@@ -110,6 +113,8 @@ export default function AdminCourseManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [courseToDelete, setCourseToDelete] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const filteredCourses = courses.filter(course => 
     course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -145,11 +150,20 @@ export default function AdminCourseManagement() {
 
     setIsSubmitting(true);
     try {
+      let imageUrl = formData.image_url;
+      
+      // Upload image if selected
+      if (imageFile) {
+        imageUrl = await uploadCourseImage(imageFile, editingCourseId || undefined);
+      }
+
+      const courseData = { ...formData, image_url: imageUrl };
+
       if (isEditing && editingCourseId) {
-        await updateCourse(editingCourseId, formData);
+        await updateCourse(editingCourseId, courseData);
         toast.success("Course updated - landing page will update automatically");
       } else {
-        await createCourse(formData);
+        await createCourse(courseData);
         toast.success("Course created - now visible in landing page if published");
       }
       setIsFormOpen(false);
@@ -185,9 +199,11 @@ export default function AdminCourseManagement() {
       badge_color: course.badge_color || '#7C3AED',
       icon_bg: course.icon_bg || '#7C3AED',
       icon_type: course.icon_type || 'database',
+      image_url: course.image_url || undefined,
       status: course.status,
       is_published: course.is_published,
     });
+    setImagePreview(course.image_url || null);
     setEditingCourseId(course.id);
     setIsEditing(true);
     setIsFormOpen(true);
@@ -242,6 +258,8 @@ export default function AdminCourseManagement() {
     setEditingCourseId(null);
     setIsEditing(false);
     setConceptInput("");
+    setImageFile(null);
+    setImagePreview(null);
   };
 
   if (isLoading) {
@@ -287,6 +305,10 @@ export default function AdminCourseManagement() {
               onAddConcept={handleAddConcept}
               onRemoveConcept={handleRemoveConcept}
               isEditing={isEditing}
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+              imagePreview={imagePreview}
+              setImagePreview={setImagePreview}
             />
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsFormOpen(false)}>
@@ -424,7 +446,11 @@ function CourseForm({
   setConceptInput,
   onAddConcept,
   onRemoveConcept,
-  isEditing
+  isEditing,
+  imageFile,
+  setImageFile,
+  imagePreview,
+  setImagePreview,
 }: {
   formData: CourseFormData;
   setFormData: React.Dispatch<React.SetStateAction<CourseFormData>>;
@@ -433,9 +459,84 @@ function CourseForm({
   onAddConcept: () => void;
   onRemoveConcept: (index: number) => void;
   isEditing: boolean;
+  imageFile: File | null;
+  setImageFile: (file: File | null) => void;
+  imagePreview: string | null;
+  setImagePreview: (url: string | null) => void;
 }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image must be less than 5MB");
+        return;
+      }
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+    setFormData(prev => ({ ...prev, image_url: undefined }));
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const currentImage = imagePreview || formData.image_url;
   return (
     <div className="grid gap-4 py-4">
+      {/* Course Image Upload */}
+      <div className="space-y-2">
+        <Label>Course Image</Label>
+        <div className="flex items-start gap-4">
+          <div className="relative w-32 h-24 rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center overflow-hidden bg-muted/50">
+            {currentImage ? (
+              <>
+                <img 
+                  src={currentImage} 
+                  alt="Course preview" 
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 hover:bg-destructive/90"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </>
+            ) : (
+              <ImageIcon className="h-8 w-8 text-muted-foreground/50" />
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageSelect}
+              accept="image/*"
+              className="hidden"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+              className="gap-2"
+            >
+              <Upload className="h-4 w-4" />
+              {currentImage ? 'Change Image' : 'Upload Image'}
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Recommended: 800x600px, max 5MB
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Course Code */}
       <div className="space-y-2">
         <Label htmlFor="course_code">Course Code (e.g., DE-FND-001)</Label>
