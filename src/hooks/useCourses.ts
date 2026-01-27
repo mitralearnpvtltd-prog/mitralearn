@@ -50,6 +50,25 @@ export interface CourseFormData {
   is_published: boolean;
 }
 
+// Upload course image to storage
+export async function uploadCourseImage(file: File, courseId?: string): Promise<string> {
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${courseId || crypto.randomUUID()}-${Date.now()}.${fileExt}`;
+  const filePath = `courses/${fileName}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('course-images')
+    .upload(filePath, file, { upsert: true });
+
+  if (uploadError) throw uploadError;
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('course-images')
+    .getPublicUrl(filePath);
+
+  return publicUrl;
+}
+
 // Hook to fetch published courses (for landing page)
 export function usePublishedCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
