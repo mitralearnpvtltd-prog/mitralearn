@@ -164,7 +164,7 @@ export default function AdminCourseManagement() {
   };
 
   const handleEdit = (course: typeof courses[0]) => {
-    if (!permissions.canEditCourse) {
+    if (!permissions['course.edit']) {
       toast.error("You don't have permission to edit courses");
       return;
     }
@@ -195,7 +195,7 @@ export default function AdminCourseManagement() {
   };
 
   const handleDelete = async (courseId: string) => {
-    if (!permissions.canDeleteCourse) {
+    if (!permissions['course.delete']) {
       toast.error("You don't have permission to delete courses");
       return;
     }
@@ -208,7 +208,7 @@ export default function AdminCourseManagement() {
   };
 
   const handleTogglePublish = async (courseId: string, isPublished: boolean) => {
-    if (!permissions.canPublishCourse) {
+    if (!permissions['course.publish']) {
       toast.error("You don't have permission to publish/unpublish courses");
       return;
     }
@@ -256,7 +256,7 @@ export default function AdminCourseManagement() {
           if (!open) resetForm();
         }}>
           <DialogTrigger asChild>
-            <Button className="gap-2" disabled={!permissions.canCreateCourse}>
+            <Button className="gap-2" disabled={!permissions['course.create']}>
               <Plus className="h-4 w-4" />
               Add Course
             </Button>
@@ -581,14 +581,14 @@ export default function AdminCourseManagement() {
                     <DropdownMenuItem 
                       className="gap-2" 
                       onClick={() => handleEdit(course)}
-                      disabled={!permissions.canEditCourse}
+                      disabled={!permissions['course.edit']}
                     >
                       <Edit className="h-3 w-3" /> Edit Course
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       className="gap-2 text-destructive" 
                       onClick={() => handleDelete(course.id)}
-                      disabled={!permissions.canDeleteCourse}
+                      disabled={!permissions['course.delete']}
                     >
                       <Trash2 className="h-3 w-3" /> Disable Course
                     </DropdownMenuItem>
@@ -712,7 +712,7 @@ export default function AdminCourseManagement() {
                     <Switch 
                       checked={course.is_published}
                       onCheckedChange={(checked) => handleTogglePublish(course.id, checked)}
-                      disabled={!permissions.canPublishCourse}
+                      disabled={!permissions['course.publish']}
                     />
                     <span className={`text-xs font-medium ${course.is_published ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {course.is_published ? 'Published' : 'Hidden'}
@@ -721,7 +721,7 @@ export default function AdminCourseManagement() {
                   <Select 
                     value={course.status} 
                     onValueChange={(v: 'active' | 'coming_soon' | 'draft') => handleStatusChange(course.id, v)}
-                    disabled={!permissions.canEditCourse}
+                    disabled={!permissions['course.edit']}
                   >
                     <SelectTrigger className="h-7 w-28 text-xs">
                       <SelectValue />
