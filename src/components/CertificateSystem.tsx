@@ -31,7 +31,7 @@ export const CertificateSystem = () => {
 
   const requirements = [
     {
-      label: "Complete all submodules",
+      label: "Complete all lessons",
       completed: progress.completedSubmodules.length >= totalSubmodules,
       current: progress.completedSubmodules.length,
       total: totalSubmodules,
@@ -41,19 +41,6 @@ export const CertificateSystem = () => {
       completed: Object.keys(progress.completedQuizzes).length >= totalSubmodules,
       current: Object.keys(progress.completedQuizzes).length,
       total: totalSubmodules,
-    },
-    {
-      label: "Complete all module assessments",
-      completed: progress.completedModuleAssessments.length >= totalModules,
-      current: progress.completedModuleAssessments.length,
-      total: totalModules,
-    },
-    {
-      label: "Pass final assessment (≥60%)",
-      completed: (progress.finalAssessmentScore || 0) >= 60,
-      current: progress.finalAssessmentScore || 0,
-      total: 100,
-      suffix: "%",
     },
     {
       label: "Submit final project",
@@ -160,7 +147,7 @@ export const CertificateSystem = () => {
                         </span>
                       </div>
                       <Badge variant={req.completed ? "default" : "outline"} className="flex-shrink-0 text-xs">
-                        {req.current}/{req.total}{req.suffix || ""}
+                        {req.current}/{req.total}
                       </Badge>
                     </div>
                   ))}

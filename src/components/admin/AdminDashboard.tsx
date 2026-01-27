@@ -97,21 +97,19 @@ export default function AdminDashboard() {
         <p className="text-muted-foreground mt-1">Monitor your platform's performance and key metrics</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat) => (
-          <Card key={stat.title} className="overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between space-y-0 pb-2">
-                <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                <div className="h-10 w-10 bg-secondary/50 rounded-lg flex items-center justify-center text-primary">
-                  <stat.icon className="h-5 w-5" />
+          <Card key={stat.title} className="overflow-hidden border shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between pb-1">
+                <p className="text-xs font-medium text-muted-foreground">{stat.title}</p>
+                <div className="h-8 w-8 bg-secondary/50 rounded-md flex items-center justify-center text-primary">
+                  <stat.icon className="h-4 w-4" />
                 </div>
               </div>
-              <div className="flex items-baseline space-x-2">
-                <div className="text-2xl font-bold">{stat.value}</div>
-              </div>
-              <div className="flex items-center text-xs text-muted-foreground mt-1">
-                {stat.trend === 'up' && <ArrowUpRight className="h-3 w-3 text-emerald-500 mr-1" />}
+              <div className="text-xl font-bold">{stat.value}</div>
+              <div className="flex items-center text-[10px] text-muted-foreground mt-0.5">
+                {stat.trend === 'up' && <ArrowUpRight className="h-3 w-3 text-emerald-500 mr-0.5" />}
                 <span className={stat.trend === 'up' ? 'text-emerald-500 font-medium' : ''}>{stat.change}</span>
               </div>
             </CardContent>

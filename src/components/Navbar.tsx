@@ -76,12 +76,6 @@ export const Navbar = () => {
                 </Link>
               ))}
             </SignedIn>
-            <Link to="/verify-certificate">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <Shield className="w-4 h-4" />
-                Verify
-              </Button>
-            </Link>
             {/* Admin Link - Only visible to admins */}
             <SignedIn>
               {isAdmin && (
@@ -170,12 +164,6 @@ export const Navbar = () => {
                   </Link>
                 ))}
               </SignedIn>
-              <Link to="/verify-certificate" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start gap-2">
-                  <Shield className="w-4 h-4" />
-                  Verify Certificate
-                </Button>
-              </Link>
               {/* Admin Link in mobile - Only visible to admins */}
               {isAdmin && (
                 <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
