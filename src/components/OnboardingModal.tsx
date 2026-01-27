@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Loader2, MapPin, Phone, Users } from "lucide-react";
 import { toast } from "sonner";
+import { getStoredUTMParams, getFirstLandingPage, getRegistrationSource } from "@/hooks/useUTMTracking";
 
 const AGE_GROUPS = [
   { value: "18-24", label: "18-24 years" },
@@ -68,14 +69,31 @@ export default function OnboardingModal() {
     setIsSubmitting(true);
 
     try {
+      // Get UTM data
+      const utmParams = getStoredUTMParams();
+      const firstLandingPage = getFirstLandingPage();
+      const registrationSource = getRegistrationSource();
+
+      const updateData: Record<string, any> = {
+        phone: formData.phone,
+        location: formData.location,
+        age_group: formData.ageGroup,
+        onboarding_completed: true,
+        registration_source: registrationSource,
+        first_landing_page: firstLandingPage,
+      };
+
+      // Add UTM params if available
+      if (utmParams.utm_source) updateData.utm_source = utmParams.utm_source;
+      if (utmParams.utm_medium) updateData.utm_medium = utmParams.utm_medium;
+      if (utmParams.utm_campaign) updateData.utm_campaign = utmParams.utm_campaign;
+      if (utmParams.utm_term) updateData.utm_term = utmParams.utm_term;
+      if (utmParams.utm_content) updateData.utm_content = utmParams.utm_content;
+      if (utmParams.referral_code) updateData.referred_by = utmParams.referral_code;
+
       const { error } = await supabase
         .from("profiles")
-        .update({
-          phone: formData.phone,
-          location: formData.location,
-          age_group: formData.ageGroup,
-          onboarding_completed: true,
-        })
+        .update(updateData)
         .eq("user_id", user.id);
 
       if (error) throw error;

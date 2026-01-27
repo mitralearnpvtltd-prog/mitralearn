@@ -796,6 +796,7 @@ export type Database = {
         Args: never
         Returns: {
           age_group: string
+          candidate_status: string
           cert_id: string
           certificate_earned: boolean
           certificate_id: string
@@ -805,6 +806,7 @@ export type Database = {
           completed_quizzes: Json
           completion_date: string
           course_opted: boolean
+          deleted_at: string
           device_info: string
           email: string
           email_verified: boolean
@@ -818,8 +820,15 @@ export type Database = {
           onboarding_completed: boolean
           overall_band: string
           phone: string
+          referral_code: string
+          referral_count: number
+          referred_by: string
           registered_at: string
+          registration_source: string
           user_id: string
+          utm_campaign: string
+          utm_medium: string
+          utm_source: string
         }[]
       }
       get_admin_stats: {

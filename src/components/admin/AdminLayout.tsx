@@ -20,7 +20,8 @@ import {
   InfoIcon,
   Loader2,
   ShieldX,
-  Ticket
+  Ticket,
+  Share2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -49,8 +50,9 @@ export default function AdminLayout() {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Courses', href: '/admin/courses', icon: BookOpen },
+    { name: 'Candidates', href: '/admin/candidates', icon: Users },
+    { name: 'Referrals', href: '/admin/referrals', icon: Share2 },
     { name: 'Coupons', href: '/admin/coupons', icon: Ticket },
-    { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Roles', href: '/admin/roles', icon: ShieldCheck },
     { name: 'Certificates', href: '/admin/certificates', icon: Award },
     { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
