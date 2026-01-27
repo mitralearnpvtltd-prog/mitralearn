@@ -37,7 +37,7 @@ export interface CourseFormData {
   extra_concepts_count: number;
   duration: string;
   price: number;
-  original_price?: number;
+  original_price?: number | null;
   students_count: string;
   rating: number;
   reviews_count: string;
@@ -45,9 +45,23 @@ export interface CourseFormData {
   badge_color: string;
   icon_bg: string;
   icon_type: string;
-  image_url?: string;
+  image_url?: string | null;
   status: 'active' | 'coming_soon' | 'draft';
   is_published: boolean;
+}
+
+// Validation helper
+export function validateCourseData(data: CourseFormData): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  
+  if (!data.title?.trim()) errors.push("Title is required");
+  if (!data.description?.trim()) errors.push("Description is required");
+  if (!data.category?.trim()) errors.push("Category is required");
+  if (!data.duration?.trim()) errors.push("Duration is required");
+  if (data.price < 0) errors.push("Price must be a positive number");
+  if (data.rating < 0 || data.rating > 5) errors.push("Rating must be between 0 and 5");
+  
+  return { valid: errors.length === 0, errors };
 }
 
 // Upload course image to storage
@@ -153,27 +167,93 @@ export function useAdminCourses() {
     };
   }, [fetchCourses]);
 
-  const createCourse = async (courseData: CourseFormData) => {
+  const createCourse = async (courseData: CourseFormData): Promise<Course> => {
+    // Validate before sending to database
+    const validation = validateCourseData(courseData);
+    if (!validation.valid) {
+      throw new Error(validation.errors.join(', '));
+    }
+
+    // Prepare data for insertion - ensure proper types
+    const insertData = {
+      course_code: courseData.course_code || null,
+      title: courseData.title.trim(),
+      description: courseData.description.trim(),
+      category: courseData.category.trim(),
+      category_badge: courseData.category_badge || null,
+      concepts: courseData.concepts || [],
+      extra_concepts_count: courseData.extra_concepts_count || 0,
+      duration: courseData.duration.trim(),
+      price: Number(courseData.price) || 0,
+      original_price: courseData.original_price ? Number(courseData.original_price) : null,
+      students_count: courseData.students_count || '0',
+      rating: Number(courseData.rating) || 0,
+      reviews_count: courseData.reviews_count || '0',
+      badge: courseData.badge || null,
+      badge_color: courseData.badge_color || '#7C3AED',
+      icon_bg: courseData.icon_bg || '#7C3AED',
+      icon_type: courseData.icon_type || 'database',
+      image_url: courseData.image_url || null,
+      status: courseData.status || 'draft',
+      is_published: courseData.is_published || false,
+    };
+
     const { data, error } = await supabase
       .from('courses')
-      .insert([courseData])
+      .insert([insertData])
       .select()
       .single();
 
-    if (error) throw error;
-    return data;
+    if (error) {
+      console.error('Create course error:', error);
+      throw new Error(`Failed to create course: ${error.message}`);
+    }
+    
+    if (!data) {
+      throw new Error('Course created but no data returned');
+    }
+
+    return data as Course;
   };
 
-  const updateCourse = async (id: string, courseData: Partial<CourseFormData>) => {
+  const updateCourse = async (id: string, courseData: Partial<CourseFormData>): Promise<Course> => {
+    // Prepare update data - only include defined fields
+    const updateData: Record<string, unknown> = {};
+    
+    if (courseData.course_code !== undefined) updateData.course_code = courseData.course_code || null;
+    if (courseData.title !== undefined) updateData.title = courseData.title.trim();
+    if (courseData.description !== undefined) updateData.description = courseData.description.trim();
+    if (courseData.category !== undefined) updateData.category = courseData.category.trim();
+    if (courseData.category_badge !== undefined) updateData.category_badge = courseData.category_badge || null;
+    if (courseData.concepts !== undefined) updateData.concepts = courseData.concepts || [];
+    if (courseData.extra_concepts_count !== undefined) updateData.extra_concepts_count = courseData.extra_concepts_count || 0;
+    if (courseData.duration !== undefined) updateData.duration = courseData.duration.trim();
+    if (courseData.price !== undefined) updateData.price = Number(courseData.price) || 0;
+    if (courseData.original_price !== undefined) updateData.original_price = courseData.original_price ? Number(courseData.original_price) : null;
+    if (courseData.students_count !== undefined) updateData.students_count = courseData.students_count || '0';
+    if (courseData.rating !== undefined) updateData.rating = Number(courseData.rating) || 0;
+    if (courseData.reviews_count !== undefined) updateData.reviews_count = courseData.reviews_count || '0';
+    if (courseData.badge !== undefined) updateData.badge = courseData.badge || null;
+    if (courseData.badge_color !== undefined) updateData.badge_color = courseData.badge_color || '#7C3AED';
+    if (courseData.icon_bg !== undefined) updateData.icon_bg = courseData.icon_bg || '#7C3AED';
+    if (courseData.icon_type !== undefined) updateData.icon_type = courseData.icon_type || 'database';
+    if (courseData.image_url !== undefined) updateData.image_url = courseData.image_url || null;
+    if (courseData.status !== undefined) updateData.status = courseData.status;
+    if (courseData.is_published !== undefined) updateData.is_published = courseData.is_published;
+
     const { data, error } = await supabase
       .from('courses')
-      .update(courseData)
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();
 
-    if (error) throw error;
-    return data;
+    if (error) {
+      console.error('Update course error:', error);
+      throw new Error(`Failed to update course: ${error.message}`);
+    }
+    
+    return data as Course;
   };
 
   const deleteCourse = async (id: string) => {

@@ -50,7 +50,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useAdminCourses, CourseFormData, Course, uploadCourseImage } from "@/hooks/useCourses";
+import { useAdminCourses, CourseFormData, Course, uploadCourseImage, validateCourseData } from "@/hooks/useCourses";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import { CourseCard } from "@/components/CourseCard";
 import { toast } from "sonner";
@@ -143,8 +143,10 @@ export default function AdminCourseManagement() {
   };
 
   const handleSubmit = async () => {
-    if (!formData.title || !formData.description || !formData.category || !formData.duration) {
-      toast.error("Please fill in all required fields");
+    // Validate required fields
+    const validation = validateCourseData(formData);
+    if (!validation.valid) {
+      validation.errors.forEach(error => toast.error(error));
       return;
     }
 
@@ -154,23 +156,33 @@ export default function AdminCourseManagement() {
       
       // Upload image if selected
       if (imageFile) {
-        imageUrl = await uploadCourseImage(imageFile, editingCourseId || undefined);
+        try {
+          imageUrl = await uploadCourseImage(imageFile, editingCourseId || undefined);
+        } catch (uploadError) {
+          console.error('Image upload failed:', uploadError);
+          toast.error("Failed to upload image, but proceeding with course save");
+        }
       }
 
-      const courseData = { ...formData, image_url: imageUrl };
+      const courseData: CourseFormData = { 
+        ...formData, 
+        image_url: imageUrl || undefined 
+      };
 
       if (isEditing && editingCourseId) {
         await updateCourse(editingCourseId, courseData);
-        toast.success("Course updated - landing page will update automatically");
+        toast.success("Course updated successfully!");
       } else {
-        await createCourse(courseData);
-        toast.success("Course created - now visible in landing page if published");
+        const newCourse = await createCourse(courseData);
+        toast.success(`Course "${newCourse.title}" created successfully!`);
       }
+      
       setIsFormOpen(false);
       resetForm();
     } catch (error) {
-      toast.error(isEditing ? "Failed to update course" : "Failed to create course");
-      console.error(error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      toast.error(isEditing ? `Failed to update: ${errorMessage}` : `Failed to create: ${errorMessage}`);
+      console.error('Course save error:', error);
     } finally {
       setIsSubmitting(false);
     }
