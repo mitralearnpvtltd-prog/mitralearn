@@ -26,8 +26,13 @@ import {
   Rocket,
   TrendingUp,
   Target,
+  Loader2,
 } from "lucide-react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
+import { usePublishedCourses } from "@/hooks/useCourses";
+import { CourseCard } from "@/components/CourseCard";
+
+// Fallback images for courses
 import courseDataEngineering from "@/assets/course-cover-data-engineering.jpg";
 import courseAiEngineer from "@/assets/course-cover-ai-engineer.png";
 import courseFullstack from "@/assets/course-cover-fullstack.png";
@@ -38,6 +43,7 @@ import courseMarketing from "@/assets/course-cover-marketing.png";
 const Index = () => {
   const navigate = useNavigate();
   const { user, isSignedIn } = useUser();
+  const { courses: dbCourses, isLoading: isCoursesLoading } = usePublishedCourses();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isTouch, setIsTouch] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
@@ -138,122 +144,7 @@ const Index = () => {
     }`;
   };
 
-  const courses = [
-    {
-      category: "DATA ENGINEERING",
-      categoryBadge: "Tech Fundamentals",
-      title: "Data Engineering",
-      description: "Build scalable data pipelines and infrastructures for big data processing.",
-      concepts: ["Python", "SQL", "ETL"],
-      extraConceptsCount: 1,
-      duration: "12 weeks",
-      students: "12,543",
-      rating: 4.8,
-      reviews: "2.4k",
-      level: "Beginner",
-      status: "active",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#7C3AED",
-      icon: Database,
-      image: courseDataEngineering,
-    },
-    {
-      category: "ARTIFICIAL INTELLIGENCE",
-      categoryBadge: "AI & ML",
-      title: "AI Engineer",
-      description: "Master NLP, chatbots, and build intelligent systems with cutting-edge technologies.",
-      concepts: ["ML", "DL", "NLP"],
-      extraConceptsCount: 2,
-      duration: "16 weeks",
-      students: "8,234",
-      rating: 4.7,
-      reviews: "1.8k",
-      level: "Intermediate",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#F97316",
-      icon: Brain,
-      image: courseAiEngineer,
-    },
-    {
-      category: "WEB DEVELOPMENT",
-      categoryBadge: "Full Stack",
-      title: "Fullstack Developer",
-      description: "Build complete web applications from frontend to backend with modern frameworks.",
-      concepts: ["React", "Node.js", "APIs"],
-      extraConceptsCount: 1,
-      duration: "14 weeks",
-      students: "15,678",
-      rating: 4.9,
-      reviews: "3.2k",
-      level: "Beginner",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#06B6D4",
-      icon: Code,
-      image: courseFullstack,
-    },
-    {
-      category: "AI & PYTHON",
-      categoryBadge: "Python",
-      title: "Python AI Engineer",
-      description: "Specialize in Python for AI, machine learning, and data science applications.",
-      concepts: ["Python", "TensorFlow", "PyTorch"],
-      extraConceptsCount: 2,
-      duration: "16 weeks",
-      students: "9,456",
-      rating: 4.6,
-      reviews: "2.1k",
-      level: "Intermediate",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#6366F1",
-      icon: Brain,
-      image: coursePythonAi,
-    },
-    {
-      category: "ENTERPRISE DEVELOPMENT",
-      categoryBadge: "Enterprise",
-      title: "Java Fullstack",
-      description: "Build enterprise-grade applications with Java and Spring ecosystem.",
-      concepts: ["Java", "Spring", "Microservices"],
-      extraConceptsCount: 2,
-      duration: "18 weeks",
-      students: "6,789",
-      rating: 4.5,
-      reviews: "1.4k",
-      level: "Advanced",
-      status: "coming",
-      badge: "Advanced",
-      badgeColor: "#7C3AED",
-      iconBg: "#F97316",
-      icon: Code,
-      image: courseJavaFullstack,
-    },
-    {
-      category: "MARKETING & GROWTH",
-      categoryBadge: "Marketing",
-      title: "Product Marketing",
-      description: "Drive product adoption, market positioning, and growth strategies.",
-      concepts: ["GTM", "Research", "Positioning"],
-      extraConceptsCount: 2,
-      duration: "10 weeks",
-      students: "5,123",
-      rating: 4.4,
-      reviews: "1.1k",
-      level: "Beginner",
-      status: "coming",
-      badge: "Project + Internship",
-      badgeColor: "#7C3AED",
-      iconBg: "#EC4899",
-      icon: TrendingUp,
-      image: courseMarketing,
-    },
-  ];
+  // Courses now come from database via usePublishedCourses hook
 
   const features = [
     { icon: BookOpen, title: "Structured Courses", bgColor: "#F1F5F9", iconColor: "#475569" },
@@ -582,358 +473,21 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto px-1 sm:px-0">
-            {courses.map((course, index) => (
-              <div 
-                key={index}
-                className="group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden"
-                style={{ 
-                  borderRadius: '16px',
-                  border: '1px solid #E5E7EB',
-                }}
-              >
-                {/* Image Section */}
-                <div 
-                  className="relative h-48 w-full overflow-hidden"
-                  style={{ 
-                    backgroundColor: course.iconBg,
-                  }}
-                >
-                  {course.image ? (
-                    <img 
-                      src={course.image} 
-                      alt={course.title}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  ) : (
-                    <div 
-                      className="w-full h-full"
-                      style={{ 
-                        background: `linear-gradient(135deg, ${course.iconBg}cc 0%, ${course.iconBg} 100%)`,
-                      }}
-                    />
-                  )}
-                  {/* Icon as placeholder when no image - moved inside the else branch above */}
-                  
-                  {/* Original Badge Style */}
-                  <div className="absolute top-3 left-3">
-                    <span 
-                      className="text-white text-xs font-semibold px-3 py-1.5 rounded-md"
-                      style={{ backgroundColor: course.badgeColor }}
-                    >
-                      {course.badge}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Content Section */}
-                <div className="p-5">
-                  {/* Title */}
-                  <h3 
-                    className="text-lg font-bold mb-3"
-                    style={{ color: '#0F172A' }}
-                  >
-                    {course.title}
-                  </h3>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {course.concepts.map((concept, i) => (
-                      <span 
-                        key={i} 
-                        className="text-xs px-3 py-1 rounded-full border"
-                        style={{ borderColor: '#E5E7EB', color: '#475569' }}
-                      >
-                        {concept}
-                      </span>
-                    ))}
-                    {course.extraConceptsCount && course.extraConceptsCount > 0 && (
-                      <span 
-                        className="text-xs px-3 py-1 rounded-full border"
-                        style={{ borderColor: '#E5E7EB', color: '#475569' }}
-                      >
-                        +{course.extraConceptsCount}
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* Duration & Students */}
-                  <div className="flex items-center gap-4 mb-4 text-sm" style={{ color: '#64748B' }}>
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="h-4 w-4" />
-                      <span>{course.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Users className="h-4 w-4" />
-                      <span>{course.students}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Rating & Level */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-1.5">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-semibold" style={{ color: '#0F172A' }}>{course.rating}</span>
-                      <span className="text-sm" style={{ color: '#64748B' }}>({course.reviews})</span>
-                    </div>
-                    <span 
-                      className="text-xs font-medium px-2.5 py-1 rounded-full"
-                      style={{ 
-                        backgroundColor: '#EDE9FE',
-                        color: '#7C3AED',
-                      }}
-                    >
-                      Beginner to Advanced
-                    </span>
-                  </div>
-                  
-                  {/* CTA Button */}
-                  {course.status === 'active' ? (
-                    <Link to="/curriculum" className="block">
-                      <button 
-                        className="w-full py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
-                        style={{ 
-                          background: 'linear-gradient(90deg, #7C3AED 0%, #06B6D4 100%)',
-                        }}
-                      >
-                        Explore Course <ArrowRight className="h-4 w-4" />
-                      </button>
-                    </Link>
-                  ) : (
-                    <button 
-                      className="w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
-                      style={{ 
-                        backgroundColor: '#F1F5F9',
-                        color: '#64748B',
-                      }}
-                      disabled
-                    >
-                      <Clock className="h-4 w-4" /> Coming Soon
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What You Will Get Section */}
-      <section 
-        id="features-section"
-        ref={setSectionRef('features-section')}
-        className={`py-10 sm:py-14 ${getSectionClasses('features-section')}`}
-        style={{
-          background: 'linear-gradient(135deg, #F5F3FF 0%, #ECFEFF 100%)',
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8 sm:mb-16">
-            <h2 
-              className="text-2xl sm:text-4xl mb-2 relative inline-block"
-              style={{ color: '#0F172A', fontWeight: 700 }}
-            >
-              What You Will Get
-              {/* Curved underline */}
-              <svg 
-                className="absolute -bottom-2 left-0 w-full" 
-                height="12" 
-                viewBox="0 0 200 12" 
-                fill="none"
-                preserveAspectRatio="none"
-              >
-                <path 
-                  d="M2 8 Q 50 2, 100 6 T 198 4" 
-                  stroke="#F97316" 
-                  strokeWidth="3" 
-                  strokeLinecap="round"
-                  fill="none"
-                />
-                <polygon points="195,2 202,5 195,8" fill="#F97316" />
-              </svg>
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:grid-cols-5 md:gap-8 max-w-4xl mx-auto">
-            {features.map((feature, index) => (
-              <div key={index} className={`flex flex-col items-center text-center group ${index === 4 ? 'col-span-2 sm:col-span-1' : ''}`}>
-                <div 
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-transform duration-200 group-hover:scale-110"
-                  style={{ backgroundColor: feature.bgColor }}
-                >
-                  <feature.icon className="h-7 w-7 sm:h-8 sm:w-8" style={{ color: feature.iconColor }} />
-                </div>
-                <p 
-                  className="text-sm sm:text-sm font-semibold leading-tight"
-                  style={{ color: '#0F172A' }}
-                >
-                  {feature.title}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Request a Course Section */}
-      <section 
-        id="request-section"
-        ref={setSectionRef('request-section')}
-        className={`py-10 sm:py-14 ${getSectionClasses('request-section')}`}
-        style={{ backgroundColor: '#FFFFFF' }}
-      >
-        <div className="container mx-auto px-4 sm:px-4">
-          <div className="text-center mb-8">
-            <span 
-              className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full mb-4"
-              style={{ backgroundColor: '#F5F3FF', color: '#7C3AED' }}
-            >
-              Request a Course
-            </span>
-            <h2 
-              className="text-2xl sm:text-3xl mb-4"
-              style={{ color: '#0F172A', fontWeight: 700 }}
-            >
-              Can't Find What You're Looking For?
-            </h2>
-            <p className="text-sm sm:text-base px-4 sm:px-0" style={{ color: '#64748B' }}>
-              Tell us what course you'd like to see and we'll notify you when it's available.
-            </p>
-          </div>
-          
-          <form 
-            onSubmit={handleSubmitRequest} 
-            className="max-w-2xl mx-auto p-4 sm:p-8 rounded-2xl"
-            style={{ backgroundColor: '#F8FAFC' }}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label 
-                  className="block text-sm font-medium mb-2"
-                  style={{ color: '#0F172A' }}
-                >
-                  Your Name
-                </label>
-                <Input 
-                  placeholder="John Doe" 
-                  className="bg-white rounded-xl"
-                  style={{ borderColor: '#E5E7EB' }}
-                />
-              </div>
-              <div>
-                <label 
-                  className="block text-sm font-medium mb-2"
-                  style={{ color: '#0F172A' }}
-                >
-                  Email Address
-                </label>
-                <Input 
-                  type="email" 
-                  placeholder="you@example.com" 
-                  className="bg-white rounded-xl"
-                  style={{ borderColor: '#E5E7EB' }}
-                />
-              </div>
+          {isCoursesLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
-            <div className="mb-6">
-              <label 
-                className="block text-sm font-medium mb-2"
-                style={{ color: '#0F172A' }}
-              >
-                What Course Would You Like?
-              </label>
-              <Textarea 
-                placeholder="e.g., DevOps Engineering, Mobile App Development with Flutter, Cybersecurity..." 
-                className="bg-white rounded-xl min-h-[100px]"
-                style={{ borderColor: '#E5E7EB' }}
-              />
+          ) : dbCourses.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto px-1 sm:px-0">
+              {dbCourses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
             </div>
-            <Button 
-              type="submit" 
-              className="w-full py-6 rounded-xl text-lg font-semibold flex items-center justify-center gap-2"
-              style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
-            >
-              Submit Request <ArrowRight className="h-5 w-5" />
-            </Button>
-          </form>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section 
-        id="testimonials-section"
-        ref={setSectionRef('testimonials-section')}
-        className={`py-10 sm:py-14 ${getSectionClasses('testimonials-section')}`}
-        style={{
-          background: 'linear-gradient(180deg, rgba(236,254,255,0.4) 0%, rgba(245,243,255,0.3) 50%, #FFFFFF 100%)',
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10 sm:mb-16 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
-            <span 
-              className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full"
-              style={{ backgroundColor: '#F97316', color: '#FFFFFF' }}
-            >
-              Testimonials
-            </span>
-            <h2 
-              className="text-2xl sm:text-4xl relative inline-block"
-              style={{ color: '#0F172A', fontWeight: 700 }}
-            >
-              Loved by Learners
-              {/* Curved underline */}
-              <svg 
-                className="absolute -bottom-2 right-0" 
-                width="140"
-                height="12" 
-                viewBox="0 0 140 12" 
-                fill="none"
-              >
-                <path 
-                  d="M2 8 Q 35 2, 70 6 T 135 4" 
-                  stroke="#F97316" 
-                  strokeWidth="3" 
-                  strokeLinecap="round"
-                  fill="none"
-                />
-                <polygon points="132,2 140,5 132,8" fill="#F97316" />
-              </svg>
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-6 max-w-5xl mx-auto px-1 sm:px-0">
-            {testimonials.map((testimonial, index) => (
-              <div 
-                key={index} 
-                className="rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-                style={{ 
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E5E7EB',
-                }}
-              >
-                <div className="flex gap-0.5 sm:gap-1 mb-3 sm:mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 fill-current" style={{ color: '#F97316' }} />
-                  ))}
-                </div>
-                <p 
-                  className="mb-4 sm:mb-6 leading-relaxed italic text-sm sm:text-base"
-                  style={{ color: '#475569' }}
-                >
-                  "{testimonial.content}"
-                </p>
-                <div>
-                  <p className="font-bold" style={{ color: '#0F172A' }}>{testimonial.name}</p>
-                  <p 
-                    className="text-sm"
-                    style={{ color: '#64748B' }}
-                  >
-                    {testimonial.role}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground">No courses available yet. Check back soon!</p>
+            </div>
+          )}
         </div>
       </section>
 

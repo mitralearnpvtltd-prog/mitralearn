@@ -51,6 +51,7 @@ export default function AdminLayout() {
     { name: 'Courses', href: '/admin/courses', icon: BookOpen },
     { name: 'Coupons', href: '/admin/coupons', icon: Ticket },
     { name: 'Users', href: '/admin/users', icon: Users },
+    { name: 'Roles', href: '/admin/roles', icon: ShieldCheck },
     { name: 'Certificates', href: '/admin/certificates', icon: Award },
     { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
   ];

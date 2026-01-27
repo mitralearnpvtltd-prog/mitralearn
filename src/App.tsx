@@ -24,6 +24,7 @@ import AdminCourseManagement from "./components/admin/AdminCourseManagement";
 import AdminCouponManagement from "./components/admin/AdminCouponManagement";
 import AdminCertificates from "./components/admin/AdminCertificates";
 import AdminReports from "./components/admin/AdminReports";
+import AdminRoleManagement from "./components/admin/AdminRoleManagement";
 
 // Legacy redirect component for old URLs
 const LegacyRedirect = () => {
@@ -66,6 +67,7 @@ const App = () => (
               <Route path="coupons" element={<AdminCouponManagement />} />
               <Route path="certificates" element={<AdminCertificates />} />
               <Route path="reports" element={<AdminReports />} />
+              <Route path="roles" element={<AdminRoleManagement />} />
             </Route>
             
             <Route path="*" element={<NotFound />} />
