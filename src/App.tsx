@@ -19,12 +19,16 @@ import OnboardingModal from "./components/OnboardingModal";
 // Admin imports
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./components/admin/AdminDashboard";
-import AdminUsers from "./components/admin/AdminUsers";
+import AdminCandidates from "./components/admin/AdminCandidates";
 import AdminCourseManagement from "./components/admin/AdminCourseManagement";
 import AdminCouponManagement from "./components/admin/AdminCouponManagement";
 import AdminCertificates from "./components/admin/AdminCertificates";
 import AdminReports from "./components/admin/AdminReports";
 import AdminRoleManagement from "./components/admin/AdminRoleManagement";
+import AdminReferrals from "./components/admin/AdminReferrals";
+
+// Candidate pages
+import Profile from "./pages/Profile";
 
 // Legacy redirect component for old URLs
 const LegacyRedirect = () => {
@@ -58,13 +62,14 @@ const App = () => (
             <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />
             <Route path="/verify-certificate" element={<VerifyCertificate />} />
             <Route path="/admin-setup" element={<AdminSetup />} />
-            
+            <Route path="/profile" element={<Profile />} />
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
-              <Route path="users" element={<AdminUsers />} />
+              <Route path="candidates" element={<AdminCandidates />} />
               <Route path="courses" element={<AdminCourseManagement />} />
               <Route path="coupons" element={<AdminCouponManagement />} />
+              <Route path="referrals" element={<AdminReferrals />} />
               <Route path="certificates" element={<AdminCertificates />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="roles" element={<AdminRoleManagement />} />

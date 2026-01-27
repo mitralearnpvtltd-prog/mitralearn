@@ -34,6 +34,16 @@ interface UserData {
   enrolled_course_id: string | null;
   enrolled_course_title: string | null;
   onboarding_completed: boolean;
+  // New fields for candidate management
+  candidate_status: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  registration_source: string | null;
+  referral_code: string | null;
+  referred_by: string | null;
+  deleted_at: string | null;
+  referral_count: number;
 }
 
 interface CertificateData {

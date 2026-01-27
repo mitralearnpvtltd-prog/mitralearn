@@ -15,8 +15,9 @@ import {
   BarChart3,
   Menu,
   X,
-  Shield,
   ShieldCheck,
+  Share2,
+  User,
 } from "lucide-react";
 import { useState } from "react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
@@ -32,6 +33,7 @@ export const Navbar = () => {
   const navItems = [
     { label: "Courses", href: "/curriculum", icon: BookOpen },
     { label: "Dashboard", href: "/dashboard", icon: BarChart3 },
+    { label: "Referral", href: "/profile", icon: Share2 },
     { label: "Certificate", href: "/certificate", icon: Award },
   ];
 
