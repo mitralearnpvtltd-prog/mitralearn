@@ -88,8 +88,8 @@ const defaultFormData: CourseFormData = {
   badge_color: '#7C3AED',
   icon_bg: '#7C3AED',
   icon_type: 'database',
-  status: 'coming_soon',
-  is_published: false,
+  status: 'active',
+  is_published: true, // Default to published so it shows on landing page
 };
 
 export default function AdminCourseManagement() {
@@ -726,32 +726,47 @@ function CourseForm({
         </Select>
       </div>
 
-      {/* Status & Publish */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label>Status</Label>
-          <Select 
-            value={formData.status} 
-            onValueChange={(v: 'active' | 'coming_soon' | 'draft') => setFormData(prev => ({ ...prev, status: v }))}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="coming_soon">Coming Soon</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center gap-3 pt-6">
+      {/* Publish Toggle - Prominent */}
+      <div className="p-4 rounded-lg border-2 border-dashed border-primary/30 bg-primary/5">
+        <div className="flex items-center justify-between">
+          <div>
+            <Label htmlFor="is_published" className="text-base font-semibold">
+              Show on Landing Page
+            </Label>
+            <p className="text-sm text-muted-foreground mt-1">
+              {formData.is_published 
+                ? "✅ This course will appear on the public landing page" 
+                : "⚠️ This course is hidden from the landing page"}
+            </p>
+          </div>
           <Switch
             id="is_published"
             checked={formData.is_published}
             onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
+            className="scale-125"
           />
-          <Label htmlFor="is_published">Published (visible on landing page)</Label>
         </div>
+      </div>
+
+      {/* Status */}
+      <div className="space-y-2">
+        <Label>Course Status</Label>
+        <Select 
+          value={formData.status} 
+          onValueChange={(v: 'active' | 'coming_soon' | 'draft') => setFormData(prev => ({ ...prev, status: v }))}
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="active">Active (Enrollable)</SelectItem>
+            <SelectItem value="coming_soon">Coming Soon</SelectItem>
+            <SelectItem value="draft">Draft (Internal Only)</SelectItem>
+          </SelectContent>
+        </Select>
+        <p className="text-xs text-muted-foreground">
+          Active courses show "Explore Course" button, Coming Soon shows disabled button
+        </p>
       </div>
     </div>
   );
