@@ -425,55 +425,88 @@ export type Database = {
           age_group: string | null
           course_opted: boolean | null
           created_at: string
+          deleted_at: string | null
+          deleted_by: string | null
           device_info: string | null
           email: string
           email_verified: boolean | null
           enrolled_course_id: string | null
+          first_landing_page: string | null
           id: string
           last_login: string | null
           location: string | null
           name: string
           onboarding_completed: boolean | null
           phone: string | null
+          referral_code: string | null
+          referred_by: string | null
+          registration_source: string | null
           status: Database["public"]["Enums"]["user_status"] | null
           updated_at: string
           user_id: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           age_group?: string | null
           course_opted?: boolean | null
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           device_info?: string | null
           email: string
           email_verified?: boolean | null
           enrolled_course_id?: string | null
+          first_landing_page?: string | null
           id?: string
           last_login?: string | null
           location?: string | null
           name: string
           onboarding_completed?: boolean | null
           phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+          registration_source?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           updated_at?: string
           user_id: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           age_group?: string | null
           course_opted?: boolean | null
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           device_info?: string | null
           email?: string
           email_verified?: boolean | null
           enrolled_course_id?: string | null
+          first_landing_page?: string | null
           id?: string
           last_login?: string | null
           location?: string | null
           name?: string
           onboarding_completed?: boolean | null
           phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+          registration_source?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           updated_at?: string
           user_id?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: [
           {
