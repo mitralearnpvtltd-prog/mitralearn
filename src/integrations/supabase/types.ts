@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+          ip_address: string | null
+          new_values: Json | null
+          old_values: Json | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          ip_address?: string | null
+          new_values?: Json | null
+          old_values?: Json | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          ip_address?: string | null
+          new_values?: Json | null
+          old_values?: Json | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           capstone_submitted: boolean | null
@@ -518,6 +557,91 @@ export type Database = {
           },
         ]
       }
+      referral_settings: {
+        Row: {
+          coupon_id: string | null
+          default_discount_percentage: number | null
+          id: string
+          is_enabled: boolean | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          coupon_id?: string | null
+          default_discount_percentage?: number | null
+          id?: string
+          is_enabled?: boolean | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          coupon_id?: string | null
+          default_discount_percentage?: number | null
+          id?: string
+          is_enabled?: boolean | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_settings_coupon_id_fkey"
+            columns: ["coupon_id"]
+            isOneToOne: false
+            referencedRelation: "coupons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          conversion_date: string | null
+          course_id: string | null
+          created_at: string | null
+          discount_applied: number | null
+          id: string
+          referee_user_id: string
+          referral_code: string
+          referrer_user_id: string
+          revenue_generated: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          conversion_date?: string | null
+          course_id?: string | null
+          created_at?: string | null
+          discount_applied?: number | null
+          id?: string
+          referee_user_id: string
+          referral_code: string
+          referrer_user_id: string
+          revenue_generated?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          conversion_date?: string | null
+          course_id?: string | null
+          created_at?: string | null
+          discount_applied?: number | null
+          id?: string
+          referee_user_id?: string
+          referral_code?: string
+          referrer_user_id?: string
+          revenue_generated?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_permissions: {
         Row: {
           permission_id: string
@@ -667,6 +791,7 @@ export type Database = {
     }
     Functions: {
       check_is_admin: { Args: { _user_id: string }; Returns: boolean }
+      generate_referral_code: { Args: { _user_id: string }; Returns: string }
       get_admin_dashboard_data: {
         Args: never
         Returns: {
@@ -720,6 +845,10 @@ export type Database = {
       is_curriculum_locked: { Args: { _course_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       setup_first_admin: { Args: { _user_id: string }; Returns: boolean }
+      soft_delete_candidate: {
+        Args: { _deleted_by: string; _user_id: string }
+        Returns: boolean
+      }
       verify_certificate: {
         Args: { cert_id: string }
         Returns: {
