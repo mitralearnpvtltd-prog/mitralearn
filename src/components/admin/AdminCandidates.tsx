@@ -67,7 +67,8 @@ const defaultFilters: CandidateFilters = {
 
 export default function AdminCandidates() {
   const { users, isLoading, refetch } = useAdminUsers();
-  const { isSuperAdmin } = useAdminRole();
+  const { isSuperAdmin, hasPermission } = useAdminRole();
+  const canDeleteCandidates = hasPermission('candidate.delete') || isSuperAdmin;
   const [courses, setCourses] = useState<any[]>([]);
   const [filters, setFilters] = useState<CandidateFilters>(defaultFilters);
   const [showFilters, setShowFilters] = useState(false);
@@ -159,7 +160,7 @@ export default function AdminCandidates() {
   });
 
   const handleSoftDelete = async () => {
-    if (!candidateToDelete || !isSuperAdmin) return;
+    if (!candidateToDelete || !canDeleteCandidates) return;
 
     setIsDeleting(true);
     try {
@@ -494,7 +495,7 @@ export default function AdminCandidates() {
                           >
                             <Eye className="h-3.5 w-3.5" />
                           </Button>
-                          {isSuperAdmin && (
+                          {canDeleteCandidates && (
                             <Button 
                               variant="ghost" 
                               size="sm" 

@@ -17,6 +17,9 @@ export interface UserPermissions {
   'coupon.manage': boolean;
   'certificate.manage': boolean;
   'reports.view': boolean;
+  'referral.manage': boolean;
+  'analytics.manage': boolean;
+  'candidate.delete': boolean;
 }
 
 const defaultPermissions: UserPermissions = {
@@ -32,6 +35,9 @@ const defaultPermissions: UserPermissions = {
   'coupon.manage': false,
   'certificate.manage': false,
   'reports.view': false,
+  'referral.manage': false,
+  'analytics.manage': false,
+  'candidate.delete': false,
 };
 
 export const useAdminRole = () => {
