@@ -15,19 +15,17 @@ import {
   BarChart3,
   Menu,
   X,
-  ShieldCheck,
   Share2,
-  User,
 } from "lucide-react";
 import { useState } from "react";
 import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
-import { useAdminRole } from "@/hooks/useAdminRole";
+
 
 export const Navbar = () => {
   const location = useLocation();
   const { getOverallProgress } = useProgress();
   const { user } = useUser();
-  const { isAdmin } = useAdminRole();
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -77,21 +75,6 @@ export const Navbar = () => {
                   </Button>
                 </Link>
               ))}
-            </SignedIn>
-            {/* Admin Link - Only visible to admins */}
-            <SignedIn>
-              {isAdmin && (
-                <Link to="/admin">
-                  <Button 
-                    variant={isActive("/admin") ? "default" : "ghost"} 
-                    size="sm" 
-                    className="gap-2"
-                  >
-                    <ShieldCheck className="w-4 h-4" />
-                    Admin
-                  </Button>
-                </Link>
-              )}
             </SignedIn>
           </div>
 
@@ -166,18 +149,6 @@ export const Navbar = () => {
                   </Link>
                 ))}
               </SignedIn>
-              {/* Admin Link in mobile - Only visible to admins */}
-              {isAdmin && (
-                <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
-                  <Button 
-                    variant={isActive("/admin") ? "default" : "ghost"} 
-                    className="w-full justify-start gap-2"
-                  >
-                    <ShieldCheck className="w-4 h-4" />
-                    Admin Panel
-                  </Button>
-                </Link>
-              )}
               <SignedIn>
                 <div className="pt-2 border-t border-border flex items-center gap-3 px-2">
                   <UserButton afterSignOutUrl="/" />
