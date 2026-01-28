@@ -45,18 +45,26 @@ export default function AdminLayout() {
   const { notifications, markNotificationAsRead, clearNotifications, getUnreadNotificationCount } = useStore();
   const { signOut } = useClerk();
   const { user } = useUser();
-  const { isAdmin, isLoading: isAdminLoading } = useAdminRole();
+  const { isAdmin, isSuperAdmin, isLoading: isAdminLoading, userRole, permissions, hasPermission } = useAdminRole();
 
-  const navigation = [
-    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'Courses', href: '/admin/courses', icon: BookOpen },
-    { name: 'Candidates', href: '/admin/candidates', icon: Users },
-    { name: 'Referrals', href: '/admin/referrals', icon: Share2 },
-    { name: 'Coupons', href: '/admin/coupons', icon: Ticket },
-    { name: 'Roles', href: '/admin/roles', icon: ShieldCheck },
-    { name: 'Certificates', href: '/admin/certificates', icon: Award },
-    { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
+  // Filter navigation based on user permissions
+  const allNavigation = [
+    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard, permission: null }, // Everyone with admin access
+    { name: 'Courses', href: '/admin/courses', icon: BookOpen, permission: 'curriculum.view' as const },
+    { name: 'Candidates', href: '/admin/candidates', icon: Users, permission: 'user.view' as const },
+    { name: 'Referrals', href: '/admin/referrals', icon: Share2, permission: 'referral.manage' as const },
+    { name: 'Coupons', href: '/admin/coupons', icon: Ticket, permission: 'coupon.manage' as const },
+    { name: 'Roles', href: '/admin/roles', icon: ShieldCheck, permission: 'role.manage' as const },
+    { name: 'Certificates', href: '/admin/certificates', icon: Award, permission: 'certificate.manage' as const },
+    { name: 'Reports', href: '/admin/reports', icon: BarChart3, permission: 'reports.view' as const },
   ];
+
+  // Filter navigation items based on permissions
+  const navigation = allNavigation.filter(item => {
+    if (item.permission === null) return true; // Dashboard is always visible
+    if (isSuperAdmin) return true; // Super Admin sees everything
+    return hasPermission(item.permission);
+  });
 
   const handleLogout = () => {
     signOut({ redirectUrl: '/' });
@@ -293,7 +301,9 @@ export default function AdminLayout() {
                         <span className="text-sm font-semibold group-hover:text-primary transition-colors">
                           {user?.firstName || user?.emailAddresses?.[0]?.emailAddress || 'Admin'}
                         </span>
-                        <span className="text-xs text-muted-foreground">Administrator</span>
+                        <span className="text-xs text-muted-foreground">
+                          {userRole || 'Administrator'}
+                        </span>
                       </div>
                       <Avatar className="h-9 w-9">
                         <AvatarImage src={user?.imageUrl} />

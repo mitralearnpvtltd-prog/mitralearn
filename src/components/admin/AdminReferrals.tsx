@@ -45,7 +45,8 @@ import { toast } from "sonner";
 export default function AdminReferrals() {
   const { referrals, isLoading } = useReferrals();
   const { settings, updateSettings, isLoading: settingsLoading } = useReferralSettings();
-  const { isSuperAdmin } = useAdminRole();
+  const { isSuperAdmin, hasPermission } = useAdminRole();
+  const canManageReferrals = hasPermission('referral.manage') || isSuperAdmin;
   
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -117,7 +118,7 @@ export default function AdminReferrals() {
           <h1 className="text-2xl font-bold tracking-tight">Referral Dashboard</h1>
           <p className="text-muted-foreground text-sm">Track referrals, conversions, and manage referral program settings</p>
         </div>
-        {isSuperAdmin && (
+        {canManageReferrals && (
           <Button onClick={handleOpenSettings} className="gap-2">
             <Settings className="h-4 w-4" /> Settings
           </Button>

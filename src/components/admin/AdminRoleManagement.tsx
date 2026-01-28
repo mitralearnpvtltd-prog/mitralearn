@@ -53,17 +53,21 @@ interface Role {
 }
 
 export default function AdminRoleManagement() {
-  const { isAdmin, isSuperAdmin } = useAdminRole();
+  const { isAdmin, isSuperAdmin, hasPermission } = useAdminRole();
+  const canManageRoles = hasPermission('role.manage') || isSuperAdmin;
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [newUserEmail, setNewUserEmail] = useState("");
-  const [newUserRole, setNewUserRole] = useState<AppRole>("user");
+  const [newUserRole, setNewUserRole] = useState<AppRole>("viewer");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const appRoles: AppRole[] = ["admin", "moderator", "manager", "supporter", "viewer", "user"];
+  // Roles that non-SuperAdmins can assign
+  const allAppRoles: AppRole[] = ["admin", "moderator", "manager", "supporter", "viewer", "user"];
+  // Non-SuperAdmins cannot assign admin role
+  const availableRoles = isSuperAdmin ? allAppRoles : allAppRoles.filter(r => r !== 'admin');
 
   const fetchUsersWithRoles = async () => {
     try {
@@ -235,7 +239,7 @@ export default function AdminRoleManagement() {
     }
   };
 
-  if (!isAdmin) {
+  if (!canManageRoles) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
@@ -293,7 +297,7 @@ export default function AdminRoleManagement() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {appRoles.map(role => (
+                    {availableRoles.map(role => (
                       <SelectItem key={role} value={role}>
                         <span className="capitalize">{role}</span>
                       </SelectItem>
@@ -406,7 +410,7 @@ export default function AdminRoleManagement() {
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
                       <SelectContent>
-                        {appRoles.map(role => (
+                        {availableRoles.map(role => (
                           <SelectItem key={role} value={role}>
                             <span className="capitalize">{role}</span>
                           </SelectItem>
@@ -447,20 +451,33 @@ export default function AdminRoleManagement() {
           <CardDescription>Overview of what each role can do</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="p-4 rounded-lg border">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge className="bg-red-100 text-red-700">Admin</Badge>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="p-4 rounded-lg border border-red-200 bg-red-50/50">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge className="bg-red-100 text-red-700">Super Admin</Badge>
               </div>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Full course management</li>
-                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> User management</li>
-                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Role assignment</li>
-                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Access all reports</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Full system access</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Delete candidates</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Manage referrals & coupons</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Change referral discount %</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Enable/disable analytics</li>
               </ul>
             </div>
             <div className="p-4 rounded-lg border">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge className="bg-orange-100 text-orange-700">Admin</Badge>
+              </div>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Course management</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> User management</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View reports</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Delete candidates</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Manage referral settings</li>
+              </ul>
+            </div>
+            <div className="p-4 rounded-lg border">
+              <div className="flex items-center gap-2 mb-3">
                 <Badge className="bg-blue-100 text-blue-700">Manager</Badge>
               </div>
               <ul className="text-sm text-muted-foreground space-y-1">
@@ -468,17 +485,19 @@ export default function AdminRoleManagement() {
                 <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Publish courses</li>
                 <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View reports</li>
                 <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> User management</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Role management</li>
               </ul>
             </div>
             <div className="p-4 rounded-lg border">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 <Badge className="bg-gray-100 text-gray-700">Viewer</Badge>
               </div>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View courses</li>
-                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View reports</li>
-                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Edit courses</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View dashboard</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View reports (read-only)</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Edit anything</li>
                 <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> User management</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Course management</li>
               </ul>
             </div>
           </div>
