@@ -31,8 +31,8 @@ export const Navbar = () => {
   const navItems = [
     { label: "Courses", href: "/curriculum", icon: BookOpen },
     { label: "Dashboard", href: "/dashboard", icon: BarChart3 },
-    { label: "Referral", href: "/profile", icon: Share2 },
     { label: "Certificate", href: "/certificate", icon: Award },
+    { label: "My Profile", href: "/profile", icon: Share2 },
   ];
 
   const isActive = (href: string) => location.pathname.startsWith(href);
