@@ -42,8 +42,7 @@ const Auth = () => {
             signUpUrl="/auth"
             appearance={{
               elements: {
-                headerTitle: { display: 'none' },
-                headerSubtitle: { display: 'none' },
+                header: { display: 'none' },
               },
             }}
           />
@@ -57,8 +56,7 @@ const Auth = () => {
             signInUrl="/auth"
             appearance={{
               elements: {
-                headerTitle: { display: 'none' },
-                headerSubtitle: { display: 'none' },
+                header: { display: 'none' },
               },
             }}
           />
