@@ -43,6 +43,8 @@ const Auth = () => {
             appearance={{
               elements: {
                 header: { display: 'none' },
+                headerTitle: { display: 'none' },
+                headerSubtitle: { display: 'none' },
               },
             }}
           />
@@ -57,6 +59,8 @@ const Auth = () => {
             appearance={{
               elements: {
                 header: { display: 'none' },
+                headerTitle: { display: 'none' },
+                headerSubtitle: { display: 'none' },
               },
             }}
           />
