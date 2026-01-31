@@ -34,37 +34,17 @@ const Auth = () => {
       </div>
 
       {mode === "signIn" ? (
-        <>
-          <h2 className="text-xl font-semibold text-foreground mb-4">Sign in</h2>
-          <SignIn 
-            routing="hash"
-            afterSignInUrl="/dashboard"
-            signUpUrl="/auth"
-            appearance={{
-              elements: {
-                header: { display: 'none' },
-                headerTitle: { display: 'none' },
-                headerSubtitle: { display: 'none' },
-              },
-            }}
-          />
-        </>
+        <SignIn 
+          routing="hash"
+          afterSignInUrl="/dashboard"
+          signUpUrl="/auth"
+        />
       ) : (
-        <>
-          <h2 className="text-xl font-semibold text-foreground mb-4">Register</h2>
-          <SignUp 
-            routing="hash"
-            afterSignUpUrl="/dashboard"
-            signInUrl="/auth"
-            appearance={{
-              elements: {
-                header: { display: 'none' },
-                headerTitle: { display: 'none' },
-                headerSubtitle: { display: 'none' },
-              },
-            }}
-          />
-        </>
+        <SignUp 
+          routing="hash"
+          afterSignUpUrl="/dashboard"
+          signInUrl="/auth"
+        />
       )}
     </div>
   );

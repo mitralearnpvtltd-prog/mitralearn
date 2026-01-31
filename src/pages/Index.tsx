@@ -502,9 +502,9 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             {/* Section Header */}
-            <div className="flex flex-col items-center text-center mb-10 sm:mb-14">
+            <div className="text-center mb-10 sm:mb-14">
               <span 
-                className="text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full mb-6"
+                className="inline-block text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-full mb-4"
                 style={{ backgroundColor: '#EDE9FE', color: '#7C3AED' }}
               >
                 About Us
