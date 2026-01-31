@@ -1,7 +1,7 @@
 import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent } from "@/components/ui/card";
-import { getTotalSubmodules, getTotalModules } from "@/data/curriculum";
+import { getTotalSubmodules, getTotalModules, getTotalPracticeChallenges, getTotalProjects, SUBMODULES_WITH_PRACTICE } from "@/data/curriculum";
 import {
   Flame,
   Trophy,
@@ -17,9 +17,18 @@ export const ProgressDashboard = () => {
   const { progress, getOverallProgress } = useProgress();
 
   const totalSubmodules = getTotalSubmodules();
-  const totalModules = getTotalModules();
+  const totalPracticeChallenges = getTotalPracticeChallenges();
+  const totalProjects = getTotalProjects();
   const overallProgress = getOverallProgress();
   const isComplete = overallProgress === 100;
+
+  // Count only practice challenges that are in the valid list
+  const completedPracticeChallenges = progress.codingChallengesCompleted.filter(
+    id => SUBMODULES_WITH_PRACTICE.includes(id)
+  ).length;
+
+  // Projects completed = module assessments for module 9 (capstone)
+  const projectsCompleted = progress.completedModuleAssessments.includes(9) ? 1 : 0;
 
   const stats = [
     {
@@ -42,8 +51,8 @@ export const ProgressDashboard = () => {
     },
     {
       label: "Practice Challenges",
-      value: progress.codingChallengesCompleted.length,
-      total: totalSubmodules,
+      value: completedPracticeChallenges,
+      total: totalPracticeChallenges,
       icon: Code,
       color: "text-success",
       bgColor: "bg-success/10",
@@ -51,8 +60,8 @@ export const ProgressDashboard = () => {
     },
     {
       label: "Projects Completed",
-      value: progress.completedModuleAssessments.length,
-      total: totalModules,
+      value: projectsCompleted,
+      total: totalProjects,
       icon: Target,
       color: "text-primary",
       bgColor: "bg-primary/10",
