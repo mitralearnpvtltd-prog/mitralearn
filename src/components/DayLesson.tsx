@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle, getNextSubmoduleId, getModuleForSubmodule, getPreviousSubmoduleId, getSubmoduleContent, getSlugFromSubmoduleId } from "@/data/curriculum";
+import { SubmoduleContent, QuizQuestion, getNextSubmoduleTitle, getNextSubmoduleId, getModuleForSubmodule, getPreviousSubmoduleId, getSubmoduleContent, getSlugFromSubmoduleId, SUBMODULES_WITH_PRACTICE } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -60,12 +60,11 @@ const isEmbeddableVideo = (url: string): boolean => {
 };
 
 
-// Lessons that have compilers - ONLY these 4 lessons need a Practice section
-const LESSONS_WITH_COMPILER = ["3.1", "4.2", "5.2", "7.2"];
+// Check if a lesson has a compiler/practice section - use centralized constant
 
 // Check if a lesson has a compiler/practice section
 const hasCompiler = (submoduleId: string): boolean => {
-  return LESSONS_WITH_COMPILER.includes(submoduleId);
+  return SUBMODULES_WITH_PRACTICE.includes(submoduleId);
 };
 
 // Practice coding challenges for specific Data Engineering topics

@@ -1814,6 +1814,18 @@ export const getTotalModules = (): number => {
   return modules.length;
 };
 
+// Submodules that have practice challenges (compilers)
+export const SUBMODULES_WITH_PRACTICE = ["3.1", "4.2", "5.2", "7.2"];
+
+export const getTotalPracticeChallenges = (): number => {
+  return SUBMODULES_WITH_PRACTICE.length;
+};
+
+// Only module 9 has a capstone project
+export const getTotalProjects = (): number => {
+  return 1; // Only capstone project (9.1)
+};
+
 // Get first uncompleted submodule
 export const getFirstUncompletedSubmodule = (completedSubmodules: string[]): string => {
   const allSubmodules = getAllSubmodulesOrdered();
