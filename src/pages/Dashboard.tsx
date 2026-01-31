@@ -1,12 +1,13 @@
 import { Navbar } from "@/components/Navbar";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ProgressDashboard } from "@/components/ProgressDashboard";
+import { StatsGrid } from "@/components/StatsGrid";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { modules, getFirstUncompletedSubmodule, getSubmoduleContent, getModuleForSubmodule, getSlugFromSubmoduleId } from "@/data/curriculum";
+import { getFirstUncompletedSubmodule, getSubmoduleContent, getModuleForSubmodule, getSlugFromSubmoduleId } from "@/data/curriculum";
 import { CheckCircle2, Play, ArrowRight, Target, Award, Sparkles } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { motion } from "framer-motion";
@@ -111,7 +112,7 @@ const Dashboard = () => {
               <ProgressDashboard />
             </motion.div>
 
-            {/* Quick Actions - NOW ABOVE STATS */}
+            {/* Quick Actions - ABOVE STATS */}
             <motion.div variants={itemVariants}>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
                 {/* Continue Learning - Primary Gradient */}
@@ -194,6 +195,11 @@ const Dashboard = () => {
                   </Card>
                 </motion.div>
               </div>
+            </motion.div>
+
+            {/* Stats Grid - Below Action Cards */}
+            <motion.div variants={itemVariants}>
+              <StatsGrid />
             </motion.div>
 
             {/* Recent Activity */}
