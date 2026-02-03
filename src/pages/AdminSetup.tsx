@@ -31,8 +31,8 @@ const AdminSetup = () => {
       if (data === true) {
         setSetupResult('success');
         toast.success('You are now an admin!');
-        // Navigate to admin after a short delay
-        setTimeout(() => navigate('/admin'), 1500);
+        // Navigate to hero (admin panel) after a short delay
+        setTimeout(() => navigate('/hero'), 1500);
       } else {
         setSetupResult('exists');
         toast.info('An admin already exists. Contact them for access.');

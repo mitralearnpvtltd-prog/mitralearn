@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import HeroSection from "@/components/landing/HeroSection";
 import TrustStatsStrip from "@/components/landing/TrustStatsStrip";
@@ -8,8 +9,14 @@ import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import OutcomesMetricsStrip from "@/components/landing/OutcomesMetricsStrip";
 import FinalCTASection from "@/components/landing/FinalCTASection";
 import LandingFooter from "@/components/landing/LandingFooter";
+import { captureUTMParams, persistUTMParams } from "@/hooks/useUTMTracking";
 
 const Index = () => {
+  // Capture and persist UTM parameters on landing page load
+  useEffect(() => {
+    const params = captureUTMParams();
+    persistUTMParams(params);
+  }, []);
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar */}

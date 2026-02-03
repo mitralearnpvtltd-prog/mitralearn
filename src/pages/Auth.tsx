@@ -1,10 +1,68 @@
-import { SignIn, SignUp } from "@clerk/clerk-react";
-import { useState } from "react";
+import { SignIn, SignUp, useUser } from "@clerk/clerk-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { captureUTMParams, persistUTMParams, syncUTMToProfile } from "@/hooks/useUTMTracking";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
   const [mode, setMode] = useState<"signIn" | "signUp">("signIn");
+  const { user, isSignedIn } = useUser();
+  const navigate = useNavigate();
+
+  // Capture UTM params on auth page
+  useEffect(() => {
+    const params = captureUTMParams();
+    persistUTMParams(params);
+  }, []);
+
+  // Sync profile and UTM data after sign in/up
+  useEffect(() => {
+    const syncUserProfile = async () => {
+      if (isSignedIn && user) {
+        try {
+          // Check if profile exists
+          const { data: existingProfile } = await supabase
+            .from('profiles')
+            .select('user_id')
+            .eq('user_id', user.id)
+            .maybeSingle();
+
+          if (!existingProfile) {
+            // Create profile for new user
+            await supabase.from('profiles').insert({
+              user_id: user.id,
+              name: user.fullName || user.firstName || user.emailAddresses?.[0]?.emailAddress || 'User',
+              email: user.emailAddresses?.[0]?.emailAddress || '',
+              email_verified: user.emailAddresses?.[0]?.verification?.status === 'verified',
+            });
+
+            // Create progress record
+            await supabase.from('user_progress').insert({
+              user_id: user.id,
+            });
+          }
+
+          // Sync UTM data to profile
+          await syncUTMToProfile(user.id);
+
+          // Update last login
+          await supabase
+            .from('profiles')
+            .update({ last_login: new Date().toISOString() })
+            .eq('user_id', user.id);
+
+          navigate('/dashboard');
+        } catch (error) {
+          console.error('Error syncing profile:', error);
+          navigate('/dashboard');
+        }
+      }
+    };
+
+    syncUserProfile();
+  }, [isSignedIn, user, navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-hero flex flex-col items-center justify-center p-4">
@@ -36,13 +94,13 @@ const Auth = () => {
       {mode === "signIn" ? (
         <SignIn 
           routing="hash"
-          afterSignInUrl="/dashboard"
+          afterSignInUrl="/auth"
           signUpUrl="/auth"
         />
       ) : (
         <SignUp 
           routing="hash"
-          afterSignUpUrl="/dashboard"
+          afterSignUpUrl="/auth"
           signInUrl="/auth"
         />
       )}

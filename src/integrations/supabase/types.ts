@@ -790,6 +790,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_admin_permission: { Args: { _user_id: string }; Returns: boolean }
       check_is_admin: { Args: { _user_id: string }; Returns: boolean }
       generate_referral_code: { Args: { _user_id: string }; Returns: string }
       get_admin_dashboard_data: {
