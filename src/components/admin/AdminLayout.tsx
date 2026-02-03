@@ -49,14 +49,14 @@ export default function AdminLayout() {
 
   // Filter navigation based on user permissions
   const allNavigation = [
-    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard, permission: null }, // Everyone with admin access
-    { name: 'Courses', href: '/admin/courses', icon: BookOpen, permission: 'curriculum.view' as const },
-    { name: 'Candidates', href: '/admin/candidates', icon: Users, permission: 'user.view' as const },
-    { name: 'Referrals', href: '/admin/referrals', icon: Share2, permission: 'referral.manage' as const },
-    { name: 'Coupons', href: '/admin/coupons', icon: Ticket, permission: 'coupon.manage' as const },
-    { name: 'Roles', href: '/admin/roles', icon: ShieldCheck, permission: 'role.manage' as const },
-    { name: 'Certificates', href: '/admin/certificates', icon: Award, permission: 'certificate.manage' as const },
-    { name: 'Reports', href: '/admin/reports', icon: BarChart3, permission: 'reports.view' as const },
+    { name: 'Dashboard', href: '/hero', icon: LayoutDashboard, permission: null }, // Everyone with admin access
+    { name: 'Courses', href: '/hero/courses', icon: BookOpen, permission: 'curriculum.view' as const },
+    { name: 'Candidates', href: '/hero/candidates', icon: Users, permission: 'user.view' as const },
+    { name: 'Referrals', href: '/hero/referrals', icon: Share2, permission: 'referral.manage' as const },
+    { name: 'Coupons', href: '/hero/coupons', icon: Ticket, permission: 'coupon.manage' as const },
+    { name: 'Roles', href: '/hero/roles', icon: ShieldCheck, permission: 'role.manage' as const },
+    { name: 'Certificates', href: '/hero/certificates', icon: Award, permission: 'certificate.manage' as const },
+    { name: 'Reports', href: '/hero/reports', icon: BarChart3, permission: 'reports.view' as const },
   ];
 
   // Filter navigation items based on permissions
@@ -93,8 +93,8 @@ export default function AdminLayout() {
   };
 
   const isActive = (href: string) => {
-    if (href === '/admin') {
-      return location.pathname === '/admin';
+    if (href === '/hero') {
+      return location.pathname === '/hero';
     }
     return location.pathname.startsWith(href);
   };

@@ -63,8 +63,8 @@ const App = () => (
             <Route path="/verify-certificate" element={<VerifyCertificate />} />
             <Route path="/admin-setup" element={<AdminSetup />} />
             <Route path="/profile" element={<Profile />} />
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
+            {/* Admin Routes - accessible via /hero */}
+            <Route path="/hero" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="candidates" element={<AdminCandidates />} />
               <Route path="courses" element={<AdminCourseManagement />} />

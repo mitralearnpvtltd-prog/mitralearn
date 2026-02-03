@@ -50,6 +50,8 @@ interface CandidateFilters {
   status: string;
   device: string;
   source: string;
+  utmSource: string;
+  utmCampaign: string;
   dateStart: string;
   dateEnd: string;
 }
@@ -61,6 +63,8 @@ const defaultFilters: CandidateFilters = {
   status: 'all',
   device: 'all',
   source: 'all',
+  utmSource: 'all',
+  utmCampaign: 'all',
   dateStart: '',
   dateEnd: '',
 };
@@ -95,6 +99,17 @@ export default function AdminCandidates() {
   const sources = useMemo(() => {
     const srcs = new Set(users.map((u: any) => u.registration_source).filter(Boolean));
     return Array.from(srcs);
+  }, [users]);
+
+  // Get unique UTM sources and campaigns for filters
+  const utmSources = useMemo(() => {
+    const srcs = new Set(users.map((u: any) => u.utm_source).filter(Boolean));
+    return Array.from(srcs) as string[];
+  }, [users]);
+
+  const utmCampaigns = useMemo(() => {
+    const camps = new Set(users.map((u: any) => u.utm_campaign).filter(Boolean));
+    return Array.from(camps) as string[];
   }, [users]);
 
   // Filter candidates
@@ -136,6 +151,16 @@ export default function AdminCandidates() {
       if (filters.source !== 'all') {
         const source = user.registration_source || 'direct';
         if (source !== filters.source) return false;
+      }
+
+      // UTM Source filter
+      if (filters.utmSource !== 'all') {
+        if ((user.utm_source || '') !== filters.utmSource) return false;
+      }
+
+      // UTM Campaign filter
+      if (filters.utmCampaign !== 'all') {
+        if ((user.utm_campaign || '') !== filters.utmCampaign) return false;
       }
 
       // Date range filter
@@ -390,6 +415,36 @@ export default function AdminCandidates() {
                   </Select>
                 </div>
 
+                <div className="space-y-1">
+                  <Label className="text-xs">UTM Source</Label>
+                  <Select value={filters.utmSource} onValueChange={(v) => setFilters({ ...filters, utmSource: v })}>
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue placeholder="All UTM Sources" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All UTM Sources</SelectItem>
+                      {utmSources.map((src) => (
+                        <SelectItem key={src} value={src}>{src}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1">
+                  <Label className="text-xs">UTM Campaign</Label>
+                  <Select value={filters.utmCampaign} onValueChange={(v) => setFilters({ ...filters, utmCampaign: v })}>
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue placeholder="All Campaigns" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Campaigns</SelectItem>
+                      {utmCampaigns.map((camp) => (
+                        <SelectItem key={camp} value={camp}>{camp}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="space-y-1 col-span-2 md:col-span-1">
                   <Label className="text-xs">Registration Date</Label>
                   <div className="flex gap-1">
@@ -425,6 +480,8 @@ export default function AdminCandidates() {
                 <TableHead className="w-[100px]">Phone</TableHead>
                 <TableHead className="w-[80px]">Device</TableHead>
                 <TableHead className="w-[80px]">Source</TableHead>
+                <TableHead className="w-[100px]">UTM Source</TableHead>
+                <TableHead className="w-[100px]">UTM Campaign</TableHead>
                 <TableHead className="w-[120px]">Course</TableHead>
                 <TableHead className="w-[100px]">Progress</TableHead>
                 <TableHead className="w-[80px]">Status</TableHead>
@@ -458,6 +515,16 @@ export default function AdminCandidates() {
                         <Badge variant="outline" className="text-xs capitalize">
                           {user.registration_source || 'direct'}
                         </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-xs text-muted-foreground">
+                          {user.utm_source || '-'}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-xs text-muted-foreground">
+                          {user.utm_campaign || '-'}
+                        </span>
                       </TableCell>
                       <TableCell>
                         {user.enrolled_course_title ? (
@@ -515,7 +582,7 @@ export default function AdminCandidates() {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                     No candidates found
                   </TableCell>
                 </TableRow>
@@ -560,6 +627,10 @@ export default function AdminCandidates() {
                 <div>
                   <p className="text-xs text-muted-foreground">UTM Source</p>
                   <p className="font-medium">{selectedCandidate.utm_source || '-'}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">UTM Medium</p>
+                  <p className="font-medium">{selectedCandidate.utm_medium || '-'}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">UTM Campaign</p>
