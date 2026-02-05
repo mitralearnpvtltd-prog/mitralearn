@@ -21,6 +21,7 @@ import {
   X
 } from "lucide-react";
 import { getDeviceIcon } from "@/lib/deviceDetector";
+import { getTotalSubmodules } from "@/data/curriculum";
 import {
   Table,
   TableBody,
@@ -491,7 +492,8 @@ export default function AdminCandidates() {
             <TableBody>
               {filteredCandidates.length > 0 ? (
                 filteredCandidates.map((user: any) => {
-                  const progressPercent = Math.round((user.completed_modules_count / 30) * 100);
+                  const totalSubmodules = getTotalSubmodules();
+                  const progressPercent = Math.round((user.completed_modules_count / totalSubmodules) * 100);
                   const deviceType = getDeviceIcon(user.device_info);
                   const DeviceIcon = deviceType === 'smartphone' ? Smartphone : deviceType === 'tablet' ? Tablet : Monitor;
 
@@ -654,7 +656,7 @@ export default function AdminCandidates() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Progress</p>
-                  <p className="font-medium">{selectedCandidate.completed_modules_count}/30 modules</p>
+                  <p className="font-medium">{selectedCandidate.completed_modules_count}/{getTotalSubmodules()} submodules</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Certificate</p>
