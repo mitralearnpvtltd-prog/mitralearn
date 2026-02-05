@@ -123,7 +123,7 @@ const TrustStatsStrip = () => {
           ))}
         </div>
 
-        {/* Logo strip placeholder */}
+        {/* College Partners Ribbon */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -132,13 +132,30 @@ const TrustStatsStrip = () => {
           className="mt-16 pt-12 border-t border-border/50"
         >
           <p className="text-center text-sm text-muted-foreground mb-8">
-            Our graduates work at top companies
+            Students from top colleges trust us
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-50">
-            {["Google", "Microsoft", "Amazon", "Meta", "Apple"].map((company, i) => (
-              <div key={i} className="text-xl sm:text-2xl font-bold text-muted-foreground/60">
-                {company}
-              </div>
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10">
+            {[
+              { name: "IIT Delhi", short: "IITD" },
+              { name: "IIT Bombay", short: "IITB" },
+              { name: "NIT Trichy", short: "NITT" },
+              { name: "BITS Pilani", short: "BITS" },
+              { name: "VIT Vellore", short: "VIT" },
+              { name: "SRM Chennai", short: "SRM" },
+            ].map((college, i) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6 + i * 0.1 }}
+                className="flex flex-col items-center gap-1 group"
+              >
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-border/50 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                  <span className="text-sm sm:text-base font-bold text-primary">{college.short}</span>
+                </div>
+                <span className="text-xs text-muted-foreground hidden sm:block">{college.name}</span>
+              </motion.div>
             ))}
           </div>
         </motion.div>

@@ -5,7 +5,8 @@ import {
   FolderGit2, 
   Award, 
   Briefcase,
-  CheckCircle2
+  ArrowRight,
+  Sparkles
 } from "lucide-react";
 
 const LearningJourneySection = () => {
@@ -14,167 +15,151 @@ const LearningJourneySection = () => {
       step: 1,
       icon: BookOpen,
       title: "Learn Fundamentals",
-      description: "Master core concepts through structured lessons and video tutorials",
-      color: "primary",
+      description: "Master core concepts through structured lessons and video tutorials from industry experts",
+      features: ["Video Lectures", "Reading Materials", "Live Sessions"],
     },
     {
       step: 2,
       icon: Code2,
-      title: "Practice Challenges",
-      description: "Sharpen your skills with hands-on coding exercises and quizzes",
-      color: "secondary",
+      title: "Practice & Build",
+      description: "Sharpen your skills with hands-on coding exercises, quizzes, and real challenges",
+      features: ["Coding Challenges", "Weekly Quizzes", "Peer Reviews"],
     },
     {
       step: 3,
       icon: FolderGit2,
-      title: "Build Projects",
-      description: "Create real-world projects to build your professional portfolio",
-      color: "primary",
+      title: "Create Projects",
+      description: "Build real-world projects that showcase your skills and grow your portfolio",
+      features: ["Capstone Projects", "GitHub Portfolio", "Code Reviews"],
     },
     {
       step: 4,
       icon: Award,
       title: "Get Certified",
-      description: "Earn industry-recognized certificates upon successful completion",
-      color: "secondary",
+      description: "Earn industry-recognized certificates that validate your expertise",
+      features: ["Skill Badges", "Certificates", "LinkedIn Ready"],
     },
     {
       step: 5,
       icon: Briefcase,
-      title: "Career Support",
-      description: "Get placement assistance and land your dream job in tech",
-      color: "primary",
+      title: "Land Your Job",
+      description: "Get placement assistance and career support to land your dream tech role",
+      features: ["Resume Building", "Mock Interviews", "Job Referrals"],
     },
   ];
 
   return (
-    <section className="py-20 relative overflow-hidden bg-gradient-to-b from-muted/30 to-background">
-      {/* Decorative elements */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -translate-y-1/2" />
+    <section className="py-24 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
+      
+      {/* Decorative blobs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-72 h-72 bg-secondary/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <motion.span
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-2 rounded-full text-sm font-medium bg-secondary/10 text-secondary mb-4"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-secondary/10 text-secondary mb-6"
           >
-            Your Journey
-          </motion.span>
+            <Sparkles className="h-4 w-4" />
+            Your Learning Journey
+          </motion.div>
           
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
             Your Path to <span className="text-gradient-primary">Success</span>
           </h2>
           
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Follow our proven 5-step learning journey designed for career transformation
+            A structured 5-step learning journey designed to transform you into a job-ready professional
           </p>
         </motion.div>
 
-        {/* Desktop Timeline */}
-        <div className="hidden lg:block relative max-w-5xl mx-auto">
-          {/* Connecting line */}
-          <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary -translate-y-1/2 rounded-full" />
-          
-          {/* Animated progress line */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary -translate-y-1/2 rounded-full origin-left"
-            style={{ filter: "brightness(1.3)" }}
-          />
-
-          <div className="grid grid-cols-5 gap-4">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-                className={`relative ${index % 2 === 0 ? 'pt-24' : 'pb-24 flex flex-col-reverse'}`}
-              >
-                {/* Content */}
-                <div className={`text-center ${index % 2 === 0 ? 'mb-8' : 'mt-8'}`}>
-                  <h3 className="text-lg font-bold text-foreground mb-2">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+        {/* Journey Cards - Staggered Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.step}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`group relative ${index === 4 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''}`}
+            >
+              {/* Card */}
+              <div className="relative h-full p-6 sm:p-8 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                {/* Step number badge */}
+                <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg">
+                  {step.step}
                 </div>
-
-                {/* Icon node */}
-                <div className="relative mx-auto">
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-${step.color} to-${step.color}/70 flex items-center justify-center shadow-lg relative z-10`}
-                  >
-                    <step.icon className="h-8 w-8 text-primary-foreground" />
-                  </motion.div>
+                
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="relative z-10">
+                  {/* Icon */}
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <step.icon className="h-8 w-8 text-primary" />
+                  </div>
                   
-                  {/* Step number */}
-                  <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-card border-2 border-primary flex items-center justify-center text-xs font-bold text-primary">
-                    {step.step}
+                  {/* Title & Description */}
+                  <h3 className="text-xl font-bold text-foreground mb-3">{step.title}</h3>
+                  <p className="text-muted-foreground mb-6 leading-relaxed">{step.description}</p>
+                  
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2">
+                    {step.features.map((feature, i) => (
+                      <span 
+                        key={i}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-muted text-muted-foreground"
+                      >
+                        {feature}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                {/* Arrow connector for desktop */}
+                {index < 4 && (
+                  <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 z-20">
+                    <div className="w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center">
+                      <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Mobile/Tablet Timeline */}
-        <div className="lg:hidden relative max-w-md mx-auto">
-          {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-primary" />
-
-          <div className="space-y-8">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative flex gap-6 items-start pl-4"
-              >
-                {/* Icon */}
-                <div className="relative flex-shrink-0">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-${step.color} to-${step.color}/70 flex items-center justify-center shadow-lg z-10 relative`}>
-                    <step.icon className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-card border-2 border-primary flex items-center justify-center text-xs font-bold text-primary">
-                    {step.step}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 pt-2">
-                  <h3 className="text-lg font-bold text-foreground mb-1">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA */}
+        {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.6 }}
           className="text-center mt-16"
         >
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-success/10 text-success">
-            <CheckCircle2 className="h-5 w-5" />
-            <span className="font-medium">Join 50,000+ successful learners</span>
+          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 border border-border/50">
+            <div className="flex -space-x-2">
+              {[1,2,3,4].map((i) => (
+                <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary border-2 border-card" />
+              ))}
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-semibold text-foreground">Join 50,000+ learners</p>
+              <p className="text-xs text-muted-foreground">Start your journey today</p>
+            </div>
           </div>
         </motion.div>
       </div>
