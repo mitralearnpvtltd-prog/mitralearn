@@ -65,7 +65,7 @@ export default function AdminRoleManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Roles that non-SuperAdmins can assign
-  const allAppRoles: AppRole[] = ["admin", "moderator", "manager", "supporter", "viewer", "user"];
+  const allAppRoles: AppRole[] = ["admin", "manager", "supporter", "viewer", "user"];
   // Non-SuperAdmins cannot assign admin role
   const availableRoles = isSuperAdmin ? allAppRoles : allAppRoles.filter(r => r !== 'admin');
 
@@ -126,16 +126,32 @@ export default function AdminRoleManagement() {
     fetchRoles();
   }, []);
 
-  const handleAssignRole = async (userId: string, role: AppRole) => {
+  // Map app_role to role_name for getting role_id
+  const getRoleIdForAppRole = (appRole: AppRole): string | null => {
+    const roleMapping: Record<AppRole, string> = {
+      'admin': 'Admin',
+      'manager': 'Manager',
+      'supporter': 'Support',
+      'moderator': 'Manager', // Map moderator to Manager
+      'viewer': 'Support', // Map viewer to Support
+      'user': 'Support' // Map user to Support
+    };
+    const roleName = roleMapping[appRole];
+    const role = roles.find(r => r.role_name === roleName);
+    return role?.role_id || null;
+  };
+
+  const handleAssignRole = async (userId: string, appRole: AppRole) => {
     try {
       // Check if user already has a role
       const existingUser = users.find(u => u.user_id === userId);
+      const roleId = getRoleIdForAppRole(appRole);
       
       if (existingUser?.role) {
         // Update existing role
         const { error } = await supabase
           .from('user_roles')
-          .update({ role })
+          .update({ role: appRole, role_id: roleId })
           .eq('user_id', userId);
         
         if (error) throw error;
@@ -143,7 +159,7 @@ export default function AdminRoleManagement() {
         // Insert new role
         const { error } = await supabase
           .from('user_roles')
-          .insert({ user_id: userId, role });
+          .insert({ user_id: userId, role: appRole, role_id: roleId });
         
         if (error) throw error;
       }
@@ -194,9 +210,10 @@ export default function AdminRoleManagement() {
       }
 
       // Assign role
+      const roleId = getRoleIdForAppRole(newUserRole);
       const { error } = await supabase
         .from('user_roles')
-        .upsert({ user_id: profile.user_id, role: newUserRole });
+        .upsert({ user_id: profile.user_id, role: newUserRole, role_id: roleId });
       
       if (error) throw error;
 
