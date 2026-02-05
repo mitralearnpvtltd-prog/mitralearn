@@ -27,6 +27,9 @@ import AdminReports from "./components/admin/AdminReports";
 import AdminRoleManagement from "./components/admin/AdminRoleManagement";
 import AdminReferrals from "./components/admin/AdminReferrals";
 
+// Course-specific curriculum page
+import CourseCurriculum from "./pages/CourseCurriculum";
+
 // Candidate pages
 import Profile from "./pages/Profile";
 
@@ -55,6 +58,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/curriculum" element={<Curriculum />} />
+            <Route path="/course/:courseId" element={<CourseCurriculum />} />
             <Route path="/curriculum/lesson/:slug" element={<Day />} />
             <Route path="/curriculum/submodule/:submoduleId" element={<LegacyRedirect />} />
             <Route path="/dashboard" element={<Dashboard />} />

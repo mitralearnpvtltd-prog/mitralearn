@@ -179,7 +179,7 @@ export function CourseCard({
         
         {/* CTA Button */}
         {isActive ? (
-          <Link to="/curriculum" className="block">
+          <Link to={`/course/${course.id}`} className="block">
             <button 
               className="w-full py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
               style={{ 
