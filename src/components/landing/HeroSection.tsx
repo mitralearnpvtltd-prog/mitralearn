@@ -8,6 +8,7 @@ import {
   SignedOut,
   SignUpButton,
 } from "@clerk/clerk-react";
+import heroAnimation from "@/assets/hero-animation.webm";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -220,88 +221,22 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right - Floating Visual Card */}
+          {/* Right - Hero Animation Video */}
           <motion.div
             initial={{ opacity: 0, x: 50, y: 20 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="relative hidden lg:block"
+            className="relative hidden lg:flex items-center justify-center"
           >
-            <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full max-w-lg"
             >
-              {/* Main glass card */}
-              <div className="relative rounded-3xl p-8 backdrop-blur-xl bg-card/60 border border-border/50 shadow-2xl">
-                {/* Glow effect */}
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 blur-xl opacity-50" />
-                
-                <div className="relative z-10">
-                  {/* Course preview card */}
-                  <div className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 text-primary-foreground mb-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
-                        <Award className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="font-semibold">Data Engineering</p>
-                        <p className="text-sm opacity-80">Certification</p>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Progress</span>
-                        <span>75%</span>
-                      </div>
-                      <div className="h-2 bg-primary-foreground/20 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          animate={{ width: "75%" }}
-                          transition={{ duration: 1.5, delay: 1 }}
-                          className="h-full bg-primary-foreground rounded-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-muted/50 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-foreground">12</p>
-                      <p className="text-xs text-muted-foreground">Projects Built</p>
-                    </div>
-                    <div className="bg-muted/50 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-foreground">8</p>
-                      <p className="text-xs text-muted-foreground">Weeks Left</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating badge */}
-              <motion.div
-                animate={{ y: [0, -8, 0], x: [0, 5, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -top-4 -right-4 bg-secondary text-secondary-foreground px-4 py-2 rounded-full text-sm font-semibold shadow-lg"
-              >
-                🔥 Free Internship
-              </motion.div>
-
-              {/* Floating stars */}
-              <motion.div
-                animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-6 -left-6 bg-card border border-border rounded-2xl p-3 shadow-lg"
-              >
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-secondary text-secondary" />
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">4.8/5 Rating</p>
-              </motion.div>
-            </motion.div>
+              <source src={heroAnimation} type="video/webm" />
+            </video>
           </motion.div>
         </div>
       </div>
