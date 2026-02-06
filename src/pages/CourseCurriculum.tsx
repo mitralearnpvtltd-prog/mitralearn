@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,8 +31,6 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Course } from "@/hooks/useCourses";
-import { CourseOverviewEditor } from "@/components/CourseOverviewEditor";
-import { useAdminRole } from "@/hooks/useAdminRole";
 
 interface CourseModule {
   module_id: string;
@@ -63,18 +61,12 @@ interface LessonResource {
 
 const CourseCurriculum = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const { isAdmin, isLoading: isAdminLoading } = useAdminRole();
-  const [course, setCourse] = useState<Course & { overview_content?: string | null } | null>(null);
+  const [course, setCourse] = useState<Course | null>(null);
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [lessons, setLessons] = useState<CourseLesson[]>([]);
   const [resources, setResources] = useState<LessonResource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(undefined);
-
-  // Handle overview content updates without refetching
-  const handleOverviewUpdate = useCallback((newContent: string) => {
-    setCourse(prev => prev ? { ...prev, overview_content: newContent } : null);
-  }, []);
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -91,7 +83,7 @@ const CourseCurriculum = () => {
           .single();
 
         if (courseError) throw courseError;
-        setCourse(courseData as Course & { overview_content?: string | null });
+        setCourse(courseData as Course);
 
         // Fetch modules
         const { data: modulesData, error: modulesError } = await supabase
@@ -428,22 +420,6 @@ const CourseCurriculum = () => {
                 </CardContent>
               </Card>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Course Overview Section - Inline Editable for Admins */}
-      <section className="bg-background py-6 sm:py-8">
-        <div className="container mx-auto px-4">
-          <div className="lg:max-w-3xl">
-            {courseId && (
-              <CourseOverviewEditor
-                courseId={courseId}
-                initialContent={course?.overview_content || null}
-                isAdmin={isAdmin}
-                onContentUpdate={handleOverviewUpdate}
-              />
-            )}
           </div>
         </div>
       </section>
