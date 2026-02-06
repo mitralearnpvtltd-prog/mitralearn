@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MinimalYouTubePlayer } from "@/components/MinimalYouTubePlayer";
 import { ProjectSubmission } from "@/components/ProjectSubmission";
 import { NotionDocument } from "@/components/NotionDocument";
+import { LessonOverviewSection } from "@/components/LessonOverviewSection";
 import {
   BookOpen,
   Code,
@@ -466,6 +467,9 @@ export const DayLesson = ({ content }: DayLessonProps) => {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           {/* Overview Tab */}
           <TabsContent value="overview" className="mt-0">
+            {/* Admin-editable Overview Section - Shows above lesson content */}
+            <LessonOverviewSection submoduleId={content.submodule} />
+            
             {/* Use NotionDocument for lessons with custom content */}
             {(content.submodule === "1.1" || content.submodule === "1.2" || content.submodule === "2.1" || content.submodule === "2.2" || content.submodule === "3.1" || content.submodule === "3.2" || content.submodule === "4.1" || content.submodule === "4.2" || content.submodule === "5.1" || content.submodule === "5.2" || content.submodule === "6.1" || content.submodule === "6.2" || content.submodule === "7.1" || content.submodule === "7.2" || content.submodule === "8.1" || content.submodule === "8.2") ? (
               <NotionDocument content={content} />
