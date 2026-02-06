@@ -322,6 +322,7 @@ export type Database = {
           is_published: boolean | null
           level: Database["public"]["Enums"]["course_level"] | null
           original_price: number | null
+          overview_content: string | null
           price: number
           rating: number | null
           reviews_count: string | null
@@ -352,6 +353,7 @@ export type Database = {
           is_published?: boolean | null
           level?: Database["public"]["Enums"]["course_level"] | null
           original_price?: number | null
+          overview_content?: string | null
           price?: number
           rating?: number | null
           reviews_count?: string | null
@@ -382,6 +384,7 @@ export type Database = {
           is_published?: boolean | null
           level?: Database["public"]["Enums"]["course_level"] | null
           original_price?: number | null
+          overview_content?: string | null
           price?: number
           rating?: number | null
           reviews_count?: string | null
