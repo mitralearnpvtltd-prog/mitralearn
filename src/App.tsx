@@ -27,8 +27,8 @@ import AdminReports from "./components/admin/AdminReports";
 import AdminRoleManagement from "./components/admin/AdminRoleManagement";
 import AdminReferrals from "./components/admin/AdminReferrals";
 
-// Course-specific curriculum page
 import CourseCurriculum from "./pages/CourseCurriculum";
+import CourseLesson from "./pages/CourseLesson";
 
 // Candidate pages
 import Profile from "./pages/Profile";
@@ -59,6 +59,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/curriculum" element={<Curriculum />} />
             <Route path="/course/:courseId" element={<CourseCurriculum />} />
+            <Route path="/course/:courseId/lesson/:lessonId" element={<CourseLesson />} />
             <Route path="/curriculum/lesson/:slug" element={<Day />} />
             <Route path="/curriculum/submodule/:submoduleId" element={<LegacyRedirect />} />
             <Route path="/dashboard" element={<Dashboard />} />
