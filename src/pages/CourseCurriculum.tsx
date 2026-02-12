@@ -420,8 +420,16 @@ const CourseCurriculum = () => {
 
                   {/* CTA Buttons */}
                   <SignedIn>
-                    <Button className="w-full" size="lg">
-                      Enroll Now
+                    <Button
+                      className="w-full"
+                      size="lg"
+                      onClick={() =>
+                        document
+                          .getElementById("curriculum")
+                          ?.scrollIntoView({ behavior: "smooth" })
+                      }
+                    >
+                      Start Learning
                     </Button>
                   </SignedIn>
                   <SignedOut>
