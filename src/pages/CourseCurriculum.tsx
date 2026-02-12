@@ -551,34 +551,34 @@ const CourseCurriculum = () => {
                               );
 
                               return (
-                                <div
-                                  key={lesson.lesson_id}
-                                  className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors"
-                                >
-                                  <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
-                                    {hasVideo ? (
-                                      <Video className="w-4 h-4 text-primary" />
-                                    ) : (
-                                      <FileText className="w-4 h-4 text-muted-foreground" />
-                                    )}
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-foreground truncate">
-                                      {lesson.title}
-                                    </p>
-                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                      {lesson.lesson_type && (
-                                        <span>{lesson.lesson_type}</span>
-                                      )}
-                                      {lesson.duration_minutes && (
-                                        <span>• {lesson.duration_minutes} min</span>
+                                <SignedIn key={lesson.lesson_id}>
+                                  <Link
+                                    to={`/course/${courseId}/lesson/${lesson.lesson_id}`}
+                                    className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 hover:bg-muted/50 hover:border-primary/30 transition-colors cursor-pointer group"
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                      {hasVideo ? (
+                                        <Video className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
+                                      ) : (
+                                        <FileText className="w-4 h-4 text-muted-foreground group-hover:text-primary-foreground" />
                                       )}
                                     </div>
-                                  </div>
-                                  {hasLink && (
-                                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                                  )}
-                                </div>
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-sm font-medium text-foreground truncate">
+                                        {lesson.title}
+                                      </p>
+                                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        {lesson.lesson_type && (
+                                          <span>{lesson.lesson_type}</span>
+                                        )}
+                                        {lesson.duration_minutes && (
+                                          <span>• {lesson.duration_minutes} min</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <ChevronRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </Link>
+                                </SignedIn>
                               );
                             })}
                           </div>
