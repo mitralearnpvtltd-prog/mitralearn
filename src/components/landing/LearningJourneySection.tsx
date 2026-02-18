@@ -6,7 +6,9 @@ import {
   Award, 
   Briefcase,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Rocket,
+  UserCheck
 } from "lucide-react";
 
 const LearningJourneySection = () => {
@@ -41,6 +43,20 @@ const LearningJourneySection = () => {
     },
     {
       step: 5,
+      icon: Rocket,
+      title: "Real-Time Projects",
+      description: "Start working on real-time industry projects that simulate actual production environments",
+      features: ["Live Projects", "Production Systems", "Team Collaboration"],
+    },
+    {
+      step: 6,
+      icon: UserCheck,
+      title: "Get Mentored",
+      description: "Work 1-on-1 with senior tech engineers who guide you through real-world challenges",
+      features: ["1-on-1 Sessions", "Senior Engineers", "Code Reviews"],
+    },
+    {
+      step: 7,
       icon: Briefcase,
       title: "Land Your Job",
       description: "Get placement assistance and career support to land your dream tech role",
@@ -94,7 +110,7 @@ const LearningJourneySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group relative ${index === 4 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''}`}
+              className={`group relative ${index === 6 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''}`}
             >
               {/* Card */}
               <div className="relative h-full p-6 sm:p-8 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
@@ -130,7 +146,7 @@ const LearningJourneySection = () => {
                 </div>
 
                 {/* Arrow connector for desktop */}
-                {index < 4 && (
+                {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 z-20">
                     <div className="w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center">
                       <ArrowRight className="h-4 w-4 text-muted-foreground" />
