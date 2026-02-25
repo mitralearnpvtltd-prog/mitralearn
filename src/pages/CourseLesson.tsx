@@ -300,7 +300,7 @@ const CourseLesson = () => {
               {activeTab === "overview" && (
                 <div>
                   {/* Lesson Overview from DB (admin-editable) */}
-                  <LessonOverviewSection submoduleId={lessonId!} />
+                  <LessonOverviewSection directLessonId={lessonId!} />
 
                   {/* Markdown content from resources */}
                   {markdownResources.length > 0 ? (

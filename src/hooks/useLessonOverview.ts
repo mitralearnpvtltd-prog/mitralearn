@@ -10,17 +10,19 @@ interface UseLessonOverviewResult {
 }
 
 /**
- * Hook to fetch and manage lesson overview content from lesson_resources table
- * Uses Markdown resource type with Manual source for admin-edited content
+ * Hook to fetch and manage lesson overview content from lesson_resources table.
+ * Supports two modes:
+ * 1. submoduleId lookup (legacy "1.1" format)
+ * 2. directLessonId (UUID for dynamic courses)
  */
-export function useLessonOverview(submoduleId: string): UseLessonOverviewResult {
+export function useLessonOverview(submoduleId?: string, directLessonId?: string): UseLessonOverviewResult {
   const [content, setContent] = useState<string>('');
   const [lessonId, setLessonId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchOverview = useCallback(async () => {
-    if (!submoduleId) {
+    if (!submoduleId && !directLessonId) {
       setIsLoading(false);
       return;
     }
@@ -29,55 +31,60 @@ export function useLessonOverview(submoduleId: string): UseLessonOverviewResult 
       setIsLoading(true);
       setError(null);
 
-      // First, find the lesson that matches this submodule
-      // The submodule format is like "1.1", "1.2", etc.
-      // We need to map this to the actual lesson in the database
-      const [moduleOrder, lessonOrder] = submoduleId.split('.').map(Number);
+      let resolvedLessonId: string | null = null;
 
-      // Find the course module first (assuming we're looking at the Data Engineering course)
-      const { data: modules, error: moduleError } = await supabase
-        .from('course_modules')
-        .select('module_id, course_id')
-        .eq('module_order', moduleOrder)
-        .limit(1);
+      if (directLessonId) {
+        // Direct lessonId mode — just use it
+        resolvedLessonId = directLessonId;
+      } else if (submoduleId) {
+        // Legacy submodule lookup
+        const [moduleOrder, lessonOrder] = submoduleId.split('.').map(Number);
 
-      if (moduleError) throw moduleError;
+        const { data: modules, error: moduleError } = await supabase
+          .from('course_modules')
+          .select('module_id, course_id')
+          .eq('module_order', moduleOrder)
+          .limit(1);
 
-      if (!modules || modules.length === 0) {
-        // No module found, return empty
-        setLessonId(null);
+        if (moduleError) throw moduleError;
+        if (!modules || modules.length === 0) {
+          setLessonId(null);
+          setContent('');
+          setIsLoading(false);
+          return;
+        }
+
+        const { data: lessons, error: lessonError } = await supabase
+          .from('course_lessons')
+          .select('lesson_id')
+          .eq('module_id', modules[0].module_id)
+          .eq('lesson_order', lessonOrder)
+          .limit(1);
+
+        if (lessonError) throw lessonError;
+        if (!lessons || lessons.length === 0) {
+          setLessonId(null);
+          setContent('');
+          setIsLoading(false);
+          return;
+        }
+
+        resolvedLessonId = lessons[0].lesson_id;
+      }
+
+      setLessonId(resolvedLessonId);
+
+      if (!resolvedLessonId) {
         setContent('');
         setIsLoading(false);
         return;
       }
-
-      const module = modules[0];
-
-      // Find the lesson within this module
-      const { data: lessons, error: lessonError } = await supabase
-        .from('course_lessons')
-        .select('lesson_id')
-        .eq('module_id', module.module_id)
-        .eq('lesson_order', lessonOrder)
-        .limit(1);
-
-      if (lessonError) throw lessonError;
-
-      if (!lessons || lessons.length === 0) {
-        setLessonId(null);
-        setContent('');
-        setIsLoading(false);
-        return;
-      }
-
-      const lesson = lessons[0];
-      setLessonId(lesson.lesson_id);
 
       // Fetch the overview resource (Markdown type, Manual source)
       const { data: resources, error: resourceError } = await supabase
         .from('lesson_resources')
         .select('content')
-        .eq('lesson_id', lesson.lesson_id)
+        .eq('lesson_id', resolvedLessonId)
         .eq('resource_type', 'Markdown')
         .eq('source', 'Manual')
         .limit(1);
@@ -95,7 +102,7 @@ export function useLessonOverview(submoduleId: string): UseLessonOverviewResult 
     } finally {
       setIsLoading(false);
     }
-  }, [submoduleId]);
+  }, [submoduleId, directLessonId]);
 
   useEffect(() => {
     fetchOverview();
