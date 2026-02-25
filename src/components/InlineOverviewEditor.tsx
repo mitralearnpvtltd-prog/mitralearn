@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Pencil, Save, X, Loader2 } from "lucide-react";
+import { Pencil, Save, X, Loader2, ImagePlus } from "lucide-react";
 import DOMPurify from "dompurify";
 
 interface InlineOverviewEditorProps {
@@ -12,7 +12,6 @@ interface InlineOverviewEditorProps {
   onContentChange?: (content: string) => void;
 }
 
-// Sanitize HTML while preserving Notion-compatible formatting
 const sanitizeHtml = (html: string): string => {
   return DOMPurify.sanitize(html, {
     ALLOWED_TAGS: [
@@ -33,7 +32,6 @@ const sanitizeHtml = (html: string): string => {
   });
 };
 
-// Style overrides for the editor content
 const editorStyles = `
   .overview-editor-content h1 { font-size: 2rem; font-weight: bold; margin: 1.5rem 0 1rem; color: hsl(var(--foreground)); }
   .overview-editor-content h2 { font-size: 1.5rem; font-weight: 600; margin: 1.25rem 0 0.75rem; color: hsl(var(--foreground)); }
@@ -64,41 +62,81 @@ export const InlineOverviewEditor = ({
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(initialContent);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Update content when initial content changes
   useEffect(() => {
     setContent(initialContent);
   }, [initialContent]);
 
-  // Handle paste from Notion or other sources
   const handlePaste = useCallback((e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
-    
-    // Get HTML content from clipboard
     const html = e.clipboardData.getData('text/html');
     const text = e.clipboardData.getData('text/plain');
     
     if (html) {
-      // Sanitize and insert HTML
       const sanitized = sanitizeHtml(html);
       document.execCommand('insertHTML', false, sanitized);
     } else if (text) {
-      // Fall back to plain text
       document.execCommand('insertText', false, text);
     }
   }, []);
 
-  // Save content to database
+  const handleImageUpload = useCallback(async (files: FileList | null) => {
+    if (!files || files.length === 0 || !editorRef.current) return;
+
+    setIsUploading(true);
+    try {
+      for (const file of Array.from(files)) {
+        if (!file.type.startsWith('image/')) {
+          toast.error(`${file.name} is not an image`);
+          continue;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error(`${file.name} exceeds 5MB limit`);
+          continue;
+        }
+
+        const ext = file.name.split('.').pop();
+        const path = `${lessonId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('lesson-content')
+          .upload(path, file);
+
+        if (uploadError) {
+          toast.error(`Failed to upload ${file.name}`);
+          console.error(uploadError);
+          continue;
+        }
+
+        const { data: urlData } = supabase.storage
+          .from('lesson-content')
+          .getPublicUrl(path);
+
+        const imgHtml = `<p><img src="${urlData.publicUrl}" alt="${file.name}" style="max-width:100%;height:auto;" /></p>`;
+        
+        editorRef.current.focus();
+        document.execCommand('insertHTML', false, imgHtml);
+      }
+      toast.success('Image(s) uploaded successfully');
+    } catch (err) {
+      console.error('Upload error:', err);
+      toast.error('Failed to upload image');
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  }, [lessonId]);
+
   const handleSave = async () => {
     if (!editorRef.current) return;
-    
     setIsSaving(true);
     
     try {
       const newContent = sanitizeHtml(editorRef.current.innerHTML);
       
-      // Check if overview resource already exists
       const { data: existingResource, error: fetchError } = await supabase
         .from('lesson_resources')
         .select('resource_id')
@@ -110,18 +148,12 @@ export const InlineOverviewEditor = ({
       if (fetchError) throw fetchError;
 
       if (existingResource) {
-        // Update existing resource
         const { error: updateError } = await supabase
           .from('lesson_resources')
-          .update({ 
-            content: newContent,
-            updated_at: new Date().toISOString()
-          })
+          .update({ content: newContent, updated_at: new Date().toISOString() })
           .eq('resource_id', existingResource.resource_id);
-        
         if (updateError) throw updateError;
       } else {
-        // Create new resource
         const { error: insertError } = await supabase
           .from('lesson_resources')
           .insert({
@@ -131,7 +163,6 @@ export const InlineOverviewEditor = ({
             content: newContent,
             resource_order: 0
           });
-        
         if (insertError) throw insertError;
       }
 
@@ -147,7 +178,6 @@ export const InlineOverviewEditor = ({
     }
   };
 
-  // Cancel editing
   const handleCancel = () => {
     if (editorRef.current) {
       editorRef.current.innerHTML = content;
@@ -155,7 +185,6 @@ export const InlineOverviewEditor = ({
     setIsEditing(false);
   };
 
-  // Inject styles
   useEffect(() => {
     const styleId = 'overview-editor-styles';
     if (!document.getElementById(styleId)) {
@@ -166,13 +195,9 @@ export const InlineOverviewEditor = ({
     }
   }, []);
 
-  // Empty state for admin
   const isEmpty = !content || content.trim() === '' || content === '<p></p>';
 
-  // Non-admin view
-  if (isAdminLoading) {
-    return null;
-  }
+  if (isAdminLoading) return null;
 
   if (!isAdmin) {
     if (isEmpty) return null;
@@ -184,56 +209,57 @@ export const InlineOverviewEditor = ({
     );
   }
 
-  // Admin view
   return (
     <div className="relative">
-      {/* Edit button - only shown when not editing */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => handleImageUpload(e.target.files)}
+      />
+
       {!isEditing && (
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-foreground">Overview</h2>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsEditing(true)}
-            className="gap-2"
-          >
+          <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)} className="gap-2">
             <Pencil className="w-4 h-4" />
             Edit
           </Button>
         </div>
       )}
 
-      {/* Editing toolbar */}
       {isEditing && (
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
           <h2 className="text-xl font-semibold text-foreground">Editing Overview</h2>
           <div className="flex items-center gap-2">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              onClick={handleCancel}
-              disabled={isSaving}
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="gap-2"
             >
+              {isUploading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <ImagePlus className="w-4 h-4" />
+              )}
+              Add Image
+            </Button>
+            <Button variant="ghost" size="sm" onClick={handleCancel} disabled={isSaving}>
               <X className="w-4 h-4 mr-1" />
               Cancel
             </Button>
-            <Button
-              size="sm"
-              onClick={handleSave}
-              disabled={isSaving}
-            >
-              {isSaving ? (
-                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
-              ) : (
-                <Save className="w-4 h-4 mr-1" />
-              )}
+            <Button size="sm" onClick={handleSave} disabled={isSaving}>
+              {isSaving ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
               Save
             </Button>
           </div>
         </div>
       )}
 
-      {/* Content area */}
       {isEditing ? (
         <div
           ref={editorRef}
@@ -242,14 +268,14 @@ export const InlineOverviewEditor = ({
           onPaste={handlePaste}
           className="overview-editor-content min-h-[200px] p-4 border-2 border-dashed border-primary/30 rounded-lg focus:outline-none focus:border-primary bg-background"
           dangerouslySetInnerHTML={{ __html: isEmpty ? '' : sanitizeHtml(content) }}
-          data-placeholder="Paste content from Notion or start typing..."
+          data-placeholder="Paste content from Notion or start typing... Use 'Add Image' to upload images."
         />
       ) : isEmpty ? (
         <button
           onClick={() => setIsEditing(true)}
           className="w-full min-h-[120px] flex items-center justify-center border-2 border-dashed border-muted-foreground/30 rounded-lg text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors cursor-pointer"
         >
-          Click to add overview
+          Click to add overview (text & images)
         </button>
       ) : (
         <div 
@@ -258,7 +284,6 @@ export const InlineOverviewEditor = ({
         />
       )}
 
-      {/* Placeholder style for empty editor */}
       <style>{`
         [contenteditable]:empty:before {
           content: attr(data-placeholder);
