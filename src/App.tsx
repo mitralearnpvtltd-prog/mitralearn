@@ -15,6 +15,7 @@ import VerifyCertificate from "./pages/VerifyCertificate";
 import AdminSetup from "./pages/AdminSetup";
 import NotFound from "./pages/NotFound";
 import OnboardingModal from "./components/OnboardingModal";
+import ClerkProfileSync from "./components/ClerkProfileSync";
 
 // Admin imports
 import AdminLayout from "./components/admin/AdminLayout";
@@ -53,6 +54,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <OnboardingModal />
+        <ClerkProfileSync />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
