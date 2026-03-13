@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useReferrals, useReferralSettings } from "@/hooks/useReferrals";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import { supabase } from "@/integrations/supabase/client";
