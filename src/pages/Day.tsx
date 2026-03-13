@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getSubmoduleContent, getSubmoduleIdFromSlug } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { BookOpen } from "lucide-react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 const Day = () => {
