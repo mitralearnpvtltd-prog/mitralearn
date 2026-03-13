@@ -21,7 +21,7 @@ export const MinimalYouTubePlayer = ({ videoId, title }: MinimalYouTubePlayerPro
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const playerContainerId = useRef(`yt-player-${videoId}-${Math.random().toString(36).substr(2, 9)}`);
-  const hideControlsTimeout = useRef<NodeJS.Timeout>();
+  const hideControlsTimeout = useRef<ReturnType<typeof setTimeout>>();
 
   // Load YouTube IFrame API
   useEffect(() => {
