@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getSubmoduleContent, getSubmoduleIdFromSlug } from "@/data/curriculum";
 import { useProgress } from "@/contexts/ProgressContext";
 import { BookOpen } from "lucide-react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 const Day = () => {
@@ -15,7 +16,7 @@ const Day = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }

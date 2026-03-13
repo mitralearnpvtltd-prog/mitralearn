@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import {
   BookOpen,
   Play,
@@ -160,10 +160,8 @@ const CourseLesson = () => {
       <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
         <div className="flex flex-1">
-          <div className="flex-1 p-8">
-            <Skeleton className="h-64 w-full mb-4" />
-            <Skeleton className="h-8 w-48 mb-2" />
-            <Skeleton className="h-4 w-96" />
+        <div className="flex-1 flex items-center justify-center">
+            <LoadingSpinner size="lg" />
           </div>
         </div>
       </div>
