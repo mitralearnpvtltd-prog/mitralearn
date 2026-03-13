@@ -1,4 +1,5 @@
 import { useAdminStats, useAdminUsers, useAdminCertificates } from "@/hooks/useAdminData";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Users, BookOpen, Award, TrendingUp, ArrowUpRight, Eye, Loader2 } from "lucide-react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
@@ -85,7 +86,7 @@ export default function AdminDashboard() {
   if (statsLoading || usersLoading || certsLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <LoadingSpinner size="lg" />
       </div>
     );
   }

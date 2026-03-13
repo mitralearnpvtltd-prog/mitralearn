@@ -1,4 +1,5 @@
 import { useAdminUsers } from "@/hooks/useAdminData";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -224,7 +225,7 @@ export default function AdminCandidates() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <LoadingSpinner size="lg" />
       </div>
     );
   }

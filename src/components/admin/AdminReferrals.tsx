@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useReferrals, useReferralSettings } from "@/hooks/useReferrals";
 import { useAdminRole } from "@/hooks/useAdminRole";
 import { supabase } from "@/integrations/supabase/client";
@@ -105,7 +106,7 @@ export default function AdminReferrals() {
   if (isLoading || settingsLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
