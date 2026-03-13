@@ -75,6 +75,11 @@ export const InlineOverviewEditor = ({
     const html = e.clipboardData.getData('text/html');
     const text = e.clipboardData.getData('text/plain');
     
+    // Clear existing content before pasting new content
+    if (editorRef.current) {
+      editorRef.current.innerHTML = '';
+    }
+    
     if (html) {
       const sanitized = sanitizeHtml(html);
       document.execCommand('insertHTML', false, sanitized);
