@@ -144,7 +144,7 @@ const CourseLesson = () => {
   // Separate resources by type
   const videoResources = resources.filter((r) => r.resource_type === "Video");
   const markdownResources = resources.filter(
-    (r) => r.resource_type === "Markdown"
+    (r) => r.resource_type === "Markdown" && r.source !== "Manual"
   );
   const linkResources = resources.filter((r) => r.resource_type === "Link");
   const imageResources = resources.filter((r) => r.resource_type === "Image");
