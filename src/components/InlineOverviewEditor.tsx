@@ -75,17 +75,25 @@ export const InlineOverviewEditor = ({
     const html = e.clipboardData.getData('text/html');
     const text = e.clipboardData.getData('text/plain');
     
-    // Clear existing content before pasting new content
-    if (editorRef.current) {
-      editorRef.current.innerHTML = '';
-    }
-    
+    if (!editorRef.current) return;
+
+    // Clear all existing content and replace with pasted content
     if (html) {
       const sanitized = sanitizeHtml(html);
-      document.execCommand('insertHTML', false, sanitized);
+      editorRef.current.innerHTML = sanitized;
     } else if (text) {
-      document.execCommand('insertText', false, text);
+      // Convert plain text to paragraphs
+      const paragraphs = text.split('\n').filter(Boolean).map(line => `<p>${line}</p>`).join('');
+      editorRef.current.innerHTML = paragraphs || `<p>${text}</p>`;
     }
+
+    // Move cursor to end
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(editorRef.current);
+    range.collapse(false);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
   }, []);
 
   const handleImageUpload = useCallback(async (files: FileList | null) => {
