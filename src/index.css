@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
 @tailwind base;
 @tailwind components;
@@ -7,124 +6,137 @@
 
 @layer base {
   :root {
-    --background: 270 30% 98%;
-    --foreground: 270 50% 10%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 270 50% 10%;
+    --card-foreground: 0 0% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 270 50% 10%;
+    --popover-foreground: 0 0% 11%;
 
-    --primary: 270 60% 50%;
+    --primary: 15 100% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 95% 55%;
+    --secondary: 39 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 270 20% 92%;
-    --muted-foreground: 270 20% 40%;
+    --muted: 216 20% 96%;
+    --muted-foreground: 220 10% 35%;
 
-    --accent: 35 100% 95%;
-    --accent-foreground: 35 95% 40%;
+    --accent: 15 100% 95%;
+    --accent-foreground: 15 100% 40%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 76% 36%;
+    --success: 126 68% 44%;
     --success-foreground: 0 0% 100%;
 
-    --border: 270 20% 88%;
-    --input: 270 20% 88%;
-    --ring: 270 60% 50%;
+    --info: 222 89% 59%;
+    --info-foreground: 0 0% 100%;
+
+    --warning: 39 100% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 210 18% 93%;
+    --input: 210 18% 93%;
+    --ring: 15 100% 60%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 270 30% 98%;
-    --sidebar-foreground: 270 50% 10%;
-    --sidebar-primary: 270 60% 50%;
+    --sidebar-background: 216 45% 97%;
+    --sidebar-foreground: 0 0% 11%;
+    --sidebar-primary: 15 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 35 95% 55%;
+    --sidebar-accent: 39 100% 50%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 270 20% 88%;
-    --sidebar-ring: 270 60% 50%;
+    --sidebar-border: 210 18% 93%;
+    --sidebar-ring: 15 100% 60%;
 
-    --chart-1: 270 60% 50%;
-    --chart-2: 35 95% 55%;
-    --chart-3: 142 76% 36%;
-    --chart-4: 200 80% 50%;
+    --chart-1: 15 100% 60%;
+    --chart-2: 39 100% 50%;
+    --chart-3: 126 68% 44%;
+    --chart-4: 222 89% 59%;
     --chart-5: 330 80% 50%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(270 60% 50%) 0%, hsl(300 60% 45%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(35 95% 55%) 0%, hsl(45 100% 50%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(270 50% 15%) 0%, hsl(280 40% 25%) 50%, hsl(270 30% 20%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(15 100% 60%) 0%, hsl(25 100% 55%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(39 100% 50%) 0%, hsl(45 100% 55%) 100%);
+    --gradient-hero: linear-gradient(160deg, #fff 55%, #FFF5F1 100%);
 
-    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-    --shadow-sm: 0 1px 2px 0 hsl(270 20% 20% / 0.05);
-    --shadow: 0 1px 3px 0 hsl(270 20% 20% / 0.1), 0 1px 2px -1px hsl(270 20% 20% / 0.1);
-    --shadow-md: 0 4px 6px -1px hsl(270 20% 20% / 0.1), 0 2px 4px -2px hsl(270 20% 20% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(270 20% 20% / 0.1), 0 4px 6px -4px hsl(270 20% 20% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(270 20% 20% / 0.1), 0 8px 10px -6px hsl(270 20% 20% / 0.1);
-    --shadow-glow: 0 0 20px hsl(270 60% 50% / 0.3);
-    --shadow-glow-secondary: 0 0 20px hsl(35 95% 55% / 0.3);
+    --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+    --shadow-glow: 0 6px 20px rgba(255,102,54,0.35);
+    --shadow-glow-secondary: 0 6px 20px rgba(255,168,0,0.35);
+
+    --orange-light: 15 100% 95%;
+    --green-light: 120 30% 92%;
+    --green-dark: 126 68% 44%;
+    --yellow-light: 45 100% 95%;
+    --blue-light: 214 100% 95%;
+    --blue-dark: 222 89% 59%;
   }
 
   .dark {
-    --background: 270 40% 8%;
+    --background: 0 0% 8%;
     --foreground: 0 0% 98%;
 
-    --card: 270 40% 12%;
+    --card: 0 0% 12%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 270 40% 12%;
+    --popover: 0 0% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 270 70% 60%;
-    --primary-foreground: 270 50% 10%;
+    --primary: 15 100% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 100% 55%;
+    --secondary: 39 100% 55%;
     --secondary-foreground: 0 0% 10%;
 
-    --muted: 270 30% 20%;
-    --muted-foreground: 270 20% 70%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 220 10% 65%;
 
-    --accent: 35 100% 20%;
-    --accent-foreground: 35 100% 70%;
+    --accent: 15 100% 20%;
+    --accent-foreground: 15 100% 70%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 76% 45%;
+    --success: 126 68% 45%;
     --success-foreground: 0 0% 100%;
 
-    --border: 270 30% 20%;
-    --input: 270 30% 20%;
-    --ring: 270 70% 60%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 15 100% 60%;
 
-    --sidebar-background: 270 40% 10%;
+    --sidebar-background: 0 0% 10%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 270 70% 60%;
-    --sidebar-primary-foreground: 270 50% 10%;
-    --sidebar-accent: 35 100% 55%;
+    --sidebar-primary: 15 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 39 100% 55%;
     --sidebar-accent-foreground: 0 0% 10%;
-    --sidebar-border: 270 30% 20%;
-    --sidebar-ring: 270 70% 60%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 15 100% 60%;
 
-    --chart-1: 270 70% 60%;
-    --chart-2: 35 100% 55%;
-    --chart-3: 142 76% 45%;
-    --chart-4: 200 80% 55%;
+    --chart-1: 15 100% 60%;
+    --chart-2: 39 100% 55%;
+    --chart-3: 126 68% 45%;
+    --chart-4: 222 89% 59%;
     --chart-5: 330 80% 55%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(270 70% 60%) 0%, hsl(300 70% 55%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(35 100% 55%) 0%, hsl(45 100% 55%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(270 50% 8%) 0%, hsl(280 40% 15%) 50%, hsl(270 30% 10%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(15 100% 60%) 0%, hsl(25 100% 55%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(39 100% 55%) 0%, hsl(45 100% 55%) 100%);
+    --gradient-hero: linear-gradient(160deg, #1a1a1a 55%, #2a1a15 100%);
 
-    --shadow-glow: 0 0 30px hsl(270 70% 60% / 0.4);
-    --shadow-glow-secondary: 0 0 30px hsl(35 100% 55% / 0.4);
+    --shadow-glow: 0 6px 25px rgba(255,102,54,0.4);
+    --shadow-glow-secondary: 0 6px 25px rgba(255,168,0,0.4);
   }
 }
 
@@ -197,7 +209,6 @@
     animation: fade-in 0.5s ease-out;
   }
 
-  /* Mobile touch-friendly utilities */
   .touch-target {
     min-height: 48px;
     touch-action: manipulation;
@@ -213,17 +224,14 @@
   }
 }
 
-/* Disable hover effects on touch devices */
 @media (hover: none) and (pointer: coarse) {
   .group:hover .group-hover\:bg-primary,
   .group:hover .group-hover\:text-primary-foreground,
   .group:hover .group-hover\:opacity-100,
   .hover\:bg-muted\/50:hover,
   .hover\:underline:hover {
-    /* Reset hover styles on touch devices */
   }
   
-  /* Make active states more prominent on touch */
   .touch-feedback:active,
   .group:active .group-active\:bg-primary {
     background-color: hsl(var(--primary)) !important;
@@ -236,7 +244,7 @@
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-6px); }
 }
 
 @keyframes pulse-glow {
