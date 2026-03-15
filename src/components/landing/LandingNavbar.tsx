@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Users } from "lucide-react";
 import {
   SignedIn,
   SignedOut,
@@ -13,59 +12,67 @@ import mitraLearnLogo from "@/assets/mitra-learn-logo.png";
 
 const LandingNavbar = () => {
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50"
-    >
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-40px)] max-w-[1200px]">
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="flex items-center justify-between px-5 sm:px-7 py-3.5 bg-card/97 backdrop-blur-xl rounded-2xl border border-border shadow-lg hover:shadow-xl transition-shadow duration-300"
+      >
         <Link to="/" className="flex items-center">
-          <motion.img 
-            src={mitraLearnLogo} 
-            alt="Mitra Learn" 
+          <motion.img
+            src={mitraLearnLogo}
+            alt="Mitra Learn"
             className="h-8 w-auto"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           />
         </Link>
 
-        <div className="flex items-center gap-3 sm:gap-4">
+        <ul className="hidden lg:flex items-center gap-8">
+          {["Home", "About", "Courses", "Contact"].map((item) => (
+            <li key={item}>
+              <a
+                href="#"
+                className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors duration-200"
+              >
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-3">
           <SignedOut>
             <SignInButton mode="modal">
-              <Button 
-                variant="ghost"
+              <Button
+                variant="outline"
                 size="sm"
-                className="hidden sm:flex items-center gap-2"
+                className="hidden sm:inline-flex font-bold text-sm border-2 border-border hover:border-primary hover:text-primary"
               >
-                <Users className="w-4 h-4" />
-                Login
+                Log In
               </Button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <Button 
-                variant="default"
+              <Button
                 size="sm"
-                className="px-4 sm:px-6"
+                className="font-bold text-sm bg-primary hover:bg-primary/90 shadow-glow"
               >
-                Register
+                Get Started →
               </Button>
             </SignUpButton>
           </SignedOut>
           <SignedIn>
             <Link to="/dashboard">
-              <Button 
-                variant="ghost"
-                size="sm"
-              >
+              <Button variant="ghost" size="sm" className="font-bold">
                 Dashboard
               </Button>
             </Link>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
         </div>
-      </div>
-    </motion.nav>
+      </motion.nav>
+    </div>
   );
 };
 
