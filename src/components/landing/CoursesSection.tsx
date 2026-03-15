@@ -50,7 +50,7 @@ const CoursesSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                onClick={() => navigate(`/curriculum/${course.slug || course.id}`)}
+                onClick={() => navigate(`/curriculum/${course.id}`)}
               >
                 {/* Thumbnail */}
                 <div className="h-[180px] relative overflow-hidden">
