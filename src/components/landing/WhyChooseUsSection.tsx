@@ -1,121 +1,66 @@
 import { motion } from "framer-motion";
-import { 
-  Rocket, 
-  Users, 
-  Briefcase, 
-  GraduationCap, 
-  Map, 
-  Award 
-} from "lucide-react";
+import { Target, CreditCard, Globe } from "lucide-react";
 
 const WhyChooseUsSection = () => {
   const features = [
     {
-      icon: Rocket,
-      title: "Project-Based Learning",
-      description: "Build real-world projects that you can showcase in your portfolio",
-      gradient: "from-primary to-primary/70",
+      icon: Target,
+      title: "Expert-led Courses",
+      description: "Gain valuable knowledge and skills from our experienced instructors who are leaders in their respective fields.",
+      iconBg: "bg-accent",
     },
     {
-      icon: Users,
-      title: "Expert Mentorship",
-      description: "Get guidance from industry professionals with years of experience",
-      gradient: "from-secondary to-secondary/70",
+      icon: CreditCard,
+      title: "Affordable Pricing",
+      description: "Invest in your education with our affordable pricing options and unlock access to premium learning resources.",
+      iconBg: "bg-blue-light",
     },
     {
-      icon: Briefcase,
-      title: "Internship Opportunities",
-      description: "Gain hands-on experience with our partner companies",
-      gradient: "from-primary to-secondary",
-    },
-    {
-      icon: GraduationCap,
-      title: "Career Support",
-      description: "Resume reviews, mock interviews, and job placement assistance",
-      gradient: "from-secondary to-primary",
-    },
-    {
-      icon: Map,
-      title: "Structured Roadmap",
-      description: "Follow a clear learning path from beginner to job-ready",
-      gradient: "from-primary/80 to-primary",
-    },
-    {
-      icon: Award,
-      title: "Verified Certificates",
-      description: "Earn industry-recognized certifications upon completion",
-      gradient: "from-secondary/80 to-secondary",
+      icon: Globe,
+      title: "Guided Internship",
+      description: "Bridge the gap between theory and practice with our guided internship programs at top-tier companies.",
+      iconBg: "bg-green-light",
     },
   ];
 
   return (
-    <section className="py-20 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background to-muted/30" />
-      
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="py-20 px-4 sm:px-10 lg:px-20 bg-muted">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="text-center mb-12"
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-block px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4"
-          >
-            Why Mitra Learn
-          </motion.span>
-          
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
-            Why <span className="text-gradient-primary">Choose Us</span>
+          <span className="inline-block text-xs font-bold text-primary bg-accent px-3.5 py-1 rounded-full mb-3">
+            WHY CHOOSE US
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-3">
+            Choose Us Because Of
+            <br />
+            Our <span className="text-primary">Experience</span>
           </h2>
-          
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            We provide everything you need to transition into a successful tech career
+          <p className="text-muted-foreground text-[15px] leading-relaxed max-w-[520px] mx-auto">
+            Embark on a transformative journey, where our expert-led courses, progressive curriculum and vibrant community will empower you.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
+              className="bg-card rounded-xl p-8 border border-border hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
             >
-              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-card border border-border/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-primary/30">
-                {/* Gradient glow on hover */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="h-7 w-7 text-primary-foreground" />
-                  </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-                  
-                  {/* Description */}
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-
-                {/* Border glow effect */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-primary/20 transition-colors duration-300" />
+              <div className={`w-[52px] h-[52px] rounded-xl ${feature.iconBg} flex items-center justify-center mb-5`}>
+                <feature.icon className="h-6 w-6 text-primary" />
               </div>
+              <h3 className="text-[17px] font-extrabold text-foreground mb-2.5 font-sans">{feature.title}</h3>
+              <p className="text-[13px] text-muted-foreground leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
         </div>

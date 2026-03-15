@@ -1,136 +1,72 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { SignedIn, SignedOut, SignUpButton } from "@clerk/clerk-react";
 
 const FinalCTASection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-20 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-muted/30 to-background" />
-      
-      {/* Decorative blobs */}
-      <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl -translate-y-1/2" />
-      <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl -translate-y-1/2" />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
-        >
-          {/* Glass card */}
-          <div className="relative rounded-3xl overflow-hidden">
-            {/* Gradient border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary rounded-3xl" />
-            
-            {/* Inner content */}
-            <div className="relative m-[2px] rounded-3xl bg-card/95 backdrop-blur-xl p-8 sm:p-12 lg:p-16">
-              {/* Sparkle icon */}
-              <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-8 shadow-glow"
+    <section className="px-4 sm:px-10 lg:px-20 pb-20">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-6xl mx-auto rounded-3xl p-10 sm:p-14 flex flex-col lg:flex-row items-center justify-between gap-10"
+        style={{ background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.85) 100%)" }}
+      >
+        {/* Text */}
+        <div>
+          <h2 className="text-3xl sm:text-4xl font-display font-bold text-background mb-3">
+            Do You Want To Transform
+            <br />
+            Your Career?
+          </h2>
+          <p className="text-background/60 text-[15px] leading-relaxed max-w-[460px] mb-7">
+            Join over 250,000 students worldwide who are already learning and growing with Mitra Learn. Start your journey today.
+          </p>
+          <div className="flex gap-3">
+            <SignedOut>
+              <SignUpButton mode="modal">
+                <Button className="bg-primary hover:bg-primary/90 font-bold text-sm shadow-glow">
+                  Start Learning →
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <Button
+                onClick={() => navigate("/dashboard")}
+                className="bg-primary hover:bg-primary/90 font-bold text-sm shadow-glow"
               >
-                <Sparkles className="h-8 w-8 text-primary-foreground" />
-              </motion.div>
-
-              <div className="text-center">
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 }}
-                  className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4"
-                >
-                  Ready to Transform{" "}
-                  <span className="text-gradient-primary">Your Future?</span>
-                </motion.h2>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                  className="text-lg text-muted-foreground max-w-xl mx-auto mb-10"
-                >
-                  Join thousands of learners who have transformed their careers with Mitra Learn. 
-                  Your journey to becoming a tech professional starts today.
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center"
-                >
-                  <SignedOut>
-                    <SignUpButton mode="modal">
-                      <Button 
-                        variant="hero"
-                        size="xl"
-                        className="group"
-                      >
-                        Start Learning Today
-                        <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </SignUpButton>
-                  </SignedOut>
-                  <SignedIn>
-                    <Button 
-                      onClick={() => navigate('/dashboard')}
-                      variant="hero"
-                      size="xl"
-                      className="group"
-                    >
-                      Continue Learning
-                      <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </SignedIn>
-
-                  <Button 
-                    variant="outline"
-                    size="xl"
-                    className="group border-2"
-                    onClick={() => window.open('mailto:support@mitralearn.com', '_blank')}
-                  >
-                    <MessageCircle className="h-5 w-5" />
-                    Talk to Advisor
-                  </Button>
-                </motion.div>
-
-                {/* Trust badges */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                  className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground"
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-success" />
-                    No prior experience needed
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-success" />
-                    Free internship included
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-success" />
-                    Career support
-                  </span>
-                </motion.div>
-              </div>
-            </div>
+                Continue Learning →
+              </Button>
+            </SignedIn>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/curriculum")}
+              className="border-2 border-background/20 text-background hover:bg-background/10 font-bold text-sm"
+            >
+              Browse Courses
+            </Button>
           </div>
-        </motion.div>
-      </div>
+        </div>
+
+        {/* Right side */}
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-[13px] text-background/50">Join thousands of learners</p>
+          <div className="flex -space-x-3">
+            {["bg-primary", "bg-info", "bg-success", "bg-secondary", "bg-destructive"].map((bg, i) => (
+              <div key={i} className={`w-11 h-11 rounded-full ${bg} border-[3px] border-foreground flex items-center justify-center text-primary-foreground font-bold text-sm`}>
+                {String.fromCharCode(65 + i)}
+              </div>
+            ))}
+          </div>
+          <div className="bg-background/10 rounded-xl px-6 py-4 text-center mt-2">
+            <p className="text-[28px] font-black text-background">250K+</p>
+            <p className="text-[12px] text-background/50">Active Students</p>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 };
