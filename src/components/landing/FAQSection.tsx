@@ -5,20 +5,20 @@ import faqImage from "@/assets/faq-image.jpg";
 
 const faqs = [
   {
-    q: "How do I enroll with Mitra Learn?",
+    q: "How do I get started with LearnEdge?",
     a: "Simply create a free account, browse our course catalogue and click 'Enroll Now' on any course that interests you. You'll get instant access to all course materials.",
   },
   {
     q: "Can I access courses on mobile devices?",
-    a: "Yes! Mitra Learn is fully responsive so you can learn anywhere, anytime from any device.",
+    a: "Yes! Our platform is fully responsive so you can learn anywhere, anytime from any device.",
   },
   {
-    q: "How can I get help if I have issues?",
+    q: "How can I contact support if I have issues?",
     a: "Our dedicated support team is available via email and chat. You can also find answers in our comprehensive help centre.",
   },
   {
-    q: "Do you offer refunds on subscriptions?",
-    a: "We offer a 7-day money-back guarantee on all course purchases. If you're not satisfied, contact us within 7 days for a full refund.",
+    q: "Do you offer corporate or team subscriptions?",
+    a: "Yes, we offer corporate plans with bulk pricing and team management features. Contact us for more details.",
   },
   {
     q: "Will I receive a certificate upon course completion?",
@@ -31,42 +31,43 @@ const FAQSection = () => {
 
   return (
     <section className="py-20 px-4 sm:px-10 lg:px-20 bg-muted">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-start">
-        {/* Image */}
+      <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-[20px] h-[350px] sm:h-[420px] overflow-hidden"
+          className="text-center mb-12"
         >
-          <img src={faqImage} alt="FAQ" className="w-full h-full object-cover" />
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-card rounded-xl px-5 py-3.5 text-center shadow-lg">
-            <p className="text-2xl font-black text-primary">98%</p>
-            <p className="text-[12px] text-muted-foreground">Satisfaction Rate</p>
-          </div>
-        </motion.div>
-
-        {/* FAQ List */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-        >
-          <span className="inline-block text-xs font-bold text-primary bg-accent px-3.5 py-1 rounded-full mb-3">
-            FAQ
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-8">
+          <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
             Answers To Frequently
             <br />
-            Asked <span className="text-primary">Questions</span>
+            Asked Questions
           </h2>
+        </motion.div>
 
-          <div className="space-y-3">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-16 items-start">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="rounded-[20px] h-[350px] sm:h-[420px] overflow-hidden"
+          >
+            <img src={faqImage} alt="FAQ" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* FAQ List */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-3"
+          >
             {faqs.map((faq, i) => (
-              <div key={i} className="border border-border rounded-xl overflow-hidden">
+              <div key={i} className="border border-border rounded-xl overflow-hidden bg-card">
                 <button
                   onClick={() => setOpenIndex(openIndex === i ? -1 : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-bold text-foreground bg-card hover:bg-muted transition-colors font-sans"
+                  className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-bold text-foreground hover:bg-muted/50 transition-colors font-sans"
                 >
                   {faq.q}
                   <div
@@ -86,8 +87,8 @@ const FAQSection = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,70 +1,82 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { SignedIn, SignedOut, SignUpButton } from "@clerk/clerk-react";
+import instructor1 from "@/assets/instructor-1.jpg";
+import instructor2 from "@/assets/instructor-2.jpg";
+import instructor3 from "@/assets/instructor-3.jpg";
+import instructor4 from "@/assets/instructor-4.jpg";
+import instructor5 from "@/assets/instructor-5.jpg";
+import instructor6 from "@/assets/instructor-6.jpg";
+
+const avatars = [instructor1, instructor2, instructor3, instructor4, instructor5, instructor6];
 
 const FinalCTASection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="px-4 sm:px-10 lg:px-20 pb-20">
+    <section className="py-20 px-4 sm:px-10 lg:px-20">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto rounded-3xl p-10 sm:p-14 flex flex-col lg:flex-row items-center justify-between gap-10"
-        style={{ background: "linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.85) 100%)" }}
+        className="max-w-4xl mx-auto text-center"
       >
-        {/* Text */}
-        <div>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-background mb-3">
-            Do You Want To Transform
-            <br />
-            Your Career?
-          </h2>
-          <p className="text-background/60 text-[15px] leading-relaxed max-w-[460px] mb-7">
-            Join over 250,000 students worldwide who are already learning and growing with Mitra Learn. Start your journey today.
-          </p>
-          <div className="flex gap-3">
-            <SignedOut>
-              <SignUpButton mode="modal">
-                <Button className="bg-primary hover:bg-primary/90 font-bold text-sm shadow-glow">
-                  Start Learning →
-                </Button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <Button
-                onClick={() => navigate("/dashboard")}
-                className="bg-primary hover:bg-primary/90 font-bold text-sm shadow-glow"
+        {/* Circular avatar arrangement */}
+        <div className="relative w-[280px] h-[200px] mx-auto mb-8">
+          {avatars.map((src, i) => {
+            const positions = [
+              { top: "0%", left: "15%" },
+              { top: "0%", right: "15%" },
+              { top: "35%", left: "0%" },
+              { top: "35%", right: "0%" },
+              { top: "70%", left: "20%" },
+              { top: "70%", right: "20%" },
+            ];
+            return (
+              <div
+                key={i}
+                className="absolute w-12 h-12 rounded-full overflow-hidden border-2 border-card shadow-md"
+                style={positions[i]}
               >
-                Continue Learning →
-              </Button>
-            </SignedIn>
-            <Button
-              variant="outline"
-              onClick={() => navigate("/curriculum")}
-              className="border-2 border-background/20 text-background hover:bg-background/10 font-bold text-sm"
-            >
-              Browse Courses
-            </Button>
-          </div>
+                <img src={src} alt="Avatar" className="w-full h-full object-cover" />
+              </div>
+            );
+          })}
         </div>
 
-        {/* Right side */}
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-[13px] text-background/50">Join thousands of learners</p>
-          <div className="flex -space-x-3">
-            {["bg-primary", "bg-info", "bg-success", "bg-secondary", "bg-destructive"].map((bg, i) => (
-              <div key={i} className={`w-11 h-11 rounded-full ${bg} border-[3px] border-foreground flex items-center justify-center text-primary-foreground font-bold text-sm`}>
-                {String.fromCharCode(65 + i)}
-              </div>
-            ))}
-          </div>
-          <div className="bg-background/10 rounded-xl px-6 py-4 text-center mt-2">
-            <p className="text-[28px] font-black text-background">250K+</p>
-            <p className="text-[12px] text-background/50">Active Students</p>
-          </div>
+        <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-4">
+          Do You Want To Transform
+          <br />
+          Your Career?
+        </h2>
+        <p className="text-muted-foreground text-[14px] leading-relaxed max-w-[460px] mx-auto mb-8">
+          Enhance your career prospects with Courses. Access expert instruction and a wide range of courses to boost your skills.
+        </p>
+
+        <div className="flex gap-3 justify-center">
+          <SignedOut>
+            <SignUpButton mode="modal">
+              <Button className="bg-foreground text-background hover:bg-foreground/90 font-bold text-sm rounded-full px-6 py-3 h-auto gap-2">
+                Explore Courses
+                <span className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                  <ArrowUpRight className="h-3.5 w-3.5 text-primary-foreground" />
+                </span>
+              </Button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <Button
+              onClick={() => navigate("/dashboard")}
+              className="bg-foreground text-background hover:bg-foreground/90 font-bold text-sm rounded-full px-6 py-3 h-auto gap-2"
+            >
+              Continue Learning
+              <span className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                <ArrowUpRight className="h-3.5 w-3.5 text-primary-foreground" />
+              </span>
+            </Button>
+          </SignedIn>
         </div>
       </motion.div>
     </section>
