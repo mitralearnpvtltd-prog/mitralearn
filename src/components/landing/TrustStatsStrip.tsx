@@ -1,34 +1,31 @@
 import { motion } from "framer-motion";
 
-const TrustStatsStrip = () => {
-  const partners = [
-    { name: "Udemy", color: "bg-primary" },
-    { name: "Skillshare", color: "bg-success" },
-    { name: "Lightfoot", color: "bg-info" },
-    { name: "Udacourse", color: "bg-secondary" },
-    { name: "Purposeful", color: "bg-destructive" },
-    { name: "Coursify", color: "bg-success" },
-  ];
+const partners = [
+  "Boltshift", "Nietzsche", "Polymath", "Lightbox", "Boltshift", "Nietzsche", "Polymath", "Lightbox",
+];
 
+const TrustStatsStrip = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      className="border-t border-b border-border py-4 px-4 sm:px-10 lg:px-20 flex flex-col sm:flex-row items-center justify-between gap-4 bg-card"
-    >
-      <p className="text-[13px] text-muted-foreground font-semibold whitespace-nowrap">
-        Trusted by 1000+ companies
+    <section className="py-8 border-y border-border bg-card overflow-hidden">
+      <p className="text-center text-sm text-muted-foreground font-semibold mb-5">
+        We collaborate with over 250 companies
       </p>
-      <div className="flex items-center gap-6 sm:gap-8 flex-wrap justify-center">
-        {partners.map((p) => (
-          <div key={p.name} className="flex items-center gap-1.5 font-extrabold text-sm text-muted-foreground">
-            <span className={`w-2 h-2 rounded-full ${p.color}`} />
-            {p.name}
-          </div>
-        ))}
+      <div className="relative overflow-hidden">
+        <div className="flex animate-marquee gap-12 whitespace-nowrap">
+          {[...partners, ...partners].map((name, i) => (
+            <span
+              key={i}
+              className="text-lg font-black text-foreground/60 tracking-tight flex items-center gap-2 flex-shrink-0"
+            >
+              <span className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs text-foreground">
+                {name[0]}
+              </span>
+              {name}
+            </span>
+          ))}
+        </div>
       </div>
-    </motion.div>
+    </section>
   );
 };
 

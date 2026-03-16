@@ -1,49 +1,36 @@
 import { motion } from "framer-motion";
+import { ArrowUpRight, Calendar, Clock } from "lucide-react";
+import blog1 from "@/assets/blog-1.jpg";
+import blog2 from "@/assets/blog-2.jpg";
+import blog3 from "@/assets/blog-3.jpg";
 
 const blogPosts = [
   {
-    tag: "Education",
-    title: "How to Stay Motivated While Learning Online Classes in 2025",
-    desc: "Discover proven strategies to keep your motivation high and stay on track with your online learning goals.",
-    author: "Robert David",
-    date: "March 10, 2025",
-    comments: "12 Comments",
+    title: "How to Stay Motivated During Online Classes",
+    desc: "Discover proven techniques to maximize your online learning experience and achieve your educational goals.",
+    date: "December 1, 2025",
+    duration: "5 hours 50 min",
+    img: blog1,
     featured: true,
-    gradient: "from-accent to-primary/20",
   },
   {
-    tag: "Technology",
-    title: "How Cutting-Edge Tech Transforms Our Learning Experience",
-    date: "Feb 20, 2025",
-    gradient: "from-green-light to-success/20",
+    title: "How Coding Can Transform Your Career Path",
+    desc: "Discover proven techniques to maximize your online learning experience and achieve your educational goals.",
+    img: blog2,
   },
   {
-    tag: "Career",
-    title: "A Disciplinary Student Should Master These Core Skills",
-    date: "Feb 15, 2025",
-    gradient: "from-blue-light to-info/20",
-  },
-  {
-    tag: "Tips",
-    title: "5 Tips to Maximize Your Learning Potential Every Day",
-    date: "Feb 10, 2025",
-    gradient: "from-accent to-destructive/10",
-  },
-  {
-    tag: "Industry",
-    title: "Top Industries Hiring Online-Educated Professionals in 2025",
-    date: "Feb 5, 2025",
-    gradient: "from-yellow-light to-secondary/20",
+    title: "AI Skills Every Student Should Master",
+    desc: "Discover proven techniques to maximize your online learning experience and achieve your educational goals.",
+    img: blog3,
   },
 ];
 
 const BlogSection = () => {
   const featured = blogPosts[0];
-  const col2 = blogPosts.slice(1, 3);
-  const col3 = blogPosts.slice(3, 5);
+  const side = blogPosts.slice(1);
 
   return (
-    <section className="py-20 px-4 sm:px-10 lg:px-20">
+    <section id="blog" className="py-20 px-4 sm:px-10 lg:px-20">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -51,86 +38,57 @@ const BlogSection = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="inline-block text-xs font-bold text-primary bg-accent px-3.5 py-1 rounded-full mb-3">
-            LATEST NEWS
-          </span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
             A Look At The Most Recent
             <br />
-            Events And <span className="text-primary">News</span>
+            Events And News
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr] gap-6">
-          {/* Featured */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Featured post */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="border border-border rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+            className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
           >
-            <div className={`h-[260px] bg-gradient-to-br ${featured.gradient} flex items-center justify-center text-5xl`}>
-              📰
+            <div className="h-[240px] overflow-hidden">
+              <img src={featured.img} alt={featured.title} className="w-full h-full object-cover" />
             </div>
-            <div className="p-5 bg-card">
-              <span className="inline-block text-[11px] font-bold text-primary bg-accent px-2.5 py-0.5 rounded-md mb-2.5">
-                {featured.tag}
-              </span>
-              <h4 className="text-[15px] font-extrabold text-foreground leading-snug mb-2 font-sans">{featured.title}</h4>
-              <p className="text-[12px] text-muted-foreground leading-relaxed mb-3">{featured.desc}</p>
-              <div className="flex items-center gap-3 text-[12px] text-muted-foreground">
-                <span>👤 {featured.author}</span>
-                <span>📅 {featured.date}</span>
-                <span>💬 {featured.comments}</span>
+            <div className="p-5">
+              <div className="flex items-center gap-4 mb-3 text-[12px] text-muted-foreground">
+                <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {featured.date}</span>
+                <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {featured.duration}</span>
               </div>
+              <h4 className="text-lg font-extrabold text-foreground leading-snug mb-2 font-sans">{featured.title}</h4>
+              <p className="text-[13px] text-muted-foreground leading-relaxed mb-4">{featured.desc}</p>
+              <button className="bg-foreground text-background text-[13px] font-bold px-5 py-2.5 rounded-full hover:bg-foreground/90 transition-all duration-200 flex items-center gap-2">
+                Read More
+                <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                  <ArrowUpRight className="h-3 w-3 text-primary-foreground" />
+                </span>
+              </button>
             </div>
           </motion.div>
 
-          {/* Column 2 */}
+          {/* Side posts */}
           <div className="flex flex-col gap-6">
-            {col2.map((post, i) => (
+            {side.map((post, i) => (
               <motion.div
                 key={post.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="border border-border rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-row"
               >
-                <div className={`h-[130px] bg-gradient-to-br ${post.gradient} flex items-center justify-center text-4xl`}>
-                  {post.tag === "Technology" ? "🚀" : "🎓"}
+                <div className="w-[140px] sm:w-[180px] flex-shrink-0 overflow-hidden">
+                  <img src={post.img} alt={post.title} className="w-full h-full object-cover" />
                 </div>
-                <div className="p-4 bg-card">
-                  <span className="inline-block text-[11px] font-bold text-primary bg-accent px-2.5 py-0.5 rounded-md mb-2">
-                    {post.tag}
-                  </span>
-                  <h4 className="text-sm font-extrabold text-foreground leading-snug font-sans">{post.title}</h4>
-                  <p className="text-[12px] text-muted-foreground mt-2">📅 {post.date}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Column 3 */}
-          <div className="flex flex-col gap-6">
-            {col3.map((post, i) => (
-              <motion.div
-                key={post.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="border border-border rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className={`h-[130px] bg-gradient-to-br ${post.gradient} flex items-center justify-center text-4xl`}>
-                  {post.tag === "Tips" ? "💡" : "📊"}
-                </div>
-                <div className="p-4 bg-card">
-                  <span className="inline-block text-[11px] font-bold text-primary bg-accent px-2.5 py-0.5 rounded-md mb-2">
-                    {post.tag}
-                  </span>
-                  <h4 className="text-sm font-extrabold text-foreground leading-snug font-sans">{post.title}</h4>
-                  <p className="text-[12px] text-muted-foreground mt-2">📅 {post.date}</p>
+                <div className="p-4 flex flex-col justify-center">
+                  <h4 className="text-[15px] font-extrabold text-foreground leading-snug mb-2 font-sans">{post.title}</h4>
+                  <p className="text-[12px] text-muted-foreground leading-relaxed line-clamp-2">{post.desc}</p>
                 </div>
               </motion.div>
             ))}
