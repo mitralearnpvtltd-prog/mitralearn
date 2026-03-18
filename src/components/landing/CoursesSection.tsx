@@ -8,6 +8,15 @@ const CoursesSection = () => {
   const { courses: dbCourses, isLoading: isCoursesLoading } = usePublishedCourses();
   const navigate = useNavigate();
 
+  const getCourseLink = (course: any) => {
+    // Data Engineering course goes to the hardcoded curriculum page
+    if (course.title?.toLowerCase().includes("data engineering")) {
+      return "/curriculum";
+    }
+    // All other courses use dynamic routing
+    return `/course/${course.id}`;
+  };
+
   return (
     <section id="courses" className="py-20 px-4 sm:px-10 lg:px-20 bg-muted">
       <div className="max-w-6xl mx-auto">
