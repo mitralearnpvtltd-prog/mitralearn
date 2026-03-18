@@ -8,6 +8,15 @@ const CoursesSection = () => {
   const { courses: dbCourses, isLoading: isCoursesLoading } = usePublishedCourses();
   const navigate = useNavigate();
 
+  const getCourseLink = (course: any) => {
+    // Data Engineering course goes to the hardcoded curriculum page
+    if (course.title?.toLowerCase().includes("data engineering")) {
+      return "/curriculum";
+    }
+    // All other courses use dynamic routing
+    return `/course/${course.id}`;
+  };
+
   return (
     <section id="courses" className="py-20 px-4 sm:px-10 lg:px-20 bg-muted">
       <div className="max-w-6xl mx-auto">
@@ -46,7 +55,7 @@ const CoursesSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                onClick={() => navigate(`/curriculum/${course.id}`)}
+                onClick={() => navigate(getCourseLink(course))}
               >
                 {/* Thumbnail */}
                 <div className="h-[200px] relative overflow-hidden">
