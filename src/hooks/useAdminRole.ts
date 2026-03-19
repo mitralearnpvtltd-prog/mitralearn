@@ -94,7 +94,7 @@ export const useAdminRole = () => {
 
         const roleName = (roleData.roles as any).role_name as RoleName;
         setUserRole(roleName);
-        setIsAdmin(['SuperAdmin', 'Admin'].includes(roleName));
+        setIsAdmin(['SuperAdmin', 'Admin', 'Editor'].includes(roleName));
         setIsSuperAdmin(roleName === 'SuperAdmin');
 
         // Fetch permissions for this role
