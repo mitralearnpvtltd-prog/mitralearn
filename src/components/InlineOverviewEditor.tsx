@@ -213,7 +213,7 @@ export const InlineOverviewEditor = ({
 
   if (isAdminLoading) return null;
 
-  if (!isAdmin) {
+  if (!canEditOverview) {
     if (isEmpty) return null;
     return (
       <div 
