@@ -58,7 +58,8 @@ export const InlineOverviewEditor = ({
   initialContent,
   onContentChange 
 }: InlineOverviewEditorProps) => {
-  const { isAdmin, isLoading: isAdminLoading } = useAdminRole();
+  const { isAdmin, isLoading: isAdminLoading, hasPermission, isSuperAdmin } = useAdminRole();
+  const canEditOverview = isSuperAdmin || isAdmin || hasPermission('overview.edit');
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(initialContent);
   const [isSaving, setIsSaving] = useState(false);
@@ -212,7 +213,7 @@ export const InlineOverviewEditor = ({
 
   if (isAdminLoading) return null;
 
-  if (!isAdmin) {
+  if (!canEditOverview) {
     if (isEmpty) return null;
     return (
       <div 

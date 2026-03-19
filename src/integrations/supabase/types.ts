@@ -884,13 +884,20 @@ export type Database = {
         | "manager"
         | "supporter"
         | "viewer"
+        | "editor"
       course_category: "Course" | "Internship" | "Course+Internship"
       course_level: "Beginner" | "Intermediate" | "Advanced"
       course_status: "Draft" | "Published" | "Archived"
       lesson_type: "Video" | "Reading" | "Quiz" | "Project"
       resource_source: "Notion" | "YouTube" | "Upload" | "Manual"
       resource_type: "Video" | "PDF" | "Link" | "Table" | "Markdown" | "Image"
-      role_name: "SuperAdmin" | "Admin" | "Manager" | "Support" | "Instructor"
+      role_name:
+        | "SuperAdmin"
+        | "Admin"
+        | "Manager"
+        | "Support"
+        | "Instructor"
+        | "Editor"
       user_status: "Active" | "Inactive"
     }
     CompositeTypes: {
@@ -1026,6 +1033,7 @@ export const Constants = {
         "manager",
         "supporter",
         "viewer",
+        "editor",
       ],
       course_category: ["Course", "Internship", "Course+Internship"],
       course_level: ["Beginner", "Intermediate", "Advanced"],
@@ -1033,7 +1041,14 @@ export const Constants = {
       lesson_type: ["Video", "Reading", "Quiz", "Project"],
       resource_source: ["Notion", "YouTube", "Upload", "Manual"],
       resource_type: ["Video", "PDF", "Link", "Table", "Markdown", "Image"],
-      role_name: ["SuperAdmin", "Admin", "Manager", "Support", "Instructor"],
+      role_name: [
+        "SuperAdmin",
+        "Admin",
+        "Manager",
+        "Support",
+        "Instructor",
+        "Editor",
+      ],
       user_status: ["Active", "Inactive"],
     },
   },

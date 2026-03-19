@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { supabase } from "@/integrations/supabase/client";
 
-export type RoleName = 'SuperAdmin' | 'Admin' | 'Manager' | 'Support' | 'Instructor';
+export type RoleName = 'SuperAdmin' | 'Admin' | 'Manager' | 'Support' | 'Instructor' | 'Editor';
 
 export interface UserPermissions {
   'course.create': boolean;
@@ -20,6 +20,7 @@ export interface UserPermissions {
   'referral.manage': boolean;
   'analytics.manage': boolean;
   'candidate.delete': boolean;
+  'overview.edit': boolean;
 }
 
 const defaultPermissions: UserPermissions = {
@@ -38,6 +39,7 @@ const defaultPermissions: UserPermissions = {
   'referral.manage': false,
   'analytics.manage': false,
   'candidate.delete': false,
+  'overview.edit': false,
 };
 
 export const useAdminRole = () => {
@@ -92,7 +94,7 @@ export const useAdminRole = () => {
 
         const roleName = (roleData.roles as any).role_name as RoleName;
         setUserRole(roleName);
-        setIsAdmin(['SuperAdmin', 'Admin'].includes(roleName));
+        setIsAdmin(['SuperAdmin', 'Admin', 'Editor'].includes(roleName));
         setIsSuperAdmin(roleName === 'SuperAdmin');
 
         // Fetch permissions for this role

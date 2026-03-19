@@ -135,7 +135,8 @@ export default function AdminRoleManagement() {
       'supporter': 'Support',
       'moderator': 'Manager', // Map moderator to Manager
       'viewer': 'Support', // Map viewer to Support
-      'user': 'Support' // Map user to Support
+      'user': 'Support', // Map user to Support
+      'editor': 'Editor'
     };
     const roleName = roleMapping[appRole];
     const role = roles.find(r => r.role_name === roleName);
