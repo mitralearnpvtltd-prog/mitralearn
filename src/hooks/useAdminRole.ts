@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { supabase } from "@/integrations/supabase/client";
 
-export type RoleName = 'SuperAdmin' | 'Admin' | 'Manager' | 'Support' | 'Instructor';
+export type RoleName = 'SuperAdmin' | 'Admin' | 'Manager' | 'Support' | 'Instructor' | 'Editor';
 
 export interface UserPermissions {
   'course.create': boolean;
