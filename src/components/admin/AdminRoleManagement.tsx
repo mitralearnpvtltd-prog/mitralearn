@@ -66,8 +66,8 @@ export default function AdminRoleManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Roles that non-SuperAdmins can assign
-  const allAppRoles: AppRole[] = ["admin", "manager", "supporter", "viewer", "user"];
-  // Non-SuperAdmins cannot assign admin role
+  const allAppRoles: AppRole[] = ["admin", "manager", "editor", "supporter", "viewer", "user"];
+  // Non-SuperAdmins cannot assign admin role; Managers can assign editor
   const availableRoles = isSuperAdmin ? allAppRoles : allAppRoles.filter(r => r !== 'admin');
 
   const fetchUsersWithRoles = async () => {
@@ -242,6 +242,7 @@ export default function AdminRoleManagement() {
       case 'admin': return 'bg-red-100 text-red-700';
       case 'moderator': return 'bg-orange-100 text-orange-700';
       case 'manager': return 'bg-blue-100 text-blue-700';
+      case 'editor': return 'bg-purple-100 text-purple-700';
       case 'supporter': return 'bg-green-100 text-green-700';
       case 'viewer': return 'bg-gray-100 text-gray-700';
       default: return 'bg-slate-100 text-slate-600';
@@ -254,6 +255,7 @@ export default function AdminRoleManagement() {
       case 'moderator': 
       case 'manager':
         return <Shield className="h-4 w-4" />;
+      case 'editor': return <Shield className="h-4 w-4" />;
       default: return <ShieldAlert className="h-4 w-4" />;
     }
   };
@@ -470,7 +472,7 @@ export default function AdminRoleManagement() {
           <CardDescription>Overview of what each role can do</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <div className="p-4 rounded-lg border border-red-200 bg-red-50/50">
               <div className="flex items-center gap-2 mb-3">
                 <Badge className="bg-red-100 text-red-700">Super Admin</Badge>
@@ -505,6 +507,18 @@ export default function AdminRoleManagement() {
                 <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View reports</li>
                 <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> User management</li>
                 <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Role management</li>
+              </ul>
+            </div>
+            <div className="p-4 rounded-lg border">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge className="bg-purple-100 text-purple-700">Editor</Badge>
+              </div>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View dashboard</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Edit lesson overviews</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View curriculum</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Course management</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> User management</li>
               </ul>
             </div>
             <div className="p-4 rounded-lg border">
