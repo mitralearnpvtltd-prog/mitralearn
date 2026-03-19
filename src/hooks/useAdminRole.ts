@@ -39,6 +39,7 @@ const defaultPermissions: UserPermissions = {
   'referral.manage': false,
   'analytics.manage': false,
   'candidate.delete': false,
+  'overview.edit': false,
 };
 
 export const useAdminRole = () => {
