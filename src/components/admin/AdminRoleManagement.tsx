@@ -511,6 +511,18 @@ export default function AdminRoleManagement() {
             </div>
             <div className="p-4 rounded-lg border">
               <div className="flex items-center gap-2 mb-3">
+                <Badge className="bg-purple-100 text-purple-700">Editor</Badge>
+              </div>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View dashboard</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> Edit lesson overviews</li>
+                <li className="flex items-center gap-1"><Check className="h-3 w-3 text-green-500" /> View curriculum</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> Course management</li>
+                <li className="flex items-center gap-1"><X className="h-3 w-3 text-red-500" /> User management</li>
+              </ul>
+            </div>
+            <div className="p-4 rounded-lg border">
+              <div className="flex items-center gap-2 mb-3">
                 <Badge className="bg-gray-100 text-gray-700">Viewer</Badge>
               </div>
               <ul className="text-sm text-muted-foreground space-y-1">
