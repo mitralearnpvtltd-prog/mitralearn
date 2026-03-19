@@ -472,7 +472,7 @@ export default function AdminRoleManagement() {
           <CardDescription>Overview of what each role can do</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <div className="p-4 rounded-lg border border-red-200 bg-red-50/50">
               <div className="flex items-center gap-2 mb-3">
                 <Badge className="bg-red-100 text-red-700">Super Admin</Badge>
