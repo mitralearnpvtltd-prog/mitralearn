@@ -20,6 +20,7 @@ export interface UserPermissions {
   'referral.manage': boolean;
   'analytics.manage': boolean;
   'candidate.delete': boolean;
+  'overview.edit': boolean;
 }
 
 const defaultPermissions: UserPermissions = {
