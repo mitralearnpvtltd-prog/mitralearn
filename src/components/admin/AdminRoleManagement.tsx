@@ -255,6 +255,7 @@ export default function AdminRoleManagement() {
       case 'moderator': 
       case 'manager':
         return <Shield className="h-4 w-4" />;
+      case 'editor': return <Shield className="h-4 w-4" />;
       default: return <ShieldAlert className="h-4 w-4" />;
     }
   };
