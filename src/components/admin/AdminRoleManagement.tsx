@@ -66,8 +66,8 @@ export default function AdminRoleManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Roles that non-SuperAdmins can assign
-  const allAppRoles: AppRole[] = ["admin", "manager", "supporter", "viewer", "user"];
-  // Non-SuperAdmins cannot assign admin role
+  const allAppRoles: AppRole[] = ["admin", "manager", "editor", "supporter", "viewer", "user"];
+  // Non-SuperAdmins cannot assign admin role; Managers can assign editor
   const availableRoles = isSuperAdmin ? allAppRoles : allAppRoles.filter(r => r !== 'admin');
 
   const fetchUsersWithRoles = async () => {
