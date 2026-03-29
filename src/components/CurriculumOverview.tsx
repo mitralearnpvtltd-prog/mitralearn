@@ -106,7 +106,7 @@ export const CurriculumOverview = () => {
                       )}
                     </div>
                     <div>
-                      <CardTitle className="text-lg">
+                      <CardTitle className="text-lg font-sans font-extrabold tracking-tight">
                         Module {mod.module}: {mod.title}
                       </CardTitle>
                     </div>
