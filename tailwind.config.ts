@@ -69,7 +69,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        "orange-light": "hsl(var(--orange-light))",
+        "purple-light": "hsl(var(--purple-light))",
         "green-light": "hsl(var(--green-light))",
         "green-dark": "hsl(var(--green-dark))",
         "yellow-light": "hsl(var(--yellow-light))",
