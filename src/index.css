@@ -18,7 +18,7 @@
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 280 60% 50%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 250 20% 96%;
@@ -49,19 +49,19 @@
     --sidebar-foreground: 0 0% 11%;
     --sidebar-primary: 262 83% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 280 60% 50%;
+    --sidebar-accent: 217 91% 60%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 210 18% 93%;
     --sidebar-ring: 262 83% 58%;
 
     --chart-1: 262 83% 58%;
-    --chart-2: 280 60% 50%;
+    --chart-2: 217 91% 60%;
     --chart-3: 126 68% 44%;
     --chart-4: 222 89% 59%;
     --chart-5: 330 80% 50%;
 
     --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(280 70% 55%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(280 60% 50%) 0%, hsl(290 65% 55%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(230 85% 65%) 100%);
     --gradient-hero: linear-gradient(160deg, #fff 55%, #F3EEFF 100%);
 
     --font-sans: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -97,8 +97,8 @@
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 280 60% 55%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 217 91% 65%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 18%;
     --muted-foreground: 250 10% 65%;
@@ -120,19 +120,19 @@
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 262 83% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 280 60% 55%;
+    --sidebar-accent: 217 91% 65%;
     --sidebar-accent-foreground: 0 0% 10%;
     --sidebar-border: 0 0% 20%;
     --sidebar-ring: 262 83% 58%;
 
     --chart-1: 262 83% 58%;
-    --chart-2: 280 60% 55%;
+    --chart-2: 217 91% 65%;
     --chart-3: 126 68% 45%;
     --chart-4: 222 89% 59%;
     --chart-5: 330 80% 55%;
 
     --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(280 70% 55%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(280 60% 55%) 0%, hsl(290 65% 55%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(217 91% 65%) 0%, hsl(230 85% 70%) 100%);
     --gradient-hero: linear-gradient(160deg, #1a1a1a 55%, #1a152a 100%);
 
     --shadow-glow: 0 6px 25px rgba(124,58,237,0.4);

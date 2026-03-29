@@ -38,10 +38,10 @@ export const CurriculumOverview = () => {
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h2 className="text-xl font-display font-bold mb-1">
+              <h2 className="text-2xl font-display font-bold mb-1 tracking-tight">
                 Continue Learning
               </h2>
-              <p className="text-primary-foreground/80">
+              <p className="text-primary-foreground/80 text-sm font-sans font-medium">
                 Pick up where you left off
               </p>
             </div>
@@ -106,7 +106,7 @@ export const CurriculumOverview = () => {
                       )}
                     </div>
                     <div>
-                      <CardTitle className="text-lg">
+                      <CardTitle className="text-lg font-sans font-extrabold tracking-tight">
                         Module {mod.module}: {mod.title}
                       </CardTitle>
                     </div>
@@ -137,7 +137,7 @@ export const CurriculumOverview = () => {
                         {isSubmoduleCompleted && (
                           <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                         )}
-                        <span className="truncate">{lessonTitle}</span>
+                        <span className="truncate font-sans">{lessonTitle}</span>
                       </div>
                     );
 
