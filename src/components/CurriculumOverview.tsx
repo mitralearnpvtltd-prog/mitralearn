@@ -137,7 +137,7 @@ export const CurriculumOverview = () => {
                         {isSubmoduleCompleted && (
                           <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                         )}
-                        <span className="truncate">{lessonTitle}</span>
+                        <span className="truncate font-sans">{lessonTitle}</span>
                       </div>
                     );
 
