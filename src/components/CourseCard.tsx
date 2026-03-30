@@ -48,7 +48,7 @@ export function CourseCard({
 
   return (
     <div 
-      className={`group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden ${
+      className={`group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col h-full ${
         showAdminControls && !course.is_published ? 'opacity-70' : ''
       }`}
       style={{ 
