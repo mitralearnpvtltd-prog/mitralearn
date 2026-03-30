@@ -178,6 +178,7 @@ export function CourseCard({
         </div>
         
         {/* CTA Button */}
+        <div className="mt-auto pt-2">
       {isActive ? (
           <Link to={course.title === 'Data Engineering' ? '/curriculum' : `/course/${course.id}`} className="block">
             <button 
