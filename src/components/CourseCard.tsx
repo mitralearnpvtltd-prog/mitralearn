@@ -48,7 +48,7 @@ export function CourseCard({
 
   return (
     <div 
-      className={`group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden ${
+      className={`group bg-white relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col h-full ${
         showAdminControls && !course.is_published ? 'opacity-70' : ''
       }`}
       style={{ 
@@ -108,7 +108,7 @@ export function CourseCard({
       </div>
       
       {/* Content Section */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-1">
         {/* Course Code (admin only) */}
         {showAdminControls && course.course_code && (
           <div className="mb-2">
@@ -127,8 +127,8 @@ export function CourseCard({
         </h3>
         
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {course.concepts?.map((concept, i) => (
+        <div className="flex flex-wrap gap-2 mb-4 min-h-[32px]">
+          {course.concepts?.slice(0, 3).map((concept, i) => (
             <span 
               key={i} 
               className="text-xs px-3 py-1 rounded-full border"
@@ -137,12 +137,12 @@ export function CourseCard({
               {concept}
             </span>
           ))}
-          {course.extra_concepts_count && course.extra_concepts_count > 0 && (
+          {((course.concepts?.length || 0) > 3 || (course.extra_concepts_count && course.extra_concepts_count > 0)) && (
             <span 
               className="text-xs px-3 py-1 rounded-full border"
               style={{ borderColor: '#E5E7EB', color: '#475569' }}
             >
-              +{course.extra_concepts_count}
+              +{(course.extra_concepts_count || 0) + Math.max(0, (course.concepts?.length || 0) - 3)}
             </span>
           )}
         </div>
@@ -178,6 +178,7 @@ export function CourseCard({
         </div>
         
         {/* CTA Button */}
+        <div className="mt-auto pt-2">
       {isActive ? (
           <Link to={course.title === 'Data Engineering' ? '/curriculum' : `/course/${course.id}`} className="block">
             <button 
@@ -201,6 +202,7 @@ export function CourseCard({
             <Clock className="h-4 w-4" /> Coming Soon
           </button>
         )}
+        </div>
       </div>
     </div>
   );
