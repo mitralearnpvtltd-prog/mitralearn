@@ -108,7 +108,7 @@ export function CourseCard({
       </div>
       
       {/* Content Section */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-1">
         {/* Course Code (admin only) */}
         {showAdminControls && course.course_code && (
           <div className="mb-2">
