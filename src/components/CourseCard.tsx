@@ -127,8 +127,8 @@ export function CourseCard({
         </h3>
         
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {course.concepts?.map((concept, i) => (
+        <div className="flex flex-wrap gap-2 mb-4 min-h-[32px]">
+          {course.concepts?.slice(0, 3).map((concept, i) => (
             <span 
               key={i} 
               className="text-xs px-3 py-1 rounded-full border"
@@ -137,12 +137,12 @@ export function CourseCard({
               {concept}
             </span>
           ))}
-          {course.extra_concepts_count && course.extra_concepts_count > 0 && (
+          {((course.concepts?.length || 0) > 3 || (course.extra_concepts_count && course.extra_concepts_count > 0)) && (
             <span 
               className="text-xs px-3 py-1 rounded-full border"
               style={{ borderColor: '#E5E7EB', color: '#475569' }}
             >
-              +{course.extra_concepts_count}
+              +{(course.extra_concepts_count || 0) + Math.max(0, (course.concepts?.length || 0) - 3)}
             </span>
           )}
         </div>
