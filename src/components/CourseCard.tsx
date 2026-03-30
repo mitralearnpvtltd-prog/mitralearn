@@ -202,6 +202,7 @@ export function CourseCard({
             <Clock className="h-4 w-4" /> Coming Soon
           </button>
         )}
+        </div>
       </div>
     </div>
   );
